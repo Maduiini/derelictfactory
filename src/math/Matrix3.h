@@ -30,7 +30,7 @@ namespace der
             , m21(a.m21), m22(a.m22), m23(a.m23)
             , m31(a.m31), m32(a.m32), m33(a.m33) { }
 
-        Matrix3(float x)
+        explicit Matrix3(float x)
             : m11(x), m12(x), m13(x)
             , m21(x), m22(x), m23(x)
             , m31(x), m32(x), m33(x) { }
@@ -50,6 +50,8 @@ namespace der
             return *this;
         }
 
+
+        /// Returns true, if this matrix equals matrix \c a within tolerance of \c epsilon.
         bool equals(const Matrix3 &a, float epsilon) const
         {
             return der::equals(m11, a.m11, epsilon) && der::equals(m12, a.m12, epsilon) && der::equals(m13, a.m13, epsilon) &&

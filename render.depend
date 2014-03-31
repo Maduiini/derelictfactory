@@ -84,7 +84,7 @@
 	"Config.h"
 	"Window.h"
 
-1396264364 d:\ohjelmointi\jyu\render\derelictfactory\src\config.h
+1396291711 d:\ohjelmointi\jyu\render\derelictfactory\src\config.h
 
 1395877444 d:\ohjelmointi\jyu\render\derelictfactory\src\window.h
 
@@ -99,9 +99,9 @@
 1396265556 d:\ohjelmointi\jyu\render\derelictfactory\src\math\vector.h
 	<cmath>
 
-1396262399 d:\ohjelmointi\jyu\render\derelictfactory\src\math\matrix3.h
+1396290369 d:\ohjelmointi\jyu\render\derelictfactory\src\math\matrix3.h
 
-1396262376 d:\ohjelmointi\jyu\render\derelictfactory\src\math\matrix4.h
+1396290495 d:\ohjelmointi\jyu\render\derelictfactory\src\math\matrix4.h
 
 1395873950 source:d:\ohjelmointi\jyu\render\derelictfactory\src\log.cpp
 	"Log.h"
@@ -127,10 +127,10 @@
 	"Vector.h"
 	"../Log.h"
 
-1396288627 source:d:\ohjelmointi\jyu\render\derelictfactory\src\math\projection.cpp
+1396289537 source:d:\ohjelmointi\jyu\render\derelictfactory\src\math\projection.cpp
 	"Projection.h"
 	"Math.h"
 
-1396287218 d:\ohjelmointi\jyu\render\derelictfactory\src\math\projection.h
+1396289512 d:\ohjelmointi\jyu\render\derelictfactory\src\math\projection.h
 	"Matrix4.h"
 

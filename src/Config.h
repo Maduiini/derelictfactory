@@ -15,6 +15,7 @@ namespace der
             , m_v_sync(false)
         { }
 
+// Some pseudo code to illustrate possible implementation for config reading.
 //        bool read_one()
 //        {
 //            return read_value("fullscreen", m_fullscreen) ||

@@ -58,6 +58,7 @@ namespace der
         }
 
 
+        /// Returns true, if this matrix equals matrix \c a within tolerance of \c epsilon.
         bool equals(const Matrix4 &a, float epsilon) const
         {
             const float e = epsilon;
@@ -215,6 +216,7 @@ namespace der
         }
 
 
+        /// Returns true, if this matrix equals matrix \c a within tolerance of \c epsilon.
         bool equals(const Matrix3x4 &a, float epsilon) const
         {
             const float e = epsilon;

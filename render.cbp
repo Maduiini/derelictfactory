@@ -55,6 +55,8 @@
 		<Unit filename="src/math/Matrix4.h" />
 		<Unit filename="src/math/Projection.cpp" />
 		<Unit filename="src/math/Projection.h" />
+		<Unit filename="src/math/Quaternion.cpp" />
+		<Unit filename="src/math/Quaternion.h" />
 		<Unit filename="src/math/Vector.cpp" />
 		<Unit filename="src/math/Vector.h" />
 		<Extensions>

@@ -1,0 +1,129 @@
+# depslib dependency file v1.0
+1395877209 source:d:\ohjelmointi\jyu\render\render\src\main.cpp
+	"Application.h"
+
+1374498682 d:\lib\glew-1.10.0\include\gl\glew.h
+	<stddef.h>
+	<inttypes.h>
+	<stdint.h>
+	<inttypes.h>
+	<OpenGL/glu.h>
+	<GL/glu.h>
+
+1388517274 d:\lib\glfw-3.0.4.bin.win32\include\glfw\glfw3.h
+	<stddef.h>
+	<OpenGL/gl3.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/glcorearb.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<GLES3/gl3.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1395877459 source:d:\ohjelmointi\jyu\render\render\src\window.cpp
+	"Window.h"
+	"Log.h"
+	<GLFW/glfw3.h>
+
+1395877444 d:\ohjelmointi\jyu\render\render\src\window.h
+
+1396264364 d:\ohjelmointi\jyu\render\render\src\config.h
+
+1395973755 d:\ohjelmointi\jyu\render\render\src\log.h
+	<functional>
+
+1395873950 source:d:\ohjelmointi\jyu\render\render\src\log.cpp
+	"Log.h"
+	<iostream>
+
+1396264705 source:d:\ohjelmointi\jyu\render\render\src\application.cpp
+	"Application.h"
+	"Log.h"
+	"math/Math.h"
+	<GLFW/glfw3.h>
+
+1396264664 d:\ohjelmointi\jyu\render\render\src\application.h
+	"Config.h"
+	"Window.h"
+
+1395964149 source:d:\ohjelmointi\jyu\render\render\src\math\vector.cpp
+	"Vector.h"
+	"../Log.h"
+
+1395973465 d:\ohjelmointi\jyu\render\render\src\math\vector.h
+	<cmath>
+
+1396262425 source:d:\ohjelmointi\jyu\render\render\src\math\matrix.cpp
+	"Matrix3.h"
+	"Matrix4.h"
+	"../Log.h"
+
+1396262399 d:\ohjelmointi\jyu\render\render\src\math\matrix.h
+
+1396262448 d:\ohjelmointi\jyu\render\render\src\math\math.h
+	"Vector.h"
+	"Matrix3.h"
+	"Matrix4.h"
+
+1396259044 source:d:\ohjelmointi\jyu\render\render\src\math\math.cpp
+	"Math.h"
+
+1396262399 d:\ohjelmointi\jyu\render\render\src\math\matrix3.h
+
+1396262376 d:\ohjelmointi\jyu\render\render\src\math\matrix4.h
+
+1396264705 source:d:\ohjelmointi\jyu\render\derelictfactory\src\application.cpp
+	"Application.h"
+	"Log.h"
+	"math/Math.h"
+	<GLFW/glfw3.h>
+
+1396264664 d:\ohjelmointi\jyu\render\derelictfactory\src\application.h
+	"Config.h"
+	"Window.h"
+
+1396264364 d:\ohjelmointi\jyu\render\derelictfactory\src\config.h
+
+1395877444 d:\ohjelmointi\jyu\render\derelictfactory\src\window.h
+
+1395973755 d:\ohjelmointi\jyu\render\derelictfactory\src\log.h
+	<functional>
+
+1396268148 d:\ohjelmointi\jyu\render\derelictfactory\src\math\math.h
+	"Vector.h"
+	"Matrix3.h"
+	"Matrix4.h"
+
+1396265556 d:\ohjelmointi\jyu\render\derelictfactory\src\math\vector.h
+	<cmath>
+
+1396262399 d:\ohjelmointi\jyu\render\derelictfactory\src\math\matrix3.h
+
+1396262376 d:\ohjelmointi\jyu\render\derelictfactory\src\math\matrix4.h
+
+1395873950 source:d:\ohjelmointi\jyu\render\derelictfactory\src\log.cpp
+	"Log.h"
+	<iostream>
+
+1396264767 source:d:\ohjelmointi\jyu\render\derelictfactory\src\main.cpp
+	"Application.h"
+
+1396259044 source:d:\ohjelmointi\jyu\render\derelictfactory\src\math\math.cpp
+	"Math.h"
+
+1396262425 source:d:\ohjelmointi\jyu\render\derelictfactory\src\math\matrix.cpp
+	"Matrix3.h"
+	"Matrix4.h"
+	"../Log.h"
+
+1395877459 source:d:\ohjelmointi\jyu\render\derelictfactory\src\window.cpp
+	"Window.h"
+	"Log.h"
+	<GLFW/glfw3.h>
+
+1396280674 source:d:\ohjelmointi\jyu\render\derelictfactory\src\math\vector.cpp
+	"Vector.h"
+	"../Log.h"
+

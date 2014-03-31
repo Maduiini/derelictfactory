@@ -18,6 +18,8 @@ namespace der
 
         float x, y, z; //, w;
 
+        // Constructors
+
         /// Default constructor leaves the vector in unitialized state.
         Vector3() { }
 
@@ -35,6 +37,8 @@ namespace der
             x = v.x; y = v.y; z = v.z;
             return *this;
         }
+
+        // Methods
 
         /// Squared length of the vector.
         float length2() const
@@ -74,6 +78,7 @@ namespace der
             return p.dot(v) / (p.length() + v.length()) * v;
         }
 
+        // Operators
 
         Vector3& operator += (const Vector3 &v)
         {
@@ -133,6 +138,8 @@ namespace der
 
         float x, y, z, w;
 
+        // Constructors
+
         /// Default constructor leaves the vector in unitialized state.
         Vector4() { }
 
@@ -145,7 +152,7 @@ namespace der
         explicit Vector4(float x_)
             : x(x_), y(x_), z(x_), w(1.0f) { }
 
-        explicit Vector4(Vector3 &v, float w)
+        explicit Vector4(const Vector3 &v, float w)
             : x(v.x), y(v.x), z(v.x), w(w) { }
 
         Vector4& operator = (const Vector4 &v)
@@ -153,6 +160,8 @@ namespace der
             x = v.x; y = v.y; z = v.z; w = v.w;
             return *this;
         }
+
+        // Methods
 
         /// Conversion to Vector3
         Vector3 xyz() const
@@ -185,6 +194,7 @@ namespace der
 
         /// Cross product of two vectors. The vectors are treated as 3-dimensional,
         /// so the w-coordinate does not affect the result.
+        /// The w-coordinate of the result is set to zero.
         Vector4 cross(const Vector4 &v) const
         {
             return Vector4(y * v.z - v.y * z,
@@ -194,51 +204,53 @@ namespace der
 
         /// Projects a copy of this vector onto the \c v vector. The vectors are
         /// treated as 3-dimensional, so the w-coordinate does not affect the result.
+        /// The w-coordinate of the result is set to zero;
         Vector4 projected_onto(const Vector4 &v) const
         {
             Vector4 p(*this);
-            return p.dot(v) / (p.length() + v.length()) * v;
+            return p.dot(v) / (p.length() + v.length()) * Vector4(v.xyz(), 0.0f);
         }
 
+        // Operators
 
         Vector4& operator += (const Vector4 &v)
         {
-            x += v.x; y += v.y; z += v.z;
+            x += v.x; y += v.y; z += v.z; w += v.w;
             return *this;
         }
 
         Vector4& operator -= (const Vector4 &v)
         {
-            x -= v.x; y -= v.y; z -= v.z;
+            x -= v.x; y -= v.y; z -= v.z; w -= v.w;
             return *this;
         }
 
         Vector4& operator *= (float s)
         {
-            x *= s; y *= s; z *= s;
+            x *= s; y *= s; z *= s; w *= s;
             return *this;
         }
 
         Vector4& operator /= (float s)
         {
-            x /= s; y /= s; z /= s;
+            x /= s; y /= s; z /= s; w /= s;
             return *this;
         }
 
         Vector4 operator - (int) const
-        { return Vector4(-x, -y, -z); }
+        { return Vector4(-x, -y, -z, -w); }
 
         friend Vector4 operator + (const Vector4 &u, const Vector4 &v)
-        { return Vector4(u.x + v.x, u.y + v.y, u.z + v.z); }
+        { return Vector4(u.x + v.x, u.y + v.y, u.z + v.z, u.w + v.w); }
 
         friend Vector4 operator - (const Vector4 &u, const Vector4 &v)
-        { return Vector4(u.x - v.x, u.y - v.y, u.z - v.z); }
+        { return Vector4(u.x - v.x, u.y - v.y, u.z - v.z, u.w - v.w); }
 
         friend Vector4 operator * (float s, const Vector4 &v)
-        { return Vector4(v.x * s, v.y * s, v.z * s); }
+        { return Vector4(v.x * s, v.y * s, v.z * s, v.w * s); }
 
         friend Vector4 operator * (const Vector4 &v, float s)
-        { return Vector4(v.x * s, v.y * s, v.z * s); }
+        { return Vector4(v.x * s, v.y * s, v.z * s, v.w * s); }
 
     };
 

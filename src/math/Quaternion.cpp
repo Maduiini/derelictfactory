@@ -12,4 +12,10 @@ namespace der
         : Quaternion(axis.x, axis.y, axis.z, theta)
     { }
 
+    Quaternion slerp(const Quaternion &q1, const Quaternion &q2, const float t)
+    {
+        // TODO: implement
+        return Quaternion();
+    }
+
 } // der

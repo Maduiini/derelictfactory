@@ -96,7 +96,7 @@
 	"Matrix3.h"
 	"Matrix4.h"
 
-1396265556 d:\ohjelmointi\jyu\render\derelictfactory\src\math\vector.h
+1396296873 d:\ohjelmointi\jyu\render\derelictfactory\src\math\vector.h
 	<cmath>
 
 1396290369 d:\ohjelmointi\jyu\render\derelictfactory\src\math\matrix3.h
@@ -131,7 +131,7 @@
 	"Projection.h"
 	"Math.h"
 
-1396289512 d:\ohjelmointi\jyu\render\derelictfactory\src\math\projection.h
+1396292954 d:\ohjelmointi\jyu\render\derelictfactory\src\math\projection.h
 	"Matrix4.h"
 
 1396291798 source:d:\ohjelmointi\jyu\render\derelictfactory\src\math\quaternion.cpp

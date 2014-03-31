@@ -21,6 +21,8 @@ namespace der
 
         float x, y, z, w;
 
+        // Constructors
+
         /// The default constructor does not initialize the quaternion.
         Quaternion() { }
 
@@ -51,6 +53,7 @@ namespace der
             return *this;
         }
 
+        // Methods
 
         /// Returns true, if this quaternion and the quaternion \c q are the same within
         /// the tolerance of \c epsilon.
@@ -67,7 +70,34 @@ namespace der
 
         // Operators
 
+        Quaternion& operator += (const Quaternion &q)
+        {
+            x += q.x; y += q.y; z += q.z; w += q.w;
+            return *this;
+        }
+
+        Quaternion& operator -= (const Quaternion &q)
+        {
+            x -= q.x; y -= q.y; z -= q.z; w -= q.w;
+            return *this;
+        }
+
+        Quaternion& operator *= (const Quaternion &q)
+        {
+            const float dot = x * q.x + y * q.y + z * q.z;
+            const float tx = x;
+            const float ty = y;
+            const float tz = z;
+            x = q.x * w + tx * q.w + ty * q.z - q.y * tz;
+            y = q.y * w + ty * q.w + tz * q.x - q.z * tx;
+            z = q.z * w + tz * q.w + tx * q.y - q.x * ty;
+            w = w * q.w - dot;
+            return *this;
+        }
+
     };
+
+    Quaternion slerp(const Quaternion &q1, const Quaternion &q2, const float t);
 
 } // der
 

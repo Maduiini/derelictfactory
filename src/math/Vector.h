@@ -104,7 +104,7 @@ namespace der
             return *this;
         }
 
-        Vector3 operator - (int) const
+        Vector3 operator - () const
         { return Vector3(-x, -y, -z); }
 
         friend Vector3 operator + (const Vector3 &u, const Vector3 &v)
@@ -155,12 +155,6 @@ namespace der
         explicit Vector4(const Vector3 &v, float w)
             : x(v.x), y(v.x), z(v.x), w(w) { }
 
-        Vector4& operator = (const Vector4 &v)
-        {
-            x = v.x; y = v.y; z = v.z; w = v.w;
-            return *this;
-        }
-
         // Methods
 
         /// Conversion to Vector3
@@ -178,7 +172,6 @@ namespace der
         /// Normalizes this vector.
         void normalize()
         { *this = normalized(); }
-
 
         /// Returns the normalized (unit length) version of this vector.
         Vector4 normalized() const
@@ -213,6 +206,12 @@ namespace der
 
         // Operators
 
+        Vector4& operator = (const Vector4 &v)
+        {
+            x = v.x; y = v.y; z = v.z; w = v.w;
+            return *this;
+        }
+
         Vector4& operator += (const Vector4 &v)
         {
             x += v.x; y += v.y; z += v.z; w += v.w;
@@ -237,7 +236,7 @@ namespace der
             return *this;
         }
 
-        Vector4 operator - (int) const
+        Vector4 operator - () const
         { return Vector4(-x, -y, -z, -w); }
 
         friend Vector4 operator + (const Vector4 &u, const Vector4 &v)

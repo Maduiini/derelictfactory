@@ -24,6 +24,8 @@ namespace der
             float m[4][4];
         };
 
+        // Constructors
+
         /// Default constructor leaves the matrix in unitialized state.
         Matrix4() { }
 
@@ -48,15 +50,7 @@ namespace der
             , m31(a31), m32(a32), m33(a33), m34(a34)
             , m41(a41), m42(a42), m43(a43), m44(a44) { }
 
-        Matrix4& operator = (const Matrix4 &a)
-        {
-            m11 = a.m11; m12 = a.m12; m13 = a.m13; m14 = a.m14;
-            m21 = a.m21; m22 = a.m22; m23 = a.m23; m24 = a.m24;
-            m31 = a.m31; m32 = a.m32; m33 = a.m33; m34 = a.m34;
-            m41 = a.m41; m42 = a.m42; m43 = a.m43; m44 = a.m44;
-            return *this;
-        }
-
+        // Methods
 
         /// Returns true, if this matrix equals matrix \c a within tolerance of \c epsilon.
         bool equals(const Matrix4 &a, float epsilon) const
@@ -79,6 +73,16 @@ namespace der
                            m14, m24, m34, m44);
         }
 
+        // Operators
+
+        Matrix4& operator = (const Matrix4 &a)
+        {
+            m11 = a.m11; m12 = a.m12; m13 = a.m13; m14 = a.m14;
+            m21 = a.m21; m22 = a.m22; m23 = a.m23; m24 = a.m24;
+            m31 = a.m31; m32 = a.m32; m33 = a.m33; m34 = a.m34;
+            m41 = a.m41; m42 = a.m42; m43 = a.m43; m44 = a.m44;
+            return *this;
+        }
 
         Matrix4& operator += (const Matrix4 &a)
         {
@@ -187,6 +191,8 @@ namespace der
             float m[3][4];
         };
 
+        // Constructors
+
         /// Default constructor leaves the matrix in unitialized state.
         Matrix3x4() { }
 
@@ -207,14 +213,7 @@ namespace der
             , m21(a21), m22(a22), m23(a23), m24(a24)
             , m31(a31), m32(a32), m33(a33), m34(a34) { }
 
-        Matrix3x4& operator = (const Matrix3x4 &a)
-        {
-            m11 = a.m11; m12 = a.m12; m13 = a.m13; m14 = a.m14;
-            m21 = a.m21; m22 = a.m22; m23 = a.m23; m24 = a.m24;
-            m31 = a.m31; m32 = a.m32; m33 = a.m33; m34 = a.m34;
-            return *this;
-        }
-
+        // Methods
 
         /// Returns true, if this matrix equals matrix \c a within tolerance of \c epsilon.
         bool equals(const Matrix3x4 &a, float epsilon) const
@@ -233,6 +232,15 @@ namespace der
                            m14, m24, m34, 1.0f);
         }
 
+        // Operators
+
+        Matrix3x4& operator = (const Matrix3x4 &a)
+        {
+            m11 = a.m11; m12 = a.m12; m13 = a.m13; m14 = a.m14;
+            m21 = a.m21; m22 = a.m22; m23 = a.m23; m24 = a.m24;
+            m31 = a.m31; m32 = a.m32; m33 = a.m33; m34 = a.m34;
+            return *this;
+        }
 
         Matrix3x4& operator += (const Matrix3x4 &a)
         {

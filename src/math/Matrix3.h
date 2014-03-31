@@ -22,6 +22,8 @@ namespace der
             float m[3][3];
         };
 
+        // Constructors
+
         /// Default constructor leaves the matrix in unitialized state.
         Matrix3() { }
 
@@ -42,14 +44,7 @@ namespace der
             , m21(a21), m22(a22), m23(a23)
             , m31(a31), m32(a32), m33(a33) { }
 
-        Matrix3& operator = (const Matrix3 &a)
-        {
-            m11 = a.m11; m12 = a.m12; m13 = a.m13;
-            m21 = a.m21; m22 = a.m22; m23 = a.m23;
-            m31 = a.m31; m32 = a.m32; m33 = a.m33;
-            return *this;
-        }
-
+        // Methods
 
         /// Returns true, if this matrix equals matrix \c a within tolerance of \c epsilon.
         bool equals(const Matrix3 &a, float epsilon) const
@@ -69,6 +64,15 @@ namespace der
                            m13, m23, m33);
         }
 
+        // Operators
+
+        Matrix3& operator = (const Matrix3 &a)
+        {
+            m11 = a.m11; m12 = a.m12; m13 = a.m13;
+            m21 = a.m21; m22 = a.m22; m23 = a.m23;
+            m31 = a.m31; m32 = a.m32; m33 = a.m33;
+            return *this;
+        }
 
         Matrix3& operator += (const Matrix3 &a)
         {

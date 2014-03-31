@@ -96,12 +96,12 @@
 	"Matrix3.h"
 	"Matrix4.h"
 
-1396296873 d:\ohjelmointi\jyu\render\derelictfactory\src\math\vector.h
+1396302788 d:\ohjelmointi\jyu\render\derelictfactory\src\math\vector.h
 	<cmath>
 
-1396290369 d:\ohjelmointi\jyu\render\derelictfactory\src\math\matrix3.h
+1396302788 d:\ohjelmointi\jyu\render\derelictfactory\src\math\matrix3.h
 
-1396290495 d:\ohjelmointi\jyu\render\derelictfactory\src\math\matrix4.h
+1396302788 d:\ohjelmointi\jyu\render\derelictfactory\src\math\matrix4.h
 
 1395873950 source:d:\ohjelmointi\jyu\render\derelictfactory\src\log.cpp
 	"Log.h"
@@ -134,10 +134,10 @@
 1396292954 d:\ohjelmointi\jyu\render\derelictfactory\src\math\projection.h
 	"Matrix4.h"
 
-1396291798 source:d:\ohjelmointi\jyu\render\derelictfactory\src\math\quaternion.cpp
+1396302212 source:d:\ohjelmointi\jyu\render\derelictfactory\src\math\quaternion.cpp
 	"Quaternion.h"
 	"Vector.h"
 
-1396291748 d:\ohjelmointi\jyu\render\derelictfactory\src\math\quaternion.h
+1396302683 d:\ohjelmointi\jyu\render\derelictfactory\src\math\quaternion.h
 	<cmath>
 

@@ -14,6 +14,9 @@ namespace der
         static constexpr float PI = 3.14159265358979323846f;
         static constexpr float E = 2.7182818284590452354f;
 
+        static constexpr float DEG_2_RAD = PI / 180.0f;
+        static constexpr float RAD_2_DEG = 180.0f / PI;
+
         static constexpr float EPSILON = 0.0001f;
     };
 

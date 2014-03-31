@@ -74,7 +74,7 @@
 
 1396262376 d:\ohjelmointi\jyu\render\render\src\math\matrix4.h
 
-1396264705 source:d:\ohjelmointi\jyu\render\derelictfactory\src\application.cpp
+1396280808 source:d:\ohjelmointi\jyu\render\derelictfactory\src\application.cpp
 	"Application.h"
 	"Log.h"
 	"math/Math.h"
@@ -91,7 +91,7 @@
 1395973755 d:\ohjelmointi\jyu\render\derelictfactory\src\log.h
 	<functional>
 
-1396268148 d:\ohjelmointi\jyu\render\derelictfactory\src\math\math.h
+1396286717 d:\ohjelmointi\jyu\render\derelictfactory\src\math\math.h
 	"Vector.h"
 	"Matrix3.h"
 	"Matrix4.h"
@@ -126,4 +126,11 @@
 1396280674 source:d:\ohjelmointi\jyu\render\derelictfactory\src\math\vector.cpp
 	"Vector.h"
 	"../Log.h"
+
+1396288627 source:d:\ohjelmointi\jyu\render\derelictfactory\src\math\projection.cpp
+	"Projection.h"
+	"Math.h"
+
+1396287218 d:\ohjelmointi\jyu\render\derelictfactory\src\math\projection.h
+	"Matrix4.h"
 

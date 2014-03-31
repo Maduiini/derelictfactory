@@ -1,4 +1,4 @@
-derelictfactory
-===============
+Derelict Factory
+================
 
-Realtime rendering project
+Real-time rendering project

@@ -61,6 +61,12 @@ namespace der
                 der::equals(z, q.z, epsilon) &&
                 der::equals(w, q.w, epsilon);
         }
+
+        Quaternion conjugated() const
+        { return Quaternion(-x, -y, -z, w); }
+
+        // Operators
+
     };
 
 } // der

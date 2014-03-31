@@ -107,7 +107,7 @@
 	"Log.h"
 	<iostream>
 
-1396264767 source:d:\ohjelmointi\jyu\render\derelictfactory\src\main.cpp
+1396291678 source:d:\ohjelmointi\jyu\render\derelictfactory\src\main.cpp
 	"Application.h"
 
 1396259044 source:d:\ohjelmointi\jyu\render\derelictfactory\src\math\math.cpp
@@ -133,4 +133,11 @@
 
 1396289512 d:\ohjelmointi\jyu\render\derelictfactory\src\math\projection.h
 	"Matrix4.h"
+
+1396291798 source:d:\ohjelmointi\jyu\render\derelictfactory\src\math\quaternion.cpp
+	"Quaternion.h"
+	"Vector.h"
+
+1396291748 d:\ohjelmointi\jyu\render\derelictfactory\src\math\quaternion.h
+	<cmath>
 

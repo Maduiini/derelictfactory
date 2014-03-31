@@ -87,6 +87,18 @@ namespace der
             return *this;
         }
 
+        Vector3& operator *= (float s)
+        {
+            x *= s; y *= s; z *= s;
+            return *this;
+        }
+
+        Vector3& operator /= (float s)
+        {
+            x /= s; y /= s; z /= s;
+            return *this;
+        }
+
         Vector3 operator - (int) const
         { return Vector3(-x, -y, -z); }
 
@@ -198,6 +210,18 @@ namespace der
         Vector4& operator -= (const Vector4 &v)
         {
             x -= v.x; y -= v.y; z -= v.z;
+            return *this;
+        }
+
+        Vector4& operator *= (float s)
+        {
+            x *= s; y *= s; z *= s;
+            return *this;
+        }
+
+        Vector4& operator /= (float s)
+        {
+            x /= s; y /= s; z /= s;
             return *this;
         }
 

@@ -27,7 +27,7 @@ namespace der
     /// Tests equality of \c a and \c b within tolerance of given \c epsilon.
     bool equals(float a, float b, float epsilon);
 
-    // Vector3 rotation and transformation by matrices.
+    // Vector3 rotation and transformation by matrices and quaternion.
 
     inline Vector3 rotate_vec(const Vector3 &v, const Matrix3 &m)
     {
@@ -48,6 +48,12 @@ namespace der
         return Vector3(m.m11 * v.x + m.m12 * v.y + m.m13 * v.z,
                        m.m21 * v.x + m.m22 * v.y + m.m23 * v.z,
                        m.m31 * v.x + m.m32 * v.y + m.m33 * v.z);
+    }
+
+    inline Vector3 rotate_vec(const Vector3 &v, const Quaternion &q)
+    {
+        Vector3 n(q.x, q.y, q.z);
+        return v + (2.0f * n).cross(n.cross(v) + q.w * v);
     }
 
     inline Vector3 transform_vec(const Vector3 &v, const Matrix4 &m)
@@ -79,7 +85,7 @@ namespace der
     { return transform_vec(v, m); }
 
 
-    // Vector4 rotation and transformation by matrices.
+    // Vector4 rotation and transformation by matrices and quaternion.
 
     inline Vector4 rotate_vec(const Vector4 &v, const Matrix3 &m)
     {
@@ -103,6 +109,11 @@ namespace der
                        m.m21 * v.x + m.m22 * v.y + m.m23 * v.z,
                        m.m31 * v.x + m.m32 * v.y + m.m33 * v.z,
                        v.w);
+    }
+
+    inline Vector4 rotate_vec(const Vector4 &v, const Quaternion &q)
+    {
+        return Vector4( rotate_vec(v.xyz(), q), v.w );
     }
 
     inline Vector4 transform_vec(const Vector4 &v, const Matrix4 &m)

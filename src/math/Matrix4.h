@@ -67,6 +67,8 @@ namespace der
                 der::equals(m41, a.m41, e) && der::equals(m42, a.m42, e) && der::equals(m43, a.m43, e) && der::equals(m44, a.m44, e);
         }
 
+        bool equals(const Matrix4 &a) const;
+
         void transpose()
         { *this = transposed(); }
 
@@ -317,6 +319,8 @@ namespace der
                 der::equals(m21, a.m21, e) && der::equals(m22, a.m22, e) && der::equals(m23, a.m23, e) && der::equals(m24, a.m24, e) &&
                 der::equals(m31, a.m31, e) && der::equals(m32, a.m32, e) && der::equals(m33, a.m33, e) && der::equals(m34, a.m34, e);
         }
+
+        bool equals(const Matrix3x4 &a) const;
 
         Matrix4 transposed() const
         {

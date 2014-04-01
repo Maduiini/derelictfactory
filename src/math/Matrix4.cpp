@@ -1,6 +1,7 @@
 
 #include "Matrix4.h"
 #include "Vector.h"
+#include "Math.h"
 
 namespace der
 {
@@ -12,6 +13,10 @@ namespace der
                                     0.0f, 1.0f, 0.0f, 0.0f,
                                     0.0f, 0.0f, 1.0f, 0.0f,
                                     0.0f, 0.0f, 0.0f, 1.0f);
+
+
+    bool Matrix4::equals(const Matrix4 &a) const
+    { return equals(a, Math::EPSILON); }
 
     void Matrix4::translation(const Vector3 &v)
     { translation(v.x, v.y, v.z); }
@@ -38,5 +43,8 @@ namespace der
 
     void Matrix3x4::scale(const Vector3 &v)
     { scale(v.x, v.y, v.z); }
+
+    bool Matrix3x4::equals(const Matrix3x4 &a) const
+    { return equals(a, Math::EPSILON); }
 
 } // der

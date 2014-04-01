@@ -60,6 +60,8 @@ namespace der
                 der::equals(m31, a.m31, epsilon) && der::equals(m32, a.m32, epsilon) && der::equals(m33, a.m33, epsilon);
         }
 
+        bool equals(const Matrix3 &a) const;
+
         void transpose()
         { *this = transposed(); }
 

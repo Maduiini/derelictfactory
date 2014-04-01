@@ -7,6 +7,11 @@
 namespace der
 {
 
+    // Forward declarations
+
+    bool equals(float, float, float);
+
+
     /// A 3d vector.
     /// \note The default constructor does not initialize the vector.
     struct Vector3
@@ -39,6 +44,15 @@ namespace der
         }
 
         // Methods
+
+        bool equals(const Vector3 &v, float epsilon) const
+        {
+            return der::equals(x, v.x, epsilon) &&
+                der::equals(y, v.y, epsilon) &&
+                der::equals(z, v.z, epsilon);
+        }
+
+        bool equals(const Vector3 &v) const;
 
         /// Squared length of the vector.
         float length2() const
@@ -160,6 +174,15 @@ namespace der
         /// Conversion to Vector3
         Vector3 xyz() const
         { return Vector3(x, y, z); }
+
+        bool equals(const Vector4 &v, float epsilon) const
+        {
+            return der::equals(x, v.x, epsilon) &&
+                der::equals(y, v.y, epsilon) &&
+                der::equals(z, v.z, epsilon);
+        }
+
+        bool equals(const Vector4 &v) const;
 
         /// Squared length of the (x, y, z) part of the vector.
         float length2() const

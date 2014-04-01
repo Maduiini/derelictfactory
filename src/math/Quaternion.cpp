@@ -1,13 +1,15 @@
 
 #include "Quaternion.h"
 #include "Vector.h"
-#include "../Log.h"
+#include "Math.h"
 
 namespace der
 {
 
     const Quaternion Quaternion::identity(0.0f, 0.0f, 0.0f, 1.0f);
 
+    bool Quaternion::equals(const Quaternion &q) const
+    { return equals(q, Math::EPSILON); }
 
     void Quaternion::rotation_from_axis_angle(const Vector3 &axis, float theta)
     { rotation_from_axis_angle(axis.x, axis.y, axis.z, theta); }

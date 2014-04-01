@@ -14,10 +14,8 @@ TEST(QuaternionAxisAngle)
 
     Vector3 axis; float theta;
     q1.get_axis_angle(axis.x, axis.y, axis.z, theta);
-    CHECK_EQUAL(true, equals(axis.x, v.x, Math::EPSILON));
-    CHECK_EQUAL(true, equals(axis.y, v.y, Math::EPSILON));
-    CHECK_EQUAL(true, equals(axis.z, v.z, Math::EPSILON));
-    CHECK_EQUAL(true, equals(theta, Math::PI, Math::EPSILON));
+    CHECK_EQUAL(true, axis.equals(v));
+    CHECK_EQUAL(true, equals(theta, Math::PI));
 }
 
 TEST(QuaternionSlerp)
@@ -28,17 +26,17 @@ TEST(QuaternionSlerp)
     q2.rotation_from_axis_angle(0.5f, 1.0f, 0.0f, Math::PI);
 
     Quaternion result = slerp(q1, q2, 0.0f);
-    CHECK_EQUAL(true, q1.equals(result, Math::EPSILON));
+    CHECK_EQUAL(true, q1.equals(result));
 
     result = slerp(q1, q2, 0.0f);
-    CHECK_EQUAL(false, q2.equals(result, Math::EPSILON));
+    CHECK_EQUAL(false, q2.equals(result));
 
     result = slerp(q1, q2, 1.0f);
-    CHECK_EQUAL(true, q2.equals(result, Math::EPSILON));
+    CHECK_EQUAL(true, q2.equals(result));
 
     q1.rotation_from_axis_angle(1.0f, 0.0f, 0.0f, Math::PI);
     result = slerp(q1, Quaternion::identity, 0.5f);
-    //CHECK_EQUAL(true, result.equals(, Math::EPSILON));
+    //CHECK_EQUAL(true, result.equals( ... ));
 }
 
 }

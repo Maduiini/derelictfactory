@@ -48,6 +48,8 @@ namespace der
                 der::equals(w, q.w, epsilon);
         }
 
+        bool equals(const Quaternion &q) const;
+
         /// Squared length of the (x, y, z) part of the vector.
         float length2() const
         { return x * x + y * y + z * z + w * w; }

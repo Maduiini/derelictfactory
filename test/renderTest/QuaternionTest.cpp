@@ -1,4 +1,4 @@
-#include <Unittest++.h>
+#include <UnitTest++.h>
 #include <math/Math.h>
 
 namespace

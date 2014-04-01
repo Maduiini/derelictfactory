@@ -201,6 +201,7 @@ namespace der
     Quaternion lerp(const Quaternion &q1, const Quaternion &q2, const float t);
 
     /// Spherical linear interpolation between quaternions \c q1 and \c q2.
+    /// If t <= 0, returns q1. If t >= 1, returns q2. Selects the shortest path of rotation.
     Quaternion slerp(const Quaternion &q1, const Quaternion &q2, const float t);
 
 } // der

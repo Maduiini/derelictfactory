@@ -35,15 +35,18 @@ namespace der
         dot = clamp(dot, -1.0f, 1.0f);
 
         // To select the shortest path of rotation
-        Quaternion qs = (dot >= 0.0f) ? q1 : -q1;
+        const float flip = (dot >= 0.0f) ? 1.0f : -1.0f;
+        Quaternion qs = flip * q1;
+        dot = flip * dot;
 
         const float cos_half_theta = dot;
         const float half_theta = std::acos(cos_half_theta);
 
-        const float theta = half_theta * t;
+        const float theta_t = half_theta * t;
 
+        // Normalize to prevent drifting due to floating point imprecision.
         Quaternion q = (q2 - qs * dot).normalized();
-        return qs * std::cos(theta) + q * std::sin(theta);
+        return qs * std::cos(theta_t) + q * std::sin(theta_t);
     }
 
 } // der

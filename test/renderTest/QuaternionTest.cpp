@@ -18,6 +18,16 @@ TEST(QuaternionAxisAngle)
     CHECK_EQUAL(true, equals(theta, Math::PI));
 }
 
+/// Rounds off the last 3 significand bits.
+/// Used to test approximate equality of two floats.
+float approx(float x)
+{
+    int i = *reinterpret_cast<int*>(&x);
+    i &= 0xfffffff8;
+    float y = *reinterpret_cast<float*>(&i);
+    return y;
+}
+
 TEST(QuaternionSlerp)
 {
     using namespace der;
@@ -34,20 +44,25 @@ TEST(QuaternionSlerp)
     result = slerp(q1, q2, 1.0f);
     CHECK_EQUAL(true, q2.equals(result));
 
-    q1.rotation_from_axis_angle(1.0f, 0.0f, 0.0f, Math::PI);
-    result = slerp(q1, Quaternion::identity, 0.5f);
-    //CHECK_EQUAL(true, result.equals( ... ));
-
-    q2.rotation_from_axis_angle(1.0f, 0.0f, 0.0f, Math::PI / 2.0f);
+    Quaternion expected_q;
+    q1.rotation_from_axis_angle(0.0f, 1.0f, 0.0f, Math::PI / 4);
+    q2.rotation_from_axis_angle(0.0f, 1.0f, 0.0f, 0.0f);
     result = slerp(q1, q2, 0.5f);
-    const float expected_angle = lerp(Math::PI, Math::PI / 2.0f, 0.5f);
-    Quaternion r; r.rotation_from_axis_angle(1.0f, 0.0f, 0.0f, expected_angle);
-    CHECK_EQUAL(r, result);
+    expected_q.rotation_from_axis_angle(0.0f, 1.0f, 0.0f, (Math::PI / 4) * 0.5f);
+    CHECK_EQUAL(expected_q, result);
+
+    q2.rotation_from_axis_angle(0.0f, 1.0f, 0.0f, Math::PI / 2);
+    const float t = 0.58f;
+    result = slerp(q1, q2, t);
+    const float expected_angle = lerp(Math::PI / 4, Math::PI / 2, t);
+
+    expected_q.rotation_from_axis_angle(0.0f, 1.0f, 0.0f, expected_angle);
+    CHECK_EQUAL(expected_q, result);
 
     Vector3 axis; float angle;
     result.get_axis_angle(axis, angle);
-    CHECK_EQUAL(Vector3(1.0f, 0.0f, 0.0f), axis);
-    CHECK_EQUAL(Math::PI * 0.5f + Math::PI / 2.0f * 0.5f, angle);
+    CHECK_EQUAL(Vector3(0.0f, 1.0f, 0.0f), axis);
+    CHECK_EQUAL(approx(expected_angle), approx(angle));
 }
 
 }

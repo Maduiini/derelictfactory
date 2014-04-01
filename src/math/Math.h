@@ -158,6 +158,9 @@ namespace der
         void write(const Matrix4 &m);
         /// Writes a Matrix3x4 to the log.
         void write(const Matrix3x4 &m);
+
+        /// Writes a Quaternion to the log.
+        void write(const Quaternion &q);
     } // log
 
 } // der

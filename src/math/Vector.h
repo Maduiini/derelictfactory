@@ -20,7 +20,7 @@ namespace der
 
         // Constructors
 
-        /// Default constructor leaves the vector in unitialized state.
+        /// Default constructor leaves the vector in uninitialized state.
         Vector3() { }
 
         Vector3(const Vector3 &v)
@@ -140,7 +140,7 @@ namespace der
 
         // Constructors
 
-        /// Default constructor leaves the vector in unitialized state.
+        /// Default constructor leaves the vector in uninitialized state.
         Vector4() { }
 
         Vector4(const Vector4 &v)

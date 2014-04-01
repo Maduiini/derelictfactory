@@ -38,7 +38,7 @@ namespace log
     }
 
 
-    void write(const der::Quaternion &q)
+    void write(const Quaternion &q)
     {
         write("Q(");
         write(q.x); write(",");

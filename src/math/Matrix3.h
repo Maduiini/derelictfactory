@@ -2,10 +2,16 @@
 #ifndef H_DER_MATRIX3_H
 #define H_DER_MATRIX3_H
 
+#include <cmath>
+
 namespace der
 {
 
+    // Forward declarations
+
     bool equals(float, float, float);
+    struct Vector3;
+
 
     /// A row-major 3x3 matrix, mostly for rotations.
     struct Matrix3
@@ -63,6 +69,74 @@ namespace der
                            m12, m22, m32,
                            m13, m23, m33);
         }
+
+        // Rotation
+
+        void rotation_x(float theta)
+        {
+            const float c = std::cos(theta);
+            const float s = std::sin(theta);
+
+            m11 = 1.0f; m12 = 0.0f; m13 = 0.0f;
+            m21 = 0.0f; m22 = c;    m23 = -s;
+            m31 = 0.0f; m32 = s;    m33 = c;
+        }
+
+        void rotation_y(float theta)
+        {
+            const float c = std::cos(theta);
+            const float s = std::sin(theta);
+
+            m11 = c;    m12 = 0.0f; m13 = s;
+            m21 = 0.0f; m22 = 1.0f; m23 = 0.0f;
+            m31 = -s;   m32 = 0.0f; m33 = c;
+        }
+
+        void rotation_z(float theta)
+        {
+            const float c = std::cos(theta);
+            const float s = std::sin(theta);
+
+            m11 = c;    m12 = -s;   m13 = 0.0f;
+            m21 = s;    m22 = c;    m23 = 0.0f;
+            m31 = 0.0f; m32 = 0.0f; m33 = 1.0f;
+        }
+
+        void rotation_from_axis_angle(float x, float y, float z, float theta)
+        {
+            const float c = std::cos(theta);
+            const float s = std::sin(theta);
+            const float t = 1.0f - c;
+
+            const float xyt = x * y * t;
+            const float xzt = x * z * t;
+            const float yzt = x * z * t;
+
+            m11 = x * x * t + c;
+            m12 = xyt - z * s;
+            m13 = xzt + y * s;
+
+            m21 = xyt + z * s;
+            m22 = y * y * t + c;
+            m23 = yzt - x * s;
+
+            m31 = xzt - y * s;
+            m32 = yzt + x * s;
+            m33 = z * z * t + c;
+        }
+
+        void rotation_from_axis_angle(const Vector3 &axis, float theta);
+
+        // Scale
+
+        void scale(float x, float y, float z)
+        {
+            m11 = x;    m12 = 0.0f; m13 = 0.0f;
+            m21 = 0.0f; m22 = y;    m23 = 0.0f;
+            m31 = 0.0f; m32 = 0.0f; m33 = z;
+        }
+
+        void scale(const Vector3 &v);
 
         // Operators
 
@@ -160,6 +234,7 @@ namespace der
                            a.m31 * b.m12 + a.m32 * b.m22 + a.m33 * b.m32,   // (a_r3|b_c2)
                            a.m31 * b.m13 + a.m32 * b.m23 + a.m33 * b.m33);  // (a_r3|b_c3)
         }
+
     };
 
 } // der

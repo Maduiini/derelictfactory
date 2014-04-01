@@ -1,6 +1,5 @@
 
 #include "Vector.h"
-#include "../Log.h"
 
 namespace der
 {
@@ -16,27 +15,5 @@ namespace der
     const Vector4 Vector4::unit_y(0.0f, 1.0f, 0.0f, 0.0f);
     const Vector4 Vector4::unit_z(0.0f, 0.0f, 1.0f, 0.0f);
     const Vector4 Vector4::unit_w(0.0f, 0.0f, 0.0f, 1.0f);
-
-namespace log
-{
-
-    void write(const der::Vector3 &v)
-    {
-        write("(");
-        write(v.x); write(",");
-        write(v.y); write(",");
-        write(v.z); write(")");
-    }
-
-    void write(const Vector4 &v)
-    {
-        write("(");
-        write(v.x); write(",");
-        write(v.y); write(",");
-        write(v.z); write(",");
-        write(v.w); write(")");
-    }
-
-} // log
 
 } // der

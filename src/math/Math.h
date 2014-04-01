@@ -10,6 +10,7 @@
 namespace der
 {
 
+    /// Math constants
     struct Math
     {
         static constexpr float PI = 3.14159265358979323846f;
@@ -21,7 +22,9 @@ namespace der
         static constexpr float EPSILON = 0.0001f;
     };
 
+    /// Tests equality of \c a and \c b within tolerance of \c Math::EPSILON.
     bool equals(float a, float b);
+    /// Tests equality of \c a and \c b within tolerance of given \c epsilon.
     bool equals(float a, float b, float epsilon);
 
     // Vector3 rotation and transformation by matrices.
@@ -61,12 +64,17 @@ namespace der
                        m.m31 * v.x + m.m32 * v.y + m.m33 * v.z + m.m34 * 1.0f);
     }
 
+    /// Multiplication of 3x3 matrix m and 3d-vector v. The vector is treated as a column vector.
     inline Vector3 operator * (const Matrix3 &m, const Vector3 &v)
     { return rotate_vec(v, m); }
 
+    /// Multiplication of 4x4 matrix m and 3d-vector v. The vector is treated as a column vector
+    /// with implicit fourth coordinate w=1.
     inline Vector3 operator * (const Matrix4 &m, const Vector3 &v)
     { return transform_vec(v, m); }
 
+    /// Multiplication of 3x4 matrix m and 3d-vector v. The vector is treated as a column vector
+    /// with implicit fourth coordinate w=1.
     inline Vector3 operator * (const Matrix3x4 &m, const Vector3 &v)
     { return transform_vec(v, m); }
 
@@ -113,25 +121,31 @@ namespace der
                        1.0f * v.w);
     }
 
+    /// Multiplication of 3x3 matrix m and homogenous 3d-vector v. The vector is treated as a column vector.
     inline Vector4 operator * (const Matrix3 &m, const Vector4 &v)
     { return rotate_vec(v, m); }
 
+    /// Multiplication of 4x4 matrix m and homogenous 3d-vector v. The vector is treated as a column vector.
     inline Vector4 operator * (const Matrix4 &m, const Vector4 &v)
     { return transform_vec(v, m); }
 
+    /// Multiplication of 3x4 matrix m and homogenous 3d-vector v. The vector is treated as a column vector.
     inline Vector4 operator * (const Matrix3x4 &m, const Vector4 &v)
     { return transform_vec(v, m); }
 
 
     namespace log
     {
-        /// Writing vectors to log
+        /// Writes a Vector3 to the log.
         void write(const Vector3 &v);
+        /// Writes a Vector4 to the log.
         void write(const Vector4 &v);
 
-        /// Writing matrices to log
+        /// Writes a Matrix3 to the log.
         void write(const Matrix3 &m);
+        /// Writes a Matrix4 to the log.
         void write(const Matrix4 &m);
+        /// Writes a Matrix3x4 to the log.
         void write(const Matrix3x4 &m);
     } // log
 

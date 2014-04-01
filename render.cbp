@@ -50,8 +50,9 @@
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/math/Math.cpp" />
 		<Unit filename="src/math/Math.h" />
-		<Unit filename="src/math/Matrix.cpp" />
+		<Unit filename="src/math/Matrix3.cpp" />
 		<Unit filename="src/math/Matrix3.h" />
+		<Unit filename="src/math/Matrix4.cpp" />
 		<Unit filename="src/math/Matrix4.h" />
 		<Unit filename="src/math/Projection.cpp" />
 		<Unit filename="src/math/Projection.h" />

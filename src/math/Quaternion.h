@@ -10,7 +10,6 @@ namespace der
     // Forward declarations
 
     bool equals(float, float, float);
-
     struct Vector3;
 
 

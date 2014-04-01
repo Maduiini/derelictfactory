@@ -141,3 +141,84 @@
 1396302683 d:\ohjelmointi\jyu\render\derelictfactory\src\math\quaternion.h
 	<cmath>
 
+1396341508 source:c:\git\derelictfactory\src\application.cpp
+	"Application.h"
+	"Log.h"
+	"math/Math.h"
+	<GLFW/glfw3.h>
+
+1396339865 c:\git\derelictfactory\src\application.h
+	"Config.h"
+	"Window.h"
+
+1396339865 c:\git\derelictfactory\src\config.h
+
+1396339865 c:\git\derelictfactory\src\window.h
+
+1396341240 c:\git\derelictfactory\src\log.h
+	<functional>
+
+1396341548 c:\git\derelictfactory\src\math\math.h
+	"Vector.h"
+	"Matrix3.h"
+	"Matrix4.h"
+	"Quaternion.h"
+
+1396339866 c:\git\derelictfactory\src\math\vector.h
+	<cmath>
+
+1396339865 c:\git\derelictfactory\src\math\matrix3.h
+
+1396339865 c:\git\derelictfactory\src\math\matrix4.h
+
+1395263524 d:\cpplib\glfw-3.0.4.bin.win32\include\glfw\glfw3.h
+	<stddef.h>
+	<OpenGL/gl3.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/glcorearb.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<GLES3/gl3.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1396339865 source:c:\git\derelictfactory\src\log.cpp
+	"Log.h"
+	<iostream>
+
+1396339865 source:c:\git\derelictfactory\src\main.cpp
+	"Application.h"
+
+1396339865 source:c:\git\derelictfactory\src\math\math.cpp
+	"Math.h"
+
+1396339865 source:c:\git\derelictfactory\src\math\matrix.cpp
+	"Matrix3.h"
+	"Matrix4.h"
+	"../Log.h"
+
+1396339866 source:c:\git\derelictfactory\src\math\projection.cpp
+	"Projection.h"
+	"Math.h"
+
+1396339866 c:\git\derelictfactory\src\math\projection.h
+	"Matrix4.h"
+
+1396339866 source:c:\git\derelictfactory\src\math\vector.cpp
+	"Vector.h"
+	"../Log.h"
+
+1396339865 source:c:\git\derelictfactory\src\window.cpp
+	"Window.h"
+	"Log.h"
+	<GLFW/glfw3.h>
+
+1396341318 source:c:\git\derelictfactory\src\math\quaternion.cpp
+	"Quaternion.h"
+	"Vector.h"
+	"../Log.h"
+
+1396339866 c:\git\derelictfactory\src\math\quaternion.h
+	<cmath>
+

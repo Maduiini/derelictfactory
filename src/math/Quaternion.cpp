@@ -1,12 +1,26 @@
 
 #include "Quaternion.h"
 #include "Vector.h"
+#include "../Log.h"
 
 namespace der
 {
 
     const Quaternion Quaternion::identity(0.0f, 0.0f, 0.0f, 1.0f);
 
+namespace log
+{
+
+    void write(const der::Quaternion &q)
+    {
+        write("Q(");
+        write(q.x); write(",");
+        write(q.y); write(",");
+        write(q.z); write(",");
+        write(q.w); write(")");
+    }
+
+} // log
 
     void Quaternion::rotation_from_axis_angle(const Vector3 &axis, float theta)
     { rotation_from_axis_angle(axis.x, axis.y, axis.z, theta); }

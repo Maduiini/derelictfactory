@@ -14,6 +14,8 @@ namespace der
     struct Matrix4;
     struct Matrix3x4;
 
+    struct Quaternion;
+
 namespace log
 {
 
@@ -53,6 +55,7 @@ namespace log
     void write(const Matrix3 &);
     void write(const Matrix4 &);
     void write(const Matrix3x4 &);
+    void write(const Quaternion &);
 
 
     template <class... Args>

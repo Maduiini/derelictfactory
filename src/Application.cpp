@@ -21,6 +21,7 @@ namespace der
         log::fatal("The matrix I_3 = \n%", Matrix3::identity);
         log::info("The matrix I_3x4 = \n%", Matrix3x4::identity);
         log::debug("The vector e_1 = %", Vector3::unit_x);
+        log::warning("Quaternion = %", Quaternion::identity);
 
         m_glfw_ready = (::glfwInit() == GL_TRUE);
         if (!m_glfw_ready)

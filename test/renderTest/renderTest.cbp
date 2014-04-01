@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="renderTest" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/renderTest" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/renderTest" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-std=c++11" />
+			<Add option="-Wall" />
+			<Add directory="../UnitTest++/src" />
+			<Add directory="../../src" />
+		</Compiler>
+		<Linker>
+			<Add library="..\UnitTest++\Deliv\Release\libUnitTest++.a" />
+		</Linker>
+		<Unit filename="../../src/math/Math.cpp" />
+		<Unit filename="../../src/math/Math.h" />
+		<Unit filename="../../src/math/Matrix3.cpp" />
+		<Unit filename="../../src/math/Matrix3.h" />
+		<Unit filename="../../src/math/Matrix4.cpp" />
+		<Unit filename="../../src/math/Matrix4.h" />
+		<Unit filename="../../src/math/Projection.cpp" />
+		<Unit filename="../../src/math/Projection.h" />
+		<Unit filename="../../src/math/Quaternion.cpp" />
+		<Unit filename="../../src/math/Quaternion.h" />
+		<Unit filename="../../src/math/Vector.cpp" />
+		<Unit filename="../../src/math/Vector.h" />
+		<Unit filename="QuaternionTest.cpp" />
+		<Unit filename="main.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

@@ -144,25 +144,6 @@ namespace der
     inline Vector4 operator * (const Matrix3x4 &m, const Vector4 &v)
     { return transform_vec(v, m); }
 
-
-    namespace log
-    {
-        /// Writes a Vector3 to the log.
-        void write(const Vector3 &v);
-        /// Writes a Vector4 to the log.
-        void write(const Vector4 &v);
-
-        /// Writes a Matrix3 to the log.
-        void write(const Matrix3 &m);
-        /// Writes a Matrix4 to the log.
-        void write(const Matrix4 &m);
-        /// Writes a Matrix3x4 to the log.
-        void write(const Matrix3x4 &m);
-
-        /// Writes a Quaternion to the log.
-        void write(const Quaternion &q);
-    } // log
-
 } // der
 
 #endif // H_DER_MATH_H

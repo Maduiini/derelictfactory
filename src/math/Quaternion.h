@@ -161,6 +161,14 @@ namespace der
             w = c;
         }
 
+        void get_axis_angle(float &x_, float &y_, float &z_, float &theta)
+        {
+            const float half_theta = std::acos(w);
+            const float s = std::sin(half_theta); // s = sin half theta
+            x_ = x / s; y_ = y / s; z_ = z / s;
+            theta = half_theta * 2.0f;
+        }
+
         /// Makes this quaternion into rotation from axis angle. The axis must be normalized.
         /// \param axis     The normalized axis of rotation.
         /// \param theta    The angle of the rotation in radians.

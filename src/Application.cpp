@@ -23,15 +23,6 @@ namespace der
         log::debug("The vector e_1 = %", Vector3::unit_x);
         log::warning("Quaternion = %", Quaternion::identity);
 
-        Quaternion q1, q2;
-        q1.rotation_from_axis_angle(1.0f, 0.0f, 0.0f, Math::PI);
-        q2.rotation_from_axis_angle(1.0f, 0.0f, 0.0f, 0.0f);
-        Quaternion result = slerp(q1, q2, 0.5f);
-        float x,y,z,th;
-        result.get_axis_angle(x, y, z, th);
-        log::info("asdf: %", result);
-        log::info("Slerp test: % % % %", x, y, z, th);
-
         m_glfw_ready = (::glfwInit() == GL_TRUE);
         if (!m_glfw_ready)
             log::fatal("Could not initialize GLFW");

@@ -29,15 +29,11 @@ namespace der
 
     template <class T>
     T clamp(T x, T a, T b)
-    {
-        return x < a ? a : (x > b ? b : x);
-    }
+    { return x < a ? a : (x > b ? b : x); }
 
     template <class T>
     T lerp(T a, T b, float t)
-    {
-        return a * (1.0f - t) + b * t;
-    }
+    { return a * (1.0f - t) + b * t; }
 
     // Vector3 rotation and transformation by matrices and quaternion.
 

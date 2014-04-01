@@ -32,6 +32,8 @@ namespace log
     void set_level(Level level);
     Level get_level();
 
+    void write(const bool b);
+
     void write(const char c);
     void write(const signed char c);
     void write(const unsigned char c);
@@ -48,7 +50,6 @@ namespace log
 
     void write(const float value);
     void write(const double value);
-    //void write(const long double value);
 
     void write(const Vector3 &);
     void write(const Vector4 &);

@@ -2,6 +2,7 @@
 #ifndef H_DER_QUATERNION_H
 #define H_DER_QUATERNION_H
 
+#include "Vector.h"
 #include <cmath>
 
 namespace der
@@ -10,7 +11,6 @@ namespace der
     // Forward declarations
 
     bool equals(float, float, float);
-    struct Vector3;
 
 
     /// Quaternion that represent rotations in 3d-space.
@@ -36,7 +36,15 @@ namespace der
         Quaternion(float x_, float y_, float z_, float w_)
             : x(x_), y(y_), z(z_), w(w_) { }
 
+        /// Constructs the quaternion with the vector and scalar parts.
+        /// \param v_   The vector part of the quaternion.
+        /// \param w_   The scalar part of the quaternion.
+        Quaternion(const Vector3 &v, float w_)
+            : x(v.x), y(v.y), z(v.z), w(w_) { }
+
         // Methods
+
+        Vector3 xyz() const { return Vector3(x, y, z); }
 
         /// Returns true, if this quaternion and the quaternion \c q are the same within
         /// the tolerance of \c epsilon.
@@ -78,6 +86,12 @@ namespace der
         }
 
         // Operators
+
+        bool operator == (const Quaternion &q) const
+        { return equals(q); }
+
+        bool operator != (const Quaternion &q) const
+        { return !equals(q); }
 
         Quaternion& operator = (const Quaternion &q)
         {
@@ -163,6 +177,12 @@ namespace der
             w = c;
         }
 
+        /// Makes this quaternion into rotation from axis angle. The axis must be normalized.
+        /// \param axis     The normalized axis of rotation.
+        /// \param theta    The angle of the rotation in radians.
+        void rotation_from_axis_angle(const Vector3 &axis, float theta);
+
+        /// Extracts the axis and angle that this rotation repersents.
         void get_axis_angle(float &x_, float &y_, float &z_, float &theta)
         {
             const float half_theta = std::acos(w);
@@ -171,18 +191,16 @@ namespace der
             theta = half_theta * 2.0f;
         }
 
-        /// Makes this quaternion into rotation from axis angle. The axis must be normalized.
-        /// \param axis     The normalized axis of rotation.
-        /// \param theta    The angle of the rotation in radians.
-        void rotation_from_axis_angle(const Vector3 &axis, float theta);
+        /// Extracts the axis and angle that this rotation repersents.
+        void get_axis_angle(Vector3 &axis, float &theta)
+        { get_axis_angle(axis.x, axis.y, axis.z, theta); }
 
     };
 
-    /// Linearly interpolates quaternions \c q1 and \c q2. Works ok, when the quaternions
-    /// are almost equal.
+    /// Linearly interpolates quaternions \c q1 and \c q2.
     Quaternion lerp(const Quaternion &q1, const Quaternion &q2, const float t);
 
-    /// Spherically interpolates quaternions \c q1 and \c q2.
+    /// Spherical linear interpolation between quaternions \c q1 and \c q2.
     Quaternion slerp(const Quaternion &q1, const Quaternion &q2, const float t);
 
 } // der

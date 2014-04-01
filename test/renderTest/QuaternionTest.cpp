@@ -37,6 +37,17 @@ TEST(QuaternionSlerp)
     q1.rotation_from_axis_angle(1.0f, 0.0f, 0.0f, Math::PI);
     result = slerp(q1, Quaternion::identity, 0.5f);
     //CHECK_EQUAL(true, result.equals( ... ));
+
+    q2.rotation_from_axis_angle(1.0f, 0.0f, 0.0f, Math::PI / 2.0f);
+    result = slerp(q1, q2, 0.5f);
+    const float expected_angle = lerp(Math::PI, Math::PI / 2.0f, 0.5f);
+    Quaternion r; r.rotation_from_axis_angle(1.0f, 0.0f, 0.0f, expected_angle);
+    CHECK_EQUAL(r, result);
+
+    Vector3 axis; float angle;
+    result.get_axis_angle(axis, angle);
+    CHECK_EQUAL(Vector3(1.0f, 0.0f, 0.0f), axis);
+    CHECK_EQUAL(Math::PI * 0.5f + Math::PI / 2.0f * 0.5f, angle);
 }
 
 }

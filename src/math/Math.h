@@ -27,6 +27,18 @@ namespace der
     /// Tests equality of \c a and \c b within tolerance of given \c epsilon.
     bool equals(float a, float b, float epsilon);
 
+    template <class T>
+    T clamp(T x, T a, T b)
+    {
+        return x < a ? a : (x > b ? b : x);
+    }
+
+    template <class T>
+    T lerp(T a, T b, float t)
+    {
+        return a * (1.0f - t) + b * t;
+    }
+
     // Vector3 rotation and transformation by matrices and quaternion.
 
     inline Vector3 rotate_vec(const Vector3 &v, const Matrix3 &m)
@@ -143,6 +155,20 @@ namespace der
     /// Multiplication of 3x4 matrix m and homogenous 3d-vector v. The vector is treated as a column vector.
     inline Vector4 operator * (const Matrix3x4 &m, const Vector4 &v)
     { return transform_vec(v, m); }
+
+} // der
+
+#include <iosfwd>
+
+namespace der
+{
+
+    std::ostream& operator << (std::ostream &out, const Vector3 &v);
+    std::ostream& operator << (std::ostream &out, const Vector4 &v);
+    std::ostream& operator << (std::ostream &out, const Quaternion &q);
+    std::ostream& operator << (std::ostream &out, const Matrix3 &m);
+    std::ostream& operator << (std::ostream &out, const Matrix4 &m);
+    std::ostream& operator << (std::ostream &out, const Matrix3x4 &m);
 
 } // der
 

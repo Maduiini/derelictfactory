@@ -1,6 +1,5 @@
 
 #include "Quaternion.h"
-#include "Vector.h"
 #include "Math.h"
 
 namespace der
@@ -23,15 +22,19 @@ namespace der
 
     Quaternion slerp(const Quaternion &q1, const Quaternion &q2, const float t)
     {
+        if (t <= 0.0f) return q1;
+        if (t >= 1.0f) return q2;
+
         float dot = q1.dot(q2);
 
-        const float DOT_EPSILON = 0.9995f;
+        const float DOT_EPSILON = 0.9999f;
         if (std::abs(dot) > DOT_EPSILON)
             return lerp(q1, q2, t);
 
-        // clamp dot between -1 and 1
-        dot = (dot < -1.0f) ? -1.0f : ((dot > 1.0f) ? 1.0f : dot);
+        // Clamp dot between -1 and 1 for acos
+        dot = clamp(dot, -1.0f, 1.0f);
 
+        // To select the shortest path of rotation
         Quaternion qs = (dot >= 0.0f) ? q1 : -q1;
 
         const float cos_half_theta = dot;

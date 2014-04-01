@@ -37,12 +37,6 @@ namespace der
         explicit Vector3(float x_)
             : x(x_), y(x_), z(x_) { }
 
-        Vector3& operator = (const Vector3 &v)
-        {
-            x = v.x; y = v.y; z = v.z;
-            return *this;
-        }
-
         // Methods
 
         bool equals(const Vector3 &v, float epsilon) const
@@ -94,6 +88,18 @@ namespace der
 
         // Operators
 
+        bool operator == (const Vector3 &v) const
+        { return equals(v); }
+
+        bool operator != (const Vector3 &v) const
+        { return !equals(v); }
+
+        Vector3& operator = (const Vector3 &v)
+        {
+            x = v.x; y = v.y; z = v.z;
+            return *this;
+        }
+
         Vector3& operator += (const Vector3 &v)
         {
             x += v.x; y += v.y; z += v.z;
@@ -134,6 +140,10 @@ namespace der
         { return Vector3(v.x * s, v.y * s, v.z * s); }
 
     };
+
+    /// Vector3 linear interpolation.
+    Vector3 lerp(const Vector3 &v1, const Vector3 &v2, float t);
+
 
     /// A homogenous 3d vector.
     /// \note The default constructor does not initialize the vector.
@@ -235,6 +245,12 @@ namespace der
             return *this;
         }
 
+        bool operator == (const Vector4 &v) const
+        { return equals(v); }
+
+        bool operator != (const Vector4 &v) const
+        { return !equals(v); }
+
         Vector4& operator += (const Vector4 &v)
         {
             x += v.x; y += v.y; z += v.z; w += v.w;
@@ -275,6 +291,9 @@ namespace der
         { return Vector4(v.x * s, v.y * s, v.z * s, v.w * s); }
 
     };
+
+    /// Vector4 linear interpolation.
+    Vector4 lerp(const Vector4 &v1, const Vector4 &v2, float t);
 
 } // der
 

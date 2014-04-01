@@ -142,6 +142,12 @@ namespace der
 
         // Operators
 
+        bool operator == (const Matrix3 &a) const
+        { return equals(a); }
+
+        bool operator != (const Matrix3 &a) const
+        { return !equals(a); }
+
         Matrix3& operator = (const Matrix3 &a)
         {
             m11 = a.m11; m12 = a.m12; m13 = a.m13;

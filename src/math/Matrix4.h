@@ -171,6 +171,12 @@ namespace der
 
         // Operators
 
+        bool operator == (const Matrix4 &a) const
+        { return equals(a); }
+
+        bool operator != (const Matrix4 &a) const
+        { return !equals(a); }
+
         Matrix4& operator = (const Matrix4 &a)
         {
             m11 = a.m11; m12 = a.m12; m13 = a.m13; m14 = a.m14;
@@ -270,6 +276,7 @@ namespace der
                            a.m41 * b.m14 + a.m42 * b.m24 + a.m43 * b.m34 + a.m44 * b.m44);  // (a_r4|b_c4)
         }
     };
+
 
     /// A space efficient row-major 4x4 matrix saved as 3x4 rows, with implicit fourth row as |0 0 0 1|.
     /// Used for transformations. It is preferred to use a 3x4 matrix over 4x4 matrix, if possible.
@@ -413,6 +420,12 @@ namespace der
         void scale(const Vector3 &v);
 
         // Operators
+
+        bool operator == (const Matrix3x4 &a) const
+        { return equals(a); }
+
+        bool operator != (const Matrix3x4 &a) const
+        { return !equals(a); }
 
         Matrix3x4& operator = (const Matrix3x4 &a)
         {

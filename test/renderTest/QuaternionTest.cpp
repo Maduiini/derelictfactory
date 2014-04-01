@@ -18,15 +18,6 @@ TEST(QuaternionAxisAngle)
     CHECK_EQUAL(true, equals(theta, Math::PI));
 }
 
-/// Rounds off the last 3 significand bits.
-/// Used to test approximate equality of two floats.
-float approx(float x)
-{
-    int i = *reinterpret_cast<int*>(&x);
-    i &= 0xfffffff8;
-    float y = *reinterpret_cast<float*>(&i);
-    return y;
-}
 
 TEST(QuaternionSlerp)
 {
@@ -62,7 +53,7 @@ TEST(QuaternionSlerp)
     Vector3 axis; float angle;
     result.get_axis_angle(axis, angle);
     CHECK_EQUAL(Vector3(0.0f, 1.0f, 0.0f), axis);
-    CHECK_EQUAL(approx(expected_angle), approx(angle));
+    CHECK_CLOSE(expected_angle, angle, Math::EPSILON);
 }
 
 }

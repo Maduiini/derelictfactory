@@ -6,6 +6,13 @@
 namespace der
 {
 
+    constexpr float Math::PI;
+    constexpr float Math::E;
+    constexpr float Math::DEG_2_RAD;
+    constexpr float Math::RAD_2_DEG;
+    constexpr float Math::EPSILON;
+
+
     bool equals(float a, float b)
     {
         return equals(a, b, Math::EPSILON);

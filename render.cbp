@@ -60,6 +60,8 @@
 		<Unit filename="src/math/Quaternion.h" />
 		<Unit filename="src/math/Vector.cpp" />
 		<Unit filename="src/math/Vector.h" />
+		<Unit filename="src/resource/ResourceCache.cpp" />
+		<Unit filename="src/resource/ResourceCache.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

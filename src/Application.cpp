@@ -13,10 +13,14 @@ namespace der
     Application::Application()
         : m_config()
         , m_window()
+        , m_resource_cache()
         , m_glfw_ready(false)
         , m_ready(false)
     {
 //        m_config.read("config.conf");
+
+
+        m_resource_cache.scan_directories();
 
         log::fatal("The matrix I_3 = \n%", Matrix3::identity);
         log::info("The matrix I_3x4 = \n%", Matrix3x4::identity);

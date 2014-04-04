@@ -2,6 +2,7 @@
 #include "ResourceCache.h"
 #include "../Log.h"
 #include <dirent.h>
+#include <string.h>
 #include <vector>
 
 namespace der

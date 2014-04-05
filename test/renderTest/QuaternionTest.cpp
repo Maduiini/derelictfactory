@@ -61,13 +61,17 @@ const SlerpTestCase g_tests[] = {
                   der::Vector3(0.1f, 1.0f, 0.1f), 30.0f * der::Math::DEG_2_RAD, 0.122f,
                   der::Quaternion(0.0256f, 0.2562f, 0.0256f, 0.9659f)),
 
+    SlerpTestCase(der::Vector3(1.0f, 0.0f, 0.0f), -12.0f * der::Math::DEG_2_RAD,
+                  der::Vector3(0.0f, 1.0f, 0.0f), 8.0f * der::Math::DEG_2_RAD, 0.8f,
+                  der::Quaternion(-0.0209f, 0.0558f, 0.0f, 0.9982f)),
+
     SlerpTestCase(der::Vector3(0.1f, 1.0f, 0.1f), 30.0f * der::Math::DEG_2_RAD,
                   der::Vector3(0.1f, -2.0f, 0.1f), 40.0f * der::Math::DEG_2_RAD, 0.683f,
                   der::Quaternion(0.0206f, -0.1550f, 0.0206f, 0.9874f)),
 
     SlerpTestCase(der::Vector3(0.1f, 1.0f, 0.1f), 30.0f * der::Math::DEG_2_RAD,
-                  der::Vector3(0.0f, 1.0f, 2.0f), -8.0f * der::Math::DEG_2_RAD, -0.122f,
-                  der::Quaternion(0.0256f, 0.2562f, 0.0256f, 0.9659f)),
+                  der::Vector3(0.0f, 1.0f, 2.0f), -8.0f * der::Math::DEG_2_RAD, 0.822f,
+                  der::Quaternion(0.0046f, 0.0205f, -0.0469f, 0.9986f)),
 };
 
 /// Test for quaternion slerp

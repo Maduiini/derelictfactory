@@ -48,6 +48,11 @@ namespace der
                                       m_config.m_fullscreen);
 
             m_window.set_v_sync(m_config.m_v_sync);
+
+            if (m_ready)
+            {
+                m_ready = m_graphics.init();
+            }
         }
         return is_ready();
     }
@@ -58,6 +63,8 @@ namespace der
 
         while (!m_window.should_close())
         {
+//            render();
+
             m_window.swap_buffer();
             m_window.poll_events();
         }

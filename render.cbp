@@ -60,6 +60,17 @@
 		<Unit filename="src/math/Quaternion.h" />
 		<Unit filename="src/math/Vector.cpp" />
 		<Unit filename="src/math/Vector.h" />
+		<Unit filename="src/renderer/BufferObject.cpp" />
+		<Unit filename="src/renderer/BufferObject.h" />
+		<Unit filename="src/renderer/GLTypes.h" />
+		<Unit filename="src/renderer/Graphics.cpp" />
+		<Unit filename="src/renderer/Graphics.h" />
+		<Unit filename="src/renderer/IndexBuffer.cpp" />
+		<Unit filename="src/renderer/IndexBuffer.h" />
+		<Unit filename="src/renderer/Texture.cpp" />
+		<Unit filename="src/renderer/Texture.h" />
+		<Unit filename="src/renderer/VertexBuffer.cpp" />
+		<Unit filename="src/renderer/VertexBuffer.h" />
 		<Unit filename="src/resource/ResourceCache.cpp" />
 		<Unit filename="src/resource/ResourceCache.h" />
 		<Extensions>

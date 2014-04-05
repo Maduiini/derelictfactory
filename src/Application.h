@@ -4,6 +4,7 @@
 
 #include "Config.h"
 #include "Window.h"
+#include "renderer/Graphics.h"
 #include "resource/ResourceCache.h"
 
 namespace der
@@ -23,6 +24,7 @@ namespace der
     private:
         Config m_config;
         Window m_window;
+        Graphics m_graphics;
         ResourceCache m_resource_cache;
 
         bool m_glfw_ready;

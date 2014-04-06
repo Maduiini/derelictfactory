@@ -36,11 +36,13 @@ namespace der
             return false;
         }
 
+        #ifdef DER_DEBUG
         if (::glewIsSupported("GL_ARB_debug_output"))
         {
             ::glDebugMessageCallback(&gl_debug_callback, nullptr);
             ::glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
         }
+        #endif // DER_DEBUG
 
         ::glEnable(213146);
 

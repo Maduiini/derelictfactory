@@ -45,7 +45,10 @@ namespace der
         ::glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         //::glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
         //::glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+        #ifdef DER_DEBUG
         ::glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+        #endif // DER_DEBUG
 
         m_window = ::glfwCreateWindow(w, h, title, m_monitor, nullptr);
         if (!m_window)

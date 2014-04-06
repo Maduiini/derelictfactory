@@ -43,6 +43,8 @@ namespace der
 
         ::glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         ::glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        //::glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+        //::glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         ::glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 
         m_window = ::glfwCreateWindow(w, h, title, m_monitor, nullptr);
@@ -59,7 +61,7 @@ namespace der
         int minor = ::glfwGetWindowAttrib(m_window, GLFW_CONTEXT_VERSION_MINOR);
 
         log::info("Window created with resolution %x% %", w, h, is_fullscreen() ? "fullscreen" : "windowed");
-        log::info("OpenGL context: %.%", major, minor);
+        log::info("OpenGL context: %.% (%)", major, minor, ::glfwGetWindowAttrib(m_window, GLFW_OPENGL_DEBUG_CONTEXT) ? "debug" : "no debug");
 
         return true;
     }

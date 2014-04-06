@@ -62,9 +62,8 @@ namespace der
 
             if (m_ready)
             {
-                m_ready = m_graphics.init();
-
                 m_window.make_current();
+                m_ready = m_graphics.init();
                 m_window.set_v_sync(m_config.m_v_sync);
             }
         }

@@ -28,7 +28,13 @@ namespace der
 
     bool Graphics::init()
     {
-        if (!::glewInit()) return false;
+        ::glewExperimental = GL_TRUE; // OpenGL 3.3 requires experimental API
+
+        if (::glewInit() != GLEW_OK)
+        {
+            log::fatal("GLEW not initialized!");
+            return false;
+        }
 
         if (::glewIsSupported("GL_ARB_debug_output"))
         {

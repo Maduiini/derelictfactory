@@ -7,9 +7,17 @@
 namespace der
 {
 
+    void on_window_resize(GLFWwindow *window, int w, int h)
+    {
+        Window *wnd = static_cast<Window*>(::glfwGetWindowUserPointer(window));
+        wnd->on_resize(w, h);
+    }
+
+
     Window::Window()
         : m_window(nullptr)
         , m_monitor(nullptr)
+        , m_has_resized(true)
     { }
 
     Window::~Window()
@@ -39,6 +47,9 @@ namespace der
             log::error("Could not create window");
             return false;
         }
+
+        ::glfwSetWindowUserPointer(m_window, static_cast<void*>(this));
+        ::glfwSetWindowSizeCallback(m_window, &on_window_resize);
 
         log::info("Window created with resolution %x% %", w, h, is_fullscreen() ? "fullscreen" : "windowed");
 
@@ -106,5 +117,18 @@ namespace der
 
 //    bool Window::has_v_sync() const
 //    { }
+
+    bool Window::has_resized()
+    {
+        bool resized = m_has_resized;
+        m_has_resized = false;
+        return resized;
+    }
+
+    void Window::on_resize(int w, int h)
+    {
+        log::info("Window resized: %x%", w, h);
+        m_has_resized = true;
+    }
 
 } // der

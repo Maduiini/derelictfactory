@@ -1,6 +1,7 @@
 
 #include "Application.h"
 #include "Log.h"
+#include "Debug.h"
 
 // Included just for log testing
 #include "math/Math.h"
@@ -9,6 +10,12 @@
 
 namespace der
 {
+
+    void glfw_error_callback(int err, const char * const msg)
+    {
+        log::error("GLFW: %: %", err, msg);
+    }
+
 
     Application::Application()
         : m_config()
@@ -20,16 +27,22 @@ namespace der
 //        m_config.read("config.conf");
 
 
-        m_resource_cache.scan_directories();
+//        m_resource_cache.scan_directories();
 
-        log::fatal("The matrix I_3 = \n%", Matrix3::identity);
-        log::info("The matrix I_3x4 = \n%", Matrix3x4::identity);
-        log::debug("The vector e_1 = %", Vector3::unit_x);
-        log::warning("Quaternion = %", Quaternion::identity);
+//        log::fatal("The matrix I_3 = \n%", Matrix3::identity);
+//        log::info("The matrix I_3x4 = \n%", Matrix3x4::identity);
+//        log::debug("The vector e_1 = %", Vector3::unit_x);
+//        log::warning("Quaternion = %", Quaternion::identity);
 
+        DER_ASSERT(1 == 0);
+        DER_ASSERT_EQ(1, 0);
+
+        ::glfwSetErrorCallback(&glfw_error_callback);
         m_glfw_ready = (::glfwInit() == GL_TRUE);
         if (!m_glfw_ready)
+        {
             log::fatal("Could not initialize GLFW");
+        }
     }
 
     Application::~Application()
@@ -63,15 +76,28 @@ namespace der
 
         while (!m_window.should_close())
         {
-//            render();
+            render();
 
-            m_window.swap_buffer();
             m_window.poll_events();
+            if (m_window.has_resized())
+            {
+                int w = 0, h = 0;
+                m_window.get_size(&w, &h);
+                m_graphics.set_viewport(0, 0, w, h);
+            }
         }
     }
 
     bool Application::is_ready() const
     { return m_glfw_ready && m_ready; }
+
+    void Application::render()
+    {
+        m_window.make_current();
+        m_graphics.clear();
+
+        m_window.swap_buffer();
+    }
 
 
 } // der

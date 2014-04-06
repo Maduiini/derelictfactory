@@ -22,6 +22,9 @@ namespace der
         bool is_ready() const;
 
     private:
+        void render();
+
+    private:
         Config m_config;
         Window m_window;
         Graphics m_graphics;

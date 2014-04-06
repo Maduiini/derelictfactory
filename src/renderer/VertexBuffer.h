@@ -11,6 +11,12 @@ namespace der
     {
     public:
         VertexBuffer();
+
+        using BufferObject::bind;
+        using BufferObject::resize;
+        using BufferObject::write;
+        using BufferObject::get_size;
+        using BufferObject::is_dynamic;
     };
 
 } // der

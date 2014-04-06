@@ -17,6 +17,12 @@ namespace der
     public:
         IndexBuffer();
 
+        using BufferObject::bind;
+        using BufferObject::resize;
+        using BufferObject::write;
+        using BufferObject::get_size;
+        using BufferObject::is_dynamic;
+
         void set_index_type(Type type);
         Type get_index_type() const;
 

@@ -70,10 +70,15 @@
 		<Unit filename="src/renderer/Graphics.h" />
 		<Unit filename="src/renderer/IndexBuffer.cpp" />
 		<Unit filename="src/renderer/IndexBuffer.h" />
+		<Unit filename="src/renderer/Mesh.h" />
 		<Unit filename="src/renderer/Texture.cpp" />
 		<Unit filename="src/renderer/Texture.h" />
 		<Unit filename="src/renderer/VertexBuffer.cpp" />
 		<Unit filename="src/renderer/VertexBuffer.h" />
+		<Unit filename="src/resource/MeshBuilder.cpp" />
+		<Unit filename="src/resource/MeshBuilder.h" />
+		<Unit filename="src/resource/ObjMeshLoader.cpp" />
+		<Unit filename="src/resource/ObjMeshLoader.h" />
 		<Unit filename="src/resource/ResourceCache.cpp" />
 		<Unit filename="src/resource/ResourceCache.h" />
 		<Extensions>

@@ -31,6 +31,7 @@ namespace der
 //        void* map(MapAccess access);
 //        void unmap();
 
+        size_t get_size() const;
         bool is_dynamic() const;
 
     private:

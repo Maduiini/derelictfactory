@@ -40,5 +40,11 @@ namespace der
         ::glBufferSubData(m_target, offset, size, data);
     }
 
+    size_t BufferObject::get_size() const
+    { return m_size_bytes; }
+
+    bool BufferObject::is_dynamic() const
+    { return m_dynamic; }
+
 
 } // der

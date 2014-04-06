@@ -41,6 +41,9 @@ namespace der
             m_monitor = nullptr;
         }
 
+        ::glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        ::glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+
         m_window = ::glfwCreateWindow(w, h, title, m_monitor, nullptr);
         if (!m_window)
         {
@@ -51,7 +54,11 @@ namespace der
         ::glfwSetWindowUserPointer(m_window, static_cast<void*>(this));
         ::glfwSetWindowSizeCallback(m_window, &on_window_resize);
 
+        int major = ::glfwGetWindowAttrib(m_window, GLFW_CONTEXT_VERSION_MAJOR);
+        int minor = ::glfwGetWindowAttrib(m_window, GLFW_CONTEXT_VERSION_MINOR);
+
         log::info("Window created with resolution %x% %", w, h, is_fullscreen() ? "fullscreen" : "windowed");
+        log::info("OpenGL context: %.%", major, minor);
 
         return true;
     }
@@ -101,7 +108,8 @@ namespace der
 
     void Window::make_current()
     {
-        ::glfwMakeContextCurrent(m_window);
+        if (::glfwGetCurrentContext() != m_window)
+            ::glfwMakeContextCurrent(m_window);
     }
 
     void Window::swap_buffer()

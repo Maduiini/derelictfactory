@@ -6,17 +6,44 @@
 
 #include <GL/glew.h>
 
-extern "C" {
-    void __attribute__((__stdcall__)) gl_debug_callback(GLenum source, GLenum type, GLuint id, GLenum severity,
-                           GLsizei length, const GLchar *message, GLvoid *userParam)
+void __stdcall gl_debug_callback(GLenum source, GLenum type, GLuint id, GLenum severity,
+                                  GLsizei length, const GLchar *message, GLvoid *userParam)
+{
+    const char *src = "undefined";
+    switch (source)
     {
-        der::log::debug("%", message);
+    case GL_DEBUG_SOURCE_API:             src = "API"; break;
+    case GL_DEBUG_SOURCE_WINDOW_SYSTEM:   src = "Window system"; break;
+    case GL_DEBUG_SOURCE_SHADER_COMPILER: src = "Shader compiler"; break;
+    case GL_DEBUG_SOURCE_THIRD_PARTY:     src = "Third party"; break;
+    case GL_DEBUG_SOURCE_APPLICATION:     src = "Application"; break;
+    case GL_DEBUG_SOURCE_OTHER:           src = "Other"; break;
     }
+
+    const char *tp = "";
+    switch (type)
+    {
+    case GL_DEBUG_TYPE_ERROR_ARB:               tp = "error"; break;
+    case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR_ARB: tp = "deprecated"; break;
+    case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR_ARB:  tp = "undefined"; break;
+    case GL_DEBUG_TYPE_PORTABILITY_ARB:         tp = "portability"; break;
+    case GL_DEBUG_TYPE_PERFORMANCE_ARB:         tp = "performance"; break;
+    case GL_DEBUG_TYPE_OTHER_ARB:               tp = "other"; break;
+    }
+
+    const char *sev = "undefined";
+    switch (severity)
+    {
+    case GL_DEBUG_SEVERITY_HIGH_ARB:   sev = "high";   break;
+    case GL_DEBUG_SEVERITY_MEDIUM_ARB: sev = "medium"; break;
+    case GL_DEBUG_SEVERITY_LOW_ARB:    sev = "low"; break;
+    }
+
+    der::log::debug("% %(%): %, %", src, tp, sev, message, id);
 }
 
 namespace der
 {
-
 
     Graphics::Graphics()
     {
@@ -44,7 +71,11 @@ namespace der
         }
         #endif // DER_DEBUG
 
-        ::glEnable(213146);
+        // These are errors to verify that glDebugMessageCallback is functioning properly.
+        ::glEnable(1445161);
+        ::glEnable(GL_LIGHTING);
+        float col[4] { 0.0f };
+        ::glLightfv(GL_LIGHT2, GL_AMBIENT_AND_DIFFUSE, col);
 
         return true;
     }

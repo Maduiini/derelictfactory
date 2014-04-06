@@ -62,9 +62,10 @@ namespace der
 
         int major = ::glfwGetWindowAttrib(m_window, GLFW_CONTEXT_VERSION_MAJOR);
         int minor = ::glfwGetWindowAttrib(m_window, GLFW_CONTEXT_VERSION_MINOR);
+        int debug = ::glfwGetWindowAttrib(m_window, GLFW_OPENGL_DEBUG_CONTEXT);
 
         log::info("Window created with resolution %x% %", w, h, is_fullscreen() ? "fullscreen" : "windowed");
-        log::info("OpenGL context: %.% (%)", major, minor, ::glfwGetWindowAttrib(m_window, GLFW_OPENGL_DEBUG_CONTEXT) ? "debug" : "no debug");
+        log::info("OpenGL context: %.% (%)", major, minor, debug ? "debug" : "no debug");
 
         return true;
     }

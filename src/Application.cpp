@@ -60,14 +60,12 @@ namespace der
                                       title,
                                       m_config.m_fullscreen);
 
-            // NOTE: Does not work correclty. Context needs to be current before setting vsync, but
-            // making context current at this stage results in program exit.
-//            m_window.make_current();
-//            m_window.set_v_sync(m_config.m_v_sync);
-
             if (m_ready)
             {
                 m_ready = m_graphics.init();
+
+                m_window.make_current();
+                m_window.set_v_sync(m_config.m_v_sync);
             }
         }
         return is_ready();
@@ -96,7 +94,6 @@ namespace der
 
     void Application::render()
     {
-        m_window.make_current();
         m_graphics.clear();
 
         m_window.swap_buffer();

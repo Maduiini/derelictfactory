@@ -43,6 +43,7 @@ namespace der
 
         ::glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         ::glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        ::glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 
         m_window = ::glfwCreateWindow(w, h, title, m_monitor, nullptr);
         if (!m_window)
@@ -134,9 +135,6 @@ namespace der
     }
 
     void Window::on_resize(int w, int h)
-    {
-        log::info("Window resized: %x%", w, h);
-        m_has_resized = true;
-    }
+    { m_has_resized = true; }
 
 } // der

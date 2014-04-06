@@ -2,10 +2,21 @@
 #include "Graphics.h"
 #include "Texture.h"
 
+#include "../Log.h"
+
 #include <GL/glew.h>
+
+extern "C" {
+    void __attribute__((__stdcall__)) gl_debug_callback(GLenum source, GLenum type, GLuint id, GLenum severity,
+                           GLsizei length, const GLchar *message, GLvoid *userParam)
+    {
+        der::log::debug("%", message);
+    }
+}
 
 namespace der
 {
+
 
     Graphics::Graphics()
     {
@@ -18,6 +29,14 @@ namespace der
     bool Graphics::init()
     {
         if (!::glewInit()) return false;
+
+        if (::glewIsSupported("GL_ARB_debug_output"))
+        {
+            ::glDebugMessageCallback(&gl_debug_callback, nullptr);
+            ::glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+        }
+
+        ::glEnable(213146);
 
         return true;
     }

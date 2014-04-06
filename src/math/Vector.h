@@ -12,6 +12,129 @@ namespace der
     bool equals(float, float, float);
 
 
+    /// A 2d vector.
+    /// \note The default constructor does not initialize the vector.
+    struct Vector2
+    {
+        static const Vector2 zero;      /// Vector (0, 0)
+        static const Vector2 unit_x;    /// Unit vector in x-direction
+        static const Vector2 unit_y;    /// Unit vector in y-direction
+
+        float x, y;
+
+        // Constructors
+
+        /// Default constructor leaves the vector in uninitialized state.
+        Vector2() { }
+
+        Vector2(const Vector2 &v)
+            : x(v.x), y(v.y) { }
+
+        Vector2(float x_, float y_)
+            : x(x_), y(y_) { }
+
+        explicit Vector2(float x_)
+            : x(x_), y(x_) { }
+
+        // Methods
+
+        bool equals(const Vector2 &v, float epsilon) const
+        {
+            return der::equals(x, v.x, epsilon) &&
+                der::equals(y, v.y, epsilon);
+        }
+
+        bool equals(const Vector2 &v) const;
+
+        /// Squared length of the vector.
+        float length2() const
+        { return x * x + y * y; }
+
+        /// Length of the vector.
+        float length() const
+        { return std::sqrt(length2()); }
+
+        /// Returns the normalized (unit length) version of this vector.
+        void normalize()
+        { *this = normalized(); }
+
+        /// Returns the normalized (unit length) version of this vector.
+        Vector2 normalized() const
+        {
+            const float l = length();
+            return Vector2(x / l, y / l);
+        }
+
+        /// Dot product of this a vector and \c v vector.
+        float dot(const Vector2 &v) const
+        { return x * v.x + y * v.y; }
+
+        /// Projects a copy of this vector onto the \c v vector.
+        Vector2 projected_onto(const Vector2 &v) const
+        {
+            Vector2 p(*this);
+            return p.dot(v) / (p.length() + v.length()) * v;
+        }
+
+        // Operators
+
+        bool operator == (const Vector2 &v) const
+        { return equals(v); }
+
+        bool operator != (const Vector2 &v) const
+        { return !equals(v); }
+
+        Vector2& operator = (const Vector2 &v)
+        {
+            x = v.x; y = v.y;
+            return *this;
+        }
+
+        Vector2& operator += (const Vector2 &v)
+        {
+            x += v.x; y += v.y;
+            return *this;
+        }
+
+        Vector2& operator -= (const Vector2 &v)
+        {
+            x -= v.x; y -= v.y;
+            return *this;
+        }
+
+        Vector2& operator *= (float s)
+        {
+            x *= s; y *= s;
+            return *this;
+        }
+
+        Vector2& operator /= (float s)
+        {
+            x /= s; y /= s;
+            return *this;
+        }
+
+        Vector2 operator - () const
+        { return Vector2(-x, -y); }
+
+        friend Vector2 operator + (const Vector2 &u, const Vector2 &v)
+        { return Vector2(u.x + v.x, u.y + v.y); }
+
+        friend Vector2 operator - (const Vector2 &u, const Vector2 &v)
+        { return Vector2(u.x - v.x, u.y - v.y); }
+
+        friend Vector2 operator * (float s, const Vector2 &v)
+        { return Vector2(v.x * s, v.y * s); }
+
+        friend Vector2 operator * (const Vector2 &v, float s)
+        { return Vector2(v.x * s, v.y * s); }
+
+    };
+
+    /// Vector2 linear interpolation.
+    Vector2 lerp(const Vector2 &v1, const Vector2 &v2, float t);
+
+
     /// A 3d vector.
     /// \note The default constructor does not initialize the vector.
     struct Vector3

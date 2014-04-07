@@ -13,6 +13,7 @@ namespace der
         VertexBuffer();
 
         using BufferObject::bind;
+        using BufferObject::unbind;
         using BufferObject::resize;
         using BufferObject::write;
         using BufferObject::get_size;

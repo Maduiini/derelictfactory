@@ -26,6 +26,11 @@ namespace der
         ::glBindBuffer(m_target, m_buffer);
     }
 
+    void BufferObject::unbind()
+    {
+        ::glBindBuffer(m_target, 0);
+    }
+
     void BufferObject::resize(size_t size_bytes, bool dynamic)
     {
         m_size_bytes = size_bytes;

@@ -23,6 +23,7 @@ namespace der
         ~BufferObject();
 
         void bind();
+        void unbind();
 
         void resize(size_t size_bytes, bool dynamic);
 

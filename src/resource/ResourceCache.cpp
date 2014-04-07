@@ -4,10 +4,10 @@
 #include <dirent.h>
 #include <string.h>
 #include <vector>
+#include <sstream>
 
 namespace der
 {
-
     /// Returns true if \c filename is a directory.
     /// \note Does not work if file does not contain dot character.
     /// \param filename Null-terminated string.
@@ -28,7 +28,7 @@ namespace der
 
     /// Returns a list (std::vector) of files in a directory.
     /// \param directory Search directory.
-    static std::vector<std::string> get_directory_files(std::string directory)
+    static std::vector<std::string> get_directory_files(const std::string directory)
     {
         DIR *dir = NULL;
         struct dirent *drnt = NULL;
@@ -63,12 +63,30 @@ namespace der
 
     }
 
+    void ResourceCache::set_directory(ResourceType type, const std::string directory)
+    {
+        std::pair<ResourceType, std::string> pair = {type, directory + DELIMETER};
+        m_asset_directories.insert(pair);
+    }
+
     void ResourceCache::scan_directories()
     {
-        for (const auto& dir : get_directory_files("."))
+        m_resources.clear();
+        for (const auto &dir : m_asset_directories)
         {
-            log::info(dir.c_str());
+            for (const std::string &filename : get_directory_files(dir.second))
+            {
+                log::debug(filename.c_str());
+                Resource res {dir.first, filename, dir.second + filename};
+                std::pair<std::string, Resource> pair = {filename, res};
+                m_resources.insert(pair);
+            }
         }
+    }
+
+    void ResourceCache::load_resources()
+    {
+        // Load models
     }
 
 } // der

@@ -8,7 +8,8 @@ namespace der
 
     IndexBuffer::IndexBuffer()
         : BufferObject(GL_ELEMENT_ARRAY_BUFFER)
-        , m_gl_type()
+        , m_gl_type(GL_UNSIGNED_SHORT)
+        , m_element_size(2)
     { }
 
     void IndexBuffer::set_index_type(Type type)
@@ -30,6 +31,11 @@ namespace der
     {
         const void *start = reinterpret_cast<const void*>(start_index * m_element_size);
         ::glDrawElements(GL_TRIANGLES, index_count, m_gl_type, start);
+    }
+
+    void IndexBuffer::draw_triangles(size_t start_index, size_t index_count, const void *ptr)
+    {
+        ::glDrawElements(GL_TRIANGLES, index_count, m_gl_type, ptr);
     }
 
 } // der

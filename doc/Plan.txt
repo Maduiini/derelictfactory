@@ -1,6 +1,9 @@
 
+// Note: This architecture is a subject to change.
+
 // Parts of the engine in pseudo code
 
+// The rendering pipeline. Handles individual rendering commands.
 class Renderer
 {
   void emit_command(/* ... */)
@@ -20,7 +23,7 @@ class Renderer
       cmd.vbo->bind();
       // or actually:
       // graphics->bind(shader, vbo)
-      // whics binds VAO
+      // which binds VAO
 
       graphics->update_state(); // updates the relevant gpu state
       cmd.ibo.bind()
@@ -48,6 +51,9 @@ class MeshRenderer
 {
   void render(Renderer *renderer)
   {
+    // parent here points to the GameObject whose renderer this is.
+    renderer->set_model_matrix(m_parent->get_world_matrix());
+
     for (submesh : m_mesh->submeshes())
       renderer->emit_command(submesh./* */)
   }
@@ -58,3 +64,17 @@ class MeshRenderer
 // It would be something like SceneRenderer, who
 // gets all the visible objects from the scene and
 // then calls their renderer components render() method.
+
+// Renders the scene.
+class SceneRenderer
+{
+  void render(Renderer *renderer)
+  {
+    objects = m_scene->get_visible_objects();
+    for (o : objects)
+    {
+      if (o->m_renderer)
+        o->m_renderer->render(renderer);
+    }
+  }
+}

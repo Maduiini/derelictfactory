@@ -28,6 +28,8 @@ namespace der
         vbuffer->write(0, vbuffer->get_size(), static_cast<const void*>(m_vertices.data()));
 
         IndexBuffer *ibuffer = new IndexBuffer();
+//        if (m_faces.size() * 3 > 0xffff)
+            ibuffer->set_index_type(IndexBuffer::Index32);
         ibuffer->bind();
         ibuffer->resize(m_faces.size() * sizeof(Face), false);
         ibuffer->write(0, ibuffer->get_size(), static_cast<const void*>(m_faces.data()));

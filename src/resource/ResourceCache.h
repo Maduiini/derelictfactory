@@ -2,9 +2,10 @@
 #ifndef H_DER_RESOURCECACHE_H
 #define H_DER_RESOURCECACHE_H
 
-#include <cstdlib>
 #include <string>
 #include <unordered_map>
+
+#include "../Types.h"
 
 typedef size_t ResourceID;
 

@@ -71,12 +71,6 @@ namespace der
         }
         #endif // DER_DEBUG
 
-        // These are errors to verify that glDebugMessageCallback is functioning properly.
-        ::glEnable(1445161);
-        ::glEnable(GL_LIGHTING);
-        float col[4] { 0.0f };
-        ::glLightfv(GL_LIGHT2, GL_AMBIENT_AND_DIFFUSE, col);
-
         return true;
     }
 

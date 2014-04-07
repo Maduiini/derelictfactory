@@ -206,7 +206,7 @@ namespace der
                 data++;
 
                 Vector3 position;
-                if (!parse_vector(start, position))
+                if (parse_vector(start, position))
                 {
                     builder.add_position(position);
                     return true;
@@ -237,7 +237,7 @@ namespace der
                 data++;
 
                 Vector3 normal;
-                if (!parse_vector(start, normal))
+                if (parse_vector(start, normal))
                 {
                     builder.add_normal(normal);
                     return true;
@@ -368,12 +368,10 @@ namespace der
                 *data = 0;
                 data++;
 
-                if (!parse_face(start, builder))
-                {
-                    log::error("Mesh obj: Invalid face");
-                    return false;
-                }
-                return true;
+                if (parse_face(start, builder))
+                    return true;
+
+                log::error("Mesh obj: Invalid face");
             }
             else
             {

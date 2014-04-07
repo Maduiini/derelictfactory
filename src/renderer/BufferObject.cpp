@@ -36,7 +36,7 @@ namespace der
 
     void BufferObject::write(size_t offset, size_t size, const void *data)
     {
-        DER_ASSERT(offset + size < m_size_bytes);
+        DER_ASSERT(offset + size <= m_size_bytes);
         ::glBufferSubData(m_target, offset, size, data);
     }
 

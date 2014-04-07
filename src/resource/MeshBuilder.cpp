@@ -2,6 +2,7 @@
 #include "MeshBuilder.h"
 #include "../renderer/VertexBuffer.h"
 #include "../renderer/IndexBuffer.h"
+#include "../renderer/Mesh.h"
 
 namespace der
 {
@@ -21,22 +22,22 @@ namespace der
 
     void MeshBuilder::build(Mesh &mesh)
     {
-        VertexBuffer *vbuffer = 0 /* ... */;
-        vbuffer->resize(m_vertices.size() * sizeof(Vertex), false);
+        VertexBuffer *vbuffer = new VertexBuffer();
         vbuffer->bind();
+        vbuffer->resize(m_vertices.size() * sizeof(Vertex), false);
         vbuffer->write(0, vbuffer->get_size(), static_cast<const void*>(m_vertices.data()));
 
-        IndexBuffer *ibuffer = 0 /* ... */;
-        ibuffer->resize(m_faces.size() * sizeof(Face), false);
+        IndexBuffer *ibuffer = new IndexBuffer();
         ibuffer->bind();
+        ibuffer->resize(m_faces.size() * sizeof(Face), false);
         ibuffer->write(0, ibuffer->get_size(), static_cast<const void*>(m_faces.data()));
 
-//        mesh.set_buffers(vbuffer, ibuffer);
+        mesh.set_buffers(vbuffer, ibuffer);
 
-//        for (SubMesh &submesh : m_sub_meshes)
-//        {
-//            mesh.add_sub_mesh(submesh.start_index, submesh.index_count);
-//        }
+        for (SubMesh &submesh : m_sub_meshes)
+        {
+            mesh.add_submesh(submesh.start_index, submesh.index_count);
+        }
     }
 
     uint32_t MeshBuilder::get_position_count() const

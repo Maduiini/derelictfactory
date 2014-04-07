@@ -3,8 +3,8 @@
 #include "Log.h"
 #include "Debug.h"
 
-// Included just for log testing
-#include "math/Math.h"
+//// Included just for log testing
+//#include "math/Math.h"
 
 #include <GLFW/glfw3.h>
 
@@ -28,14 +28,6 @@ namespace der
 
 
 //        m_resource_cache.scan_directories();
-
-//        log::fatal("The matrix I_3 = \n%", Matrix3::identity);
-//        log::info("The matrix I_3x4 = \n%", Matrix3x4::identity);
-//        log::debug("The vector e_1 = %", Vector3::unit_x);
-//        log::warning("Quaternion = %", Quaternion::identity);
-
-        DER_ASSERT(1 == 0);
-        DER_ASSERT_EQ(1, 0);
 
         ::glfwSetErrorCallback(&glfw_error_callback);
         m_glfw_ready = (::glfwInit() == GL_TRUE);

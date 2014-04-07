@@ -10,16 +10,19 @@ namespace der
     {
         const float tan_half_fov_y = std::tan(fov_y * 0.5f * Math::DEG_2_RAD);
         const float f = 1.0f / tan_half_fov_y;
-        const float df = 1.0f / (near_z - far_z);
+//        const float df = 1.0f / (near_z - far_z);
+        const float df = 1.0f / (far_z - near_z);
 
         const float A = f / aspect_ratio;
-        const float B = (far_z + near_z) * df;
-        const float C = (2.0f * far_z * near_z) * df;
+        const float B = (far_z) * df;
+//        const float B = (far_z + near_z) * df;
+        const float C = (-far_z) * df;
+//        const float C = (2.0f * far_z * near_z) * df;
 
         return Matrix4(
              A,   0.0f,  0.0f,  0.0f,
             0.0f,  f,    0.0f,  0.0f,
-            0.0f, 0.0f,   B,     C,
+            0.0f, 0.0f,   B,    C,
             0.0f, 0.0f, 1.0f,  0.0f
         );
     }

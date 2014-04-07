@@ -41,6 +41,7 @@
 			<Add directory="$(#glfw.lib)" />
 			<Add directory="$(#glew.lib)" />
 		</Linker>
+		<Unit filename="doc/Plan.txt" />
 		<Unit filename="src/Application.cpp" />
 		<Unit filename="src/Application.h" />
 		<Unit filename="src/Config.h" />

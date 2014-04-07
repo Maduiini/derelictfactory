@@ -1,0 +1,60 @@
+
+// Parts of the engine in pseudo code
+
+class Renderer
+{
+  void emit_command(/* ... */)
+  {
+    // Adds a new render command to the list
+    /* ... */
+  }
+
+  void render()
+  {
+    for (cmd : commands)
+    {
+      graphics->set_this(cmd.this);
+      graphics->set_that(cmd.that);
+
+      cmd.material->shader->use();
+      cmd.vbo->bind();
+      // or actually:
+      // graphics->bind(shader, vbo)
+      // whics binds VAO
+
+      graphics->update_state(); // updates the relevant gpu state
+      cmd.ibo.bind()
+      cmd.ibo.draw_triangles();
+    }
+    commands.clear();
+  }
+
+  RenderCommandList commands;
+};
+
+// The render command looks something like this:
+struct RenderCommand
+{
+  VertexBuffer vbo;
+  IndexBuffer ibo;
+  IndexRange range;
+  Material material;
+  Uniforms uniforms; // Or something..
+};
+
+Then there is for example MeshRenderer:
+
+class MeshRenderer
+{
+  void render(Renderer *renderer)
+  {
+    for (submesh : m_mesh->submeshes())
+      renderer->emit_command(submesh./* */)
+  }
+  Mesh *m_mesh;
+}
+
+// Now, who calls MeshRenderer::render() ?
+// It would be something like SceneRenderer, who
+// gets all the visible objects from the scene and
+// then calls their renderer components render() method.

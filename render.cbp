@@ -48,6 +48,7 @@
 		<Unit filename="src/Debug.h" />
 		<Unit filename="src/Log.cpp" />
 		<Unit filename="src/Log.h" />
+		<Unit filename="src/Types.h" />
 		<Unit filename="src/Window.cpp" />
 		<Unit filename="src/Window.h" />
 		<Unit filename="src/main.cpp" />
@@ -70,6 +71,7 @@
 		<Unit filename="src/renderer/Graphics.h" />
 		<Unit filename="src/renderer/IndexBuffer.cpp" />
 		<Unit filename="src/renderer/IndexBuffer.h" />
+		<Unit filename="src/renderer/Mesh.cpp" />
 		<Unit filename="src/renderer/Mesh.h" />
 		<Unit filename="src/renderer/Texture.cpp" />
 		<Unit filename="src/renderer/Texture.h" />

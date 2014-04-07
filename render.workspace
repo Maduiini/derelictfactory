@@ -3,5 +3,6 @@
 	<Workspace title="Workspace">
 		<Project filename="render.cbp" />
 		<Project filename="test/renderTest/renderTest.cbp" />
+		<Project filename="tools/SceneExport/SceneExport.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

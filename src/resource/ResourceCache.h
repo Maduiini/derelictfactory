@@ -7,13 +7,17 @@
 
 #include "../Types.h"
 
+
+
 typedef size_t ResourceID;
 
 namespace der
 {
+    class Mesh;
+
     enum class ResourceType
     {
-        Models, Textures
+        Model, Texture
     };
 
     struct Resource
@@ -37,6 +41,9 @@ namespace der
 
         void load_resources();
 
+        template <typename T>
+        T* get(ResourceID id) const;
+
     private:
         struct EnumHash
         {
@@ -50,7 +57,7 @@ namespace der
         std::unordered_map<ResourceType, std::string, EnumHash> m_asset_directories;
 
         std::unordered_map<std::string, Resource> m_resources;
-        std::unordered_map<std::string, ResourceID> m_resource_names;
+        //std::unordered_map<std::string, ResourceID> m_resource_names;
 
     };
 

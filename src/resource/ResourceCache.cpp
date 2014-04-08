@@ -1,6 +1,7 @@
 
 #include "ResourceCache.h"
 #include "../Log.h"
+#include "../renderer/Mesh.h"
 #include <dirent.h>
 #include <string.h>
 #include <vector>
@@ -88,5 +89,13 @@ namespace der
     {
         // Load models
     }
+
+    /*
+    template <typename Mesh>
+    Mesh* ResourceCache::get(ResourceID id)
+    {
+        // Return model
+    }
+    */
 
 } // der

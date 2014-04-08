@@ -5,6 +5,7 @@
 
 //// Included just for log testing
 //#include "math/Math.h"
+#include "renderer/Mesh.h"
 #include "resource/ResourceCache.h"
 
 #include <GLFW/glfw3.h>
@@ -28,8 +29,11 @@ namespace der
 //        m_config.read("config.conf");
 
 
-        m_resource_cache.set_directory(ResourceType::Models, "assets\\models");
+        m_resource_cache.set_directory(ResourceType::Model, "assets\\models");
         m_resource_cache.scan_directories();
+
+        //ResourceID id = 123;
+        //Mesh *m = m_resource_cache.get<Mesh>(id); // <-- onko mahdollista toteuttaa tuollainen funktio?
 
         ::glfwSetErrorCallback(&glfw_error_callback);
         m_glfw_ready = (::glfwInit() == GL_TRUE);

@@ -7,6 +7,7 @@
 //#include "math/Math.h"
 #include "renderer/Mesh.h"
 #include "resource/ResourceCache.h"
+#include "resource/MeshCache.h"
 
 #include <GLFW/glfw3.h>
 
@@ -31,9 +32,6 @@ namespace der
 
         m_resource_cache.set_directory(ResourceType::Model, "assets\\models");
         m_resource_cache.scan_directories();
-
-        //ResourceID id = 123;
-        //Mesh *m = m_resource_cache.get<Mesh>(id); // <-- onko mahdollista toteuttaa tuollainen funktio?
 
         ::glfwSetErrorCallback(&glfw_error_callback);
         m_glfw_ready = (::glfwInit() == GL_TRUE);
@@ -71,6 +69,10 @@ namespace der
     void Application::run()
     {
         if (!is_ready()) return;
+
+        const ResourceID logo_id = make_resource("logo.obj");
+        Mesh *logo = m_resource_cache.get<Mesh>(logo_id); // <-- onko mahdollista toteuttaa tuollainen funktio?
+        log::info("Logo loaded: %", (logo != nullptr) ? "yes" : "no");
 
         while (!m_window.should_close())
         {

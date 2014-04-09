@@ -5,11 +5,11 @@
 #include <string>
 #include <unordered_map>
 
-#include "../Types.h"
+#include "Resource.h"
 
+#include "MeshCache.h"
+#include "../renderer/Mesh.h"
 
-
-typedef size_t ResourceID;
 
 namespace der
 {
@@ -27,6 +27,16 @@ namespace der
         std::string fullpath;
     };
 
+    template <class RT>
+    struct TypeToRT;
+
+    template <>
+    struct TypeToRT<Mesh>
+    {
+        static constexpr ResourceType type = ResourceType::Model;
+    };
+
+
     class ResourceCache
     {
     public:
@@ -42,7 +52,7 @@ namespace der
         void load_resources();
 
         template <typename T>
-        T* get(ResourceID id) const;
+        T* get(ResourceID id);
 
     private:
         struct EnumHash
@@ -59,7 +69,22 @@ namespace der
         std::unordered_map<std::string, Resource> m_resources;
         //std::unordered_map<std::string, ResourceID> m_resource_names;
 
+        MeshCache m_mesh_cache;
     };
+
+
+    template <typename T>
+    T* ResourceCache::get(ResourceID id)
+    {
+        switch (TypeToRT<T>::type)
+        {
+        case ResourceType::Model:
+            return m_mesh_cache.get(id);
+        case ResourceType::Texture:
+            return nullptr;
+        }
+        return nullptr;
+    }
 
 } // der
 

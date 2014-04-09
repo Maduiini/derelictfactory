@@ -30,8 +30,8 @@ namespace der
 //        m_config.read("config.conf");
 
 
-        m_resource_cache.set_directory(ResourceType::Model, "assets\\models");
-        m_resource_cache.scan_directories();
+//        m_resource_cache.set_directory(ResourceType::Model, "assets\\models");
+//        m_resource_cache.scan_directories();
 
         ::glfwSetErrorCallback(&glfw_error_callback);
         m_glfw_ready = (::glfwInit() == GL_TRUE);
@@ -71,8 +71,12 @@ namespace der
         if (!is_ready()) return;
 
         const ResourceID logo_id = make_resource("logo.obj");
-        Mesh *logo = m_resource_cache.get<Mesh>(logo_id); // <-- onko mahdollista toteuttaa tuollainen funktio?
+        Mesh *logo = m_resource_cache.get<Mesh>(logo_id);
         log::info("Logo loaded: %", (logo != nullptr) ? "yes" : "no");
+
+        const ResourceID asphalt_id = make_resource("asphalt.tga");
+        Texture2D *texture = m_resource_cache.get<Texture2D>(asphalt_id);
+        log::info("Asphalt texture loaded: %", (texture != nullptr) ? "yes" : "no");
 
         while (!m_window.should_close())
         {

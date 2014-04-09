@@ -7,10 +7,10 @@ namespace der
 {
 
     static const GLenum g_gl_formats[] = {
-        [Texture::IN_R8]        = GL_R8,
-        [Texture::IN_RG8]       = GL_RG8,
-        [Texture::IN_RGB8]      = GL_RGB8,
-        [Texture::IN_RGBA8]     = GL_RGBA8
+        [Texture::IN_R8]        = GL_RED,
+        [Texture::IN_RG8]       = GL_RG,
+        [Texture::IN_RGB8]      = GL_RGB,
+        [Texture::IN_RGBA8]     = GL_RGBA
     };
 
     static const GLenum g_gl_types[] = {
@@ -60,6 +60,10 @@ namespace der
 
     void Texture2D::TexImage(int w, int h, Format fmt, InputFormat input_fmt, const void *data)
     {
+//        const GLenum internal_fmt = GL_RGB;
+//        const GLenum gl_fmt = GL_RGB;
+//        const GLenum gl_type = GL_UNSIGNED_BYTE;
+
         const GLenum internal_fmt = g_gl_internal_fmts[fmt];
         const GLenum gl_fmt = g_gl_formats[input_fmt];
         const GLenum gl_type = g_gl_types[input_fmt];

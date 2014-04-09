@@ -78,12 +78,20 @@
 		<Unit filename="src/renderer/Texture.h" />
 		<Unit filename="src/renderer/VertexBuffer.cpp" />
 		<Unit filename="src/renderer/VertexBuffer.h" />
+		<Unit filename="src/resource/BaseResourceCache.h" />
+		<Unit filename="src/resource/DirectoryFiles.cpp" />
+		<Unit filename="src/resource/DirectoryFiles.h" />
 		<Unit filename="src/resource/MeshBuilder.cpp" />
 		<Unit filename="src/resource/MeshBuilder.h" />
+		<Unit filename="src/resource/MeshCache.cpp" />
+		<Unit filename="src/resource/MeshCache.h" />
 		<Unit filename="src/resource/ObjMeshLoader.cpp" />
 		<Unit filename="src/resource/ObjMeshLoader.h" />
+		<Unit filename="src/resource/Resource.h" />
 		<Unit filename="src/resource/ResourceCache.cpp" />
 		<Unit filename="src/resource/ResourceCache.h" />
+		<Unit filename="src/resource/TextureCache.cpp" />
+		<Unit filename="src/resource/TextureCache.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

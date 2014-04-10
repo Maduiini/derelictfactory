@@ -8,8 +8,7 @@
 
 namespace der
 {
-    struct Vector3;
-    struct Quaternion;
+
     class GameObject;
 
     class GameObject

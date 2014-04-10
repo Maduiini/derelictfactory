@@ -9,6 +9,7 @@ namespace der
 
     class VertexBuffer;
     class IndexBuffer;
+    class VertexArrayObject;
 
     struct SubMesh
     {
@@ -27,6 +28,7 @@ namespace der
         void set_buffers(VertexBuffer *vb, IndexBuffer *ib);
         VertexBuffer* get_vertex_buffer();
         IndexBuffer* get_index_buffer();
+        VertexArrayObject* get_vao();
 
         void add_submesh(size_t start_index, size_t index_count);
         const SubMesh& get_submesh(size_t index) const;
@@ -35,6 +37,7 @@ namespace der
     private:
         VertexBuffer *m_vertex_buffer;
         IndexBuffer *m_index_buffer;
+        VertexArrayObject *m_vao;
 
         SubMesh m_submeshes[MAX_SUB_MESHES];
         size_t m_submesh_count;

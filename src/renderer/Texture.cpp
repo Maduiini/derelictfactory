@@ -60,10 +60,6 @@ namespace der
 
     void Texture2D::TexImage(int w, int h, Format fmt, InputFormat input_fmt, const void *data)
     {
-//        const GLenum internal_fmt = GL_RGB;
-//        const GLenum gl_fmt = GL_RGB;
-//        const GLenum gl_type = GL_UNSIGNED_BYTE;
-
         const GLenum internal_fmt = g_gl_internal_fmts[fmt];
         const GLenum gl_fmt = g_gl_formats[input_fmt];
         const GLenum gl_type = g_gl_types[input_fmt];

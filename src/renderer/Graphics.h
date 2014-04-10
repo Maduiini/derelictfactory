@@ -7,15 +7,18 @@ namespace der
 
     class Texture;
 
-    enum CullMode
+    enum class CullMode
     {
-        CULL_BackFace,
-        CULL_FrontFace,
-        CULL_None
+        BackFace,
+        FrontFace,
+        None
     };
 
     class Graphics
     {
+    public:
+        static const int MAX_TEXTURE_UNITS = 16;
+
     public:
         Graphics();
 
@@ -27,12 +30,16 @@ namespace der
         void reset_state();
         void update_state();
 
+        void set_depth_enabled(bool enabled);
+        bool is_depth_enabled() const;
+
         void set_cull_mode(CullMode mode);
         CullMode get_cull_mode() const;
 
         void set_texture(int unit, Texture *texture);
 
-        static const int MAX_TEXTURE_UNITS = 16;
+//        void bind_buffer_program(VertexBuffer *vb, Program *program);
+//        void draw_triangles(IndexBuffer *ib, size_t start_index, size_t index_count);
 
     private:
         struct TextureUnit
@@ -42,6 +49,7 @@ namespace der
 
         struct State
         {
+            bool m_depth_enabled;
             CullMode m_cull_mode;
             TextureUnit m_texture_units[MAX_TEXTURE_UNITS];
         } m_current, m_prev;

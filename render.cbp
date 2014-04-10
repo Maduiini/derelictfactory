@@ -74,8 +74,14 @@
 		<Unit filename="src/renderer/IndexBuffer.h" />
 		<Unit filename="src/renderer/Mesh.cpp" />
 		<Unit filename="src/renderer/Mesh.h" />
+		<Unit filename="src/renderer/MeshRenderer.cpp" />
+		<Unit filename="src/renderer/MeshRenderer.h" />
+		<Unit filename="src/renderer/Shader.cpp" />
+		<Unit filename="src/renderer/Shader.h" />
 		<Unit filename="src/renderer/Texture.cpp" />
 		<Unit filename="src/renderer/Texture.h" />
+		<Unit filename="src/renderer/VertexArrayObject.cpp" />
+		<Unit filename="src/renderer/VertexArrayObject.h" />
 		<Unit filename="src/renderer/VertexBuffer.cpp" />
 		<Unit filename="src/renderer/VertexBuffer.h" />
 		<Unit filename="src/resource/BaseResourceCache.h" />
@@ -92,6 +98,8 @@
 		<Unit filename="src/resource/ResourceCache.h" />
 		<Unit filename="src/resource/TextureCache.cpp" />
 		<Unit filename="src/resource/TextureCache.h" />
+		<Unit filename="src/scene/Camera.cpp" />
+		<Unit filename="src/scene/Camera.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

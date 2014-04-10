@@ -2,6 +2,7 @@
 #include "MeshCache.h"
 #include "../renderer/Mesh.h"
 #include "ObjMeshLoader.h"
+#include "../Log.h"
 
 namespace der
 {
@@ -14,7 +15,9 @@ namespace der
     {
         ObjMeshLoader loader;
         Mesh *mesh = new Mesh();
-        return loader.load(filepath, *mesh) ? mesh : nullptr;
+        if (!loader.load(filepath, *mesh))
+            log::error("Could not load mesh: %", filepath);
+        return mesh;
     }
 
 } // der

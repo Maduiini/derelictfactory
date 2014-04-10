@@ -2,6 +2,7 @@
 #include "MeshBuilder.h"
 #include "../renderer/VertexBuffer.h"
 #include "../renderer/IndexBuffer.h"
+#include "../renderer/VertexArrayObject.h"
 #include "../renderer/Mesh.h"
 
 namespace der
@@ -35,6 +36,20 @@ namespace der
         ibuffer->write(0, ibuffer->get_size(), static_cast<const void*>(m_faces.data()));
 
         mesh.set_buffers(vbuffer, ibuffer);
+
+        VertexArrayObject *vao = mesh.get_vao();
+
+        const size_t offset_pos = 0;
+        const size_t offset_tc = sizeof(float) * 3;
+        const size_t offset_no = sizeof(float) * 5;
+        const size_t offset_tan = sizeof(float) * 8;
+        const size_t stride = sizeof(Vertex);
+
+        vao->bind();
+        vao->set_attribute(VertexAttrib::Position, offset_pos, stride, 3);
+        vao->set_attribute(VertexAttrib::TexCoord, offset_tc, stride, 2);
+        vao->set_attribute(VertexAttrib::Normal, offset_no, stride, 3);
+        vao->set_attribute(VertexAttrib::Tangent, offset_tan, stride, 4);
 
         for (SubMesh &submesh : m_sub_meshes)
         {

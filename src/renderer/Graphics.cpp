@@ -47,7 +47,7 @@ namespace der
 
     Graphics::Graphics()
     {
-        m_current.m_cull_mode = CULL_BackFace;
+        reset_state();
         for (TextureUnit &tu : m_current.m_texture_units)
             tu.m_texture = nullptr;
         m_prev = m_current;
@@ -71,6 +71,8 @@ namespace der
         }
         #endif // DER_DEBUG
 
+        ::glEnable(GL_DEPTH_TEST);
+
         return true;
     }
 
@@ -86,22 +88,31 @@ namespace der
 
     void Graphics::reset_state()
     {
-        m_current.m_cull_mode = CULL_BackFace;
+        m_current.m_depth_enabled = true;
+        m_current.m_cull_mode = CullMode::BackFace;
     }
 
     void Graphics::update_state()
     {
+        if (m_current.m_depth_enabled != m_prev.m_depth_enabled)
+        {
+            if (m_current.m_depth_enabled)
+                ::glEnable(GL_DEPTH_TEST);
+            else
+                ::glDisable(GL_DEPTH_TEST);
+            m_prev.m_depth_enabled = m_current.m_depth_enabled;
+        }
         if (m_current.m_cull_mode != m_prev.m_cull_mode)
         {
             static const GLenum cull_modes[] = { GL_BACK, GL_FRONT };
 
-            if (m_prev.m_cull_mode == CULL_None)
+            if (m_prev.m_cull_mode == CullMode::None)
                 ::glEnable(GL_CULL_FACE);
 
-            if (m_current.m_cull_mode == CULL_None)
+            if (m_current.m_cull_mode == CullMode::None)
                 ::glDisable(GL_CULL_FACE);
             else
-                ::glCullFace(cull_modes[m_current.m_cull_mode]);
+                ::glCullFace(cull_modes[static_cast<int>(m_current.m_cull_mode)]);
             m_prev.m_cull_mode = m_current.m_cull_mode;
         }
 

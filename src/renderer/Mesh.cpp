@@ -2,6 +2,7 @@
 #include "Mesh.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
+#include "VertexArrayObject.h"
 #include "../Debug.h"
 
 namespace der
@@ -10,13 +11,17 @@ namespace der
     Mesh::Mesh()
         : m_vertex_buffer(nullptr)
         , m_index_buffer(nullptr)
+        , m_vao(nullptr)
         , m_submesh_count(0)
-    { }
+    {
+        m_vao = new VertexArrayObject();
+    }
 
     Mesh::~Mesh()
     {
         delete m_vertex_buffer;
         delete m_index_buffer;
+        delete m_vao;
     }
 
     void Mesh::set_buffers(VertexBuffer *vb, IndexBuffer *ib)
@@ -30,6 +35,9 @@ namespace der
 
     IndexBuffer* Mesh::get_index_buffer()
     { return m_index_buffer; }
+
+    VertexArrayObject* Mesh::get_vao()
+    { return m_vao; }
 
     void Mesh::add_submesh(size_t start_index, size_t index_count)
     {

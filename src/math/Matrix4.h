@@ -135,7 +135,7 @@ namespace der
 
             const float xyt = x * y * t;
             const float xzt = x * z * t;
-            const float yzt = x * z * t;
+            const float yzt = y * z * t;
 
             m11 = x * x * t + c;
             m12 = xyt - z * s;

@@ -27,6 +27,8 @@ namespace der
 
         void add_child(GameObject *obj);
         void remove_child(GameObject *obj);
+        GameObject* get_child(const size_t index) const;
+        const size_t get_child_count() const;
 
         bool operator == (const GameObject &obj) const;
 

@@ -1,5 +1,6 @@
 
 #include "GameObject.h"
+#include "../Debug.h"
 
 namespace der
 {
@@ -52,6 +53,17 @@ namespace der
                 }
             }
         }
+    }
+
+    GameObject* GameObject::get_child(const size_t index) const
+    {
+        DER_ASSERT(index >= 0 && index < m_children.size());
+        return m_children[index];
+    }
+
+    const size_t GameObject::get_child_count() const
+    {
+        return m_children.size();
     }
 
     bool GameObject::operator == (const GameObject &obj) const

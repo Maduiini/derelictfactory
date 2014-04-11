@@ -7,9 +7,11 @@
 
 #include "../math/Vector.h"
 #include "../math/Quaternion.h"
+#include "../Types.h"
 
 namespace der
 {
+    typedef unsigned int GameObjectID;
 
     class GameObject;
     class MeshRenderer;
@@ -20,8 +22,20 @@ namespace der
         GameObject();
         ~GameObject();
 
+        GameObject* get_parent() const;
+        const GameObjectID getID() const;
+
+        void add_child(GameObject *obj);
+        void remove_child(GameObject *obj);
+
+        bool operator == (const GameObject &obj) const;
+
     private:
-        // GameObject transform
+        static GameObjectID nextID;
+
+        GameObjectID m_id;
+
+        // Transform
         Vector3 m_position;
         Quaternion m_rotation;
         Vector3 m_scale;

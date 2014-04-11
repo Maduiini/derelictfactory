@@ -42,7 +42,9 @@ namespace der
     BaseResourceCache<RT>::BaseResourceCache(const char * const dir)
         : m_resource_dir(dir)
     {
-        scan_resources(dir);
+        // Scan only if resource directory is non-empty
+        if (*dir != 0)
+            scan_resources(dir);
     };
 
     template <class RT>

@@ -41,6 +41,8 @@
 			<Add directory="$(#glfw.lib)" />
 			<Add directory="$(#glew.lib)" />
 		</Linker>
+		<Unit filename="assets/shaders/test.frag" />
+		<Unit filename="assets/shaders/test.vert" />
 		<Unit filename="doc/Plan.txt" />
 		<Unit filename="src/Application.cpp" />
 		<Unit filename="src/Application.h" />
@@ -96,6 +98,8 @@
 		<Unit filename="src/resource/Resource.h" />
 		<Unit filename="src/resource/ResourceCache.cpp" />
 		<Unit filename="src/resource/ResourceCache.h" />
+		<Unit filename="src/resource/ShaderCache.cpp" />
+		<Unit filename="src/resource/ShaderCache.h" />
 		<Unit filename="src/resource/TextureCache.cpp" />
 		<Unit filename="src/resource/TextureCache.h" />
 		<Unit filename="src/scene/Camera.cpp" />

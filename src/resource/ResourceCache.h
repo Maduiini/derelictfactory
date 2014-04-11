@@ -7,9 +7,11 @@
 
 #include "MeshCache.h"
 #include "TextureCache.h"
+#include "ShaderCache.h"
 
 #include "../renderer/Mesh.h"
 #include "../renderer/Texture.h"
+#include "../renderer/Shader.h"
 
 
 namespace der
@@ -54,6 +56,8 @@ namespace der
         template <typename T>
         T* get(ResourceID id);
 
+        Program* get_program(ResourceID v, ResourceID f);
+
     private:
 //        struct EnumHash
 //        {
@@ -74,6 +78,8 @@ namespace der
 
         MeshCache    m_mesh_cache;
         TextureCache m_texture_cache;
+        ShaderCache  m_shader_cache;
+        ProgramCache m_program_cache;
     };
 
 
@@ -92,6 +98,13 @@ namespace der
     {
         static Texture2D* get(ResourceCache *cache, ResourceID id)
         { return cache->m_texture_cache.get(id); }
+    };
+
+    template <>
+    struct TypeToGet<Shader>
+    {
+        static Shader* get(ResourceCache *cache, ResourceID id)
+        { return cache->m_shader_cache.get(id); }
     };
 
 

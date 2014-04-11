@@ -100,71 +100,10 @@ namespace der
         g_texture = m_resource_cache.get<Texture2D>(asphalt_id);
         log::info("Asphalt texture loaded: %", (g_texture != nullptr) ? "yes" : "no");
 
-        g_program = new Program();
+        const ResourceID test_vert_id = make_resource("test.vert");
+        const ResourceID test_frag_id = make_resource("test.frag");
+        g_program = m_resource_cache.get_program(test_vert_id, test_frag_id);
 
-        Shader *v_shader = new Shader(Shader::TYPE_Vert);
-        Shader *f_shader = new Shader(Shader::TYPE_Frag);
-
-        #define GLSL(src) "#version 330\n" #src
-
-        const char * vert_src = GLSL(
-            uniform mat4 mat_proj;
-            uniform mat4 mat_view;
-            uniform mat4 mat_model;
-            in vec3 in_position;
-            in vec2 in_tex_coord;
-            in vec3 in_normal;
-            in vec4 in_tangent;
-
-            out vec3 position;
-            out vec3 normal;
-            out vec2 tcoord;
-            void main()
-            {
-                mat4 mvp = mat_proj * mat_view * mat_model;
-                vec4 pos = mvp * vec4(in_position, 1.0);
-
-                position = pos.xyz;
-                normal = in_normal;
-                tcoord = in_tex_coord;
-
-                gl_Position = pos;
-            }
-        );
-        const char * frag_src = GLSL(
-            uniform sampler2D tex_color;
-            in vec3 position;
-            in vec3 normal;
-            in vec2 tcoord;
-            void main()
-            {
-                vec4 color = texture2D(tex_color, tcoord);
-
-                vec3 no = normalize(normal);
-                gl_FragData[0] = mix(vec4(abs(no), 1.0), color, 0.9);
-            }
-        );
-
-        #undef GLSL
-
-        if (!v_shader->compile(vert_src))
-        {
-            log::error("Error compiling vertex shader");
-            return;
-        }
-        if (!f_shader->compile(frag_src))
-        {
-            log::error("Error compiling fragment shader");
-            return;
-        }
-
-        g_program->attach(v_shader);
-        g_program->attach(f_shader);
-        if (!g_program->link())
-        {
-            log::error("Error linking shader program");
-            return;
-        }
         g_proj_loc = g_program->get_uniform_location("mat_proj");
         g_view_loc = g_program->get_uniform_location("mat_view");
         g_model_loc = g_program->get_uniform_location("mat_model");
@@ -172,21 +111,25 @@ namespace der
 
 
         float fov0 = 45.0f;
-        float t = 0.0f;
 
         g_view_mat = Matrix4::identity;
 
+        double last_time = ::glfwGetTime();
+
         while (!m_window.should_close())
         {
-            float fov = fov0 + std::sin(t) * 20.0f;
-            t += 0.016f * 1e-1;
+            double cur_time = ::glfwGetTime();
+            double delta_time = cur_time - last_time;
+            last_time = cur_time;
+
+            float fov = fov0 + std::sin(cur_time) * 15.0f;
             g_camera.set_fov(fov);
 
             g_model_mat.translation(0.0f, 0.0f, 5.0f);
             Matrix4 rot, rot_x90;
             Vector3 axis(0.0f, 1.0f, 0.15f);
             axis.normalize();
-            rot.rotation_from_axis_angle(axis, t);
+            rot.rotation_from_axis_angle(axis, cur_time);
             rot_x90.rotation_x(Math::PI * 0.5f);
             g_model_mat = g_model_mat * rot * rot_x90;
 

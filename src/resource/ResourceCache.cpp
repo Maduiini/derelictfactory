@@ -12,6 +12,7 @@ namespace der
 {
 
     ResourceCache::ResourceCache()
+        : m_program_cache(*this)
     {
 
     }
@@ -19,6 +20,11 @@ namespace der
     ResourceCache::~ResourceCache()
     {
 
+    }
+
+    Program* ResourceCache::get_program(ResourceID v, ResourceID f)
+    {
+        return m_program_cache.get(v, f);
     }
 
 //    void ResourceCache::set_directory(ResourceType type, const std::string directory)

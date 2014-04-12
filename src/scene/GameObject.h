@@ -35,7 +35,7 @@ namespace der
     private:
         static GameObjectID nextID;
 
-        GameObjectID m_id;
+        const GameObjectID m_id;
 
         // Transform
         Vector3 m_position;

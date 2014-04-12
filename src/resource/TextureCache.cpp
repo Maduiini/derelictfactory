@@ -136,6 +136,20 @@ namespace der
             read_rle_data(in, image_size);
         }
 
+        if (m_channels > 2)
+        {
+            for (int y = 0; y < m_height; y++)
+            {
+                for (int x = 0; x < m_width; x++)
+                {
+                    const size_t pos = (y * m_width + x) * m_channels;
+                    const char tmp = m_data[pos + 0];
+                    m_data[pos + 0] = m_data[pos + 2];
+                    m_data[pos + 2] = tmp;
+                }
+            }
+        }
+
         bool result = false;
         if (!in.fail())
         {

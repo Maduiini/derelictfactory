@@ -129,6 +129,9 @@ namespace der
         friend Vector2 operator * (const Vector2 &v, float s)
         { return Vector2(v.x * s, v.y * s); }
 
+        friend Vector2 operator / (const Vector2 &v, float s)
+        { return Vector2(v.x / s, v.y / s); }
+
     };
 
     /// Vector2 linear interpolation.
@@ -261,6 +264,9 @@ namespace der
 
         friend Vector3 operator * (const Vector3 &v, float s)
         { return Vector3(v.x * s, v.y * s, v.z * s); }
+
+        friend Vector3 operator / (const Vector3 &v, float s)
+        { return Vector3(v.x / s, v.y / s, v.z / s); }
 
     };
 
@@ -412,6 +418,9 @@ namespace der
 
         friend Vector4 operator * (const Vector4 &v, float s)
         { return Vector4(v.x * s, v.y * s, v.z * s, v.w * s); }
+
+        friend Vector4 operator / (const Vector4 &v, float s)
+        { return Vector4(v.x / s, v.y / s, v.z / s, v.w / s); }
 
     };
 

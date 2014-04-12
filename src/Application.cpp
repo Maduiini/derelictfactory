@@ -24,12 +24,13 @@ namespace der
     MeshRenderer* g_mesh_renderer = nullptr;
     Program *g_program = nullptr;
 
-    Texture *g_texture;
+    Texture *g_texture = 0, *g_normal_map = 0;
 
     int g_proj_loc = 0;
     int g_view_loc = 0;
     int g_model_loc = 0;
     int g_tex_loc = 0;
+    int g_nor_loc = 0;
 
     Matrix4 g_view_mat;
     Matrix4 g_model_mat;
@@ -89,30 +90,13 @@ namespace der
     {
         if (!is_ready()) return;
 
-        const ResourceID logo_id = make_resource("logo.obj");
-        g_logo = m_resource_cache.get<Mesh>(logo_id);
-        log::info("Logo loaded: %", (g_logo != nullptr) ? "yes" : "no");
-
-        g_mesh_renderer = new MeshRenderer();
-        g_mesh_renderer->set_mesh(g_logo);
-
-        const ResourceID asphalt_id = make_resource("asphalt.tga");
-        g_texture = m_resource_cache.get<Texture2D>(asphalt_id);
-        log::info("Asphalt texture loaded: %", (g_texture != nullptr) ? "yes" : "no");
-
-        const ResourceID test_vert_id = make_resource("test.vert");
-        const ResourceID test_frag_id = make_resource("test.frag");
-        g_program = m_resource_cache.get_program(test_vert_id, test_frag_id);
-
-        g_proj_loc = g_program->get_uniform_location("mat_proj");
-        g_view_loc = g_program->get_uniform_location("mat_view");
-        g_model_loc = g_program->get_uniform_location("mat_model");
-        g_tex_loc = g_program->get_uniform_location("tex_color");
-
+        if (!init_scene())
+        {
+            log::error("Could not initialize scene");
+            return;
+        }
 
         float fov0 = 45.0f;
-
-        g_view_mat = Matrix4::identity;
 
         double last_time = ::glfwGetTime();
 
@@ -149,6 +133,36 @@ namespace der
     bool Application::is_ready() const
     { return m_glfw_ready && m_ready; }
 
+    bool Application::init_scene()
+    {
+        const ResourceID logo_id = make_resource("logo.obj");
+        g_logo = m_resource_cache.get<Mesh>(logo_id);
+        log::info("Logo loaded: %", (g_logo != nullptr) ? "yes" : "no");
+
+        g_mesh_renderer = new MeshRenderer();
+        g_mesh_renderer->set_mesh(g_logo);
+
+        const ResourceID asphalt_id = make_resource("asphalt.tga");
+        g_texture = m_resource_cache.get<Texture2D>(asphalt_id);
+        log::info("Asphalt texture loaded: %", (g_texture != nullptr) ? "yes" : "no");
+        const ResourceID asphalt_n_id = make_resource("asphalt_n.tga");
+        g_normal_map = m_resource_cache.get<Texture2D>(asphalt_n_id);
+        log::info("Asphalt normal map loaded: %", (g_normal_map != nullptr) ? "yes" : "no");
+
+        const ResourceID test_vert_id = make_resource("test.vert");
+        const ResourceID test_frag_id = make_resource("test.frag");
+        g_program = m_resource_cache.get_program(test_vert_id, test_frag_id);
+
+        g_proj_loc = g_program->get_uniform_location("mat_proj");
+        g_view_loc = g_program->get_uniform_location("mat_view");
+        g_model_loc = g_program->get_uniform_location("mat_model");
+        g_tex_loc = g_program->get_uniform_location("tex_color");
+        g_nor_loc = g_program->get_uniform_location("tex_normal");
+        g_view_mat = Matrix4::identity;
+
+        return true;
+    }
+
     void Application::render()
     {
         m_graphics.clear();
@@ -160,7 +174,10 @@ namespace der
 
         m_graphics.set_texture(0, g_texture);
         g_program->uniform_sampler2D(g_tex_loc, 0);
+        m_graphics.set_texture(1, g_normal_map);
+        g_program->uniform_sampler2D(g_nor_loc, 1);
 
+        m_graphics.update_state();
         g_mesh_renderer->render();
 
         m_window.swap_buffer();

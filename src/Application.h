@@ -22,6 +22,7 @@ namespace der
         bool is_ready() const;
 
     private:
+        bool init_scene();
         void render();
 
     private:

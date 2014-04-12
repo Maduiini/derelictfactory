@@ -190,7 +190,56 @@ namespace der
 
     void MeshBuilder::calculate_tangents()
     {
+        std::vector<Vector3> tan1;
+        std::vector<Vector3> tan2;
 
+        tan1.resize(m_vertices.size());
+        tan2.resize(m_vertices.size());
+
+        for (size_t i = 0; i < m_faces.size(); i++)
+        {
+            const Face &face = m_faces.at(i);
+            const Vertex &v1 = m_vertices.at(face.i1);
+            const Vertex &v2 = m_vertices.at(face.i2);
+            const Vertex &v3 = m_vertices.at(face.i3);
+
+            Vector3 edge1 = v1.position - v2.position;
+            Vector3 edge2 = v1.position - v3.position;
+            Vector2 dtc2 = v1.tex_coord - v3.tex_coord;
+            Vector2 dtc1 = v1.tex_coord - v2.tex_coord;
+
+            float l = dtc1.y * dtc2.x - dtc1.x * dtc2.y;
+            if (std::abs(l) > 0.0f)
+            {
+                Vector3 t1dir = (edge2 * dtc1.y - edge1 * dtc2.y) / l;
+                Vector3 t2dir = (edge1 * dtc2.x - edge2 * dtc1.x) / l;
+
+                tan1.at(face.i1) += t1dir;
+                tan1.at(face.i2) += t1dir;
+                tan1.at(face.i3) += t1dir;
+
+                tan2.at(face.i1) += t2dir;
+                tan2.at(face.i2) += t2dir;
+                tan2.at(face.i3) += t2dir;
+            }
+        }
+
+        for (size_t i = 0; i < m_vertices.size(); i++)
+        {
+            Vertex &v = m_vertices.at(i);
+            Vector3 t1 = tan1.at(i);
+            Vector3 t2 = tan2.at(i);
+
+            Vector3 tan = t1 - v.normal * t1.dot( v.normal );
+            tan.normalize();
+
+//            if (tan.length2() < 0.2f) tan = Vector3::unit_x;
+
+            float w = (v.normal.cross(tan).dot(t2) > 0.0f)
+                    ? -1.0f : 1.0f;
+
+            v.tangent = Vector4(tan, w);
+        }
     }
 
     // static

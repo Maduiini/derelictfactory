@@ -135,7 +135,7 @@ namespace der
 
     bool Application::init_scene()
     {
-        const ResourceID logo_id = make_resource("logo.obj");
+        const ResourceID logo_id = make_resource("logo_smooth.obj");
         g_logo = m_resource_cache.get<Mesh>(logo_id);
         log::info("Logo loaded: %", (g_logo != nullptr) ? "yes" : "no");
 

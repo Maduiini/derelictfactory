@@ -106,6 +106,8 @@
 		<Unit filename="src/scene/Camera.h" />
 		<Unit filename="src/scene/GameObject.cpp" />
 		<Unit filename="src/scene/GameObject.h" />
+		<Unit filename="src/scene/Scene.cpp" />
+		<Unit filename="src/scene/Scene.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

@@ -16,10 +16,12 @@ namespace der
         Scene();
         ~Scene();
 
-        size_t get_gameobject_count() const;
-        GameObject* get_gameobject(const size_t index) const;
+        size_t get_object_count() const;
+        GameObject* get_object(const size_t index) const;
 
-        GameObject* new_gameobject();
+        void get_visible_objects(std::vector<GameObject*> &objects) const;
+
+        GameObject* new_object();
 
     private:
         std::vector<GameObject*> m_gameobjects;

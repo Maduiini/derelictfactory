@@ -4,15 +4,16 @@
 
 namespace der
 {
-    GameObjectID GameObject::nextID = 0;
+    //GameObjectID GameObject::next_id = 0;
 
-    GameObject::GameObject()
-        : m_id(nextID++)
+    GameObject::GameObject(const GameObjectID id)
+        : m_id(id) //m_id(next_id++)
         , m_position(Vector3::zero)
         , m_rotation(Quaternion::identity)
         , m_scale(1.0f)
         , m_parent(nullptr)
         , m_children()
+        , m_camera(nullptr)
         , m_mesh_renderer(nullptr)
     { }
 
@@ -61,7 +62,7 @@ namespace der
         return m_children[index];
     }
 
-    const size_t GameObject::get_child_count() const
+    size_t GameObject::get_child_count() const
     {
         return m_children.size();
     }

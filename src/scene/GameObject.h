@@ -15,11 +15,14 @@ namespace der
 
     class GameObject;
     class MeshRenderer;
+    class Camera;
+    class Scene;
 
     class GameObject
     {
+        friend class Scene;
+
     public:
-        GameObject();
         ~GameObject();
 
         GameObject* get_parent() const;
@@ -28,12 +31,14 @@ namespace der
         void add_child(GameObject *obj);
         void remove_child(GameObject *obj);
         GameObject* get_child(const size_t index) const;
-        const size_t get_child_count() const;
+        size_t get_child_count() const;
 
         bool operator == (const GameObject &obj) const;
 
     private:
-        static GameObjectID nextID;
+        GameObject(const GameObjectID id);
+
+        //static GameObjectID next_id;
 
         const GameObjectID m_id;
 
@@ -47,6 +52,7 @@ namespace der
         std::vector<GameObject*> m_children;
 
         // Components
+        Camera *m_camera;
         MeshRenderer *m_mesh_renderer;
 
     };

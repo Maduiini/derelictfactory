@@ -25,6 +25,9 @@ namespace der
     public:
         ~GameObject();
 
+        bool operator == (const GameObject &obj) const;
+
+
         GameObject* get_parent() const;
         const GameObjectID getID() const;
 
@@ -33,12 +36,15 @@ namespace der
         GameObject* get_child(const size_t index) const;
         size_t get_child_count() const;
 
-        bool operator == (const GameObject &obj) const;
+
+        void set_renderer(MeshRenderer *renderer);
+        MeshRenderer* get_renderer();
+
+        void set_camera(Camera *camera);
+        Camera* get_camera();
 
     private:
         GameObject(const GameObjectID id);
-
-        //static GameObjectID next_id;
 
         const GameObjectID m_id;
 

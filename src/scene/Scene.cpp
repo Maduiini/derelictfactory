@@ -32,6 +32,22 @@ namespace der
         return m_gameobjects[index];
     }
 
+    const GameObject* Scene::get_object_by_id(GameObjectID id) const
+    {
+        auto it = m_gameobject_map.find(id);
+        if (it != m_gameobject_map.end())
+            return it->second;
+        return nullptr;
+    }
+
+    GameObject* Scene::get_object_by_id(GameObjectID id)
+    {
+        auto it = m_gameobject_map.find(id);
+        if (it != m_gameobject_map.end())
+            return it->second;
+        return nullptr;
+    }
+
     void Scene::get_visible_objects(std::vector<GameObject*> &objects) const
     {
         auto iter = m_gameobjects.begin();
@@ -45,6 +61,7 @@ namespace der
     {
         GameObject *newobj = new GameObject(m_next_id++);
         m_gameobjects.push_back(newobj);
+        m_gameobject_map[newobj->getID()] = newobj;
         return newobj;
     }
 
@@ -56,6 +73,7 @@ namespace der
             delete *iter;
         }
         m_gameobjects.clear();
+        m_gameobject_map.clear();
     }
 
 } // der

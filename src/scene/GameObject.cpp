@@ -1,5 +1,7 @@
 
 #include "GameObject.h"
+#include "Camera.h"
+#include "../renderer/MeshRenderer.h"
 #include "../Debug.h"
 
 namespace der
@@ -17,7 +19,21 @@ namespace der
     { }
 
     GameObject::~GameObject()
-    { }
+    {
+        for (GameObject *child : m_children)
+        {
+            delete child;
+        }
+
+        delete m_camera;
+        delete m_mesh_renderer;
+    }
+
+    bool GameObject::operator == (const GameObject &obj) const
+    {
+        return m_id == obj.m_id;
+    }
+
 
     GameObject* GameObject::get_parent() const
     {
@@ -66,9 +82,24 @@ namespace der
         return m_children.size();
     }
 
-    bool GameObject::operator == (const GameObject &obj) const
+    // Components
+
+    void GameObject::set_renderer(MeshRenderer *renderer)
     {
-        return m_id == obj.m_id;
+        delete m_mesh_renderer;
+        m_mesh_renderer = renderer;
     }
+
+    MeshRenderer* GameObject::get_renderer()
+    { return m_mesh_renderer; }
+
+    void GameObject::set_camera(Camera *camera)
+    {
+        delete m_camera;
+        m_camera = camera;
+    }
+
+    Camera* GameObject::get_camera()
+    { return m_camera; }
 
 } // der

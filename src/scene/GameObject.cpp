@@ -47,22 +47,27 @@ namespace der
 
     void GameObject::add_child(GameObject *obj)
     {
-        if (obj)
+        // TODO: maybe only assert that obj != nullptr
+        // making it invalid to call add with null object.
+        // Same with remove_child.
+        if (obj && obj->m_parent != this)
         {
+            if (obj->m_parent)
+                obj->m_parent->remove_child(obj);
+
             obj->m_parent = this;
-            remove_child(obj);
             m_children.push_back(obj);
         }
     }
 
     void GameObject::remove_child(GameObject *obj)
     {
-        if (obj)
+        if (obj && obj->m_parent == this)
         {
             auto iter = m_children.begin();
             for (; iter != m_children.end(); ++iter)
             {
-                if (*(*iter) == *obj)
+                if (*iter == obj)
                 {
                     m_children.erase(iter);
                     return;

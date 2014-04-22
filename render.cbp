@@ -49,6 +49,7 @@
 		<Unit filename="src/Config.h" />
 		<Unit filename="src/Debug.cpp" />
 		<Unit filename="src/Debug.h" />
+		<Unit filename="src/Input.h" />
 		<Unit filename="src/Log.cpp" />
 		<Unit filename="src/Log.h" />
 		<Unit filename="src/Types.h" />
@@ -78,6 +79,8 @@
 		<Unit filename="src/renderer/Mesh.h" />
 		<Unit filename="src/renderer/MeshRenderer.cpp" />
 		<Unit filename="src/renderer/MeshRenderer.h" />
+		<Unit filename="src/renderer/SceneRenderer.cpp" />
+		<Unit filename="src/renderer/SceneRenderer.h" />
 		<Unit filename="src/renderer/Shader.cpp" />
 		<Unit filename="src/renderer/Shader.h" />
 		<Unit filename="src/renderer/Texture.cpp" />

@@ -33,9 +33,4 @@ namespace der
         ::glDrawElements(GL_TRIANGLES, index_count, m_gl_type, start);
     }
 
-    void IndexBuffer::draw_triangles(size_t start_index, size_t index_count, const void *ptr)
-    {
-        ::glDrawElements(GL_TRIANGLES, index_count, m_gl_type, ptr);
-    }
-
 } // der

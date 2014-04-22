@@ -26,6 +26,11 @@ namespace der
         ::glBindBuffer(m_target, m_buffer);
     }
 
+    void BufferObject::bind_base(size_t base)
+    {
+        ::glBindBufferBase(m_target, base, m_buffer);
+    }
+
     void BufferObject::unbind()
     {
         ::glBindBuffer(m_target, 0);

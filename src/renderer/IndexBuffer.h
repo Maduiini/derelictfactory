@@ -28,7 +28,6 @@ namespace der
         Type get_index_type() const;
 
         void draw_triangles(size_t start_index, size_t index_count);
-        void draw_triangles(size_t start_index, size_t index_count, const void *ptr);
 
     private:
         GLenum m_gl_type;

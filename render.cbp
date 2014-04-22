@@ -85,6 +85,8 @@
 		<Unit filename="src/renderer/Shader.h" />
 		<Unit filename="src/renderer/Texture.cpp" />
 		<Unit filename="src/renderer/Texture.h" />
+		<Unit filename="src/renderer/UniformBuffer.cpp" />
+		<Unit filename="src/renderer/UniformBuffer.h" />
 		<Unit filename="src/renderer/VertexArrayObject.cpp" />
 		<Unit filename="src/renderer/VertexArrayObject.h" />
 		<Unit filename="src/renderer/VertexBuffer.cpp" />

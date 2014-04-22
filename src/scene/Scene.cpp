@@ -13,11 +13,7 @@ namespace der
 
     Scene::~Scene()
     {
-        auto iter = m_gameobjects.begin();
-        for (; iter != m_gameobjects.end(); ++iter)
-        {
-            delete *iter;
-        }
+        delete_all();
     }
 
     //void Scene::add(const GameObject *obj)
@@ -50,6 +46,16 @@ namespace der
         GameObject *newobj = new GameObject(m_next_id++);
         m_gameobjects.push_back(newobj);
         return newobj;
+    }
+
+    void Scene::delete_all()
+    {
+        auto iter = m_gameobjects.begin();
+        for (; iter != m_gameobjects.end(); ++iter)
+        {
+            delete *iter;
+        }
+        m_gameobjects.clear();
     }
 
 } // der

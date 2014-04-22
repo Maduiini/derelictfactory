@@ -22,6 +22,9 @@ namespace der
         void get_visible_objects(std::vector<GameObject*> &objects) const;
 
         GameObject* new_object();
+        void delete_object(GameObjectID id);
+
+        void delete_all();
 
     private:
         std::vector<GameObject*> m_gameobjects;

@@ -4,10 +4,9 @@
 
 namespace der
 {
-    //GameObjectID GameObject::next_id = 0;
 
     GameObject::GameObject(const GameObjectID id)
-        : m_id(id) //m_id(next_id++)
+        : m_id(id)
         , m_position(Vector3::zero)
         , m_rotation(Quaternion::identity)
         , m_scale(1.0f)

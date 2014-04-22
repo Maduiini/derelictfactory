@@ -14,7 +14,7 @@ TEST(QuaternionAxisAngle)
     const float angle = Math::PI * 0.33f;
 
     Quaternion q;
-    q.rotation_from_axis_angle(axis, angle);
+    q.from_axis_angle(axis, angle);
 
     Vector3 axis2;
     float angle2;
@@ -40,8 +40,8 @@ struct SlerpTestCase
 
         const Vector3 ax1 = axis1.normalized();
         const Vector3 ax2 = axis2.normalized();
-        q1.rotation_from_axis_angle(ax1, a1);
-        q2.rotation_from_axis_angle(ax2, a2);
+        q1.from_axis_angle(ax1, a1);
+        q2.from_axis_angle(ax2, a2);
     }
 
     der::Quaternion q1;
@@ -80,8 +80,8 @@ TEST(QuaternionSlerp)
     using namespace der;
 
     Quaternion q1, q2;
-    q1.rotation_from_axis_angle(1.0f, 2.0f, 3.0f, Math::PI);
-    q2.rotation_from_axis_angle(0.5f, 1.0f, 0.0f, Math::PI);
+    q1.from_axis_angle(1.0f, 2.0f, 3.0f, Math::PI);
+    q2.from_axis_angle(0.5f, 1.0f, 0.0f, Math::PI);
 
     Quaternion result = slerp(q1, q2, 0.0f);
     CHECK_EQUAL(q1, result);
@@ -98,23 +98,23 @@ TEST(QuaternionSlerp)
     CHECK_EQUAL(q2, result);
 
     // Slerp between rotations around same angle.
-    q1.rotation_from_axis_angle(1.0f, 0.0f, 0.0f, Math::PI / 4);
-    q2.rotation_from_axis_angle(1.0f, 0.0f, 0.0f, 0.0f);
+    q1.from_axis_angle(1.0f, 0.0f, 0.0f, Math::PI / 4);
+    q2.from_axis_angle(1.0f, 0.0f, 0.0f, 0.0f);
     result = slerp(q1, q2, 0.5f);
 
     Quaternion expected_q;
-    expected_q.rotation_from_axis_angle(1.0f, 0.0f, 0.0f, (Math::PI / 4) * 0.5f);
+    expected_q.from_axis_angle(1.0f, 0.0f, 0.0f, (Math::PI / 4) * 0.5f);
     CHECK_EQUAL(expected_q, result);
 
 
     // Again, slerp between rotations around same axis.
-    q1.rotation_from_axis_angle(0.0f, 1.0f, 0.0f, Math::PI / 4);
-    q2.rotation_from_axis_angle(0.0f, 1.0f, 0.0f, Math::PI / 2);
+    q1.from_axis_angle(0.0f, 1.0f, 0.0f, Math::PI / 4);
+    q2.from_axis_angle(0.0f, 1.0f, 0.0f, Math::PI / 2);
     const float t = 0.58f;
     result = slerp(q1, q2, t);
     const float expected_angle = lerp(Math::PI / 4, Math::PI / 2, t);
 
-    expected_q.rotation_from_axis_angle(0.0f, 1.0f, 0.0f, expected_angle);
+    expected_q.from_axis_angle(0.0f, 1.0f, 0.0f, expected_angle);
     CHECK_EQUAL(expected_q, result);
 
     // Check the axis angle of the result

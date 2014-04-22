@@ -113,7 +113,7 @@ namespace der
             Matrix4 rot, rot_x90;
             Vector3 axis(0.0f, 1.0f, 0.15f);
             axis.normalize();
-            rot.rotation_from_axis_angle(axis, cur_time);
+            rot.from_axis_angle(axis, cur_time);
             rot_x90.rotation_x(Math::PI * 0.5f);
             g_model_mat = g_model_mat * rot * rot_x90;
 

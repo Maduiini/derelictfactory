@@ -105,7 +105,7 @@ namespace der
             m31 = 0.0f; m32 = 0.0f; m33 = 1.0f;
         }
 
-        void rotation_from_axis_angle(float x, float y, float z, float theta)
+        void from_axis_angle(float x, float y, float z, float theta)
         {
             const float c = std::cos(theta);
             const float s = std::sin(theta);
@@ -128,7 +128,7 @@ namespace der
             m33 = z * z * t + c;
         }
 
-        void rotation_from_axis_angle(const Vector3 &axis, float theta);
+        void from_axis_angle(const Vector3 &axis, float theta);
 
         void from_quaternion(const Quaternion &quat);
 

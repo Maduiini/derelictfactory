@@ -14,8 +14,8 @@ namespace der
     bool Matrix3::equals(const Matrix3 &a) const
     { return equals(a, Math::EPSILON); }
 
-    void Matrix3::rotation_from_axis_angle(const Vector3 &axis, float theta)
-    { rotation_from_axis_angle(axis.x, axis.y, axis.z, theta); }
+    void Matrix3::from_axis_angle(const Vector3 &axis, float theta)
+    { from_axis_angle(axis.x, axis.y, axis.z, theta); }
 
     void Matrix3::from_quaternion(const Quaternion &quat)
     {

@@ -10,8 +10,8 @@ namespace der
     bool Quaternion::equals(const Quaternion &q) const
     { return equals(q, Math::EPSILON); }
 
-    void Quaternion::rotation_from_axis_angle(const Vector3 &axis, float theta)
-    { rotation_from_axis_angle(axis.x, axis.y, axis.z, theta); }
+    void Quaternion::from_axis_angle(const Vector3 &axis, float theta)
+    { from_axis_angle(axis.x, axis.y, axis.z, theta); }
 
 
     Quaternion lerp(const Quaternion &q1, const Quaternion &q2, const float t)

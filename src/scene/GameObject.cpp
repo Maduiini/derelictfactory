@@ -122,7 +122,7 @@ namespace der
     { m_rotation = rot; }
 
     void GameObject::set_rotation(const Vector3 &axis, float theta)
-    { m_rotation.rotation_from_axis_angle(axis, theta); }
+    { m_rotation.from_axis_angle(axis, theta); }
 
     Quaternion GameObject::get_rotation() const
     { return m_rotation; }

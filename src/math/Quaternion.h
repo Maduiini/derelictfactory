@@ -199,7 +199,7 @@ namespace der
         /// \param y_       Y-coordinate of the axis.
         /// \param z_       Z-coordinate of the axis.
         /// \param theta    The angle of the rotation in radians.
-        void rotation_from_axis_angle(float x_, float y_, float z_, float theta)
+        void from_axis_angle(float x_, float y_, float z_, float theta)
         {
             const float c = std::cos(theta * 0.5f);
             const float s = std::sin(theta * 0.5f);
@@ -210,7 +210,7 @@ namespace der
         /// Makes this quaternion into rotation from axis angle. The axis must be normalized.
         /// \param axis     The normalized axis of rotation.
         /// \param theta    The angle of the rotation in radians.
-        void rotation_from_axis_angle(const Vector3 &axis, float theta);
+        void from_axis_angle(const Vector3 &axis, float theta);
 
         /// Extracts the axis and angle that this rotation repersents.
         void get_axis_angle(float &x_, float &y_, float &z_, float &theta)

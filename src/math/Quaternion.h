@@ -164,6 +164,36 @@ namespace der
 
         // Rotation
 
+        /// Sets the quaternion to rotation about x-axis.
+        /// \param theta    The angle of the rotation in radians.
+        void rotation_x(float theta)
+        {
+            const float c = std::cos(theta * 0.5f);
+            const float s = std::sin(theta * 0.5f);
+            x = s; y = 0.0f; z = 0.0f;
+            w = c;
+        }
+
+        /// Sets the quaternion to rotation about y-axis.
+        /// \param theta    The angle of the rotation in radians.
+        void rotation_y(float theta)
+        {
+            const float c = std::cos(theta * 0.5f);
+            const float s = std::sin(theta * 0.5f);
+            x = 0.0f; y = s; z = 0.0f;
+            w = c;
+        }
+
+        /// Sets the quaternion to rotation about z-axis.
+        /// \param theta    The angle of the rotation in radians.
+        void rotation_z(float theta)
+        {
+            const float c = std::cos(theta * 0.5f);
+            const float s = std::sin(theta * 0.5f);
+            x = 0.0f; y = 0.0f; z = s;
+            w = c;
+        }
+
         /// Constructs the quaternion from axis angle. The axis must be normalized.
         /// \param x_       X-coordinate of the axis.
         /// \param y_       Y-coordinate of the axis.

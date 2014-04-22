@@ -107,4 +107,59 @@ namespace der
     Camera* GameObject::get_camera()
     { return m_camera; }
 
+    // Transform
+
+    void GameObject::set_position(const Vector3 &position)
+    { m_position = position; }
+
+    Vector3 GameObject::get_position() const
+    { return m_position; }
+
+    void GameObject::move(const Vector3 &delta)
+    { m_position += delta; }
+
+    void GameObject::set_rotation(const Quaternion &rot)
+    { m_rotation = rot; }
+
+    void GameObject::set_rotation(const Vector3 &axis, float theta)
+    { m_rotation.rotation_from_axis_angle(axis, theta); }
+
+    Quaternion GameObject::get_rotation() const
+    { return m_rotation; }
+
+    void GameObject::set_scale(const Vector3 &scale)
+    { m_scale = scale; }
+
+    Vector3 GameObject::get_scale() const
+    { return m_scale; }
+
+    Matrix3 GameObject::get_rotation_matrix() const
+    {
+        Matrix3 rot;
+        rot.from_quaternion(m_rotation);
+        return rot;
+    }
+
+    Matrix4 GameObject::get_world_matrix() const
+    {
+        Matrix4 translation;
+        translation.translation(m_position);
+        Matrix4 rotation;
+        rotation.from_quaternion(m_rotation);
+        Matrix4 scale;
+        scale.scale(m_scale);
+        return translation * rotation * scale;
+    }
+
+    Matrix4 GameObject::get_inv_world_matrix() const
+    {
+        Matrix4 translation;
+        translation.translation(-m_position);
+        Matrix4 rotation;
+        rotation.from_quaternion(m_rotation.conjugated());
+        Matrix4 scale;
+        scale.scale(1.0f / m_scale.x, 1.0f / m_scale.y, 1.0f / m_scale.z);
+        return scale * rotation * translation;
+    }
+
 } // der

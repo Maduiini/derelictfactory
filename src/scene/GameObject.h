@@ -7,6 +7,8 @@
 
 #include "../math/Vector.h"
 #include "../math/Quaternion.h"
+#include "../math/Matrix3.h"
+#include "../math/Matrix4.h"
 #include "../Types.h"
 
 namespace der
@@ -42,6 +44,22 @@ namespace der
 
         void set_camera(Camera *camera);
         Camera* get_camera();
+
+
+        void set_position(const Vector3 &position);
+        Vector3 get_position() const;
+        void move(const Vector3 &delta);
+
+        void set_rotation(const Quaternion &rot);
+        void set_rotation(const Vector3 &axis, float theta);
+        Quaternion get_rotation() const;
+
+        void set_scale(const Vector3 &scale);
+        Vector3 get_scale() const;
+
+        Matrix3 get_rotation_matrix() const;
+        Matrix4 get_world_matrix() const;
+        Matrix4 get_inv_world_matrix() const;
 
     private:
         GameObject(const GameObjectID id);

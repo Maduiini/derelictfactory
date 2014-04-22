@@ -11,6 +11,7 @@ namespace der
 
     bool equals(float, float, float);
     struct Vector3;
+    struct Quaternion;
 
 
     /// A row-major 3x3 matrix, mostly for rotations.
@@ -128,6 +129,8 @@ namespace der
         }
 
         void rotation_from_axis_angle(const Vector3 &axis, float theta);
+
+        void from_quaternion(const Quaternion &quat);
 
         // Scale
 

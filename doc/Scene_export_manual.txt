@@ -1,0 +1,42 @@
+
+=============================
+  DER Scene exporter manual
+=============================
+
+A short manual to the Blender addon scene exporter.
+
+
+Installing the addon
+--------------------
+To create a scene one needs to first install the scene exporter from the
+"tools" subdir to Blender. This can be achieved by doing the following:
+
+  - Zip the directory "io_scene_der" under the "tools/SceneExport/" to
+    "io_scene_der.zip".
+  - In Blender open the user preferences (e.g. Ctrl+Alt+U) and select the
+    Addons-tab.
+  - Click the "Install from file..." and find and select the
+    "io_scene_der.zip"
+  - If the addon is not active yet (the checkbox not checked) activate it.
+    To find the addon in the view just type "der" to the search input in
+    the upper left of the window.
+  - Now you should be able to export the scenes into .derscene format.
+
+
+Using the exporter
+--------------------
+Here are some things to remember when using the exporter to create a scene.
+
+  - The objects exported are only the transform, mesh name and material
+    name of the object. The actual mesh needs to be exported separately as
+    wavefront obj file.
+  - The mesh name saved to the scene file is the name of mesh data of the
+    object. Make sure it is the same as the .obj file that you have exported
+    into the "assets/models/" subdir without the .obj extension.
+    Example: The mesh "assets/models/rusty_shed.obj" would be used by setting
+      an objects mesh data name to "rusty_shed".
+  - Easiest way to create the scene is to import an .obj file to be used
+    in the scene. Then make sure that the mesh data has the correct name.
+    If you need to have multiple objects with the same mesh, Alt+D duplicates
+    the object so that the new object uses the same mesh data that the original.
+

@@ -309,7 +309,7 @@ namespace der
     {
         std::vector<char *> parts;
         split(parts, line, ' ');
-        if (parts.size() != 3 || parts.size() > 4)
+        if (parts.size() != 3 && parts.size() != 4)
         {
             log::error("Mesh obj: Invalid face");
             return false;

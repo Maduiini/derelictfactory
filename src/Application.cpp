@@ -46,6 +46,7 @@ namespace der
         , m_resource_cache()
         , m_scene(nullptr)
         , m_scene_renderer(nullptr)
+        , m_scene_loader(m_resource_cache)
         , m_glfw_ready(false)
         , m_ready(false)
     {
@@ -129,22 +130,22 @@ namespace der
         m_scene = new Scene();
         m_scene_renderer = new SceneRenderer(m_scene);
 
-        GameObject *camera_object = m_scene->new_object();
-        camera_object->set_camera(new Camera());
-        m_scene->set_camera_object(camera_object->getID());
-
-        g_camera_controller.set_window(&m_window);
-        g_camera_controller.set_object(camera_object);
-
-        const ResourceID logo_id = make_resource("logo_smooth.obj");
-        Mesh *logo_mesh = m_resource_cache.get<Mesh>(logo_id);
-        log::info("Logo loaded: %", (logo_mesh != nullptr) ? "yes" : "no");
-
-        GameObject *logo = m_scene->new_object();
-        MeshRenderer *renderer = new MeshRenderer();
-        renderer->set_mesh(logo_mesh);
-        logo->set_renderer(renderer);
-        logo->set_position(Vector3(0.0f, 0.0f, 5.0f));
+//        GameObject *camera_object = m_scene->new_object();
+//        camera_object->set_camera(new Camera());
+//        m_scene->set_camera_object(camera_object->getID());
+//
+//        g_camera_controller.set_window(&m_window);
+//        g_camera_controller.set_object(camera_object);
+//
+//        const ResourceID logo_id = make_resource("logo_smooth.obj");
+//        Mesh *logo_mesh = m_resource_cache.get<Mesh>(logo_id);
+//        log::info("Logo loaded: %", (logo_mesh != nullptr) ? "yes" : "no");
+//
+//        GameObject *logo = m_scene->new_object();
+//        MeshRenderer *renderer = new MeshRenderer();
+//        renderer->set_mesh(logo_mesh);
+//        logo->set_renderer(renderer);
+//        logo->set_position(Vector3(0.0f, 0.0f, 5.0f));
 
         const ResourceID asphalt_id = make_resource("asphalt.tga");
         g_texture = m_resource_cache.get<Texture2D>(asphalt_id);
@@ -159,6 +160,21 @@ namespace der
 
         g_tex_loc = g_program->get_uniform_location("tex_color");
         g_nor_loc = g_program->get_uniform_location("tex_normal");
+
+        // Load the test scene
+        if (m_scene_loader.load("test_scene.derscene", m_scene))
+            log::info("Scene loaded");
+        else
+            log::error("Could not load scene");
+
+        // Create camera
+        GameObject *camera_object = m_scene->new_object();
+        camera_object->set_camera(new Camera());
+        camera_object->set_position(Vector3(0.0f, 1.8f, 0.0f));
+        m_scene->set_camera_object(camera_object->getID());
+
+        g_camera_controller.set_window(&m_window);
+        g_camera_controller.set_object(camera_object);
 
         return true;
     }

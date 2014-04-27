@@ -162,4 +162,10 @@ namespace der
         return scale * rotation * translation;
     }
 
+    void GameObject::set_transform(const Matrix4 &tr)
+    { tr.decompose(m_position, m_rotation, m_scale); }
+
+    void GameObject::set_transform(const Matrix3x4 &tr)
+    { tr.decompose(m_position, m_rotation, m_scale); }
+
 } // der

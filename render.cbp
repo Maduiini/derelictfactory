@@ -55,7 +55,9 @@
 		<Unit filename="src/Types.h" />
 		<Unit filename="src/Window.cpp" />
 		<Unit filename="src/Window.h" />
+		<Unit filename="src/input/CameraController.cpp" />
 		<Unit filename="src/input/CameraController.h" />
+		<Unit filename="src/input/InputController.cpp" />
 		<Unit filename="src/input/InputController.h" />
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/math/Math.cpp" />
@@ -105,6 +107,8 @@
 		<Unit filename="src/resource/Resource.h" />
 		<Unit filename="src/resource/ResourceCache.cpp" />
 		<Unit filename="src/resource/ResourceCache.h" />
+		<Unit filename="src/resource/SceneLoader.cpp" />
+		<Unit filename="src/resource/SceneLoader.h" />
 		<Unit filename="src/resource/ShaderCache.cpp" />
 		<Unit filename="src/resource/ShaderCache.h" />
 		<Unit filename="src/resource/TextureCache.cpp" />

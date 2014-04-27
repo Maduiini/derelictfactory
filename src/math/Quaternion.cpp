@@ -13,6 +13,53 @@ namespace der
     void Quaternion::from_axis_angle(const Vector3 &axis, float theta)
     { from_axis_angle(axis.x, axis.y, axis.z, theta); }
 
+    void Quaternion::from_basis(const Vector3 &right, const Vector3 &up, const Vector3 &forward)
+    {
+        const float m00 = right.x;
+        const float m10 = right.y;
+        const float m20 = right.z;
+        const float m01 = up.x;
+        const float m11 = up.y;
+        const float m21 = up.z;
+        const float m02 = forward.x;
+        const float m12 = forward.y;
+        const float m22 = forward.z;
+
+        const float trace = m00 + m11 + m22;
+        if (trace > 0.0f)
+        {
+            const float s = std::sqrt(trace + 1.0f) * 2.0f;
+            w = 0.25f * s;
+            x = (m21 - m12) / s;
+            y = (m02 - m20) / s;
+            z = (m10 - m01) / s;
+        }
+        else if ((m00 > m11)&(m00 > m22))
+        {
+            const float s = std::sqrt(1.0f + m00 - m11 - m22) * 2.0f;
+            w = (m21 - m12) / s;
+            x = 0.25f * s;
+            y = (m01 + m10) / s;
+            z = (m02 + m20) / s;
+        }
+        else if (m11 > m22)
+        {
+            const float s = std::sqrt(1.0f + m11 - m00 - m22) * 2.0f;
+            w = (m02 - m20) / s;
+            x = (m01 + m10) / s;
+            y = 0.25f * s;
+            z = (m12 + m21) / s;
+        }
+        else
+        {
+            const float s = std::sqrt(1.0f + m22 - m00 - m11) * 2.0f;
+            w = (m10 - m01) / s;
+            x = (m02 + m20) / s;
+            y = (m12 + m21) / s;
+            z = 0.25f * s;
+        }
+    }
+
 
     Quaternion lerp(const Quaternion &q1, const Quaternion &q2, const float t)
     {

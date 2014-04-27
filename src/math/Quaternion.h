@@ -225,6 +225,9 @@ namespace der
         void get_axis_angle(Vector3 &axis, float &theta)
         { get_axis_angle(axis.x, axis.y, axis.z, theta); }
 
+        /// Sets the rotation from orthogonal basis vectors.
+        void from_basis(const Vector3 &right, const Vector3 &up, const Vector3 &forward);
+
     };
 
     /// Linearly interpolates quaternions \c q1 and \c q2.

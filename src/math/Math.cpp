@@ -2,6 +2,7 @@
 #include "Math.h"
 
 #include <iostream>
+#include <iomanip>
 
 namespace der
 {
@@ -33,27 +34,50 @@ namespace der
     std::ostream& operator << (std::ostream &out, const Quaternion &q)
     { return out << "Q(" << q.x << "," << q.y << "," << q.z << "," << q.w << ")"; }
 
+    std::ostream& fw(std::ostream &out, float x, size_t w = 6)
+    {
+        return out << std::setw(w) << x;
+    }
+
     std::ostream& operator << (std::ostream &out, const Matrix3 &m)
     {
-        return out << "|" << m.m11 << "  " << m.m12 << "  " << m.m13 << "|\n"
-                    << "|" << m.m21 << "  " << m.m22 << "  " << m.m23 << "|\n"
-                    << "|" << m.m31 << "  " << m.m32 << "  " << m.m33 << "|";
+        const std::streamsize p = out.precision();
+        out.precision(4);
+        out << std::fixed;
+        out << "|"; fw(out, m.m11); out << "  "; fw(out, m.m12); out << "  "; fw(out, m.m13); out << "|\n";
+        out << "|"; fw(out, m.m21); out << "  "; fw(out, m.m22); out << "  "; fw(out, m.m23); out << "|\n";
+        out << "|"; fw(out, m.m31); out << "  "; fw(out, m.m32); out << "  "; fw(out, m.m33); out << "|";
+        out.precision(p);
+        out << std::scientific;
+        return out;
     }
 
     std::ostream& operator << (std::ostream &out, const Matrix4 &m)
     {
-        return out << "|" << m.m11 << "  " << m.m12 << "  " << m.m13 << "  " << m.m14 << "|\n"
-                    << "|" << m.m21 << "  " << m.m22 << "  " << m.m23 << "  " << m.m24 << "|\n"
-                    << "|" << m.m31 << "  " << m.m32 << "  " << m.m33 << "  " << m.m34 << "|\n"
-                    << "|" << m.m41 << "  " << m.m42 << "  " << m.m43 << "  " << m.m44 << "|";
+        const std::streamsize p = out.precision();
+        out.precision(4);
+        out << std::fixed;
+        out << "|"; fw(out, m.m11); out << "  "; fw(out, m.m12); out << "  "; fw(out, m.m13); out << "  "; fw(out, m.m14); out << "|\n";
+        out << "|"; fw(out, m.m21); out << "  "; fw(out, m.m22); out << "  "; fw(out, m.m23); out << "  "; fw(out, m.m24); out << "|\n";
+        out << "|"; fw(out, m.m31); out << "  "; fw(out, m.m32); out << "  "; fw(out, m.m33); out << "  "; fw(out, m.m34); out << "|\n";
+        out << "|"; fw(out, m.m41); out << "  "; fw(out, m.m42); out << "  "; fw(out, m.m43); out << "  "; fw(out, m.m44); out << "|";
+        out.precision(p);
+        out << std::scientific;
+        return out;
     }
 
     std::ostream& operator << (std::ostream &out, const Matrix3x4 &m)
     {
-        return out << "|" << m.m11 << "  " << m.m12 << "  " << m.m13 << "  " << m.m14 << "|\n"
-                    << "|" << m.m21 << "  " << m.m22 << "  " << m.m23 << "  " << m.m24 << "|\n"
-                    << "|" << m.m31 << "  " << m.m32 << "  " << m.m33 << "  " << m.m34 << "|\n"
-                    << "|" << 0.0f << "  " << 0.0f << "  " << 0.0f << "  " << 1.0f << "|";
+        const std::streamsize p = out.precision();
+        out.precision(4);
+        out << std::fixed;
+        out << "|"; fw(out, m.m11); out << "  "; fw(out, m.m12); out << "  "; fw(out, m.m13); out << "  "; fw(out, m.m14); out << "|\n";
+        out << "|"; fw(out, m.m21); out << "  "; fw(out, m.m22); out << "  "; fw(out, m.m23); out << "  "; fw(out, m.m24); out << "|\n";
+        out << "|"; fw(out, m.m31); out << "  "; fw(out, m.m32); out << "  "; fw(out, m.m33); out << "  "; fw(out, m.m34); out << "|\n";
+        out << "|"; fw(out, 0.0f);  out << "  "; fw(out, 0.0f);  out << "  "; fw(out, 0.0f);  out << "  "; fw(out, 1.0f);  out << "|";
+        out.precision(p);
+        out << std::scientific;
+        return out;
     }
 
 } // der

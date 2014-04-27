@@ -56,6 +56,12 @@ namespace der
             , m31(a31), m32(a32), m33(a33), m34(a34)
             , m41(a41), m42(a42), m43(a43), m44(a44) { }
 
+        Matrix4(float a[16])
+            : m11(a[0]), m12(a[1]), m13(a[2]), m14(a[3])
+            , m21(a[4]), m22(a[5]), m23(a[6]), m24(a[7])
+            , m31(a[8]), m32(a[9]), m33(a[10]), m34(a[11])
+            , m41(a[12]), m42(a[13]), m43(a[14]), m44(a[15]) { }
+
         // Methods
 
         /// Returns true, if this matrix equals matrix \c a within tolerance of \c epsilon.
@@ -69,6 +75,10 @@ namespace der
         }
 
         bool equals(const Matrix4 &a) const;
+
+        /// Divides the transformation matrix into components.
+        void decompose(Vector3 &pos, Quaternion &rot, Vector3 &scale) const;
+
 
         void transpose()
         { *this = transposed(); }
@@ -319,6 +329,11 @@ namespace der
             , m21(a21), m22(a22), m23(a23), m24(a24)
             , m31(a31), m32(a32), m33(a33), m34(a34) { }
 
+        Matrix3x4(float a[12])
+            : m11(a[0]), m12(a[1]), m13(a[2]), m14(a[3])
+            , m21(a[4]), m22(a[5]), m23(a[6]), m24(a[7])
+            , m31(a[8]), m32(a[9]), m33(a[10]), m34(a[11]) { }
+
         // Methods
 
         /// Returns true, if this matrix equals matrix \c a within tolerance of \c epsilon.
@@ -331,6 +346,10 @@ namespace der
         }
 
         bool equals(const Matrix3x4 &a) const;
+
+        /// Divides the transformation matrix into components.
+        void decompose(Vector3 &pos, Quaternion &rot, Vector3 &scale) const;
+
 
         Matrix4 transposed() const
         {

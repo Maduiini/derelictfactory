@@ -17,6 +17,19 @@ namespace der
     bool Matrix4::equals(const Matrix4 &a) const
     { return equals(a, Math::EPSILON); }
 
+    void Matrix4::decompose(Vector3 &pos, Quaternion &rot, Vector3 &scale) const
+    {
+        Vector3 col1(m11, m21, m31);
+        Vector3 col2(m12, m22, m32);
+        Vector3 col3(m13, m23, m33);
+        pos = Vector3(m14, m24, m34);
+        scale = Vector3(col1.length(), col2.length(), col3.length());
+        col1 /= scale.x;
+        col2 /= scale.y;
+        col3 /= scale.z;
+        rot.from_basis(col1, col2, col3);
+    }
+
     void Matrix4::translation(const Vector3 &v)
     { translation(v.x, v.y, v.z); }
 
@@ -59,6 +72,19 @@ namespace der
 
     bool Matrix3x4::equals(const Matrix3x4 &a) const
     { return equals(a, Math::EPSILON); }
+
+    void Matrix3x4::decompose(Vector3 &pos, Quaternion &rot, Vector3 &scale) const
+    {
+        Vector3 col1(m11, m21, m31);
+        Vector3 col2(m12, m22, m32);
+        Vector3 col3(m13, m23, m33);
+        pos = Vector3(m14, m24, m34);
+        scale = Vector3(col1.length(), col2.length(), col3.length());
+        col1 /= scale.x;
+        col2 /= scale.y;
+        col3 /= scale.z;
+        rot.from_basis(col1, col2, col3);
+    }
 
     void Matrix3x4::translation(const Vector3 &v)
     { translation(v.x, v.y, v.z); }

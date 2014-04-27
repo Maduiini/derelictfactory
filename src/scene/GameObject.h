@@ -61,6 +61,9 @@ namespace der
         Matrix4 get_world_matrix() const;
         Matrix4 get_inv_world_matrix() const;
 
+        void set_transform(const Matrix4 &tr);
+        void set_transform(const Matrix3x4 &tr);
+
     private:
         GameObject(const GameObjectID id);
 

@@ -6,6 +6,7 @@
 #include "Window.h"
 #include "renderer/Graphics.h"
 #include "resource/ResourceCache.h"
+#include "resource/SceneLoader.h"
 
 namespace der
 {
@@ -36,6 +37,8 @@ namespace der
 
         Scene *m_scene;
         SceneRenderer *m_scene_renderer;
+
+        SceneLoader m_scene_loader;
 
         bool m_glfw_ready;
         bool m_ready;

@@ -59,20 +59,6 @@ namespace der
         Program* get_program(ResourceID v, ResourceID f);
 
     private:
-//        struct EnumHash
-//        {
-//            template <typename T>
-//            inline typename std::enable_if<std::is_enum<T>::value, std::size_t>::type operator ()(T const value) const
-//            {
-//                return static_cast<std::size_t>(value);
-//            }
-//        };
-//
-//        std::unordered_map<ResourceType, std::string, EnumHash> m_asset_directories;
-
-//        std::unordered_map<std::string, Resource> m_resources;
-        //std::unordered_map<std::string, ResourceID> m_resource_names;
-
         template <class T>
         friend struct TypeToGet;
 
@@ -112,13 +98,6 @@ namespace der
     T* ResourceCache::get(ResourceID id)
     {
         return TypeToGet<T>::get(this, id);
-//        switch (TypeToRT<T>::type)
-//        {
-//        case ResourceType::Model:
-//            return m_mesh_cache.get(id);
-//        case ResourceType::Texture:
-//            return m_texture_cache.get(id);
-//        }
         return nullptr;
     }
 

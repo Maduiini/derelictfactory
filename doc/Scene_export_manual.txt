@@ -4,6 +4,7 @@
 =============================
 
 A short manual to the Blender addon scene exporter.
+This manual is a subject to change as the exporter changes.
 
 
 Installing the addon

@@ -40,4 +40,6 @@ Here are some things to remember when using the exporter to create a scene.
     in the scene. Then make sure that the mesh data has the correct name.
     If you need to have multiple objects with the same mesh, Alt+D duplicates
     the object so that the new object uses the same mesh data that the original.
-
+  - A easy way to export the scene is to press Space and write "DER Scene"
+    to the popup search window and select the exporter from the list (or press
+    enter, if the exporter is already selected).

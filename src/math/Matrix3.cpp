@@ -14,6 +14,19 @@ namespace der
     bool Matrix3::equals(const Matrix3 &a) const
     { return equals(a, Math::EPSILON); }
 
+    void Matrix3::get_basis(Vector3 &right, Vector3 &up,  Vector3 & forward) const
+    {
+        right.x = m11;
+        right.y = m21;
+        right.z = m31;
+        up.x = m12;
+        up.y = m22;
+        up.z = m32;
+        forward.x = m13;
+        forward.y = m23;
+        forward.z = m33;
+    }
+
     void Matrix3::from_axis_angle(const Vector3 &axis, float theta)
     { from_axis_angle(axis.x, axis.y, axis.z, theta); }
 

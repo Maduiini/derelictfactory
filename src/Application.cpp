@@ -17,6 +17,8 @@
 #include "scene/GameObject.h"
 #include "scene/Camera.h"
 
+#include "input/CameraController.h"
+
 #include <GLFW/glfw3.h>
 
 namespace der
@@ -28,6 +30,8 @@ namespace der
 
     int g_tex_loc = 0;
     int g_nor_loc = 0;
+
+    CameraController g_camera_controller;
 
 
     void glfw_error_callback(int err, const char * const msg)
@@ -102,6 +106,8 @@ namespace der
             double delta_time = cur_time - last_time;
             last_time = cur_time;
 
+            g_camera_controller.update(delta_time);
+
             render();
 
             m_window.poll_events();
@@ -126,6 +132,9 @@ namespace der
         GameObject *camera_object = m_scene->new_object();
         camera_object->set_camera(new Camera());
         m_scene->set_camera_object(camera_object->getID());
+
+        g_camera_controller.set_window(&m_window);
+        g_camera_controller.set_object(camera_object);
 
         const ResourceID logo_id = make_resource("logo_smooth.obj");
         Mesh *logo_mesh = m_resource_cache.get<Mesh>(logo_id);

@@ -63,6 +63,8 @@ namespace der
 
         bool equals(const Matrix3 &a) const;
 
+        void get_basis(Vector3 &right, Vector3 &up,  Vector3 & forward) const;
+
         void transpose()
         { *this = transposed(); }
 

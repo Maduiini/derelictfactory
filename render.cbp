@@ -55,6 +55,8 @@
 		<Unit filename="src/Types.h" />
 		<Unit filename="src/Window.cpp" />
 		<Unit filename="src/Window.h" />
+		<Unit filename="src/input/CameraController.h" />
+		<Unit filename="src/input/InputController.h" />
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/math/Math.cpp" />
 		<Unit filename="src/math/Math.h" />

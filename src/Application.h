@@ -10,6 +10,9 @@
 namespace der
 {
 
+    class Scene;
+    class SceneRenderer;
+
     class Application
     {
     public:
@@ -30,6 +33,9 @@ namespace der
         Window m_window;
         Graphics m_graphics;
         ResourceCache m_resource_cache;
+
+        Scene *m_scene;
+        SceneRenderer *m_scene_renderer;
 
         bool m_glfw_ready;
         bool m_ready;

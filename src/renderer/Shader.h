@@ -46,6 +46,7 @@ namespace der
         void pointer();
 
         int get_uniform_location(const char * const name);
+        GLuint get_global_uniform_index() const;
 
         void uniform_sampler2D(int location, int sampler);
         void uniform(int location, const Matrix4 &mat);
@@ -54,6 +55,7 @@ namespace der
     private:
         GLuint m_program;
         GLuint m_vao;
+        GLuint m_global_uniform_block_index;
 
         static const size_t MAX_ATTACHED_SHADERS = 2;
         Shader *m_shaders[MAX_ATTACHED_SHADERS];

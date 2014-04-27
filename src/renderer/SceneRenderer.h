@@ -7,15 +7,19 @@ namespace der
 
     class Scene;
 
+    class Graphics;
+    class GlobalUniformBlock;
+
     class SceneRenderer
     {
     public:
         explicit SceneRenderer(Scene *scene);
 
-        void render();
+        void render(Graphics *graphics);
 
     private:
         Scene *m_scene;
+        GlobalUniformBlock *m_global_uniforms;
     };
 
 } // der

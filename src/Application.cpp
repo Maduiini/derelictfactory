@@ -11,7 +11,10 @@
 #include "resource/MeshCache.h"
 
 #include "renderer/Shader.h"
+#include "renderer/SceneRenderer.h"
 
+#include "scene/Scene.h"
+#include "scene/GameObject.h"
 #include "scene/Camera.h"
 
 #include <GLFW/glfw3.h>
@@ -20,22 +23,11 @@ namespace der
 {
 
     // Some globals for testing purpses
-    Mesh *g_logo = nullptr;
-    MeshRenderer* g_mesh_renderer = nullptr;
     Program *g_program = nullptr;
-
     Texture *g_texture = 0, *g_normal_map = 0;
 
-    int g_proj_loc = 0;
-    int g_view_loc = 0;
-    int g_model_loc = 0;
     int g_tex_loc = 0;
     int g_nor_loc = 0;
-
-    Matrix4 g_view_mat;
-    Matrix4 g_model_mat;
-
-    Camera g_camera;
 
 
     void glfw_error_callback(int err, const char * const msg)
@@ -48,6 +40,8 @@ namespace der
         : m_config()
         , m_window()
         , m_resource_cache()
+        , m_scene(nullptr)
+        , m_scene_renderer(nullptr)
         , m_glfw_ready(false)
         , m_ready(false)
     {
@@ -63,6 +57,9 @@ namespace der
 
     Application::~Application()
     {
+        delete m_scene_renderer;
+        delete m_scene;
+
         if (m_ready)        m_window.destroy();
         if (m_glfw_ready)   ::glfwTerminate();
     }
@@ -96,7 +93,6 @@ namespace der
             return;
         }
 
-        float fov0 = 45.0f;
 
         double last_time = ::glfwGetTime();
 
@@ -106,17 +102,6 @@ namespace der
             double delta_time = cur_time - last_time;
             last_time = cur_time;
 
-            float fov = fov0 + std::sin(cur_time) * 15.0f;
-            g_camera.set_fov(fov);
-
-            g_model_mat.translation(0.0f, 0.0f, 5.0f);
-            Matrix4 rot, rot_x90;
-            Vector3 axis(0.0f, 1.0f, 0.15f);
-            axis.normalize();
-            rot.from_axis_angle(axis, cur_time);
-            rot_x90.rotation_x(Math::PI * 0.5f);
-            g_model_mat = g_model_mat * rot * rot_x90;
-
             render();
 
             m_window.poll_events();
@@ -125,7 +110,7 @@ namespace der
                 int w = 0, h = 0;
                 m_window.get_size(&w, &h);
                 m_graphics.set_viewport(0, 0, w, h);
-                g_camera.set_aspect_ratio(float(w) / h);
+                m_scene->reshape(w, h);
             }
         }
     }
@@ -135,12 +120,22 @@ namespace der
 
     bool Application::init_scene()
     {
-        const ResourceID logo_id = make_resource("logo_smooth.obj");
-        g_logo = m_resource_cache.get<Mesh>(logo_id);
-        log::info("Logo loaded: %", (g_logo != nullptr) ? "yes" : "no");
+        m_scene = new Scene();
+        m_scene_renderer = new SceneRenderer(m_scene);
 
-        g_mesh_renderer = new MeshRenderer();
-        g_mesh_renderer->set_mesh(g_logo);
+        GameObject *camera_object = m_scene->new_object();
+        camera_object->set_camera(new Camera());
+        m_scene->set_camera_object(camera_object->getID());
+
+        const ResourceID logo_id = make_resource("logo_smooth.obj");
+        Mesh *logo_mesh = m_resource_cache.get<Mesh>(logo_id);
+        log::info("Logo loaded: %", (logo_mesh != nullptr) ? "yes" : "no");
+
+        GameObject *logo = m_scene->new_object();
+        MeshRenderer *renderer = new MeshRenderer();
+        renderer->set_mesh(logo_mesh);
+        logo->set_renderer(renderer);
+        logo->set_position(Vector3(0.0f, 0.0f, 5.0f));
 
         const ResourceID asphalt_id = make_resource("asphalt.tga");
         g_texture = m_resource_cache.get<Texture2D>(asphalt_id);
@@ -153,12 +148,8 @@ namespace der
         const ResourceID test_frag_id = make_resource("test.frag");
         g_program = m_resource_cache.get_program(test_vert_id, test_frag_id);
 
-        g_proj_loc = g_program->get_uniform_location("mat_proj");
-        g_view_loc = g_program->get_uniform_location("mat_view");
-        g_model_loc = g_program->get_uniform_location("mat_model");
         g_tex_loc = g_program->get_uniform_location("tex_color");
         g_nor_loc = g_program->get_uniform_location("tex_normal");
-        g_view_mat = Matrix4::identity;
 
         return true;
     }
@@ -168,17 +159,13 @@ namespace der
         m_graphics.clear();
 
         g_program->use();
-        g_program->uniform(g_proj_loc, g_camera.get_projection());
-        g_program->uniform(g_view_loc, g_view_mat);
-        g_program->uniform(g_model_loc, g_model_mat);
 
         m_graphics.set_texture(0, g_texture);
         g_program->uniform_sampler2D(g_tex_loc, 0);
         m_graphics.set_texture(1, g_normal_map);
         g_program->uniform_sampler2D(g_nor_loc, 1);
 
-        m_graphics.update_state();
-        g_mesh_renderer->render();
+        m_scene_renderer->render(&m_graphics);
 
         m_window.swap_buffer();
     }

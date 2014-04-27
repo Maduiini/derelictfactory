@@ -1,9 +1,16 @@
 
 #version 330
 
-uniform mat4 mat_proj;
-uniform mat4 mat_view;
-uniform mat4 mat_model;
+//uniform mat4 mat_proj;
+//uniform mat4 mat_view;
+//uniform mat4 mat_model;
+
+layout(row_major) uniform Globals
+{
+    mat4 mat_proj;
+    mat4 mat_view;
+    mat4 mat_model;
+};
 
 in vec3 in_position;
 in vec3 in_normal;

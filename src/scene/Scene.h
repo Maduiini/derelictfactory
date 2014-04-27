@@ -11,11 +11,15 @@ namespace der
     typedef unsigned int GameObjectID;
     class GameObject;
 
+    constexpr GameObjectID NoObject(-1);
+
     class Scene
     {
     public:
         Scene();
         ~Scene();
+
+        void reshape(int w, int h);
 
         size_t get_object_count() const;
         GameObject* get_object(const size_t index) const;
@@ -29,11 +33,16 @@ namespace der
 
         void delete_all();
 
+        void set_camera_object(GameObjectID id);
+        GameObject *get_camera_object();
+
     private:
         std::vector<GameObject*> m_gameobjects;
         std::unordered_map<GameObjectID, GameObject*> m_gameobject_map;
 
         GameObjectID m_next_id;
+
+        GameObjectID m_camera_object_id;
 
     };
 

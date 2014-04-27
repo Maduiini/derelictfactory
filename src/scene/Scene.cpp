@@ -1,6 +1,8 @@
 
 #include "Scene.h"
 #include "GameObject.h"
+#include "Camera.h"
+
 #include "../Debug.h"
 
 namespace der
@@ -16,10 +18,15 @@ namespace der
         delete_all();
     }
 
-    //void Scene::add(const GameObject *obj)
-    //{
-    //    m_gameobjects.push_back(obj);
-    //}
+    void Scene::reshape(int w, int h)
+    {
+        GameObject *camera_object = get_camera_object();
+        if (camera_object)
+        {
+            Camera *camera = camera_object->get_camera();
+            if (camera) camera->set_aspect_ratio(float(w) / h);
+        }
+    }
 
     size_t Scene::get_object_count() const
     {
@@ -75,5 +82,11 @@ namespace der
         m_gameobjects.clear();
         m_gameobject_map.clear();
     }
+
+    void Scene::set_camera_object(GameObjectID id)
+    { m_camera_object_id = id; }
+
+    GameObject* Scene::get_camera_object()
+    { return get_object_by_id(m_camera_object_id); }
 
 } // der

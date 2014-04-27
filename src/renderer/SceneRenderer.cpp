@@ -1,25 +1,55 @@
 
 #include "SceneRenderer.h"
+#include "../scene/Scene.h"
+#include "../scene/GameObject.h"
+#include "../scene/Camera.h"
+
+#include "Graphics.h"
+#include "UniformBuffer.h"
+#include "MeshRenderer.h"
 
 namespace der
 {
 
     SceneRenderer::SceneRenderer(Scene *scene)
         : m_scene(scene)
-    { }
-
-    void SceneRenderer::render()
+        , m_global_uniforms(nullptr)
     {
-        // Some pseudo-code
-//        GameObject *camera_obj = scene->get_camera();
-//        if (!camera_obj) return;
-//
-//        Camera *camera = camera_obj->get_camera();
-//        if (camera)
-//        {
-//            const Matrix4 proj_mat = camera()->get_projection();
-//            const Matrix4 view_mat = camera_obj->get_inv_world_matrix();
-//            // -- set matrices --
+        m_global_uniforms = new GlobalUniformBlock();
+        m_global_uniforms->bind();
+        m_global_uniforms->resize(3 * sizeof(Matrix4), true);
+    }
+
+    void SceneRenderer::render(Graphics *graphics)
+    {
+        GameObject *camera_obj = m_scene->get_camera_object();
+        if (!camera_obj) return;
+
+        Camera *camera = camera_obj->get_camera();
+        if (camera)
+        {
+            const Matrix4 proj_mat = camera->get_projection();
+            const Matrix4 view_mat = camera_obj->get_inv_world_matrix();
+            m_global_uniforms->set_projection_mat(proj_mat);
+            m_global_uniforms->set_view_mat(view_mat);
+
+            std::vector<GameObject*> objects;
+            m_scene->get_visible_objects(objects);
+            for (GameObject *object : objects)
+            {
+                MeshRenderer *renderer = object->get_renderer();
+                if (!renderer) continue;
+
+                const Matrix4 model_mat = object->get_world_matrix();
+                m_global_uniforms->set_model_mat(model_mat);
+                m_global_uniforms->bind();
+                m_global_uniforms->write_block();
+
+                m_global_uniforms->bind_base(0);
+
+                graphics->update_state();
+                renderer->render();
+            }
 //
 //            AccelerationStructure *acc_struct = m_scene->get_acceleration_structure();
 //
@@ -33,7 +63,7 @@ namespace der
 //                // -- set model matrix --
 //                renderer->render();
 //            }
-//        }
+        }
     }
 
 } // der

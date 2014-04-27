@@ -44,6 +44,7 @@
 		<Unit filename="assets/shaders/test.frag" />
 		<Unit filename="assets/shaders/test.vert" />
 		<Unit filename="doc/Plan.txt" />
+		<Unit filename="doc/Scene_export_manual.txt" />
 		<Unit filename="src/Application.cpp" />
 		<Unit filename="src/Application.h" />
 		<Unit filename="src/Config.h" />

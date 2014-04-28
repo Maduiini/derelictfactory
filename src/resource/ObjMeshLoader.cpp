@@ -341,22 +341,13 @@ namespace der
                 log::error("Mesh obj: Invalid face vertex");
                 return false;
             }
-//            builder.add_face(ip1, ip2, ip3, ip4,
-//                            in1, in2, in3, in4,
-//                            it1, it2, it3, it4);
             // Need to change the face vertex order (rh to lh coords)
-//            builder.add_face(ip1, ip4, ip3, ip2,
-//                            in1, in4, in3, in2,
-//                            it1, it4, it3, it2);
-            builder.add_face(ip2, ip1, ip4, ip3,
-                            in2, in1, in4, in3,
-                            it2, it1, it4, it3);
+            builder.add_face(ip1, ip4, ip3, ip2,
+                            in1, in4, in3, in2,
+                            it1, it4, it3, it2);
         }
         else
         {
-//            builder.add_face(ip1, ip2, ip3,
-//                            in1, in2, in3,
-//                            it1, it2, it3);
             // Need to change the face vertex order (rh to lh coords)
             builder.add_face(ip1, ip3, ip2,
                             in1, in3, in2,

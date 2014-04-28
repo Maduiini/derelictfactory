@@ -315,6 +315,8 @@ namespace der
                 fmt = Texture::RG_RGTC2;
             break;
         case 3: input_fmt = Texture::IN_RGB8;
+            // Some how the compressed formats look very blocky
+            // on Intel integrated GPU.
 //                fmt = Texture::RGB_DXT1;
                 fmt = Texture::RGB8;
             break;

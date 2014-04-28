@@ -71,16 +71,13 @@ class DerSceneExport(bpy.types.Operator):
     out.write(struct.pack('32s', bytes(name, 'ascii')))
 
   def _write_transform(self, out, mat):
-    # might need a basis change
-#    out.write(struct.pack('4f', mat[0][0], mat[0][1], mat[0][2], mat[0][3]))
-#    out.write(struct.pack('4f', mat[1][0], mat[1][1], mat[1][2], mat[1][3]))
-#    out.write(struct.pack('4f', mat[2][0], mat[2][1], mat[2][2], mat[2][3]))
-    print("tr: " + str(mat))
+    # The transform is changed from basis (right, forward, up) = (X+, Y+, Z+)
+    # to (right, up, forward) = (X+, Y+, Z+)
     out.write(struct.pack('4f', mat[0][0], mat[0][2], mat[0][1], mat[0][3]))
     out.write(struct.pack('4f', mat[2][0], mat[2][2], mat[2][1], mat[2][3]))
     out.write(struct.pack('4f', mat[1][0], mat[1][2], mat[1][1], mat[1][3]))
     # no need to write the last row: 0 0 0 1
-#    out.write(struct.pack('4f', mat[3][0], mat[3][1], mat[3][2], mat[3][3]))
+#    out.write(struct.pack('4f', mat[3][0], mat[3][2], mat[3][1], mat[3][3]))
 
   def _export_mesh(self, out, obj):
     self._write_object(out, obj)

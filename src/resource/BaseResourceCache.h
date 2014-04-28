@@ -4,6 +4,7 @@
 
 #include "Resource.h"
 #include "DirectoryFiles.h"
+#include "../Log.h"
 
 #include <string>
 #include <unordered_map>
@@ -65,8 +66,12 @@ namespace der
         if (it != m_resources.end())
         {
             Resource &res = it->second;
-//            if (needs_refresh(res))
-            res.resource = load(res.filepath.c_str());
+            if (!res.resource)
+            {
+                res.resource = load(res.filepath.c_str());
+                if (res.resource)
+                    log::info("Resource loaded: %", res.filepath.c_str());
+            }
             return res.resource;
         }
         return nullptr;

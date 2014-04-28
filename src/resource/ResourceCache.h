@@ -8,14 +8,17 @@
 #include "MeshCache.h"
 #include "TextureCache.h"
 #include "ShaderCache.h"
+#include "MaterialCache.h"
 
 #include "../renderer/Mesh.h"
 #include "../renderer/Texture.h"
 #include "../renderer/Shader.h"
+#include "../renderer/Material.h"
 
 
 namespace der
 {
+
     class Mesh;
 
     enum class ResourceType
@@ -62,10 +65,11 @@ namespace der
         template <class T>
         friend struct TypeToGet;
 
-        MeshCache    m_mesh_cache;
-        TextureCache m_texture_cache;
-        ShaderCache  m_shader_cache;
-        ProgramCache m_program_cache;
+        MeshCache       m_mesh_cache;
+        TextureCache    m_texture_cache;
+        ShaderCache     m_shader_cache;
+        ProgramCache    m_program_cache;
+        MaterialCache   m_material_cache;
     };
 
 
@@ -93,12 +97,18 @@ namespace der
         { return cache->m_shader_cache.get(id); }
     };
 
+    template <>
+    struct TypeToGet<Material>
+    {
+        static Material* get(ResourceCache *cache, ResourceID id)
+        { return cache->m_material_cache.get(id); }
+    };
+
 
     template <typename T>
     T* ResourceCache::get(ResourceID id)
     {
         return TypeToGet<T>::get(this, id);
-        return nullptr;
     }
 
 } // der

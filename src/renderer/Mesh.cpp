@@ -39,11 +39,12 @@ namespace der
     VertexArrayObject* Mesh::get_vao()
     { return m_vao; }
 
-    void Mesh::add_submesh(size_t start_index, size_t index_count)
+    void Mesh::add_submesh(size_t start_index, size_t index_count, ResourceID material)
     {
         DER_ASSERT(m_submesh_count < MAX_SUB_MESHES);
         m_submeshes[m_submesh_count].m_start_index = start_index;
         m_submeshes[m_submesh_count].m_index_count = index_count;
+        m_submeshes[m_submesh_count].m_material = material;
         m_submesh_count++;
     }
 

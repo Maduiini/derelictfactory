@@ -83,6 +83,7 @@ class DerSceneExport(bpy.types.Operator):
     self._write_object(out, obj)
     self._write_name(out, obj.data.name)
     if obj.active_material is not None:
+        print("Material: " + obj.active_material.name)
         self._write_name(out, obj.active_material.name)
     else:
         self._write_name(out, "dafault_material")

@@ -315,10 +315,12 @@ namespace der
                 fmt = Texture::RG_RGTC2;
             break;
         case 3: input_fmt = Texture::IN_RGB8;
-                fmt = Texture::RGBA_DXT1;
+//                fmt = Texture::RGB_DXT1;
+                fmt = Texture::RGB8;
             break;
         case 4: input_fmt = Texture::IN_RGBA8;
-                fmt = Texture::RGBA_DXT5;
+//                fmt = Texture::RGBA_DXT5;
+                fmt = Texture::RGBA8;
             break;
         }
 

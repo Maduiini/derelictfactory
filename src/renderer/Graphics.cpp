@@ -51,6 +51,7 @@ namespace der
         for (TextureUnit &tu : m_current.m_texture_units)
             tu.m_texture = nullptr;
         m_prev = m_current;
+        m_prev.m_cull_mode = CullMode::None;
     }
 
     bool Graphics::init()

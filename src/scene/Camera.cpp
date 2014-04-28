@@ -10,8 +10,8 @@ namespace der
 //            m_projection(Matrix4::identity)
           m_fov(60.0f)
         , m_aspect(1.33f)
-        , m_near(0.1f)
-        , m_far(100.0f)
+        , m_near(0.01f)
+        , m_far(1000.0f)
     { }
 
     void Camera::set_params(float fov_degrees, float w, float h, float near, float far)

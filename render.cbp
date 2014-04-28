@@ -41,6 +41,9 @@
 			<Add directory="$(#glfw.lib)" />
 			<Add directory="$(#glew.lib)" />
 		</Linker>
+		<Unit filename="assets/materials/Barrel.material" />
+		<Unit filename="assets/materials/Rock.material" />
+		<Unit filename="assets/materials/Shed.material" />
 		<Unit filename="assets/shaders/test.frag" />
 		<Unit filename="assets/shaders/test.vert" />
 		<Unit filename="doc/Plan.txt" />
@@ -78,8 +81,11 @@
 		<Unit filename="src/renderer/GLTypes.h" />
 		<Unit filename="src/renderer/Graphics.cpp" />
 		<Unit filename="src/renderer/Graphics.h" />
+		<Unit filename="src/renderer/GraphicsTypes.h" />
 		<Unit filename="src/renderer/IndexBuffer.cpp" />
 		<Unit filename="src/renderer/IndexBuffer.h" />
+		<Unit filename="src/renderer/Material.cpp" />
+		<Unit filename="src/renderer/Material.h" />
 		<Unit filename="src/renderer/Mesh.cpp" />
 		<Unit filename="src/renderer/Mesh.h" />
 		<Unit filename="src/renderer/MeshRenderer.cpp" />
@@ -99,6 +105,8 @@
 		<Unit filename="src/resource/BaseResourceCache.h" />
 		<Unit filename="src/resource/DirectoryFiles.cpp" />
 		<Unit filename="src/resource/DirectoryFiles.h" />
+		<Unit filename="src/resource/MaterialCache.cpp" />
+		<Unit filename="src/resource/MaterialCache.h" />
 		<Unit filename="src/resource/MeshBuilder.cpp" />
 		<Unit filename="src/resource/MeshBuilder.h" />
 		<Unit filename="src/resource/MeshCache.cpp" />

@@ -14,10 +14,8 @@ namespace der
         const float df = 1.0f / (far_z - near_z);
 
         const float A = f / aspect_ratio;
-        const float B = (far_z) * df;
-//        const float B = (far_z + near_z) * df;
-        const float C = (-far_z) * df;
-//        const float C = (2.0f * far_z * near_z) * df;
+        const float B = (far_z + near_z) * df;
+        const float C = (-2.0f * far_z * near_z) * df;
 
         return Matrix4(
              A,   0.0f,  0.0f,  0.0f,

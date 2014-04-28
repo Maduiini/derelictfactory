@@ -5,6 +5,10 @@
 #include "../renderer/VertexArrayObject.h"
 #include "../renderer/Mesh.h"
 
+#include "Resource.h"
+
+#include <string>
+
 namespace der
 {
 
@@ -23,6 +27,8 @@ namespace der
 
     void MeshBuilder::build(Mesh &mesh)
     {
+        calculate_tangents();
+
         VertexBuffer *vbuffer = new VertexBuffer();
         vbuffer->bind();
         vbuffer->resize(m_vertices.size() * sizeof(Vertex), false);
@@ -53,7 +59,9 @@ namespace der
 
         for (SubMesh &submesh : m_sub_meshes)
         {
-            mesh.add_submesh(submesh.start_index, submesh.index_count);
+            const std::string material_name = std::string(submesh.material) + ".material";
+            const ResourceID material = make_resource(material_name.c_str());
+            mesh.add_submesh(submesh.start_index, submesh.index_count, material);
         }
     }
 
@@ -107,12 +115,25 @@ namespace der
         m_start_index += index_count;
     }
 
+    template <size_t N>
+    void copy_max_n(char (&dst)[N], const char *src)
+    {
+        for (size_t i = 0; i < N - 1; i++)
+        {
+            dst[i] = (src && *src) ? *src : '\0';
+            if (src) src++;
+        }
+        dst[N - 1] = '\0';
+    }
+
     void MeshBuilder::add_sub_mesh(const char * const name, const char * const material,
                                    uint32_t start_index, uint32_t index_count)
     {
         SubMesh submesh;
         submesh.start_index = start_index;
         submesh.index_count = index_count;
+        copy_max_n(submesh.name, name);
+        copy_max_n(submesh.material, material);
         m_sub_meshes.push_back(submesh);
     }
 
@@ -193,8 +214,8 @@ namespace der
         std::vector<Vector3> tan1;
         std::vector<Vector3> tan2;
 
-        tan1.resize(m_vertices.size());
-        tan2.resize(m_vertices.size());
+        tan1.resize(m_vertices.size(), Vector3::zero);
+        tan2.resize(m_vertices.size(), Vector3::zero);
 
         for (size_t i = 0; i < m_faces.size(); i++)
         {
@@ -233,9 +254,10 @@ namespace der
             Vector3 tan = t1 - v.normal * t1.dot( v.normal );
             tan.normalize();
 
-//            if (tan.length2() < 0.2f) tan = Vector3::unit_x;
+            if (tan.length2() < 0.2f) tan = Vector3(1.0f, 0.0f, 0.0f);
 
-            float w = (v.normal.cross(tan).dot(t2) > 0.0f)
+            // Left handed coordinate system => -(N x T) instead of (N x T)
+            float w = (-v.normal.cross(tan).dot(t2) > 0.0f)
                     ? -1.0f : 1.0f;
 
             v.tangent = Vector4(tan, w);

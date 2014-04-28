@@ -2,17 +2,10 @@
 #ifndef H_DER_GRAPHICS_H
 #define H_DER_GRAPHICS_H
 
+#include "GraphicsTypes.h"
+
 namespace der
 {
-
-    class Texture;
-
-    enum class CullMode
-    {
-        BackFace,
-        FrontFace,
-        None
-    };
 
     class Graphics
     {

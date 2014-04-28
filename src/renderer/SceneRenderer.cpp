@@ -20,7 +20,7 @@ namespace der
         m_global_uniforms->resize(3 * sizeof(Matrix4), true);
     }
 
-    void SceneRenderer::render(Graphics *graphics)
+    void SceneRenderer::render(Graphics *graphics, ResourceCache &cache)
     {
         GameObject *camera_obj = m_scene->get_camera_object();
         if (!camera_obj) return;
@@ -48,7 +48,7 @@ namespace der
                 m_global_uniforms->bind_base(0);
 
                 graphics->update_state();
-                renderer->render();
+                renderer->render(graphics, cache);
             }
 //
 //            AccelerationStructure *acc_struct = m_scene->get_acceleration_structure();

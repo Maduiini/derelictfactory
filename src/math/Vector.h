@@ -306,7 +306,7 @@ namespace der
             : x(x_), y(x_), z(x_), w(1.0f) { }
 
         explicit Vector4(const Vector3 &v, float w)
-            : x(v.x), y(v.x), z(v.x), w(w) { }
+            : x(v.x), y(v.y), z(v.z), w(w) { }
 
         // Methods
 

@@ -5,6 +5,8 @@
 namespace der
 {
 
+    class ResourceCache;
+
     class Scene;
 
     class Graphics;
@@ -15,7 +17,7 @@ namespace der
     public:
         explicit SceneRenderer(Scene *scene);
 
-        void render(Graphics *graphics);
+        void render(Graphics *graphics, ResourceCache &cache);
 
     private:
         Scene *m_scene;

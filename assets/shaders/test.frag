@@ -1,7 +1,7 @@
 
 #version 330
 
-uniform sampler2D tex_color;
+uniform sampler2D tex_albedo;
 uniform sampler2D tex_normal;
 
 in vec3 normal;
@@ -20,19 +20,27 @@ mat3 tangent_space()
 
 void main()
 {
-    vec3 color = texture2D(tex_color, tcoord).rgb;
+    vec3 color = texture2D(tex_albedo, tcoord).rgb;
 
-    vec3 n = tangent_space() * texture2D(tex_normal, tcoord).xyz;
+    vec3 n = texture2D(tex_normal, tcoord).xyz;
+    n = n * vec3(2.0, 2.0, 1.0) - vec3(1.0, 1.0, 0.0);
+    n = tangent_space() * n;
+
+//    n = normalize(tangent.xyz) * tangent.w;
 //    vec3 n = normalize(normal);
+//    n = normalize(n + normal);
+
+//    out_color = vec4(n, 1.0);
+//    return;
 
     vec3 l = normalize(vec3(1.0, 1.0, 0.0));
-    float NoL = max(dot(n, l), 0.0) + 0.2;
+    float NoL = max(dot(n, l), 0.0);
 
-    vec3 l2 = normalize(vec3(1.5, -1.0, -0.5));
+    vec3 l2 = normalize(vec3(-1.5, -1.0, -0.5));
     float NoL2 = max(dot(n, l2), 0.0);
 
     vec3 c_l1 = vec3(1.0, 1.0, 0.75);
-    vec3 c_l2 = vec3(0.5, 0.75, 1.0);
+    vec3 c_l2 = vec3(0.25, 0.5, 0.65);
 
     out_color = vec4(color * (NoL * c_l1 + NoL2 * c_l2), 1.0);
 }

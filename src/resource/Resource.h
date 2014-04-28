@@ -24,6 +24,8 @@ namespace der
         return static_cast<ResourceID>(make_resource_r(name, 0x1234));
     }
 
+    constexpr ResourceID InvalidResource = make_resource("");
+
 } // der
 
 #endif // H_DER_RESOURCE_H

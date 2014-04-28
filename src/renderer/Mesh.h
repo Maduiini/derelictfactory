@@ -7,6 +7,8 @@
 namespace der
 {
 
+    typedef size_t ResourceID;
+
     class VertexBuffer;
     class IndexBuffer;
     class VertexArrayObject;
@@ -15,6 +17,7 @@ namespace der
     {
         size_t m_start_index;
         size_t m_index_count;
+        ResourceID m_material;
     };
 
     class Mesh
@@ -30,7 +33,7 @@ namespace der
         IndexBuffer* get_index_buffer();
         VertexArrayObject* get_vao();
 
-        void add_submesh(size_t start_index, size_t index_count);
+        void add_submesh(size_t start_index, size_t index_count, ResourceID material);
         const SubMesh& get_submesh(size_t index) const;
         size_t get_submesh_count() const;
 

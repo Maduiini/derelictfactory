@@ -158,8 +158,11 @@ namespace der
         const ResourceID test_frag_id = make_resource("test.frag");
         g_program = m_resource_cache.get_program(test_vert_id, test_frag_id);
 
-        g_tex_loc = g_program->get_uniform_location("tex_color");
-        g_nor_loc = g_program->get_uniform_location("tex_normal");
+        if (g_program)
+        {
+            g_tex_loc = g_program->get_uniform_location("tex_albedo");
+            g_nor_loc = g_program->get_uniform_location("tex_normal");
+        }
 
         // Load the test scene
         if (m_scene_loader.load("test_scene.derscene", m_scene))
@@ -183,14 +186,17 @@ namespace der
     {
         m_graphics.clear();
 
-        g_program->use();
+        if (g_program)
+        {
+            g_program->use();
 
-        m_graphics.set_texture(0, g_texture);
-        g_program->uniform_sampler2D(g_tex_loc, 0);
-        m_graphics.set_texture(1, g_normal_map);
-        g_program->uniform_sampler2D(g_nor_loc, 1);
+            m_graphics.set_texture(0, g_texture);
+            g_program->uniform_sampler2D(g_tex_loc, 0);
+            m_graphics.set_texture(1, g_normal_map);
+            g_program->uniform_sampler2D(g_nor_loc, 1);
+        }
 
-        m_scene_renderer->render(&m_graphics);
+        m_scene_renderer->render(&m_graphics, m_resource_cache);
 
         m_window.swap_buffer();
     }

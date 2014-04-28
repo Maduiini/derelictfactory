@@ -77,12 +77,7 @@ namespace scene_loader
 
                 GameObject *object = scene->new_object();
                 const Matrix3x4 tr(scene_object.m_transform);
-                log::info("% transform:\n%", mesh_name.c_str(), tr);
                 object->set_transform(tr);
-//
-//                Quaternion rot;
-//                rot.rotation_x(Math::DEG_2_RAD * 30.0f);
-//                object->set_rotation(rot * object->get_rotation());
 
                 MeshRenderer *renderer = new MeshRenderer();
                 renderer->set_mesh(mesh);

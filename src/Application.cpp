@@ -100,6 +100,7 @@ namespace der
             if (m_current_controller)
                 m_current_controller->update(delta_time);
 
+            m_scene_renderer->set_time(cur_time);
             render();
 
             m_window.poll_events();

@@ -27,7 +27,6 @@ namespace der
         void update();
 
     protected:
-        void add_sampler(int &value);
         void add_float(float &value);
         void add_vec2(Vector2 &value);
         void add_vec3(Vector3 &value);
@@ -57,10 +56,12 @@ namespace der
 
         void set_projection_mat(const Matrix4 &proj);
         void set_view_mat(const Matrix4 &view);
+        void set_time(float time);
 
     private:
         Matrix4 m_projection;
         Matrix4 m_view;
+        float m_time;
     };
 
     class InstanceUniformBlock : public UniformBuffer

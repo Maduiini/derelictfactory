@@ -27,9 +27,10 @@ namespace der
             Material *material = cache.get<Material>(submesh.m_material);
 
             if (material)
+            {
                 material->use(graphics, cache);
-
-            ib->draw_triangles(submesh.m_start_index, submesh.m_index_count);
+                ib->draw_triangles(submesh.m_start_index, submesh.m_index_count);
+            }
         }
     }
 

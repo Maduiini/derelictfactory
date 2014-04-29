@@ -11,16 +11,6 @@ namespace der
         , m_size(0)
     { }
 
-    void UniformBuffer::add_sampler(int &value)
-    {
-        UniformPtr uniform;
-        uniform.ptr = &value;
-        uniform.size = sizeof(value);
-
-        m_uniforms.push_back(uniform);
-        m_size += uniform.size;
-    }
-
     void UniformBuffer::add_float(float &value)
     {
         UniformPtr uniform;
@@ -105,6 +95,7 @@ namespace der
     {
         add_mat4(m_projection);
         add_mat4(m_view);
+        add_float(m_time);
         apply_format();
     }
 
@@ -113,6 +104,9 @@ namespace der
 
     void GlobalUniformBlock::set_view_mat(const Matrix4 &view)
     { m_view = view; }
+
+    void GlobalUniformBlock::set_time(float time)
+    { m_time = time; }
 
 
 

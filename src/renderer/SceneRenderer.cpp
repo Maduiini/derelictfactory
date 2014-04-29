@@ -53,7 +53,6 @@ namespace der
                 m_instance_uniforms->update();
                 m_instance_uniforms->bind_base(1);
 
-                graphics->update_state();
                 renderer->render(graphics, cache);
             }
 
@@ -70,6 +69,11 @@ namespace der
 //                renderer->render();
 //            }
         }
+    }
+
+    void SceneRenderer::set_time(float time)
+    {
+        m_global_uniforms->set_time(time);
     }
 
 } // der

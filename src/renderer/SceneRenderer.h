@@ -21,6 +21,8 @@ namespace der
 
         void render(Graphics *graphics, ResourceCache &cache);
 
+        void set_time(float time);
+
     private:
         Scene *m_scene;
         GlobalUniformBlock *    m_global_uniforms;

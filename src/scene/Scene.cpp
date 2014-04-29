@@ -2,6 +2,7 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "Camera.h"
+#include "Light.h"
 
 #include "../Debug.h"
 
@@ -61,6 +62,25 @@ namespace der
         for (; iter != m_gameobjects.end(); ++iter)
         {
             objects.push_back(*iter);
+        }
+    }
+
+    void Scene::get_light_objects(const Vector3 &position, std::vector<GameObject*> &objects) const
+    {
+        auto iter = m_gameobjects.begin();
+        for (; iter != m_gameobjects.end(); ++iter)
+        {
+            GameObject *object = *iter;
+            Light *light = object->get_light();
+            if (light)
+            {
+                const float r = light->get_radius();
+                if (light->get_type() == LightType::Directional ||
+                    (object->get_position() - position).length2() < r * r)
+                {
+                    objects.push_back(object);
+                }
+            }
         }
     }
 

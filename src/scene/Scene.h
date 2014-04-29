@@ -8,6 +8,9 @@
 
 namespace der
 {
+
+    struct Vector3;
+
     typedef unsigned int GameObjectID;
     class GameObject;
 
@@ -27,6 +30,7 @@ namespace der
         GameObject* get_object_by_id(GameObjectID id);
 
         void get_visible_objects(std::vector<GameObject*> &objects) const;
+        void get_light_objects(const Vector3 &position, std::vector<GameObject*> &objects) const;
 
         GameObject* new_object();
         void delete_object(GameObjectID id);

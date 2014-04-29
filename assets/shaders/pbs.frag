@@ -1,12 +1,31 @@
 
 #version 330
 
+#define MAX_LIGHTS 16
+
 uniform sampler2D tex_albedo;
 uniform sampler2D tex_normal;
 uniform sampler2D tex_roughness;
 uniform sampler2D tex_metallic;
 uniform samplerCube tex_env;
 
+layout(row_major) uniform Globals
+{
+    mat4 mat_proj;
+    mat4 mat_view;
+    float time;
+    int light_count;
+};
+
+layout(row_major) uniform Lights
+{
+    vec4 position;      // Position(w=1) or direction(w=0)
+    vec4 color_energy;  // rgb = color, w = energy
+    float radius;
+} lights[MAX_LIGHTS];
+
+
+in vec3 position;
 in vec3 normal;
 in vec4 tangent;
 in vec2 tcoord;
@@ -25,6 +44,21 @@ vec3 get_normal()
 {
     vec3 n = texture2D(tex_normal, tcoord).xyz * vec3(2.0, 2.0, 1.0) - vec3(1.0, 1.0, 0.0);
     return tangent_space() * n;
+}
+
+vec3 light(int i, vec3 N)
+{
+    return vec3(1.0);
+}
+
+vec3 lighting(vec3 N)
+{
+    vec3 L = vec3(0.0);
+    for (int i = 0; i < light_count; i++)
+    {
+        L += light(i, N);
+    }
+    return L;
 }
 
 void main()

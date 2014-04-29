@@ -18,6 +18,7 @@ namespace der
     class GameObject;
     class MeshRenderer;
     class Camera;
+    class Light;
     class Scene;
 
     class GameObject
@@ -44,6 +45,9 @@ namespace der
 
         void set_camera(Camera *camera);
         Camera* get_camera();
+
+        void set_light(Light *light);
+        Light* get_light();
 
 
         void set_position(const Vector3 &position);
@@ -80,8 +84,9 @@ namespace der
         std::vector<GameObject*> m_children;
 
         // Components
-        Camera *m_camera;
         MeshRenderer *m_mesh_renderer;
+        Camera *m_camera;
+        Light *m_light;
 
     };
 

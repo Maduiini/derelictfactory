@@ -11,6 +11,16 @@ namespace der
         , m_size(0)
     { }
 
+    void UniformBuffer::add_int(int &value)
+    {
+        UniformPtr uniform;
+        uniform.ptr = &value;
+        uniform.size = sizeof(value);
+
+        m_uniforms.push_back(uniform);
+        m_size += uniform.size;
+    }
+
     void UniformBuffer::add_float(float &value)
     {
         UniformPtr uniform;
@@ -111,15 +121,42 @@ namespace der
 
 
     InstanceUniformBlock::InstanceUniformBlock()
+        : m_light_count(0)
     {
         add_mat4(m_model);
+        add_int(m_light_count);
         apply_format();
     }
 
     void InstanceUniformBlock::set_model_mat(const Matrix4 &model)
     { m_model = model; }
 
+    void InstanceUniformBlock::set_light_count(int light_count)
+    { m_light_count = light_count; }
 
+
+    LightUniformBlock::LightUniformBlock()
+    {
+        for (int i = 0; i < MAX_LIGHTS; i++)
+        {
+            add_vec4(m_lights[i].position);
+            add_vec4(m_lights[i].color_energy);
+            add_float(m_lights[i].radius);
+        }
+        apply_format();
+    }
+
+    void LightUniformBlock::set_position(int light, const Vector3 &pos, LightType type)
+    {
+        const float w = (type == LightType::Point) ? 1.0f : 0.0f;
+        m_lights[light].position = Vector4(pos, w);
+    }
+
+    void LightUniformBlock::set_color(int light, const Vector3 &color, float energy)
+    { m_lights[light].color_energy = Vector4(color, energy); }
+
+    void LightUniformBlock::set_radius(int light, float radius)
+    { m_lights[light].radius = radius; }
 
 
 } // der

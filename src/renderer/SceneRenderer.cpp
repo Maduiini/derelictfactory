@@ -15,15 +15,18 @@ namespace der
         : m_scene(scene)
         , m_global_uniforms(nullptr)
         , m_instance_uniforms(nullptr)
+        , m_light_uniforms(nullptr)
     {
         m_global_uniforms = new GlobalUniformBlock();
         m_instance_uniforms = new InstanceUniformBlock();
+        m_light_uniforms = new LightUniformBlock();
     }
 
     SceneRenderer::~SceneRenderer()
     {
         delete m_global_uniforms;
         delete m_instance_uniforms;
+        delete m_light_uniforms;
     }
 
     void SceneRenderer::render(Graphics *graphics, ResourceCache &cache)
@@ -48,10 +51,17 @@ namespace der
                 MeshRenderer *renderer = object->get_renderer();
                 if (!renderer) continue;
 
+
                 const Matrix4 model_mat = object->get_world_matrix();
                 m_instance_uniforms->set_model_mat(model_mat);
+
+                int light_count = 0;
+                set_lights(object->get_position(), light_count);
+                m_instance_uniforms->set_light_count(light_count);
+
                 m_instance_uniforms->update();
                 m_instance_uniforms->bind_base(1);
+
 
                 renderer->render(graphics, cache);
             }
@@ -74,6 +84,25 @@ namespace der
     void SceneRenderer::set_time(float time)
     {
         m_global_uniforms->set_time(time);
+    }
+
+    void SceneRenderer::set_lights(const Vector3 &position, int &light_count)
+    {
+        std::vector<GameObject*> objects;
+        m_scene->get_light_objects(position, objects);
+
+        light_count = (objects.size() < LightUniformBlock::MAX_LIGHTS) ?
+            objects.size() : LightUniformBlock::MAX_LIGHTS;
+        for (int i = 0; i < light_count; i++)
+        {
+            GameObject *object = objects[i];
+            Light *light = object->get_light();
+            m_light_uniforms->set_position(i, object->get_position(), light->get_type());
+            m_light_uniforms->set_color(i, light->get_color(), light->get_energy());
+            m_light_uniforms->set_radius(i, light->get_radius());
+        }
+        m_light_uniforms->update();
+        m_light_uniforms->bind_base(2);
     }
 
 } // der

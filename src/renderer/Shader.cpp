@@ -100,6 +100,7 @@ namespace der
         {
             bind_uniform_block("Globals", 0);
             bind_uniform_block("Instance", 1);
+            bind_uniform_block("Lights", 2);
 
             return true;
         }

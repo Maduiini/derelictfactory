@@ -129,6 +129,8 @@
 		<Unit filename="src/scene/Camera.h" />
 		<Unit filename="src/scene/GameObject.cpp" />
 		<Unit filename="src/scene/GameObject.h" />
+		<Unit filename="src/scene/Light.cpp" />
+		<Unit filename="src/scene/Light.h" />
 		<Unit filename="src/scene/Scene.cpp" />
 		<Unit filename="src/scene/Scene.h" />
 		<Extensions>

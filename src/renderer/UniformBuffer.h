@@ -3,6 +3,7 @@
 #define H_DER_UNIFORM_BUFFER_H
 
 #include "BufferObject.h"
+#include "../scene/Light.h"
 
 #include "../math/Math.h"
 
@@ -27,6 +28,7 @@ namespace der
         void update();
 
     protected:
+        void add_int(int &value);
         void add_float(float &value);
         void add_vec2(Vector2 &value);
         void add_vec3(Vector3 &value);
@@ -70,9 +72,31 @@ namespace der
         InstanceUniformBlock();
 
         void set_model_mat(const Matrix4 &model);
+        void set_light_count(int light_count);
 
     private:
         Matrix4 m_model;
+        int m_light_count;
+    };
+
+    class LightUniformBlock : public UniformBuffer
+    {
+    public:
+        static const int MAX_LIGHTS = 20;
+    public:
+        LightUniformBlock();
+
+        void set_position(int light, const Vector3 &pos, LightType type);
+        void set_color(int light, const Vector3 &color, float energy);
+        void set_radius(int light, float radius);
+
+    private:
+        struct LightData
+        {
+            Vector4 position;      // Position(w=1) or direction(w=0)
+            Vector4 color_energy;  // rgb = color, w = energy
+            float radius;
+        } m_lights[MAX_LIGHTS];
     };
 
 } // der

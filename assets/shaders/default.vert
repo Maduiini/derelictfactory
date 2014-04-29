@@ -5,7 +5,13 @@ layout(row_major) uniform Globals
 {
     mat4 mat_proj;
     mat4 mat_view;
+    float time;
+};
+
+layout(row_major) uniform Instance
+{
     mat4 mat_model;
+    int light_count;
 };
 
 in vec3 in_position;

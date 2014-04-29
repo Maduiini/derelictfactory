@@ -5,6 +5,8 @@
 namespace der
 {
 
+    struct Vector3;
+
     class ResourceCache;
 
     class Scene;
@@ -12,6 +14,7 @@ namespace der
     class Graphics;
     class GlobalUniformBlock;
     class InstanceUniformBlock;
+    class LightUniformBlock;
 
     class SceneRenderer
     {
@@ -24,9 +27,13 @@ namespace der
         void set_time(float time);
 
     private:
+        void set_lights(const Vector3 &position, int &light_count);
+
+    private:
         Scene *m_scene;
         GlobalUniformBlock *    m_global_uniforms;
         InstanceUniformBlock *  m_instance_uniforms;
+        LightUniformBlock *     m_light_uniforms;
     };
 
 } // der

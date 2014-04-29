@@ -14,8 +14,9 @@ namespace der
         , m_scale(1.0f)
         , m_parent(nullptr)
         , m_children()
-        , m_camera(nullptr)
         , m_mesh_renderer(nullptr)
+        , m_camera(nullptr)
+        , m_light(nullptr)
     { }
 
     GameObject::~GameObject()
@@ -106,6 +107,12 @@ namespace der
 
     Camera* GameObject::get_camera()
     { return m_camera; }
+
+    void GameObject::set_light(Light *light)
+    { m_light = light; }
+
+    Light* GameObject::get_light()
+    { return m_light; }
 
     // Transform
 

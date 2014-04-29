@@ -44,6 +44,7 @@ namespace der
         {
             const void *ptr;
             size_t      size;
+            size_t      padded_size;
         };
         std::vector<UniformPtr> m_uniforms;
 
@@ -82,7 +83,7 @@ namespace der
     class LightUniformBlock : public UniformBuffer
     {
     public:
-        static const int MAX_LIGHTS = 20;
+        static const int MAX_LIGHTS = 16;
     public:
         LightUniformBlock();
 
@@ -96,6 +97,7 @@ namespace der
             Vector4 position;      // Position(w=1) or direction(w=0)
             Vector4 color_energy;  // rgb = color, w = energy
             float radius;
+            float padd[3];
         } m_lights[MAX_LIGHTS];
     };
 

@@ -16,9 +16,10 @@ namespace der
         UniformPtr uniform;
         uniform.ptr = &value;
         uniform.size = sizeof(value);
+        uniform.padded_size = sizeof(Vector4);
 
         m_uniforms.push_back(uniform);
-        m_size += uniform.size;
+        m_size += uniform.padded_size;
     }
 
     void UniformBuffer::add_float(float &value)
@@ -26,9 +27,10 @@ namespace der
         UniformPtr uniform;
         uniform.ptr = &value;
         uniform.size = sizeof(value);
+        uniform.padded_size = sizeof(Vector4);
 
         m_uniforms.push_back(uniform);
-        m_size += uniform.size;
+        m_size += uniform.padded_size;
     }
 
     void UniformBuffer::add_vec2(Vector2 &value)
@@ -36,9 +38,10 @@ namespace der
         UniformPtr uniform;
         uniform.ptr = &value;
         uniform.size = sizeof(value);
+        uniform.padded_size = sizeof(Vector4);
 
         m_uniforms.push_back(uniform);
-        m_size += uniform.size;
+        m_size += uniform.padded_size;
     }
 
     void UniformBuffer::add_vec3(Vector3 &value)
@@ -46,9 +49,10 @@ namespace der
         UniformPtr uniform;
         uniform.ptr = &value;
         uniform.size = sizeof(value);
+        uniform.padded_size = sizeof(Vector4);
 
         m_uniforms.push_back(uniform);
-        m_size += uniform.size;
+        m_size += uniform.padded_size;
     }
 
     void UniformBuffer::add_vec4(Vector4 &value)
@@ -56,9 +60,10 @@ namespace der
         UniformPtr uniform;
         uniform.ptr = &value;
         uniform.size = sizeof(value);
+        uniform.padded_size = sizeof(Vector4);
 
         m_uniforms.push_back(uniform);
-        m_size += uniform.size;
+        m_size += uniform.padded_size;
     }
 
     void UniformBuffer::add_mat3(Matrix3 &value)
@@ -66,9 +71,10 @@ namespace der
         UniformPtr uniform;
         uniform.ptr = &value;
         uniform.size = sizeof(value);
+        uniform.padded_size = sizeof(Vector4) * 3;
 
         m_uniforms.push_back(uniform);
-        m_size += uniform.size;
+        m_size += uniform.padded_size;
     }
 
     void UniformBuffer::add_mat4(Matrix4 &value)
@@ -76,9 +82,10 @@ namespace der
         UniformPtr uniform;
         uniform.ptr = &value;
         uniform.size = sizeof(value);
+        uniform.padded_size = sizeof(Matrix4);
 
         m_uniforms.push_back(uniform);
-        m_size += uniform.size;
+        m_size += uniform.padded_size;
     }
 
     void UniformBuffer::apply_format()
@@ -95,7 +102,7 @@ namespace der
         {
             const UniformPtr &uniform = m_uniforms[i];
             write(offset, uniform.size, uniform.ptr);
-            offset += uniform.size;
+            offset += uniform.padded_size;
         }
     }
 

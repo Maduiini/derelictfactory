@@ -5,12 +5,12 @@ layout(row_major) uniform Globals
     mat4 mat_proj;
     mat4 mat_view;
     float time;
-    int light_count;
 };
 
 layout(row_major) uniform Instance
 {
     mat4 mat_model;
+    int light_count;
 };
 
 

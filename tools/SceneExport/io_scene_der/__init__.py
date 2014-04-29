@@ -17,6 +17,7 @@ import time
 import struct
 
 ObjectType = { 'MESH': 0, 'LAMP': 1 }
+LightType = { 'POINT': 0, 'SUN': 1 }
 
 class DerSceneExport(bpy.types.Operator):
   bl_idname  = "export_der_scene.derscene";
@@ -64,8 +65,17 @@ class DerSceneExport(bpy.types.Operator):
         self._export_lamp(out, obj)
 
   def _write_object(self, out, obj):
-    out.write(struct.pack('I', ObjectType[obj.type]))
+    self._write_int(out, ObjectType[obj.type])
     self._write_transform(out, obj.matrix_world)
+
+  def _write_int(self, out, v):
+    out.write(struct.pack('I', v))
+
+  def _write_float(self, out, v):
+    out.write(struct.pack('f', v))
+
+  def _write_color(self, out, v):
+    out.write(struct.pack('3f', v[0], v[1], v[2]))
 
   def _write_name(self, out, name):
     out.write(struct.pack('32s', bytes(name, 'ascii')))
@@ -89,7 +99,15 @@ class DerSceneExport(bpy.types.Operator):
         self._write_name(out, "dafault_material")
 
   def _export_lamp(self, out, obj):
-    pass
+    if obj.data.type not in LightType:
+        return
+
+    self._write_object(out, obj)
+    lamp = obj.data
+    self._write_int(out, LightType[lamp.type])
+    self._write_color(out, lamp.color)
+    self._write_float(out, lamp.energy)
+    self._write_float(out, lamp.distance)
 
 
 def menu_func(self, context):

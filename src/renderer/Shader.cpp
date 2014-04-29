@@ -100,7 +100,22 @@ namespace der
         {
             bind_uniform_block("Globals", 0);
             bind_uniform_block("Instance", 1);
-            bind_uniform_block("Lights", 2);
+            bind_uniform_block("Lights[0]", 2);
+            bind_uniform_block("Lights[1]", 2);
+            bind_uniform_block("Lights[2]", 2);
+            bind_uniform_block("Lights[3]", 2);
+            bind_uniform_block("Lights[4]", 2);
+            bind_uniform_block("Lights[5]", 2);
+            bind_uniform_block("Lights[6]", 2);
+            bind_uniform_block("Lights[7]", 2);
+            bind_uniform_block("Lights[8]", 2);
+            bind_uniform_block("Lights[9]", 2);
+            bind_uniform_block("Lights[10]", 2);
+            bind_uniform_block("Lights[11]", 2);
+            bind_uniform_block("Lights[12]", 2);
+            bind_uniform_block("Lights[13]", 2);
+            bind_uniform_block("Lights[14]", 2);
+            bind_uniform_block("Lights[15]", 2);
 
             return true;
         }

@@ -53,6 +53,7 @@ namespace der
         void set_rotation(const Quaternion &rot);
         void set_rotation(const Vector3 &axis, float theta);
         Quaternion get_rotation() const;
+        void rotate(const Vector3 &axis, float theta);
 
         void set_scale(const Vector3 &scale);
         Vector3 get_scale() const;

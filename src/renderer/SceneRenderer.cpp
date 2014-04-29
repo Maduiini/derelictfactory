@@ -14,10 +14,16 @@ namespace der
     SceneRenderer::SceneRenderer(Scene *scene)
         : m_scene(scene)
         , m_global_uniforms(nullptr)
+        , m_instance_uniforms(nullptr)
     {
         m_global_uniforms = new GlobalUniformBlock();
-        m_global_uniforms->bind();
-        m_global_uniforms->resize(3 * sizeof(Matrix4), true);
+        m_instance_uniforms = new InstanceUniformBlock();
+    }
+
+    SceneRenderer::~SceneRenderer()
+    {
+        delete m_global_uniforms;
+        delete m_instance_uniforms;
     }
 
     void SceneRenderer::render(Graphics *graphics, ResourceCache &cache)
@@ -32,6 +38,8 @@ namespace der
             const Matrix4 view_mat = camera_obj->get_inv_world_matrix();
             m_global_uniforms->set_projection_mat(proj_mat);
             m_global_uniforms->set_view_mat(view_mat);
+            m_global_uniforms->update();
+            m_global_uniforms->bind_base(0);
 
             std::vector<GameObject*> objects;
             m_scene->get_visible_objects(objects);
@@ -41,16 +49,14 @@ namespace der
                 if (!renderer) continue;
 
                 const Matrix4 model_mat = object->get_world_matrix();
-                m_global_uniforms->set_model_mat(model_mat);
-                m_global_uniforms->bind();
-                m_global_uniforms->write_block();
-
-                m_global_uniforms->bind_base(0);
+                m_instance_uniforms->set_model_mat(model_mat);
+                m_instance_uniforms->update();
+                m_instance_uniforms->bind_base(1);
 
                 graphics->update_state();
                 renderer->render(graphics, cache);
             }
-//
+
 //            AccelerationStructure *acc_struct = m_scene->get_acceleration_structure();
 //
 //            const Frustum frustum = camera->construct_frustum(camera_obj->get_world_matrix());

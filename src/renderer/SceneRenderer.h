@@ -11,17 +11,20 @@ namespace der
 
     class Graphics;
     class GlobalUniformBlock;
+    class InstanceUniformBlock;
 
     class SceneRenderer
     {
     public:
         explicit SceneRenderer(Scene *scene);
+        ~SceneRenderer();
 
         void render(Graphics *graphics, ResourceCache &cache);
 
     private:
         Scene *m_scene;
-        GlobalUniformBlock *m_global_uniforms;
+        GlobalUniformBlock *    m_global_uniforms;
+        InstanceUniformBlock *  m_instance_uniforms;
     };
 
 } // der

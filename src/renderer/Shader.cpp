@@ -41,7 +41,6 @@ namespace der
 
     Program::Program()
         : m_program()
-        , m_global_uniform_block_index(GL_INVALID_INDEX)
     {
         m_program = ::glCreateProgram();
         for (size_t i = 0; i < MAX_ATTACHED_SHADERS; i++)
@@ -99,27 +98,31 @@ namespace der
         ::glGetProgramiv(m_program, GL_LINK_STATUS, &linked);
         if (linked == GL_TRUE)
         {
-            m_global_uniform_block_index = ::glGetUniformBlockIndex(m_program, "Globals");
-            if (m_global_uniform_block_index != GL_INVALID_INDEX)
-                ::glUniformBlockBinding(m_program, m_global_uniform_block_index, 0);
+            bind_uniform_block("Globals", 0);
+            bind_uniform_block("Instance", 1);
 
             return true;
         }
         return false;
     }
 
+
     void Program::use()
     {
         ::glUseProgram(m_program);
+    }
+
+    void Program::bind_uniform_block(const char * const block_name, int binding)
+    {
+        GLuint block_index = ::glGetUniformBlockIndex(m_program, block_name);
+        if (block_index != GL_INVALID_INDEX)
+            ::glUniformBlockBinding(m_program, block_index, binding);
     }
 
     int Program::get_uniform_location(const char * const name)
     {
         return ::glGetUniformLocation(m_program, name);
     }
-
-    GLuint Program::get_global_uniform_index() const
-    { return m_global_uniform_block_index; }
 
     void Program::uniform(int location, const Matrix4 &mat)
     {

@@ -4,6 +4,10 @@ layout(row_major) uniform Globals
 {
     mat4 mat_proj;
     mat4 mat_view;
+};
+
+layout(row_major) uniform Instance
+{
     mat4 mat_model;
 };
 

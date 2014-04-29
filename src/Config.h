@@ -10,8 +10,8 @@ namespace der
     public:
         Config()
             : m_fullscreen(false)
-            , m_screen_w(600)
-            , m_screen_h(400)
+            , m_screen_w(1280)
+            , m_screen_h(720)
             , m_v_sync(false)
         { }
 

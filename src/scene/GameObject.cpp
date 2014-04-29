@@ -127,6 +127,13 @@ namespace der
     Quaternion GameObject::get_rotation() const
     { return m_rotation; }
 
+    void GameObject::rotate(const Vector3 &axis, float theta)
+    {
+        Quaternion rot;
+        rot.from_axis_angle(axis, theta);
+        m_rotation = rot * m_rotation;
+    }
+
     void GameObject::set_scale(const Vector3 &scale)
     { m_scale = scale; }
 

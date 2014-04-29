@@ -11,10 +11,13 @@ namespace der
     class Graphics;
     class ResourceCache;
 
+    class Program;
+
     class Material
     {
     public:
         Material();
+        ~Material();
 
         void set_albedo_texture(ResourceID tex_id);
         ResourceID get_albedo_texture() const;
@@ -28,8 +31,12 @@ namespace der
         void use(Graphics *graphics, ResourceCache &cache);
 
     private:
+        void update_program(Program *program);
+
+    private:
         ResourceID m_vert_shader;
         ResourceID m_frag_shader;
+        Program *m_program;
 
         ResourceID m_tex_albedo;
         ResourceID m_tex_normal;

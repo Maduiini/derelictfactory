@@ -10,6 +10,7 @@ namespace der
 {
 
     class Window;
+    class GameObject;
 
     class InputController
     {
@@ -21,6 +22,9 @@ namespace der
 
         void set_window(Window *window);
         Window* get_window();
+
+        void set_object(GameObject *object);
+        GameObject* get_object();
 
     protected:
         bool key_pressed(Key key) const;
@@ -36,6 +40,7 @@ namespace der
 
     private:
         Window *m_window;
+        GameObject *m_object;
     };
 
 } // der

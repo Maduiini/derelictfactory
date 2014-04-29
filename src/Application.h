@@ -13,6 +13,7 @@ namespace der
 
     class Scene;
     class SceneRenderer;
+    class InputController;
 
     class Application
     {
@@ -39,6 +40,8 @@ namespace der
         SceneRenderer *m_scene_renderer;
 
         SceneLoader m_scene_loader;
+
+        InputController *m_current_controller;
 
         bool m_glfw_ready;
         bool m_ready;

@@ -7,6 +7,7 @@ namespace der
 
     InputController::InputController()
         : m_window(nullptr)
+        , m_object(nullptr)
     { }
 
     InputController::~InputController()
@@ -17,6 +18,13 @@ namespace der
 
     Window* InputController::get_window()
     { return m_window; }
+
+    void InputController::set_object(GameObject *object)
+    { m_object = object; }
+
+    GameObject* InputController::get_object()
+    { return m_object; }
+
 
     bool InputController::key_pressed(Key key) const
     { return m_window->key_pressed(key); }

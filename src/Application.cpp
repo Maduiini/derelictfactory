@@ -24,16 +24,6 @@
 namespace der
 {
 
-    // Some globals for testing purpses
-    Program *g_program = nullptr;
-    Texture *g_texture = 0, *g_normal_map = 0;
-
-    int g_tex_loc = 0;
-    int g_nor_loc = 0;
-
-    CameraController g_camera_controller;
-
-
     void glfw_error_callback(int err, const char * const msg)
     {
         log::error("GLFW: %: %", err, msg);
@@ -47,6 +37,7 @@ namespace der
         , m_scene(nullptr)
         , m_scene_renderer(nullptr)
         , m_scene_loader(m_resource_cache)
+        , m_current_controller(nullptr)
         , m_glfw_ready(false)
         , m_ready(false)
     {
@@ -62,6 +53,7 @@ namespace der
 
     Application::~Application()
     {
+        delete m_current_controller;
         delete m_scene_renderer;
         delete m_scene;
 
@@ -107,7 +99,8 @@ namespace der
             double delta_time = cur_time - last_time;
             last_time = cur_time;
 
-            g_camera_controller.update(delta_time);
+            if (m_current_controller)
+                m_current_controller->update(delta_time);
 
             render();
 
@@ -130,40 +123,6 @@ namespace der
         m_scene = new Scene();
         m_scene_renderer = new SceneRenderer(m_scene);
 
-//        GameObject *camera_object = m_scene->new_object();
-//        camera_object->set_camera(new Camera());
-//        m_scene->set_camera_object(camera_object->getID());
-//
-//        g_camera_controller.set_window(&m_window);
-//        g_camera_controller.set_object(camera_object);
-//
-//        const ResourceID logo_id = make_resource("logo_smooth.obj");
-//        Mesh *logo_mesh = m_resource_cache.get<Mesh>(logo_id);
-//        log::info("Logo loaded: %", (logo_mesh != nullptr) ? "yes" : "no");
-//
-//        GameObject *logo = m_scene->new_object();
-//        MeshRenderer *renderer = new MeshRenderer();
-//        renderer->set_mesh(logo_mesh);
-//        logo->set_renderer(renderer);
-//        logo->set_position(Vector3(0.0f, 0.0f, 5.0f));
-
-        const ResourceID asphalt_id = make_resource("asphalt.tga");
-        g_texture = m_resource_cache.get<Texture2D>(asphalt_id);
-        log::info("Asphalt texture loaded: %", (g_texture != nullptr) ? "yes" : "no");
-        const ResourceID asphalt_n_id = make_resource("asphalt_n.tga");
-        g_normal_map = m_resource_cache.get<Texture2D>(asphalt_n_id);
-        log::info("Asphalt normal map loaded: %", (g_normal_map != nullptr) ? "yes" : "no");
-
-        const ResourceID test_vert_id = make_resource("test.vert");
-        const ResourceID test_frag_id = make_resource("test.frag");
-        g_program = m_resource_cache.get_program(test_vert_id, test_frag_id);
-
-        if (g_program)
-        {
-            g_tex_loc = g_program->get_uniform_location("tex_albedo");
-            g_nor_loc = g_program->get_uniform_location("tex_normal");
-        }
-
         // Load the test scene
         if (m_scene_loader.load("test_scene.derscene", m_scene))
             log::info("Scene loaded");
@@ -176,8 +135,9 @@ namespace der
         camera_object->set_position(Vector3(0.0f, 1.8f, 0.0f));
         m_scene->set_camera_object(camera_object->getID());
 
-        g_camera_controller.set_window(&m_window);
-        g_camera_controller.set_object(camera_object);
+        m_current_controller = new CameraController();
+        m_current_controller->set_window(&m_window);
+        m_current_controller->set_object(camera_object);
 
         return true;
     }
@@ -185,16 +145,6 @@ namespace der
     void Application::render()
     {
         m_graphics.clear();
-
-        if (g_program)
-        {
-            g_program->use();
-
-            m_graphics.set_texture(0, g_texture);
-            g_program->uniform_sampler2D(g_tex_loc, 0);
-            m_graphics.set_texture(1, g_normal_map);
-            g_program->uniform_sampler2D(g_nor_loc, 1);
-        }
 
         m_scene_renderer->render(&m_graphics, m_resource_cache);
 

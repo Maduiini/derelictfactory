@@ -6,14 +6,13 @@ namespace der
 {
 
     CameraController::CameraController()
-        : m_object(nullptr)
-        , m_rot_x(0.0f)
+        : m_rot_x(0.0f)
         , m_rot_y(0.0f)
     { }
 
     void CameraController::update(float delta_time)
     {
-        const Matrix3 rot = m_object->get_rotation_matrix();
+        const Matrix3 rot = get_object()->get_rotation_matrix();
 
         Vector3 right, up, forward;
         rot.get_basis(right, up, forward);
@@ -36,7 +35,7 @@ namespace der
         if (key_down(Key::Left_Control))
             delta -= up;
 
-        m_object->move(delta * move_speed * delta_time);
+        get_object()->move(delta * move_speed * delta_time);
 
         if (key_pressed(Key::Left_Alt))
             toggle_mouse_captured();
@@ -51,13 +50,7 @@ namespace der
         Quaternion rot_x, rot_y;
         rot_x.rotation_x(m_rot_x);
         rot_y.rotation_y(m_rot_y);
-        m_object->set_rotation(rot_y * rot_x);
+        get_object()->set_rotation(rot_y * rot_x);
     }
-
-    void CameraController::set_object(GameObject *object)
-    { m_object = object; }
-
-    GameObject* CameraController::get_object()
-    { return m_object; }
 
 } // der

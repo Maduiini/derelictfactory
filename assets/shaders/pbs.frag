@@ -64,15 +64,12 @@ vec3 light(int i, vec3 N)
     L = normalize(L);
     float NoL = max(0.0, dot(N, L));
 
-    // Some real weird attenuation calculation here
-    float r = lights[i].radius * pos.w;
-//    vec3 attenuation = vec3((1.0 + pos.w * 200.0) / (r * r + 1.0));
-//    vec3 attenuation = vec3((1.0 + pos.w * 20.0) / (r * r + 1.0));
-//    vec3 attenuation = vec3(2.0 / (r * r + 1.0));
-//    vec3 attenuation = 1.0;
+    float r = lights[i].radius;
     float dist = distance(pos.xyz, position);
-    float v = max(1.0 - pow(dist / r, 4), 0.0);
-    float attenuation = mix(1.0, v / (dist * dist + 1.0), pos.w);
+
+    float dist2 = dist * dist;
+    float v = max(1.0 - pow(dist2 / (r * r), 2), 0.0);
+    float attenuation = mix(1.0, (v * v) / (dist2 + 1.0), pos.w);
 
     vec4 color = lights[i].color_energy;
     return NoL * color.rgb * color.w * attenuation;

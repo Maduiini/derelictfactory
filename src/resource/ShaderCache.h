@@ -33,6 +33,8 @@ namespace der
         virtual Program* load(const char * const filepath);
 
         ResourceCache &m_resource_cache;
+
+        ResourceID m_default_vert, m_default_frag;
     };
 
 } // der

@@ -58,7 +58,12 @@ namespace der
     ProgramCache::ProgramCache(ResourceCache &res_cache)
         : BaseResourceCache("")
         , m_resource_cache(res_cache)
-    { }
+        , m_default_vert(InvalidResource)
+        , m_default_frag(InvalidResource)
+    {
+        m_default_vert = make_resource("default.vert");
+        m_default_frag = make_resource("default.frag");
+    }
 
     Program* ProgramCache::get(ResourceID v, ResourceID f)
     {
@@ -76,6 +81,17 @@ namespace der
                 program->attach(fs);
                 if (program->link())
                 {
+                    Resource res;
+                    res.filepath = "";
+                    res.resource = program;
+                    m_resources[id] = res;
+                    return program;
+                }
+                else
+                {
+                    delete program;
+                    program = get(m_default_vert, m_default_frag);
+
                     Resource res;
                     res.filepath = "";
                     res.resource = program;

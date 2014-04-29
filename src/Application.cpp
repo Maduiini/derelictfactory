@@ -3,8 +3,6 @@
 #include "Log.h"
 #include "Debug.h"
 
-//// Included just for log testing
-//#include "math/Math.h"
 #include "renderer/Mesh.h"
 #include "renderer/MeshRenderer.h"
 #include "resource/ResourceCache.h"

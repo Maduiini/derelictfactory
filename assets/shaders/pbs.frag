@@ -32,6 +32,7 @@ void main()
     vec3 color = texture2D(tex_albedo, tcoord).rgb;
     vec3 n = get_normal();
 
+
     vec3 l = normalize(vec3(1.0, 1.0, 0.0));
     float NoL = max(dot(n, l), 0.0);
 
@@ -40,7 +41,9 @@ void main()
 
     vec3 c_l1 = vec3(1.0, 1.0, 0.85);
     vec3 c_l2 = vec3(0.25, 0.5, 0.65);
+    color = color * (NoL * c_l1 + NoL2 * c_l2);
 
-    out_color = vec4(color * (NoL * c_l1 + NoL2 * c_l2), 1.0);
+
+    out_color = vec4(color, 1.0);
 }
 

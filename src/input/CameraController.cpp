@@ -18,7 +18,7 @@ namespace der
         rot.get_basis(right, up, forward);
 
         const float move_speed = 2.5f * (key_down(Key::Left_Shift) ? 4.0f : 1.0f);
-        const float rotate_speed = 0.5f;
+        const float rotate_speed = 0.25f;
 
         Vector3 delta = Vector3::zero;
 

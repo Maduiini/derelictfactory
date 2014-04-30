@@ -74,6 +74,7 @@ namespace scene_loader
         {
             SceneObject scene_object;
             input.read(reinterpret_cast<char*>(&scene_object), sizeof(SceneObject));
+            if (input.eof()) break;
 
             GameObject *object = scene->new_object();
             const Matrix3x4 tr(scene_object.m_transform);

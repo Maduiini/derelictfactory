@@ -3,6 +3,7 @@
 #include "VertexBuffer.h"
 #include "VertexArrayObject.h"
 #include "../Debug.h"
+#include "../Log.h"
 
 #include "../math/Matrix4.h"
 
@@ -100,22 +101,7 @@ namespace der
         {
             bind_uniform_block("Globals", 0);
             bind_uniform_block("Instance", 1);
-            bind_uniform_block("Lights[0]", 2);
-            bind_uniform_block("Lights[1]", 2);
-            bind_uniform_block("Lights[2]", 2);
-            bind_uniform_block("Lights[3]", 2);
-            bind_uniform_block("Lights[4]", 2);
-            bind_uniform_block("Lights[5]", 2);
-            bind_uniform_block("Lights[6]", 2);
-            bind_uniform_block("Lights[7]", 2);
-            bind_uniform_block("Lights[8]", 2);
-            bind_uniform_block("Lights[9]", 2);
-            bind_uniform_block("Lights[10]", 2);
-            bind_uniform_block("Lights[11]", 2);
-            bind_uniform_block("Lights[12]", 2);
-            bind_uniform_block("Lights[13]", 2);
-            bind_uniform_block("Lights[14]", 2);
-            bind_uniform_block("Lights[15]", 2);
+            bind_uniform_block("Lights", 2);
 
             return true;
         }
@@ -132,7 +118,13 @@ namespace der
     {
         GLuint block_index = ::glGetUniformBlockIndex(m_program, block_name);
         if (block_index != GL_INVALID_INDEX)
+        {
             ::glUniformBlockBinding(m_program, block_index, binding);
+        }
+        else
+        {
+            log::warning("UniformBlock '%' not found", block_name);
+        }
     }
 
     int Program::get_uniform_location(const char * const name)

@@ -97,7 +97,7 @@ namespace der
             Vector4 position;      // Position(w=1) or direction(w=0)
             Vector4 color_energy;  // rgb = color, w = energy
             float radius;
-            float padd[3];
+//            Vector4 radius;
         } m_lights[MAX_LIGHTS];
     };
 

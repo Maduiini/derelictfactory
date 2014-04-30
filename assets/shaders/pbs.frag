@@ -1,8 +1,6 @@
 
 #version 330
 
-#define MAX_LIGHTS 4
-
 uniform sampler2D tex_albedo;
 uniform sampler2D tex_normal;
 uniform sampler2D tex_roughness;
@@ -29,6 +27,7 @@ struct Light
     float radius;
 };
 
+#define MAX_LIGHTS 16
 layout(row_major) uniform Lights
 {
     Light lights[MAX_LIGHTS];

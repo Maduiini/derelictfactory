@@ -17,8 +17,8 @@ namespace der
         Vector3 right, up, forward;
         rot.get_basis(right, up, forward);
 
-        const float move_speed = 2.5f * (key_down(Key::Left_Shift) ? 4.0f : 1.0f);
-        const float rotate_speed = 0.25f;
+        const float move_speed = 2.5f * (key_down(Key::Left_Shift) ? 4.0f : 1.0f); // meters/second
+        const float rotate_speed = 0.002f; // rad/pixel
 
         Vector3 delta = Vector3::zero;
 
@@ -42,7 +42,7 @@ namespace der
 
         if (is_mouse_captured())
         {
-            const Vector2 mouse_delta = get_mouse_delta() * rotate_speed * delta_time;
+            const Vector2 mouse_delta = get_mouse_delta() * rotate_speed;
             m_rot_x += mouse_delta.y;
             m_rot_y += mouse_delta.x;
         }

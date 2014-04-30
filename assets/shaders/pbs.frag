@@ -66,7 +66,7 @@ vec3 light(int i, vec3 N)
     float r = lights[i].radius;
     float dist = distance(pos.xyz, position);
 
-    float dist2 = dist * dist;
+    float dist2 = dist * dist * 0.05;
     float v = max(1.0 - pow(dist2 / (r * r), 2), 0.0);
     float attenuation = mix(1.0, (v * v) / (dist2 + 1.0), pos.w);
 

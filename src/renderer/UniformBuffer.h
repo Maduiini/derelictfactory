@@ -15,7 +15,7 @@ namespace der
     class UniformBuffer : private BufferObject
     {
     public:
-        UniformBuffer();
+        UniformBuffer(size_t binding_point);
 
         using BufferObject::bind;
         using BufferObject::bind_base;
@@ -26,9 +26,11 @@ namespace der
         using BufferObject::is_dynamic;
 
         void update();
+        void bind_uniforms();
 
     protected:
         void add_int(int &value);
+        void add_uint(unsigned int &value);
         void add_float(float &value);
         void add_vec2(Vector2 &value);
         void add_vec3(Vector3 &value);
@@ -39,6 +41,7 @@ namespace der
 
     protected:
         size_t m_size;
+        size_t m_binding_point;
 
         struct UniformPtr
         {
@@ -55,6 +58,8 @@ namespace der
     class GlobalUniformBlock : public UniformBuffer
     {
     public:
+        static const unsigned int BindingPoint = 0;
+    public:
         GlobalUniformBlock();
 
         void set_projection_mat(const Matrix4 &proj);
@@ -70,28 +75,33 @@ namespace der
     class InstanceUniformBlock : public UniformBuffer
     {
     public:
+        static const unsigned int BindingPoint = 1;
+    public:
         InstanceUniformBlock();
 
         void set_model_mat(const Matrix4 &model);
-        void set_light_count(int light_count);
 
     private:
         Matrix4 m_model;
-        int m_light_count;
     };
 
     class LightUniformBlock : public UniformBuffer
     {
     public:
-        static const int MAX_LIGHTS = 16;
+        static const unsigned int BindingPoint = 2;
+    public:
+        static const size_t MAX_LIGHTS = 16;
     public:
         LightUniformBlock();
 
-        void set_position(int light, const Vector3 &pos, LightType type);
-        void set_color(int light, const Vector3 &color, float energy);
-        void set_radius(int light, float radius);
+        void set_light_count(size_t light_count);
+
+        void set_position(size_t light, const Vector3 &pos, LightType type);
+        void set_color(size_t light, const Vector3 &color, float energy);
+        void set_radius(size_t light, float radius);
 
     private:
+        unsigned int m_light_count;
         struct LightData
         {
             Vector4 position;      // Position(w=1) or direction(w=0)

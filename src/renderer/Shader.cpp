@@ -2,6 +2,7 @@
 #include "Shader.h"
 #include "VertexBuffer.h"
 #include "VertexArrayObject.h"
+#include "UniformBuffer.h"
 #include "../Debug.h"
 #include "../Log.h"
 
@@ -99,9 +100,9 @@ namespace der
         ::glGetProgramiv(m_program, GL_LINK_STATUS, &linked);
         if (linked == GL_TRUE)
         {
-            bind_uniform_block("Globals", 0);
-            bind_uniform_block("Instance", 1);
-            bind_uniform_block("Lights", 2);
+            bind_uniform_block("Globals", GlobalUniformBlock::BindingPoint);
+            bind_uniform_block("Instance", InstanceUniformBlock::BindingPoint);
+            bind_uniform_block("Lights", LightUniformBlock::BindingPoint);
 
             return true;
         }

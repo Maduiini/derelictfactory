@@ -27,7 +27,7 @@ namespace der
         void set_time(float time);
 
     private:
-        void set_lights(const Vector3 &position, int &light_count);
+        void set_lights(const Vector3 &position);
 
     private:
         Scene *m_scene;

@@ -41,8 +41,7 @@ namespace der
             const Matrix4 view_mat = camera_obj->get_inv_world_matrix();
             m_global_uniforms->set_projection_mat(proj_mat);
             m_global_uniforms->set_view_mat(view_mat);
-            m_global_uniforms->update();
-            m_global_uniforms->bind_base(0);
+            m_global_uniforms->bind_uniforms();
 
             std::vector<GameObject*> objects;
             m_scene->get_visible_objects(objects);
@@ -54,14 +53,9 @@ namespace der
 
                 const Matrix4 model_mat = object->get_world_matrix();
                 m_instance_uniforms->set_model_mat(model_mat);
+                m_instance_uniforms->bind_uniforms();
 
-                int light_count = 0;
-                set_lights(object->get_position(), light_count);
-                m_instance_uniforms->set_light_count(light_count);
-
-                m_instance_uniforms->update();
-                m_instance_uniforms->bind_base(1);
-
+                set_lights(object->get_position());
 
                 renderer->render(graphics, cache);
             }
@@ -86,14 +80,16 @@ namespace der
         m_global_uniforms->set_time(time);
     }
 
-    void SceneRenderer::set_lights(const Vector3 &position, int &light_count)
+    void SceneRenderer::set_lights(const Vector3 &position)
     {
         std::vector<GameObject*> objects;
         m_scene->get_light_objects(position, objects);
 
-        light_count = (objects.size() < LightUniformBlock::MAX_LIGHTS) ?
+        size_t light_count = (objects.size() < LightUniformBlock::MAX_LIGHTS) ?
             objects.size() : LightUniformBlock::MAX_LIGHTS;
-        for (int i = 0; i < light_count; i++)
+
+        m_light_uniforms->set_light_count(light_count);
+        for (size_t i = 0; i < light_count; i++)
         {
             GameObject *object = objects[i];
             Light *light = object->get_light();
@@ -101,8 +97,7 @@ namespace der
             m_light_uniforms->set_color(i, light->get_color(), light->get_energy());
             m_light_uniforms->set_radius(i, light->get_radius());
         }
-        m_light_uniforms->update();
-        m_light_uniforms->bind_base(2);
+        m_light_uniforms->bind_uniforms();
     }
 
 } // der

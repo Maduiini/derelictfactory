@@ -77,6 +77,10 @@ namespace der
                 m_program->uniform_sampler2D(tex_env, 4);
             }
         }
+        else if (m_program)
+        {
+            m_program->use();
+        }
     }
 
 } // der

@@ -10,7 +10,6 @@ layout(row_major) uniform Globals
 layout(row_major) uniform Instance
 {
     mat4 mat_model;
-    int light_count;
 };
 
 

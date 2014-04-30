@@ -6,12 +6,24 @@
 namespace der
 {
 
-    UniformBuffer::UniformBuffer()
+    UniformBuffer::UniformBuffer(size_t binding_point)
         : BufferObject(GL_UNIFORM_BUFFER)
         , m_size(0)
+        , m_binding_point(binding_point)
     { }
 
     void UniformBuffer::add_int(int &value)
+    {
+        UniformPtr uniform;
+        uniform.ptr = &value;
+        uniform.size = sizeof(value);
+        uniform.padded_size = sizeof(Vector4);
+
+        m_uniforms.push_back(uniform);
+        m_size += uniform.padded_size;
+    }
+
+    void UniformBuffer::add_uint(unsigned int &value)
     {
         UniformPtr uniform;
         uniform.ptr = &value;
@@ -106,9 +118,16 @@ namespace der
         }
     }
 
+    void UniformBuffer::bind_uniforms()
+    {
+        update();
+        bind_base(m_binding_point);
+    }
+
 
 
     GlobalUniformBlock::GlobalUniformBlock()
+        : UniformBuffer(BindingPoint)
     {
         add_mat4(m_projection);
         add_mat4(m_view);
@@ -128,23 +147,22 @@ namespace der
 
 
     InstanceUniformBlock::InstanceUniformBlock()
-        : m_light_count(0)
+        : UniformBuffer(BindingPoint)
     {
         add_mat4(m_model);
-        add_int(m_light_count);
         apply_format();
     }
 
     void InstanceUniformBlock::set_model_mat(const Matrix4 &model)
     { m_model = model; }
 
-    void InstanceUniformBlock::set_light_count(int light_count)
-    { m_light_count = light_count; }
-
 
     LightUniformBlock::LightUniformBlock()
+        : UniformBuffer(BindingPoint)
+        , m_light_count(0)
     {
-        for (int i = 0; i < MAX_LIGHTS; i++)
+        add_uint(m_light_count);
+        for (size_t i = 0; i < MAX_LIGHTS; i++)
         {
             add_vec4(m_lights[i].position);
             add_vec4(m_lights[i].color_energy);
@@ -153,16 +171,19 @@ namespace der
         apply_format();
     }
 
-    void LightUniformBlock::set_position(int light, const Vector3 &pos, LightType type)
+    void LightUniformBlock::set_light_count(size_t light_count)
+    { m_light_count = light_count; }
+
+    void LightUniformBlock::set_position(size_t light, const Vector3 &pos, LightType type)
     {
         const float w = (type == LightType::Point) ? 1.0f : 0.0f;
         m_lights[light].position = Vector4(pos, w);
     }
 
-    void LightUniformBlock::set_color(int light, const Vector3 &color, float energy)
+    void LightUniformBlock::set_color(size_t light, const Vector3 &color, float energy)
     { m_lights[light].color_energy = Vector4(color, energy); }
 
-    void LightUniformBlock::set_radius(int light, float radius)
+    void LightUniformBlock::set_radius(size_t light, float radius)
     { m_lights[light].radius = radius; }
 
 

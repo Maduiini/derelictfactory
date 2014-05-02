@@ -108,8 +108,8 @@ namespace der
             if (!in) return false;
         }
 
-//        const bool screen_orig_right = (header.image_desc & 0x10) != 0; // fourth bit
-//        const bool screen_orig_top   = (header.image_desc & 0x20) != 0; // fifth bit
+        const bool screen_orig_right = (header.image_desc & 0x10) != 0; // fourth bit
+        const bool screen_orig_top   = (header.image_desc & 0x20) != 0; // fifth bit
 
 //        Image::Origin origin = screenOriginTop
 //            ? (screenOriginRight ? Image::TopRight : Image::TopLeft)
@@ -153,6 +153,47 @@ namespace der
         bool result = false;
         if (!in.fail())
         {
+            if (screen_orig_right)
+            {
+                // flip x
+                for (int y = 0; y < m_height; y++)
+                {
+                    const size_t line = y * m_width;
+                    for (int x = 0; x < m_width / 2; x++)
+                    {
+                        const size_t pos0 = (line + x) * m_channels;
+                        const size_t pos1 = (line + m_width - 1 - x) * m_channels;
+
+                        for (uint32_t c = 0; c < channels; c++)
+                        {
+                            char tmp = m_data[pos0 + c];
+                            m_data[pos0 + c] = m_data[pos1 + c];
+                            m_data[pos1 + c] = tmp;
+                        }
+                    }
+                }
+            }
+            if (screen_orig_top)
+            {
+                // flip y
+                for (int y = 0; y < m_height / 2; y++)
+                {
+                    const size_t line0 = y * m_width;
+                    const size_t line1 = (m_height - 1 - y) * m_width;
+                    for (int x = 0; x < m_width; x++)
+                    {
+                        const size_t pos0 = (line0 + x) * m_channels;
+                        const size_t pos1 = (line1 + x) * m_channels;
+
+                        for (uint32_t c = 0; c < channels; c++)
+                        {
+                            char tmp = m_data[pos0 + c];
+                            m_data[pos0 + c] = m_data[pos1 + c];
+                            m_data[pos1 + c] = tmp;
+                        }
+                    }
+                }
+            }
             switch (header.bits_per_pixel)
             {
             case 16:

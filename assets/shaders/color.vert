@@ -14,15 +14,14 @@ layout(row_major) uniform Instance
 };
 
 in vec3 in_position;
-in vec2 in_tex_coord;
+in vec3 in_color;
 
-out vec2 tcoord;
+out vec3 color;
 
 void main()
 {
-    tcoord = in_tex_coord;
+    color = in_color;
 
     mat4 mvp = mat_proj * mat_view * mat_model;
     gl_Position = mvp * vec4(in_position, 1.0);
 }
-

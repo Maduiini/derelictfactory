@@ -33,4 +33,10 @@ namespace der
         ::glDrawElements(GL_TRIANGLES, index_count, m_gl_type, start);
     }
 
+    void IndexBuffer::draw_lines(size_t start_index, size_t index_count)
+    {
+        const void *start = reinterpret_cast<const void*>(start_index * m_element_size);
+        ::glDrawElements(GL_LINES, index_count, m_gl_type, start);
+    }
+
 } // der

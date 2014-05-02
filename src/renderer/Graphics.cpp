@@ -1,6 +1,7 @@
 
 #include "Graphics.h"
 #include "Texture.h"
+#include "IndexBuffer.h"
 
 #include "../Log.h"
 
@@ -140,5 +141,18 @@ namespace der
     {
         m_current.m_texture_units[unit].m_texture = texture;
     }
+
+
+    void Graphics::draw_triangles(IndexBuffer *ib, size_t start_index, size_t index_count)
+    { ib->draw_triangles(start_index, index_count); }
+
+    void Graphics::draw_lines(IndexBuffer *ib, size_t start_index, size_t index_count)
+    { ib->draw_lines(start_index, index_count); }
+
+    void Graphics::draw_triangles(size_t start_index, size_t index_count)
+    { ::glDrawArrays(GL_TRIANGLES, start_index, index_count); }
+
+    void Graphics::draw_lines(size_t start_index, size_t index_count)
+    { ::glDrawArrays(GL_LINES, start_index, index_count); }
 
 } // der

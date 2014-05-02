@@ -7,6 +7,7 @@
 #include "Graphics.h"
 #include "UniformBuffer.h"
 #include "MeshRenderer.h"
+#include "TransformRenderer.h"
 
 namespace der
 {
@@ -58,6 +59,10 @@ namespace der
                 set_lights(object->get_position());
 
                 renderer->render(graphics, cache);
+
+                TransformRenderer *tr_renderer = object->get_tr_renderer();
+                if (tr_renderer)
+                    tr_renderer->render(graphics, cache);
             }
 
 //            AccelerationStructure *acc_struct = m_scene->get_acceleration_structure();

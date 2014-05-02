@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Camera.h"
 #include "../renderer/MeshRenderer.h"
+#include "../renderer/TransformRenderer.h"
 #include "../Debug.h"
 
 namespace der
@@ -15,9 +16,12 @@ namespace der
         , m_parent(nullptr)
         , m_children()
         , m_mesh_renderer(nullptr)
+        , m_tr_renderer(nullptr)
         , m_camera(nullptr)
         , m_light(nullptr)
-    { }
+    {
+        m_tr_renderer = new TransformRenderer();
+    }
 
     GameObject::~GameObject()
     {
@@ -98,6 +102,9 @@ namespace der
 
     MeshRenderer* GameObject::get_renderer()
     { return m_mesh_renderer; }
+
+    TransformRenderer* GameObject::get_tr_renderer()
+    { return m_tr_renderer; }
 
     void GameObject::set_camera(Camera *camera)
     {

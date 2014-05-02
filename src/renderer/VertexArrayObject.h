@@ -14,7 +14,8 @@ namespace der
         Position,
         Normal,
         Tangent,
-        TexCoord
+        TexCoord,
+        Color
     };
 
     /// The vertex attribute element types.

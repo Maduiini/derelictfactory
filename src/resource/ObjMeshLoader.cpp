@@ -167,8 +167,9 @@ namespace der
             return false;
 
         vec.x = std::atof(parts.at(0));
-        vec.y = std::atof(parts.at(1));
-        vec.z = std::atof(parts.at(2));
+        // Flip x and y, as the blender export helper does not do proper job
+        vec.y = std::atof(parts.at(2));
+        vec.z = std::atof(parts.at(1));
         return true;
     }
 
@@ -342,16 +343,22 @@ namespace der
                 return false;
             }
             // Need to change the face vertex order (rh to lh coords)
-            builder.add_face(ip1, ip4, ip3, ip2,
-                            in1, in4, in3, in2,
-                            it1, it4, it3, it2);
+//            builder.add_face(ip1, ip4, ip3, ip2,
+//                            in1, in4, in3, in2,
+//                            it1, it4, it3, it2);
+            builder.add_face(ip1, ip2, ip3, ip4,
+                            in1, in2, in3, in4,
+                            it1, it2, it3, it4);
         }
         else
         {
             // Need to change the face vertex order (rh to lh coords)
-            builder.add_face(ip1, ip3, ip2,
-                            in1, in3, in2,
-                            it1, it3, it2);
+//            builder.add_face(ip1, ip3, ip2,
+//                            in1, in3, in2,
+//                            it1, it3, it2);
+            builder.add_face(ip1, ip2, ip3,
+                            in1, in2, in3,
+                            it1, it2, it3);
         }
         return true;
     }

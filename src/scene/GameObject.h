@@ -17,6 +17,7 @@ namespace der
 
     class GameObject;
     class MeshRenderer;
+    class TransformRenderer;
     class Camera;
     class Light;
     class Scene;
@@ -42,6 +43,7 @@ namespace der
 
         void set_renderer(MeshRenderer *renderer);
         MeshRenderer* get_renderer();
+        TransformRenderer* get_tr_renderer();
 
         void set_camera(Camera *camera);
         Camera* get_camera();
@@ -85,6 +87,7 @@ namespace der
 
         // Components
         MeshRenderer *m_mesh_renderer;
+        TransformRenderer *m_tr_renderer;
         Camera *m_camera;
         Light *m_light;
 

@@ -2,10 +2,13 @@
 #ifndef H_DER_GRAPHICS_H
 #define H_DER_GRAPHICS_H
 
+#include "../Types.h"
 #include "GraphicsTypes.h"
 
 namespace der
 {
+
+    class IndexBuffer;
 
     class Graphics
     {
@@ -32,7 +35,10 @@ namespace der
         void set_texture(int unit, Texture *texture);
 
 //        void bind_buffer_program(VertexBuffer *vb, Program *program);
-//        void draw_triangles(IndexBuffer *ib, size_t start_index, size_t index_count);
+        void draw_triangles(IndexBuffer *ib, size_t start_index, size_t index_count);
+        void draw_lines(IndexBuffer *ib, size_t start_index, size_t index_count);
+        void draw_triangles(size_t start_index, size_t index_count);
+        void draw_lines(size_t start_index, size_t index_count);
 
     private:
         struct TextureUnit

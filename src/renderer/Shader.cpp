@@ -87,6 +87,7 @@ namespace der
             [static_cast<int>(VertexAttrib::Normal)]    = "in_normal",
             [static_cast<int>(VertexAttrib::Tangent)]   = "in_tangent",
             [static_cast<int>(VertexAttrib::TexCoord)]  = "in_tex_coord",
+            [static_cast<int>(VertexAttrib::Color)]     = "in_color",
         };
         const size_t attrib_count = sizeof(attrib_names) / sizeof(const char*);
         for (size_t i = 0; i < attrib_count; i++)

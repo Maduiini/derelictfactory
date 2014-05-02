@@ -46,6 +46,8 @@
 		<Unit filename="assets/materials/Ground.material" />
 		<Unit filename="assets/materials/Rock.material" />
 		<Unit filename="assets/materials/Shed.material" />
+		<Unit filename="assets/shaders/color.frag" />
+		<Unit filename="assets/shaders/color.vert" />
 		<Unit filename="assets/shaders/default.frag" />
 		<Unit filename="assets/shaders/default.vert" />
 		<Unit filename="assets/shaders/pbs.frag" />
@@ -100,6 +102,8 @@
 		<Unit filename="src/renderer/Shader.h" />
 		<Unit filename="src/renderer/Texture.cpp" />
 		<Unit filename="src/renderer/Texture.h" />
+		<Unit filename="src/renderer/TransformRenderer.cpp" />
+		<Unit filename="src/renderer/TransformRenderer.h" />
 		<Unit filename="src/renderer/UniformBuffer.cpp" />
 		<Unit filename="src/renderer/UniformBuffer.h" />
 		<Unit filename="src/renderer/VertexArrayObject.cpp" />

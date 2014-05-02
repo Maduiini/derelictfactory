@@ -13,6 +13,9 @@ namespace der
         , m_program(nullptr)
         , m_tex_albedo(InvalidResource)
         , m_tex_normal(InvalidResource)
+        , m_tex_roughness(InvalidResource)
+        , m_tex_metallic(InvalidResource)
+        , m_tex_env(InvalidResource)
         , m_cull_mode(CullMode::BackFace)
     {
         m_vert_shader = make_resource("pbs.vert");
@@ -34,6 +37,24 @@ namespace der
     ResourceID Material::get_normal_texture() const
     { return m_tex_normal; }
 
+    void Material::set_roughness_texture(ResourceID tex_id)
+    { m_tex_roughness = tex_id; }
+
+    ResourceID Material::get_roughness_texture() const
+    { return m_tex_roughness; }
+
+    void Material::set_metallic_texture(ResourceID tex_id)
+    { m_tex_metallic = tex_id; }
+
+    ResourceID Material::get_metallic_texture() const
+    { return m_tex_metallic; }
+
+    void Material::set_env_texture(ResourceID tex_id)
+    { m_tex_env = tex_id; }
+
+    ResourceID Material::get_env_texture() const
+    { return m_tex_env; }
+
     void Material::set_cull_mode(CullMode mode)
     { m_cull_mode = mode; }
 
@@ -45,9 +66,15 @@ namespace der
     {
         Texture *albedo = cache.get<Texture2D>(get_albedo_texture());
         Texture *normal = cache.get<Texture2D>(get_normal_texture());
+        Texture *roughness = cache.get<Texture2D>(get_roughness_texture());
+        Texture *metallic = cache.get<Texture2D>(get_metallic_texture());
+        Texture *env = cache.get<Texture2D>(get_env_texture());
 
         graphics->set_texture(0, albedo);
         graphics->set_texture(1, normal);
+        graphics->set_texture(2, roughness);
+        graphics->set_texture(3, metallic);
+        graphics->set_texture(4, env);
 
         Program *program = cache.get_program(m_vert_shader, m_frag_shader);
         update_program(program);

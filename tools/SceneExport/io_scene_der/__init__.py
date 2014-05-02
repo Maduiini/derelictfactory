@@ -78,7 +78,9 @@ class DerSceneExport(bpy.types.Operator):
     out.write(struct.pack('3f', v[0], v[1], v[2]))
 
   def _write_name(self, out, name):
-    out.write(struct.pack('32s', bytes(name, 'ascii')))
+    if len(name) > 31: print("Warning: '%' is longer than supported 31 characters" % name)
+    out.write(struct.pack('31s', bytes(name, 'ascii')))
+    out.write(struct.pack('c', 0))
 
   def _write_transform(self, out, mat):
     # The transform is changed from basis (right, forward, up) = (X+, Y+, Z+)

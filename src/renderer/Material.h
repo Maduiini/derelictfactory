@@ -25,6 +25,15 @@ namespace der
         void set_normal_texture(ResourceID tex_id);
         ResourceID get_normal_texture() const;
 
+        void set_roughness_texture(ResourceID tex_id);
+        ResourceID get_roughness_texture() const;
+
+        void set_metallic_texture(ResourceID tex_id);
+        ResourceID get_metallic_texture() const;
+
+        void set_env_texture(ResourceID tex_id);
+        ResourceID get_env_texture() const;
+
         void set_cull_mode(CullMode mode);
         CullMode get_cull_mode() const;
 
@@ -40,6 +49,9 @@ namespace der
 
         ResourceID m_tex_albedo;
         ResourceID m_tex_normal;
+        ResourceID m_tex_roughness;
+        ResourceID m_tex_metallic;
+        ResourceID m_tex_env;
         CullMode m_cull_mode;
     };
 

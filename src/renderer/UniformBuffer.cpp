@@ -131,6 +131,7 @@ namespace der
     {
         add_mat4(m_projection);
         add_mat4(m_view);
+        add_vec3(m_camera_pos);
         add_float(m_time);
         apply_format();
     }
@@ -140,6 +141,9 @@ namespace der
 
     void GlobalUniformBlock::set_view_mat(const Matrix4 &view)
     { m_view = view; }
+
+    void GlobalUniformBlock::set_camera_pos(const Vector3 &camera_pos)
+    { m_camera_pos = camera_pos; }
 
     void GlobalUniformBlock::set_time(float time)
     { m_time = time; }

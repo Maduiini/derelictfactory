@@ -42,6 +42,7 @@ namespace der
             const Matrix4 view_mat = camera_obj->get_inv_world_matrix();
             m_global_uniforms->set_projection_mat(proj_mat);
             m_global_uniforms->set_view_mat(view_mat);
+            m_global_uniforms->set_camera_pos(camera_obj->get_position());
             m_global_uniforms->bind_uniforms();
 
             std::vector<GameObject*> objects;

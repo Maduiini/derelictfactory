@@ -1,10 +1,10 @@
-
 #version 330
 
 layout(row_major) uniform Globals
 {
     mat4 mat_proj;
     mat4 mat_view;
+    vec3 camera_pos;
     float time;
 };
 

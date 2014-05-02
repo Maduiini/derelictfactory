@@ -64,11 +64,13 @@ namespace der
 
         void set_projection_mat(const Matrix4 &proj);
         void set_view_mat(const Matrix4 &view);
+        void set_camera_pos(const Vector3 &camera_pos);
         void set_time(float time);
 
     private:
         Matrix4 m_projection;
         Matrix4 m_view;
+        Vector3 m_camera_pos;
         float m_time;
     };
 

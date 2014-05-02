@@ -118,7 +118,7 @@ namespace scene_loader
                     light->set_energy(info.m_energy);
                     light->set_radius(info.m_radius);
                     object->set_light(light);
-                    log::info("Light loaded: %", info.m_color);
+//                    log::info("Light loaded: %", info.m_color);
 
                     break;
                 }

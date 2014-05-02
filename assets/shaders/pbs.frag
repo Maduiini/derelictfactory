@@ -1,4 +1,3 @@
-
 #version 330
 
 uniform sampler2D tex_albedo;
@@ -6,18 +5,6 @@ uniform sampler2D tex_normal;
 uniform sampler2D tex_roughness;
 uniform sampler2D tex_metallic;
 uniform samplerCube tex_env;
-
-layout(row_major) uniform Globals
-{
-    mat4 mat_proj;
-    mat4 mat_view;
-    float time;
-};
-
-layout(row_major) uniform Instance
-{
-    mat4 mat_model;
-};
 
 struct Light
 {

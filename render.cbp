@@ -37,7 +37,7 @@
 			<Add directory="$(#glew.include)" />
 		</Compiler>
 		<Linker>
-			<Add option="-lglfw3  -lglew32 -lgdi32 -lopengl32" />
+			<Add option="-lglfw3  -lglew32 -lgdi32 -lopengl32 -lws2_32" />
 			<Add directory="$(#glfw.lib)" />
 			<Add directory="$(#glew.lib)" />
 		</Linker>
@@ -82,6 +82,10 @@
 		<Unit filename="src/math/Quaternion.h" />
 		<Unit filename="src/math/Vector.cpp" />
 		<Unit filename="src/math/Vector.h" />
+		<Unit filename="src/network/SceneUpdateServer.cpp" />
+		<Unit filename="src/network/SceneUpdateServer.h" />
+		<Unit filename="src/network/UDPServer.cpp" />
+		<Unit filename="src/network/UDPServer.h" />
 		<Unit filename="src/renderer/BufferObject.cpp" />
 		<Unit filename="src/renderer/BufferObject.h" />
 		<Unit filename="src/renderer/GLTypes.h" />

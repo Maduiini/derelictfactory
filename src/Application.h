@@ -7,6 +7,7 @@
 #include "renderer/Graphics.h"
 #include "resource/ResourceCache.h"
 #include "resource/SceneLoader.h"
+#include "network/SceneUpdateServer.h"
 
 namespace der
 {
@@ -42,6 +43,8 @@ namespace der
         SceneLoader m_scene_loader;
 
         InputController *m_current_controller;
+
+        SceneUpdateServer m_scene_update_server;
 
         bool m_glfw_ready;
         bool m_ready;

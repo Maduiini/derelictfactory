@@ -36,6 +36,7 @@ namespace der
         , m_scene_renderer(nullptr)
         , m_scene_loader(m_resource_cache)
         , m_current_controller(nullptr)
+        , m_scene_update_server()
         , m_glfw_ready(false)
         , m_ready(false)
     {
@@ -111,6 +112,8 @@ namespace der
                 m_graphics.set_viewport(0, 0, w, h);
                 m_scene->reshape(w, h);
             }
+
+            m_scene_update_server.pump();
         }
     }
 

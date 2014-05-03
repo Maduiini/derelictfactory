@@ -98,7 +98,7 @@ class DerSceneExport(bpy.types.Operator):
         print("Material: " + obj.active_material.name)
         self._write_name(out, obj.active_material.name)
     else:
-        self._write_name(out, "dafault_material")
+        self._write_name(out, "default_material")
 
   def _export_lamp(self, out, obj):
     if obj.data.type not in LightType:
@@ -113,7 +113,7 @@ class DerSceneExport(bpy.types.Operator):
 
 
 def menu_func(self, context):
-  self.layout.operator(DerSceneExport.bl_idname, text="DER Scene(.derscene)")
+  self.layout.operator(DerSceneExport.bl_idname, text="DER Scene (.derscene)")
 
 def register():
   bpy.utils.register_module(__name__)

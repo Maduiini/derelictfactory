@@ -15,6 +15,8 @@ namespace der
     class Scene;
     class SceneRenderer;
     class InputController;
+    class GUIManager;
+    class GUIRenderer;
 
     class Application
     {
@@ -29,6 +31,7 @@ namespace der
 
     private:
         bool init_scene();
+        bool init_gui();
         void render();
 
     private:
@@ -45,6 +48,9 @@ namespace der
         InputController *m_current_controller;
 
         SceneUpdateServer m_scene_update_server;
+
+        GUIManager *m_gui;
+        GUIRenderer *m_gui_renderer;
 
         bool m_glfw_ready;
         bool m_ready;

@@ -17,6 +17,9 @@
 
 #include "input/CameraController.h"
 
+#include "ui/GUIManager.h"
+#include "ui/GUIRenderer.h"
+
 #include <GLFW/glfw3.h>
 
 namespace der
@@ -85,10 +88,15 @@ namespace der
 
         if (!init_scene())
         {
-            log::error("Could not initialize scene");
+            log::error("Could not initialize scene.");
             return;
         }
 
+        if (!init_gui())
+        {
+            log::error("Could not initialize GUI.");
+            return;
+        }
 
         double last_time = ::glfwGetTime();
 
@@ -144,11 +152,21 @@ namespace der
         return true;
     }
 
+    bool Application::init_gui()
+    {
+        m_gui = new GUIManager();
+        m_gui_renderer = new GUIRenderer(m_gui, &m_window);
+
+        return true;
+    }
+
     void Application::render()
     {
         m_graphics.clear();
 
         m_scene_renderer->render(&m_graphics, m_resource_cache);
+        if (!m_window.is_mouse_captured())
+            m_gui_renderer->render(&m_graphics, m_resource_cache);
 
         m_window.swap_buffer();
     }

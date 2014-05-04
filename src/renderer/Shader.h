@@ -11,6 +11,7 @@ namespace der
     class VertexBuffer;
     struct Matrix4;
     struct Matrix3x4;
+    struct Vector2;
 
     class Shader
     {
@@ -50,6 +51,7 @@ namespace der
         void uniform_sampler2D(int location, int sampler);
         void uniform(int location, const Matrix4 &mat);
         void uniform(int location, const Matrix3x4 &mat);
+        void uniform(int location, const Vector2 &vec);
 
     private:
         GLuint m_program;

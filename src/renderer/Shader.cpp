@@ -7,6 +7,7 @@
 #include "../Log.h"
 
 #include "../math/Matrix4.h"
+#include "../math/Vector.h"
 
 #include <GL/glew.h>
 
@@ -142,6 +143,11 @@ namespace der
     void Program::uniform(int location, const Matrix3x4 &mat)
     {
         ::glUniformMatrix4x3fv(location, 1, GL_TRUE, reinterpret_cast<const float*>(mat.m));
+    }
+
+    void Program::uniform(int location, const Vector2 &vec)
+    {
+        ::glUniform2f(location, vec.x, vec.y);
     }
 
     void Program::uniform_sampler2D(int location, int sampler)

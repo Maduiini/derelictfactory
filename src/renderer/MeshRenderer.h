@@ -2,6 +2,8 @@
 #ifndef H_DER_MESH_RENDERER_H
 #define H_DER_MESH_RENDERER_H
 
+#include "../Types.h"
+
 namespace der
 {
 
@@ -17,11 +19,11 @@ namespace der
 
         void render(Graphics *graphics, ResourceCache &cache);
 
-        void set_mesh(Mesh *mesh);
-        Mesh* get_mesh();
+        void set_mesh(ResourceID mesh);
+        ResourceID get_mesh();
 
     private:
-        Mesh *m_mesh;
+        ResourceID m_mesh;
     };
 
 } // der

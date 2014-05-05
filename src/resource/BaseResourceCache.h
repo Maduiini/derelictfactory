@@ -27,6 +27,8 @@ namespace der
 
         RT* get(ResourceID id);
 
+        void reload_all();
+
     protected:
         void scan_resources(const char * const dir);
         virtual RT* load(const char * const filepath) = 0;
@@ -75,6 +77,22 @@ namespace der
             return res.resource;
         }
         return nullptr;
+    }
+
+    template <class RT>
+    void BaseResourceCache<RT>::reload_all()
+    {
+        scan_resources(m_resource_dir.c_str());
+        typename ResourceMap::iterator it = m_resources.begin();
+        for (; it != m_resources.end(); ++it)
+        {
+            Resource &res = it->second;
+
+            delete res.resource;
+            res.resource = load(res.filepath.c_str());
+            if (res.resource)
+                log::info("Resource loaded: %", res.filepath.c_str());
+        }
     }
 
     template <class RT>

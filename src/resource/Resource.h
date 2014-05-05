@@ -7,8 +7,6 @@
 namespace der
 {
 
-    typedef size_t ResourceID;
-
     constexpr uint32_t rotate(uint32_t value, uint32_t rot)
     {
         return (value << rot) + (value >> (32 - rot));

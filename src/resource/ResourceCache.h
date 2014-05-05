@@ -19,42 +19,13 @@
 namespace der
 {
 
-    class Mesh;
-
-    enum class ResourceType
-    {
-        Model, Texture
-    };
-
-    template <class RT>
-    struct TypeToRT;
-
-    template <>
-    struct TypeToRT<Mesh>
-    {
-        static constexpr ResourceType type = ResourceType::Model;
-    };
-
-    template <>
-    struct TypeToRT<Texture2D>
-    {
-        static constexpr ResourceType type = ResourceType::Texture;
-    };
-
-
     class ResourceCache
     {
     public:
-        static const char DELIMETER = '\\';
-
         ResourceCache();
         virtual ~ResourceCache();
 
-        void set_directory(ResourceType type, const std::string directory);
-
-        void scan_directories();
-
-        void load_resources();
+        void reload_all();
 
         template <typename T>
         T* get(ResourceID id);

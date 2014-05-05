@@ -98,7 +98,7 @@ namespace scene_loader
                     }
 
                     MeshRenderer *renderer = new MeshRenderer();
-                    renderer->set_mesh(mesh);
+                    renderer->set_mesh(mesh_id);
                     object->set_renderer(renderer);
 
                     break;

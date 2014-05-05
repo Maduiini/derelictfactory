@@ -22,15 +22,32 @@ namespace der
 
     class ResourceCache;
 
-    class ProgramCache : public BaseResourceCache<Program>
+    class ProgramCache // : public BaseResourceCache<Program>
     {
     public:
         ProgramCache(ResourceCache &res_cache);
 
         Program *get(ResourceID v, ResourceID f);
 
+        void reload_all();
+
     protected:
-        virtual Program* load(const char * const filepath);
+//        virtual Program* load(const char * const filepath);
+
+    private:
+        struct ProgramResource
+        {
+            ResourceID vertex_shader;
+            ResourceID fragment_shader;
+            Program *program;
+        };
+
+        void do_load(ProgramResource &res);
+
+    private:
+        typedef std::unordered_map<ResourceID, ProgramResource> ResourceMap;
+
+        ResourceMap m_resources;
 
         ResourceCache &m_resource_cache;
 

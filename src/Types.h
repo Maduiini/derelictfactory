@@ -8,6 +8,7 @@ namespace der
 {
 
     typedef unsigned int size_t;
+    typedef uint32_t ResourceID;
 
 } // der
 

@@ -56,13 +56,36 @@ namespace der
 
 
     ProgramCache::ProgramCache(ResourceCache &res_cache)
-        : BaseResourceCache("")
-        , m_resource_cache(res_cache)
+//        : BaseResourceCache("")
+        : m_resource_cache(res_cache)
         , m_default_vert(InvalidResource)
         , m_default_frag(InvalidResource)
     {
         m_default_vert = make_resource("default.vert");
         m_default_frag = make_resource("default.frag");
+    }
+
+    void ProgramCache::do_load(ProgramResource &res)
+    {
+        if (res.fragment_shader != m_default_frag ||
+            res.vertex_shader != m_default_vert)
+        {
+            delete res.program;
+        }
+
+        Shader *vs = m_resource_cache.get<Shader>(res.vertex_shader);
+        Shader *fs = m_resource_cache.get<Shader>(res.fragment_shader);
+        if (vs && fs)
+        {
+            res.program = new Program();
+            res.program->attach(vs);
+            res.program->attach(fs);
+            if (!res.program->link())
+            {
+                delete res.program;
+                res.program = get(m_default_vert, m_default_frag);
+            }
+        }
     }
 
     Program* ProgramCache::get(ResourceID v, ResourceID f)
@@ -71,42 +94,77 @@ namespace der
         auto it = m_resources.find(id);
         if (it == m_resources.end())
         {
-            Shader *vs = m_resource_cache.get<Shader>(v);
-            Shader *fs = m_resource_cache.get<Shader>(f);
+            ProgramResource res;
+            res.vertex_shader = v;
+            res.fragment_shader = f;
+            res.program = 0;
 
-            if (vs && fs)
-            {
-                Program *program = new Program();
-                program->attach(vs);
-                program->attach(fs);
-                if (program->link())
-                {
-                    Resource res;
-                    res.filepath = "";
-                    res.resource = program;
-                    m_resources[id] = res;
-                    return program;
-                }
-                else
-                {
-                    delete program;
-                    program = get(m_default_vert, m_default_frag);
+            do_load(res);
+            m_resources[id] = res;
+            return res.program;
 
-                    Resource res;
-                    res.filepath = "";
-                    res.resource = program;
-                    m_resources[id] = res;
-                    return program;
-                }
-            }
-            return nullptr;
+//            Shader *vs = m_resource_cache.get<Shader>(v);
+//            Shader *fs = m_resource_cache.get<Shader>(f);
+//            if (vs && fs)
+//            {
+//                res.program = new Program();
+//                res.program->attach(vs);
+//                res.program->attach(fs);
+//                if (res.program->link())
+//                {
+//                    m_resources[id] = res;
+//                    return program;
+//                }
+//                delete res.program;
+//            }
+//            res.program = get(m_default_vert, m_default_frag);
+//            m_resources[id] = res;
+//            return res.program;
         }
 
-        Resource &res = it->second;
-        return res.resource;
+        ProgramResource &res = it->second;
+        return res.program;
     }
 
-    Program* ProgramCache::load(const char * const filepath)
-    { return nullptr; }
+    void ProgramCache::reload_all()
+    {
+        auto it = m_resources.begin();
+        for (; it != m_resources.end(); ++it)
+        {
+            ProgramResource &res = it->second;
+            do_load(res);
+//            delete res.program;
+//
+//            Shader *vs = m_resource_cache.get<Shader>(res.vertex_shader);
+//            Shader *fs = m_resource_cache.get<Shader>(res.fragment_shader);
+//
+//            if (vs && fs)
+//            {
+//                Program *program = new Program();
+//                program->attach(vs);
+//                program->attach(fs);
+//                if (program->link())
+//                {
+//                    res.resource = program;
+//                    m_resources[id] = res;
+//                    return program;
+//                }
+//                else
+//                {
+//                    delete program;
+//                    program = get(m_default_vert, m_default_frag);
+//
+//                    Resource res;
+//                    res.resource = program;
+//                    m_resources[id] = res;
+//                    return program;
+//                }
+//            }
+//            return nullptr;
+        }
+    }
+//
+//    Program* ProgramCache::load(const char * const filepath)
+//    { return nullptr; }
 
 } // der

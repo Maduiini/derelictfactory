@@ -109,6 +109,9 @@ namespace der
             double delta_time = cur_time - last_time;
             last_time = cur_time;
 
+            if (m_window.key_pressed(Key::F5))
+                m_resource_cache.reload_all();
+
             if (m_current_controller)
                 m_current_controller->update(delta_time);
 

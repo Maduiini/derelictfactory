@@ -1,6 +1,5 @@
 
 #include "Scene.h"
-#include "GameObject.h"
 #include "Camera.h"
 #include "Light.h"
 
@@ -12,6 +11,8 @@ namespace der
     Scene::Scene()
         : m_gameobjects()
         , m_next_id(0)
+        , m_camera_object_id(InvalidID)
+        , m_scene_source()
     { }
 
     Scene::~Scene()
@@ -92,6 +93,32 @@ namespace der
         return newobj;
     }
 
+    void Scene::detach_object(GameObjectID id)
+    {
+        GameObject *obj = get_object_by_id(id);
+        DER_ASSERT(obj != nullptr);
+
+        m_gameobject_map.erase(id);
+
+        auto it = m_gameobjects.begin();
+        for (; it != m_gameobjects.end(); ++it)
+        {
+            if (*it == obj)
+            {
+                obj->m_id = InvalidID;
+                m_gameobjects.erase(it);
+                return;
+            }
+        }
+    }
+
+    void Scene::add_object(GameObject *obj)
+    {
+        obj->m_id = m_next_id++;
+        m_gameobjects.push_back(obj);
+        m_gameobject_map[obj->getID()] = obj;
+    }
+
     void Scene::delete_all()
     {
         auto iter = m_gameobjects.begin();
@@ -101,6 +128,7 @@ namespace der
         }
         m_gameobjects.clear();
         m_gameobject_map.clear();
+        m_camera_object_id = InvalidID;
     }
 
     void Scene::set_camera_object(GameObjectID id)
@@ -108,5 +136,11 @@ namespace der
 
     GameObject* Scene::get_camera_object()
     { return get_object_by_id(m_camera_object_id); }
+
+    void Scene::set_source(const std::string &scene_source)
+    { m_scene_source = scene_source; }
+
+    std::string Scene::get_source() const
+    { return m_scene_source; }
 
 } // der

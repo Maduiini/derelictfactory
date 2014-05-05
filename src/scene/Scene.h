@@ -4,7 +4,9 @@
 
 #include <vector>
 #include <unordered_map>
+#include <string>
 #include "../Types.h"
+#include "GameObject.h"
 
 namespace der
 {
@@ -35,10 +37,16 @@ namespace der
         GameObject* new_object();
         void delete_object(GameObjectID id);
 
+        void detach_object(GameObjectID id);
+        void add_object(GameObject *obj);
+
         void delete_all();
 
         void set_camera_object(GameObjectID id);
         GameObject *get_camera_object();
+
+        void set_source(const std::string &scene_source);
+        std::string get_source() const;
 
     private:
         std::vector<GameObject*> m_gameobjects;
@@ -47,6 +55,8 @@ namespace der
         GameObjectID m_next_id;
 
         GameObjectID m_camera_object_id;
+
+        std::string m_scene_source;
 
     };
 

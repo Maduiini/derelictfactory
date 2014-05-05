@@ -14,6 +14,7 @@
 namespace der
 {
     typedef unsigned int GameObjectID;
+    constexpr GameObjectID InvalidID = -1;
 
     class GameObject;
     class MeshRenderer;
@@ -74,7 +75,8 @@ namespace der
     private:
         GameObject(const GameObjectID id);
 
-        const GameObjectID m_id;
+//        const GameObjectID m_id;
+        GameObjectID m_id;
 
         // Transform
         Vector3 m_position;

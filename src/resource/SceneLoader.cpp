@@ -125,6 +125,8 @@ namespace scene_loader
             }
         }
 
+        scene->set_source(scene_name);
+
         return true;
     }
 

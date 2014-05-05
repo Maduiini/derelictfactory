@@ -92,6 +92,9 @@ namespace der
             return;
         }
 
+        m_scene_update_server.set_scene(m_scene);
+        m_scene_update_server.set_cache(&m_resource_cache);
+
         if (!init_gui())
         {
             log::error("Could not initialize GUI.");

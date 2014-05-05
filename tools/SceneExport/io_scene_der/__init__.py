@@ -16,6 +16,11 @@ import mathutils
 import time
 import struct
 
+import socket
+
+
+PORT = 30001
+
 ObjectType = { 'MESH': 0, 'LAMP': 1 }
 LightType = { 'POINT': 0, 'SUN': 1 }
 
@@ -37,7 +42,6 @@ class DerSceneExport(bpy.types.Operator):
 
   filename_ext = ".derscene";
 
-
   def execute(self, context):
     t = time.clock()
 
@@ -45,6 +49,25 @@ class DerSceneExport(bpy.types.Operator):
 
     with open(self.filepath, 'wb') as out:
       self._export(out, context)
+
+    sock = None
+    try:
+      sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM);
+    except socket.error:
+      print("Failed to create UDP socket")
+
+    hosts = [ip for ip in socket.gethostbyname_ex(socket.gethostname())[2] if not ip.startswith("127.") and not ip.startswith("169.")]
+    print("hosts: ", hosts)
+    HOST = hosts[0]
+    addr = (HOST, PORT)
+
+    if sock:
+      try:
+        msg = b'R'
+        sock.sendto(msg, addr)
+        print("Sent %s to %s:%d" % (msg, HOST, PORT))
+      except socket.error as e:
+        print("Failed to send message")
 
     t = time.clock() - t
     print("Done in {:.2f} seconds".format(t))
@@ -80,7 +103,7 @@ class DerSceneExport(bpy.types.Operator):
   def _write_name(self, out, name):
     if len(name) > 31: print("Warning: '%' is longer than supported 31 characters" % name)
     out.write(struct.pack('31s', bytes(name, 'ascii')))
-    out.write(struct.pack('c', 0))
+    out.write(struct.pack('c', b'\0'))
 
   def _write_transform(self, out, mat):
     # The transform is changed from basis (right, forward, up) = (X+, Y+, Z+)

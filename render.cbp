@@ -148,11 +148,14 @@
 		<Unit filename="src/scene/Light.h" />
 		<Unit filename="src/scene/Scene.cpp" />
 		<Unit filename="src/scene/Scene.h" />
+		<Unit filename="src/ui/Button.cpp" />
+		<Unit filename="src/ui/Button.h" />
 		<Unit filename="src/ui/GUIManager.cpp" />
 		<Unit filename="src/ui/GUIManager.h" />
 		<Unit filename="src/ui/GUIRenderer.cpp" />
 		<Unit filename="src/ui/GUIRenderer.h" />
-		<Unit filename="src/ui/Widget.cpp" />
+		<Unit filename="src/ui/Slider.cpp" />
+		<Unit filename="src/ui/Slider.h" />
 		<Unit filename="src/ui/Widget.h" />
 		<Extensions>
 			<code_completion />

@@ -119,6 +119,8 @@
 		<Unit filename="src/resource/BaseResourceCache.h" />
 		<Unit filename="src/resource/DirectoryFiles.cpp" />
 		<Unit filename="src/resource/DirectoryFiles.h" />
+		<Unit filename="src/resource/FileStat.cpp" />
+		<Unit filename="src/resource/FileStat.h" />
 		<Unit filename="src/resource/MaterialCache.cpp" />
 		<Unit filename="src/resource/MaterialCache.h" />
 		<Unit filename="src/resource/MeshBuilder.cpp" />

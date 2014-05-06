@@ -1,6 +1,7 @@
 
 #include "TransformRenderer.h"
 #include "Graphics.h"
+#include "Renderer.h"
 #include "VertexArrayObject.h"
 #include "VertexBuffer.h"
 
@@ -31,6 +32,13 @@ namespace der
             program->use();
             graphics->draw_lines(0, 6);
         }
+    }
+
+    void TransformRenderer::render(Renderer *renderer)
+    {
+        renderer->set_vao(m_vao);
+        renderer->set_primitive_type(PrimitiveType::Lines);
+        renderer->set_indices(0, 0, 6);
     }
 
     // static

@@ -7,6 +7,7 @@
 namespace der
 {
 
+    class Renderer;
     class Graphics;
     class ResourceCache;
 
@@ -17,7 +18,8 @@ namespace der
     public:
         MeshRenderer();
 
-        void render(Graphics *graphics, ResourceCache &cache);
+        void render(Graphics *graphics, ResourceCache *cache);
+        void render(Renderer *renderer, ResourceCache *cache);
 
         void set_mesh(ResourceID mesh);
         ResourceID get_mesh();

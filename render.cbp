@@ -102,6 +102,8 @@
 		<Unit filename="src/renderer/Mesh.h" />
 		<Unit filename="src/renderer/MeshRenderer.cpp" />
 		<Unit filename="src/renderer/MeshRenderer.h" />
+		<Unit filename="src/renderer/Renderer.cpp" />
+		<Unit filename="src/renderer/Renderer.h" />
 		<Unit filename="src/renderer/SceneRenderer.cpp" />
 		<Unit filename="src/renderer/SceneRenderer.h" />
 		<Unit filename="src/renderer/Shader.cpp" />

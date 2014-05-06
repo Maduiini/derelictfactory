@@ -47,6 +47,7 @@ namespace der
 {
 
     Graphics::Graphics()
+        : m_state_changes(0)
     {
         reset_state();
         for (TextureUnit &tu : m_current.m_texture_units)
@@ -103,6 +104,7 @@ namespace der
             else
                 ::glDisable(GL_DEPTH_TEST);
             m_prev.m_depth_enabled = m_current.m_depth_enabled;
+            m_state_changes++;
         }
         if (m_current.m_cull_mode != m_prev.m_cull_mode)
         {
@@ -116,6 +118,7 @@ namespace der
             else
                 ::glCullFace(cull_modes[static_cast<int>(m_current.m_cull_mode)]);
             m_prev.m_cull_mode = m_current.m_cull_mode;
+            m_state_changes++;
         }
 
         for (int i = 0; i < MAX_TEXTURE_UNITS; i++)
@@ -127,6 +130,7 @@ namespace der
                 ::glActiveTexture(GL_TEXTURE0 + i);
                 ::glBindTexture(tu.m_texture->get_target(), tu.m_texture->get_id());
                 prev_tu = tu;
+                m_state_changes++;
             }
         }
     }
@@ -143,6 +147,19 @@ namespace der
     }
 
 
+    void Graphics::draw_primitives(PrimitiveType prim_type, IndexBuffer *ib, size_t start_index, size_t index_count)
+    { ib->draw_primitives(prim_type, start_index, index_count); }
+
+    void Graphics::draw_primitives(PrimitiveType prim_type, size_t start_index, size_t index_count)
+    {
+        static const GLenum modes[] = {
+            [static_cast<int>(PrimitiveType::Triangles)] = GL_TRIANGLES,
+            [static_cast<int>(PrimitiveType::Lines)] = GL_LINES
+        };
+
+        ::glDrawArrays(modes[static_cast<int>(prim_type)], start_index, index_count);
+    }
+
     void Graphics::draw_triangles(IndexBuffer *ib, size_t start_index, size_t index_count)
     { ib->draw_triangles(start_index, index_count); }
 
@@ -154,5 +171,11 @@ namespace der
 
     void Graphics::draw_lines(size_t start_index, size_t index_count)
     { ::glDrawArrays(GL_LINES, start_index, index_count); }
+
+    void Graphics::reset_state_changes()
+    { m_state_changes = 0; }
+
+    size_t Graphics::get_state_changes() const
+    { return m_state_changes; }
 
 } // der

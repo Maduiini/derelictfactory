@@ -8,7 +8,7 @@
 #include "resource/ResourceCache.h"
 #include "resource/MeshCache.h"
 
-#include "renderer/Shader.h"
+#include "renderer/Renderer.h"
 #include "renderer/SceneRenderer.h"
 
 #include "scene/Scene.h"
@@ -36,12 +36,14 @@ namespace der
         , m_window()
         , m_resource_cache()
         , m_scene(nullptr)
+        , m_renderer(nullptr)
         , m_scene_renderer(nullptr)
         , m_scene_loader(m_resource_cache)
         , m_current_controller(nullptr)
         , m_scene_update_server()
         , m_glfw_ready(false)
         , m_ready(false)
+        , m_queued_render(true)
     {
 //        m_config.read("config.conf");
 
@@ -56,6 +58,7 @@ namespace der
     Application::~Application()
     {
         delete m_current_controller;
+        delete m_renderer;
         delete m_scene_renderer;
         delete m_scene;
 
@@ -77,6 +80,8 @@ namespace der
                 m_window.make_current();
                 m_ready = m_graphics.init();
                 m_window.set_v_sync(m_config.m_v_sync);
+
+                m_renderer = new Renderer(&m_graphics, &m_resource_cache);
             }
         }
         return is_ready();
@@ -113,6 +118,8 @@ namespace der
                 m_resource_cache.refresh_all();
             if (m_window.key_pressed(Key::F6))
                 m_resource_cache.reload_all();
+            if (m_window.key_pressed(Key::F1))
+                m_queued_render = !m_queued_render;
 
             if (m_current_controller)
                 m_current_controller->update(delta_time);
@@ -139,7 +146,7 @@ namespace der
     bool Application::init_scene()
     {
         m_scene = new Scene();
-        m_scene_renderer = new SceneRenderer(m_scene);
+        m_scene_renderer = new SceneRenderer(m_scene, &m_resource_cache);
 
         // Load the test scene
         if (m_scene_loader.load("test_scene.derscene", m_scene))
@@ -170,13 +177,20 @@ namespace der
 
     void Application::render()
     {
+        m_graphics.reset_state_changes();
         m_graphics.clear();
 
-        m_scene_renderer->render(&m_graphics, m_resource_cache);
+        if (m_queued_render)
+            m_scene_renderer->render(m_renderer);
+        else
+            m_scene_renderer->render(&m_graphics, m_resource_cache);
+
         if (!m_window.is_mouse_captured())
             m_gui_renderer->render(&m_graphics, m_resource_cache);
 
         m_window.swap_buffer();
+
+        log::info("State changes: %", m_graphics.get_state_changes());
     }
 
 

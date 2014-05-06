@@ -1,6 +1,8 @@
 
 #include "MeshRenderer.h"
 #include "Mesh.h"
+#include "Graphics.h"
+#include "Renderer.h"
 
 #include "IndexBuffer.h"
 #include "VertexArrayObject.h"
@@ -15,9 +17,9 @@ namespace der
         : m_mesh(0)
     { }
 
-    void MeshRenderer::render(Graphics *graphics, ResourceCache &cache)
+    void MeshRenderer::render(Graphics *graphics, ResourceCache *cache)
     {
-        Mesh *mesh = cache.get<Mesh>(m_mesh);
+        Mesh *mesh = cache->get<Mesh>(m_mesh);
         if (!mesh) return;
 
         IndexBuffer *ib = mesh->get_index_buffer();
@@ -27,13 +29,32 @@ namespace der
         {
             const SubMesh &submesh = mesh->get_submesh(i);
 
-            Material *material = cache.get<Material>(submesh.m_material);
+            Material *material = cache->get<Material>(submesh.m_material);
 
             if (material)
             {
                 material->use(graphics, cache);
-                ib->draw_triangles(submesh.m_start_index, submesh.m_index_count);
+                graphics->update_state();
+                graphics->draw_triangles(ib, submesh.m_start_index, submesh.m_index_count);
             }
+        }
+    }
+
+    void MeshRenderer::render(Renderer *renderer, ResourceCache *cache)
+    {
+        Mesh *mesh = cache->get<Mesh>(m_mesh);
+        if (!mesh) return;
+
+        renderer->set_vao(mesh->get_vao());
+
+        IndexBuffer *ib = mesh->get_index_buffer();
+        for (size_t i = 0; i < mesh->get_submesh_count(); i++)
+        {
+            const SubMesh &submesh = mesh->get_submesh(i);
+            renderer->set_material(submesh.m_material);
+            renderer->set_primitive_type(PrimitiveType::Triangles);
+            renderer->set_indices(ib, submesh.m_start_index, submesh.m_index_count);
+            renderer->emit_command();
         }
     }
 

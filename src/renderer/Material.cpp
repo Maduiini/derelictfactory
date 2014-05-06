@@ -62,13 +62,13 @@ namespace der
     { return m_cull_mode; }
 
 
-    void Material::use(Graphics *graphics, ResourceCache &cache)
+    void Material::use(Graphics *graphics, ResourceCache *cache)
     {
-        Texture *albedo = cache.get<Texture2D>(get_albedo_texture());
-        Texture *normal = cache.get<Texture2D>(get_normal_texture());
-        Texture *roughness = cache.get<Texture2D>(get_roughness_texture());
-        Texture *metallic = cache.get<Texture2D>(get_metallic_texture());
-        Texture *env = cache.get<Texture2D>(get_env_texture());
+        Texture *albedo = cache->get<Texture2D>(get_albedo_texture());
+        Texture *normal = cache->get<Texture2D>(get_normal_texture());
+        Texture *roughness = cache->get<Texture2D>(get_roughness_texture());
+        Texture *metallic = cache->get<Texture2D>(get_metallic_texture());
+        Texture *env = cache->get<Texture2D>(get_env_texture());
 
         graphics->set_texture(0, albedo);
         graphics->set_texture(1, normal);
@@ -76,11 +76,10 @@ namespace der
         graphics->set_texture(3, metallic);
         graphics->set_texture(4, env);
 
-        Program *program = cache.get_program(m_vert_shader, m_frag_shader);
+        Program *program = cache->get_program(m_vert_shader, m_frag_shader);
         update_program(program);
 
         graphics->set_cull_mode(get_cull_mode());
-        graphics->update_state();
     }
 
     void Material::update_program(Program *program)

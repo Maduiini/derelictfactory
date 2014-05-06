@@ -13,6 +13,7 @@ namespace der
 {
 
     class Scene;
+    class Renderer;
     class SceneRenderer;
     class InputController;
     class GUIManager;
@@ -41,6 +42,7 @@ namespace der
         ResourceCache m_resource_cache;
 
         Scene *m_scene;
+        Renderer *m_renderer;
         SceneRenderer *m_scene_renderer;
 
         SceneLoader m_scene_loader;
@@ -54,6 +56,8 @@ namespace der
 
         bool m_glfw_ready;
         bool m_ready;
+
+        bool m_queued_render;
     };
 
 } // der

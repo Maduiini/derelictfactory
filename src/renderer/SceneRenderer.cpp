@@ -5,6 +5,7 @@
 #include "../scene/Camera.h"
 
 #include "Graphics.h"
+#include "Renderer.h"
 #include "UniformBuffer.h"
 #include "MeshRenderer.h"
 #include "TransformRenderer.h"
@@ -12,8 +13,9 @@
 namespace der
 {
 
-    SceneRenderer::SceneRenderer(Scene *scene)
+    SceneRenderer::SceneRenderer(Scene *scene, ResourceCache *cache)
         : m_scene(scene)
+        , m_cache(cache)
         , m_global_uniforms(nullptr)
         , m_instance_uniforms(nullptr)
         , m_light_uniforms(nullptr)
@@ -59,7 +61,7 @@ namespace der
 
                 set_lights(object->get_position());
 
-                renderer->render(graphics, cache);
+                renderer->render(graphics, &cache);
 
                 TransformRenderer *tr_renderer = object->get_tr_renderer();
                 if (tr_renderer)
@@ -79,6 +81,42 @@ namespace der
 //                renderer->render();
 //            }
         }
+    }
+
+    void SceneRenderer::render(Renderer *renderer)
+    {
+        GameObject *camera_obj = m_scene->get_camera_object();
+        if (!camera_obj) return;
+
+        Camera *camera = camera_obj->get_camera();
+        if (camera)
+        {
+            const Matrix4 proj_mat = camera->get_projection();
+            const Matrix4 view_mat = camera_obj->get_inv_world_matrix();
+            renderer->set_projection_matrix(proj_mat);
+            renderer->set_view_matrix(view_mat);
+            renderer->set_camera_pos(camera_obj->get_position());
+
+            std::vector<GameObject*> objects;
+            m_scene->get_visible_objects(objects);
+            for (GameObject *object : objects)
+            {
+                MeshRenderer *obj_renderer = object->get_renderer();
+                if (!obj_renderer) continue;
+
+                const Matrix4 model_mat = object->get_world_matrix();
+                renderer->set_model_matrix(model_mat);
+
+                set_lights(renderer, object->get_position());
+
+                obj_renderer->render(renderer, m_cache);
+
+                TransformRenderer *tr_renderer = object->get_tr_renderer();
+                if (tr_renderer)
+                    tr_renderer->render(renderer);
+            }
+        }
+        renderer->render();
     }
 
     void SceneRenderer::set_time(float time)
@@ -104,6 +142,25 @@ namespace der
             m_light_uniforms->set_radius(i, light->get_radius());
         }
         m_light_uniforms->bind_uniforms();
+    }
+
+    void SceneRenderer::set_lights(Renderer *renderer, const Vector3 &position)
+    {
+        std::vector<GameObject*> objects;
+        m_scene->get_light_objects(position, objects);
+
+        size_t light_count = (objects.size() < LightUniformBlock::MAX_LIGHTS) ?
+            objects.size() : LightUniformBlock::MAX_LIGHTS;
+
+        renderer->set_light_count(light_count);
+        for (size_t i = 0; i < light_count; i++)
+        {
+            GameObject *object = objects[i];
+            Light *light = object->get_light();
+            renderer->set_light_position(i, object->get_position(), light->get_type());
+            renderer->set_light_color(i, light->get_color(), light->get_energy());
+            renderer->set_light_radius(i, light->get_radius());
+        }
     }
 
 } // der

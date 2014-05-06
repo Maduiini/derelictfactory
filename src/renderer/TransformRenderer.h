@@ -7,6 +7,7 @@
 namespace der
 {
 
+    class Renderer;
     class Graphics;
     class ResourceCache;
     class VertexArrayObject;
@@ -18,6 +19,7 @@ namespace der
         TransformRenderer();
 
         void render(Graphics *graphics, ResourceCache &cache);
+        void render(Renderer *renderer);
 
     private:
         static void build();

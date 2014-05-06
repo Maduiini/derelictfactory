@@ -37,7 +37,7 @@ namespace der
         void set_cull_mode(CullMode mode);
         CullMode get_cull_mode() const;
 
-        void use(Graphics *graphics, ResourceCache &cache);
+        void use(Graphics *graphics, ResourceCache *cache);
 
     private:
         void update_program(Program *program);

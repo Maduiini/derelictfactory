@@ -23,6 +23,12 @@ namespace der
         None
     };
 
+    enum class PrimitiveType
+    {
+        Triangles,
+        Lines
+    };
+
 } // der
 
 #endif // H_DER_GRAPHICS_TYPES_H

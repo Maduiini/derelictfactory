@@ -3,6 +3,7 @@
 #define H_DER_INDEX_BUFFER_H
 
 #include "BufferObject.h"
+#include "GraphicsTypes.h"
 
 namespace der
 {
@@ -27,6 +28,7 @@ namespace der
         void set_index_type(Type type);
         Type get_index_type() const;
 
+        void draw_primitives(PrimitiveType prim_type, size_t start_index, size_t index_count);
         void draw_triangles(size_t start_index, size_t index_count);
         void draw_lines(size_t start_index, size_t index_count);
 

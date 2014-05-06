@@ -22,12 +22,17 @@ namespace der
 
         void render(Graphics *graphics, ResourceCache &cache);
 
+        void set_visible(const bool visible);
+        bool is_visible() const;
+
     private:
         static void build();
 
     private:
         GUIManager *m_gui;
         Window *m_window;
+        bool m_visible;
+
         static ResourceID m_vert_shader;
         static ResourceID m_frag_shader;
         static VertexArrayObject *m_vao;

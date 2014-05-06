@@ -143,6 +143,8 @@ namespace der
                 m_scene->reshape(w, h);
             }
 
+            m_gui_renderer->set_visible(!m_window.is_mouse_captured());
+
             m_scene_update_server.pump();
         }
     }
@@ -192,8 +194,7 @@ namespace der
         else
             m_scene_renderer->render(&m_graphics, m_resource_cache);
 
-        if (!m_window.is_mouse_captured())
-            m_gui_renderer->render(&m_graphics, m_resource_cache);
+        m_gui_renderer->render(&m_graphics, m_resource_cache);
 
         m_window.swap_buffer();
     }

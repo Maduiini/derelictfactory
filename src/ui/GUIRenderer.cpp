@@ -22,6 +22,7 @@ namespace der
     GUIRenderer::GUIRenderer(GUIManager *gui, Window *window)
         : m_gui(gui)
         , m_window(window)
+        , m_visible(true)
     {
         build();
     }
@@ -31,6 +32,8 @@ namespace der
 
     void GUIRenderer::render(Graphics *graphics, ResourceCache &cache)
     {
+        if (!m_visible) return;
+
         const float test_button_width = 64.0f;
         const float test_button_height = 32.0f;
         const float test_button_x = 10.0f;
@@ -69,6 +72,12 @@ namespace der
             graphics->draw_triangles(0, 6);
         }
     }
+
+    void GUIRenderer::set_visible(const bool visible)
+    { m_visible = visible; }
+
+    bool GUIRenderer::is_visible() const
+    { return m_visible; }
 
     // static
     void GUIRenderer::build()

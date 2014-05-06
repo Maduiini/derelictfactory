@@ -37,6 +37,8 @@ namespace der
 
     void GUIRenderer::render(Graphics *graphics, ResourceCache &cache)
     {
+        if (!m_visible) return;
+
         update_window_size();
 
         std::vector<Widget*> widgets;
@@ -53,8 +55,6 @@ namespace der
 
     void GUIRenderer::render_widget(Graphics *graphics, ResourceCache &cache, WidgetRenderCommand &cmd)
     {
-        if (!m_visible) return;
-
         Vector2 position = {
             cmd.position.x / m_win_width,
             cmd.position.y / m_win_height

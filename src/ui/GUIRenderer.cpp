@@ -74,6 +74,7 @@ namespace der
             program->uniform(scale_loc, scale);
             program->uniform(position_loc, position);
             program->uniform_sampler2D(texture_loc, 0);
+            graphics->set_blend_enabled(true);
             graphics->set_texture(0, cache.get<Texture2D>(cmd.texture_id));
             graphics->update_state();
 

@@ -54,6 +54,7 @@ namespace der
             tu.m_texture = nullptr;
         m_prev = m_current;
         m_prev.m_cull_mode = CullMode::None;
+        m_prev.m_blend_enabled = false;
     }
 
     bool Graphics::init()
@@ -92,6 +93,7 @@ namespace der
     void Graphics::reset_state()
     {
         m_current.m_depth_enabled = true;
+        m_current.m_blend_enabled = true;
         m_current.m_cull_mode = CullMode::BackFace;
     }
 
@@ -104,6 +106,20 @@ namespace der
             else
                 ::glDisable(GL_DEPTH_TEST);
             m_prev.m_depth_enabled = m_current.m_depth_enabled;
+            m_state_changes++;
+        }
+        if (m_current.m_blend_enabled != m_prev.m_blend_enabled)
+        {
+            if (m_current.m_blend_enabled)
+            {
+                ::glEnable(GL_BLEND);
+                ::glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            }
+            else
+            {
+                ::glDisable(GL_BLEND);
+            }
+            m_prev.m_blend_enabled = m_current.m_blend_enabled;
             m_state_changes++;
         }
         if (m_current.m_cull_mode != m_prev.m_cull_mode)
@@ -134,6 +150,12 @@ namespace der
             }
         }
     }
+
+    void Graphics::set_blend_enabled(bool enabled)
+    { m_current.m_blend_enabled = enabled; }
+
+    bool Graphics::is_blend_enabled() const
+    { return m_current.m_blend_enabled; }
 
     void Graphics::set_cull_mode(CullMode mode)
     { m_current.m_cull_mode = mode; }

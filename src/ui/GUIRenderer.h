@@ -46,9 +46,6 @@ namespace der
         static ResourceID m_frag_shader;
         static VertexArrayObject *m_vao;
         static VertexBuffer *m_vbuffer;
-
-        static ResourceID m_button_tex;
-
     };
 
 } // der

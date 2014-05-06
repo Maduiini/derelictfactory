@@ -20,8 +20,6 @@ namespace der
     VertexArrayObject *GUIRenderer::m_vao = nullptr;
     VertexBuffer *GUIRenderer::m_vbuffer = nullptr;
 
-    ResourceID GUIRenderer::m_button_tex = make_resource("test_button.tga");
-
     GUIRenderer::GUIRenderer(GUIManager *gui, Window *window)
         : m_gui(gui)
         , m_window(window)
@@ -76,7 +74,7 @@ namespace der
             program->uniform(scale_loc, scale);
             program->uniform(position_loc, position);
             program->uniform_sampler2D(texture_loc, 0);
-            graphics->set_texture(0, cache.get<Texture2D>(m_button_tex));
+            graphics->set_texture(0, cache.get<Texture2D>(cmd.texture_id));
             graphics->update_state();
 
             graphics->draw_triangles(0, 6);

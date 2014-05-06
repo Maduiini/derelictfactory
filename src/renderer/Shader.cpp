@@ -81,6 +81,16 @@ namespace der
         }
     }
 
+    bool Program::has_shader_attached(Shader *shader) const
+    {
+        for (size_t i = 0; i < MAX_ATTACHED_SHADERS; i++)
+        {
+            if (m_shaders[i] == shader)
+                return true;
+        }
+        return false;
+    }
+
     bool Program::link()
     {
         static const char *attrib_names[] = {
@@ -117,6 +127,12 @@ namespace der
         ::glUseProgram(m_program);
     }
 
+    // static
+    void Program::use_none()
+    {
+        ::glUseProgram(0);
+    }
+
     void Program::bind_uniform_block(const char * const block_name, int binding)
     {
         GLuint block_index = ::glGetUniformBlockIndex(m_program, block_name);
@@ -124,10 +140,10 @@ namespace der
         {
             ::glUniformBlockBinding(m_program, block_index, binding);
         }
-        else
-        {
-            log::warning("UniformBlock '%' not found", block_name);
-        }
+//        else
+//        {
+//            log::warning("UniformBlock '%' not found", block_name);
+//        }
     }
 
     int Program::get_uniform_location(const char * const name)

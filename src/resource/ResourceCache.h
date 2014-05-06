@@ -26,6 +26,7 @@ namespace der
         virtual ~ResourceCache();
 
         void reload_all();
+        void refresh_all();
 
         template <typename T>
         T* get(ResourceID id);

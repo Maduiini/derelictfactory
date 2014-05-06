@@ -30,6 +30,7 @@ namespace der
         Program *get(ResourceID v, ResourceID f);
 
         void reload_all();
+        void refresh_all();
 
     protected:
 //        virtual Program* load(const char * const filepath);

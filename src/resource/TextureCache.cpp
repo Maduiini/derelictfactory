@@ -327,7 +327,9 @@ namespace der
 
     TextureCache::TextureCache()
         : BaseResourceCache("assets/textures/")
-    { }
+    {
+        m_supported_extensions.push_back("tga");
+    }
 
     Texture2D* TextureCache::load(const char * const filepath)
     {

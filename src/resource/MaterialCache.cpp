@@ -10,7 +10,9 @@ namespace der
 
     MaterialCache::MaterialCache()
         : BaseResourceCache("assets/materials/")
-    { }
+    {
+        m_supported_extensions.push_back("material");
+    }
 
     Material* MaterialCache::load(const char * const filepath)
     {

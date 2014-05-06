@@ -75,6 +75,7 @@ void main()
 {
     vec3 color = texture2D(tex_albedo, tcoord).rgb;
     vec3 N = get_normal();
+//    vec3 N = normal;
 
     color = color * lighting(N);
 

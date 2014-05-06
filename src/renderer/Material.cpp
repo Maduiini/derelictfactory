@@ -88,25 +88,38 @@ namespace der
         if (program != m_program)
         {
             m_program = program;
-            if (m_program)
-            {
-                m_program->use();
-                const int tex_albedo = m_program->get_uniform_location("tex_albedo");
-                const int tex_normal = m_program->get_uniform_location("tex_normal");
-                const int tex_roughness = m_program->get_uniform_location("tex_roughness");
-                const int tex_metallic = m_program->get_uniform_location("tex_metallic");
-                const int tex_env = m_program->get_uniform_location("tex_env");
-
-                m_program->uniform_sampler2D(tex_albedo, 0);
-                m_program->uniform_sampler2D(tex_normal, 1);
-                m_program->uniform_sampler2D(tex_roughness, 2);
-                m_program->uniform_sampler2D(tex_metallic, 3);
-                m_program->uniform_sampler2D(tex_env, 4);
-            }
+//            if (m_program)
+//            {
+//                m_program->use();
+//                const int tex_albedo = m_program->get_uniform_location("tex_albedo");
+//                const int tex_normal = m_program->get_uniform_location("tex_normal");
+//                const int tex_roughness = m_program->get_uniform_location("tex_roughness");
+//                const int tex_metallic = m_program->get_uniform_location("tex_metallic");
+//                const int tex_env = m_program->get_uniform_location("tex_env");
+//
+//                m_program->uniform_sampler2D(tex_albedo, 0);
+//                m_program->uniform_sampler2D(tex_normal, 1);
+//                m_program->uniform_sampler2D(tex_roughness, 2);
+//                m_program->uniform_sampler2D(tex_metallic, 3);
+//                m_program->uniform_sampler2D(tex_env, 4);
+//            }
         }
-        else if (m_program)
+//        else
+        if (m_program)
         {
             m_program->use();
+
+            const int tex_albedo = m_program->get_uniform_location("tex_albedo");
+            const int tex_normal = m_program->get_uniform_location("tex_normal");
+            const int tex_roughness = m_program->get_uniform_location("tex_roughness");
+            const int tex_metallic = m_program->get_uniform_location("tex_metallic");
+            const int tex_env = m_program->get_uniform_location("tex_env");
+
+            m_program->uniform_sampler2D(tex_albedo, 0);
+            m_program->uniform_sampler2D(tex_normal, 1);
+            m_program->uniform_sampler2D(tex_roughness, 2);
+            m_program->uniform_sampler2D(tex_metallic, 3);
+            m_program->uniform_sampler2D(tex_env, 4);
         }
     }
 

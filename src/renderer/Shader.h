@@ -40,10 +40,12 @@ namespace der
 
         void attach(Shader *shader);
         void detach_shaders();
+        bool has_shader_attached(Shader *shader) const;
 
         bool link();
 
         void use();
+        static void use_none();
 
         void bind_uniform_block(const char * const block_name, int binding);
         int get_uniform_location(const char * const name);

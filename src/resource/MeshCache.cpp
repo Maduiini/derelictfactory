@@ -9,7 +9,9 @@ namespace der
 
     MeshCache::MeshCache()
         : BaseResourceCache("assets/models/")
-    { }
+    {
+        m_supported_extensions.push_back("obj");
+    }
 
     Mesh* MeshCache::load(const char * const filepath)
     {

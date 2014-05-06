@@ -1,10 +1,11 @@
 
 #include "DirectoryFiles.h"
+#include "FileStat.h"
 #include "../Log.h"
+
 
 #include <cstring>
 #include <dirent.h>
-#include <sys/stat.h>
 
 namespace der
 {
@@ -20,13 +21,10 @@ namespace der
             while((entry = readdir(dir)))
             {
                 std::string filepath = directory + entry->d_name;
-                struct ::_stat s;
-                if (::_stat(filepath.c_str(), &s) != 0)
-                    continue;
 
                 if (std::strcmp(entry->d_name, "..") != 0
                     && std::strcmp(entry->d_name, ".") != 0
-                    && !S_ISDIR(s.st_mode))
+                    && !is_directory(filepath.c_str()))
                 {
                     files.push_back(entry->d_name);
                 }

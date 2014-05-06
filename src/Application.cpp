@@ -115,6 +115,9 @@ namespace der
             double delta_time = cur_time - last_time;
             last_time = cur_time;
 
+            if (m_window.key_pressed(Key::Escape))
+                break;
+
             if (m_window.key_pressed(Key::F5))
                 m_resource_cache.refresh_all();
             if (m_window.key_pressed(Key::F6))

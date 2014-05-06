@@ -57,7 +57,6 @@ namespace der
 
     private:
         GLuint m_program;
-        GLuint m_vao;
 
         static const size_t MAX_ATTACHED_SHADERS = 2;
         Shader *m_shaders[MAX_ATTACHED_SHADERS];

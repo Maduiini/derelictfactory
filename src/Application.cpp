@@ -107,6 +107,7 @@ namespace der
         }
 
         double last_time = ::glfwGetTime();
+        double last_log_time = ::glfwGetTime();
 
         while (!m_window.should_close())
         {
@@ -126,6 +127,12 @@ namespace der
 
             m_scene_renderer->set_time(cur_time);
             render();
+
+            if (cur_time - last_log_time > 0.5)
+            {
+                log::info("State changes: %", m_graphics.get_state_changes());
+                last_log_time = cur_time;
+            }
 
             m_window.poll_events();
             if (m_window.has_resized())
@@ -189,8 +196,6 @@ namespace der
             m_gui_renderer->render(&m_graphics, m_resource_cache);
 
         m_window.swap_buffer();
-
-        log::info("State changes: %", m_graphics.get_state_changes());
     }
 
 

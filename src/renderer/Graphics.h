@@ -34,7 +34,7 @@ namespace der
 
         void set_texture(int unit, Texture *texture);
 
-//        void bind_buffer_program(VertexBuffer *vb, Program *program);
+//        void use_program(Program *program);
 
         void draw_primitives(PrimitiveType prim_type, IndexBuffer *ib, size_t start_index, size_t index_count);
         void draw_primitives(PrimitiveType prim_type, size_t start_index, size_t index_count);

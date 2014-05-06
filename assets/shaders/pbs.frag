@@ -42,6 +42,13 @@ vec3 get_normal()
     return tangent_space() * n;
 }
 
+vec3 get_color()
+{
+    vec3 color = texture2D(tex_albedo, tcoord).rgb;
+    // linearize gamma
+    return pow(color, vec3(2.2));
+}
+
 vec3 light(int i, vec3 N)
 {
     vec4 pos = lights[i].position;
@@ -73,12 +80,13 @@ vec3 lighting(vec3 N)
 
 void main()
 {
-    vec3 color = texture2D(tex_albedo, tcoord).rgb;
+    vec3 color = get_color();
     vec3 N = get_normal();
 //    vec3 N = normal;
 
     color = color * lighting(N);
 
-    out_color = vec4(color, 1.0);
+    // gamma corrected output
+    out_color = vec4(pow(color, vec3(1 / 2.2)), 1.0);
 }
 

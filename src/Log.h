@@ -7,6 +7,7 @@
 namespace der
 {
 
+    struct Vector2;
     struct Vector3;
     struct Vector4;
 
@@ -51,6 +52,7 @@ namespace log
     void write(const float value);
     void write(const double value);
 
+    void write(const Vector2 &);
     void write(const Vector3 &);
     void write(const Vector4 &);
     void write(const Matrix3 &);

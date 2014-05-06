@@ -102,6 +102,11 @@ namespace log
         std::cout << value;
     }
 
+    void write(const Vector2 &v)
+    {
+        std::cout << v;
+    }
+
     void write(const Vector3 &v)
     {
         std::cout << v;

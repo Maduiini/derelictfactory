@@ -159,6 +159,7 @@ namespace der
 namespace der
 {
 
+    std::ostream& operator << (std::ostream &out, const Vector2 &v);
     std::ostream& operator << (std::ostream &out, const Vector3 &v);
     std::ostream& operator << (std::ostream &out, const Vector4 &v);
     std::ostream& operator << (std::ostream &out, const Quaternion &q);

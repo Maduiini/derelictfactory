@@ -25,6 +25,9 @@ namespace der
         return -epsilon <= d && d <= epsilon;
     }
 
+    std::ostream& operator << (std::ostream &out, const Vector2 &v)
+    { return out << "(" << v.x << "," << v.y << ")"; }
+
     std::ostream& operator << (std::ostream &out, const Vector3 &v)
     { return out << "(" << v.x << "," << v.y << "," << v.z << ")"; }
 

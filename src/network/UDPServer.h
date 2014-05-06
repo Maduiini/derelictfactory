@@ -27,7 +27,7 @@ namespace der
         /// Receives UDP packets and calls message_received.
         void pump();
 
-        virtual void message_received(const char* buffer) { }
+        virtual void message_received(const char* buffer) = 0;
 
     protected:
         SOCKET m_socket;

@@ -6,8 +6,8 @@
 namespace der
 {
 
-    ResourceID Slider::slider_bar_texture = make_resource("test_button.tga");
-    ResourceID Slider::slider_knob_texture = make_resource("test_button.tga");
+    ResourceID Slider::slider_bar_texture = make_resource("button.tga");
+    ResourceID Slider::slider_knob_texture = make_resource("slider_knob.tga");
 
     Slider::Slider(Vector2 position, float width, float min_value /* = 0.0f */, float max_value /* = 1.0f */)
         : m_position(position)

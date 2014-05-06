@@ -1,5 +1,8 @@
 
 #include "GUIRenderer.h"
+#include "GUIManager.h"
+#include "Widget.h"
+
 #include "../renderer/Graphics.h"
 #include "../renderer/VertexBuffer.h"
 #include "../renderer/VertexArrayObject.h"
@@ -23,6 +26,8 @@ namespace der
         : m_gui(gui)
         , m_window(window)
         , m_visible(true)
+        , m_win_width(0.0f)
+        , m_win_height(0.0f)
     {
         build();
     }
@@ -32,27 +37,32 @@ namespace der
 
     void GUIRenderer::render(Graphics *graphics, ResourceCache &cache)
     {
+        update_window_size();
+
+        std::vector<Widget*> widgets;
+        m_gui->get_widgets(widgets);
+
+        for (Widget *widget : widgets)
+        {
+            for (WidgetRenderCommand &cmd : widget->get_render_commands())
+            {
+                render_widget(graphics, cache, cmd);
+            }
+        }
+    }
+
+    void GUIRenderer::render_widget(Graphics *graphics, ResourceCache &cache, WidgetRenderCommand &cmd)
+    {
         if (!m_visible) return;
 
-        const float test_button_width = 64.0f;
-        const float test_button_height = 32.0f;
-        const float test_button_x = 10.0f;
-        const float test_button_y = 10.0f;
-
-        int win_width, win_height;
-        float win_width_f, win_height_f;
-        m_window->get_size(&win_width, &win_height);
-        win_width_f = static_cast<float>(win_width);
-        win_height_f = static_cast<float>(win_height);
-
-        Vector2 scale = {
-            test_button_width / win_width_f,
-            test_button_height / win_height_f
+        Vector2 position = {
+            cmd.position.x / m_win_width,
+            cmd.position.y / m_win_height
         };
 
-        Vector2 position = {
-            test_button_x / win_width_f,
-            test_button_y / win_height_f
+        Vector2 scale = {
+            cmd.size.x / m_win_width,
+            cmd.size.y / m_win_height
         };
 
         m_vao->bind();
@@ -71,6 +81,14 @@ namespace der
 
             graphics->draw_triangles(0, 6);
         }
+    }
+
+    void GUIRenderer::update_window_size()
+    {
+        int win_width, win_height;
+        m_window->get_size(&win_width, &win_height);
+        m_win_width = static_cast<float>(win_width);
+        m_win_height = static_cast<float>(win_height);
     }
 
     void GUIRenderer::set_visible(const bool visible)

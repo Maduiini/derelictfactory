@@ -2,7 +2,11 @@
 #ifndef H_DER_GUI_RENDERER_H
 #define H_DER_GUI_RENDERER_H
 
+#include "../math/Vector.h"
+
 #include "../resource/Resource.h"
+
+#include "../ui/Widget.h"
 
 namespace der
 {
@@ -26,12 +30,17 @@ namespace der
         bool is_visible() const;
 
     private:
+        void render_widget(Graphics *graphics, ResourceCache &cache, WidgetRenderCommand &cmd);
+        void update_window_size();
+
         static void build();
 
     private:
         GUIManager *m_gui;
         Window *m_window;
         bool m_visible;
+        float m_win_width;
+        float m_win_height;
 
         static ResourceID m_vert_shader;
         static ResourceID m_frag_shader;

@@ -19,6 +19,8 @@
 
 #include "ui/GUIManager.h"
 #include "ui/GUIRenderer.h"
+#include "ui/Button.h"
+#include "ui/Slider.h"
 
 #include <GLFW/glfw3.h>
 
@@ -61,6 +63,8 @@ namespace der
         delete m_renderer;
         delete m_scene_renderer;
         delete m_scene;
+        delete m_gui_renderer;
+        delete m_gui;
 
         if (m_ready)        m_window.destroy();
         if (m_glfw_ready)   ::glfwTerminate();
@@ -146,6 +150,9 @@ namespace der
                 m_scene->reshape(w, h);
             }
 
+            m_gui->update(delta_time,
+                          Vector2(m_window.get_mouse_x(), m_window.get_mouse_y()),
+                          m_window.button_down(MouseButton::Left));
             m_gui_renderer->set_visible(!m_window.is_mouse_captured());
 
             m_scene_update_server.pump();
@@ -183,6 +190,9 @@ namespace der
     {
         m_gui = new GUIManager();
         m_gui_renderer = new GUIRenderer(m_gui, &m_window);
+
+        m_gui->add_widget(new Button(Vector2(32, 32), Vector2(128, 32), "Hello World"));
+        m_gui->add_widget(new Slider(Vector2(15, 200), 150.0f, -20.0f, 20.0));
 
         return true;
     }

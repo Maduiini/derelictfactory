@@ -148,6 +148,10 @@
 		<Unit filename="src/scene/Light.h" />
 		<Unit filename="src/scene/Scene.cpp" />
 		<Unit filename="src/scene/Scene.h" />
+		<Unit filename="src/ui/BitmapFont.cpp" />
+		<Unit filename="src/ui/BitmapFont.h" />
+		<Unit filename="src/ui/BitmapFontLoader.cpp" />
+		<Unit filename="src/ui/BitmapFontLoader.h" />
 		<Unit filename="src/ui/Button.cpp" />
 		<Unit filename="src/ui/Button.h" />
 		<Unit filename="src/ui/GUIManager.cpp" />

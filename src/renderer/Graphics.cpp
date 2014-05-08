@@ -141,10 +141,13 @@ namespace der
         {
             TextureUnit &tu = m_current.m_texture_units[i];
             TextureUnit &prev_tu = m_prev.m_texture_units[i];
-            if (tu.m_texture && tu.m_texture != prev_tu.m_texture)
+            if (tu.m_texture != prev_tu.m_texture)
             {
                 ::glActiveTexture(GL_TEXTURE0 + i);
-                ::glBindTexture(tu.m_texture->get_target(), tu.m_texture->get_id());
+                if (tu.m_texture)
+                    ::glBindTexture(tu.m_texture->get_target(), tu.m_texture->get_id());
+                else
+                    ::glBindTexture(GL_TEXTURE_2D, 0);
                 prev_tu = tu;
                 m_state_changes++;
             }

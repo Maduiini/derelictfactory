@@ -7,6 +7,7 @@
 
 #include "MeshCache.h"
 #include "TextureCache.h"
+#include "TextureCubeCache.h"
 #include "ShaderCache.h"
 #include "MaterialCache.h"
 
@@ -39,6 +40,7 @@ namespace der
 
         MeshCache       m_mesh_cache;
         TextureCache    m_texture_cache;
+        TextureCubeCache m_texture_cube_cache;
         ShaderCache     m_shader_cache;
         ProgramCache    m_program_cache;
         MaterialCache   m_material_cache;
@@ -60,6 +62,13 @@ namespace der
     {
         static Texture2D* get(ResourceCache *cache, ResourceID id)
         { return cache->m_texture_cache.get(id); }
+    };
+
+    template <>
+    struct TypeToGet<TextureCube>
+    {
+        static TextureCube* get(ResourceCache *cache, ResourceID id)
+        { return cache->m_texture_cube_cache.get(id); }
     };
 
     template <>

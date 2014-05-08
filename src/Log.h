@@ -3,6 +3,7 @@
 #define H_DER_LOG_H
 
 #include <functional>
+#include <string>
 
 namespace der
 {
@@ -39,6 +40,7 @@ namespace log
     void write(const signed char c);
     void write(const unsigned char c);
     void write(const char *msg);
+    void write(const std::string &msg);
 
     void write(const short value);
     void write(const unsigned short value);

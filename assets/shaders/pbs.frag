@@ -25,6 +25,7 @@ in vec3 position;
 in vec3 normal;
 in vec4 tangent;
 in vec2 tcoord;
+in vec3 view_vec;
 
 out vec4 out_color;
 
@@ -85,6 +86,13 @@ void main()
 //    vec3 N = normal;
 
     color = color * lighting(N);
+
+//    vec3 V = normalize(view_vec);
+//    vec3 R = reflect(V, N);
+////
+//    float r = texture2D(tex_roughness, tcoord).x;
+//    r = r * 10;
+//    color += textureCubeLod(tex_env, -R, r).rgb; //* 0.05;
 
     // gamma corrected output
     out_color = vec4(pow(color, vec3(1 / 2.2)), 1.0);

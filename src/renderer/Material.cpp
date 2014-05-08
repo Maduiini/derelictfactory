@@ -68,7 +68,7 @@ namespace der
         Texture *normal = cache->get<Texture2D>(get_normal_texture());
         Texture *roughness = cache->get<Texture2D>(get_roughness_texture());
         Texture *metallic = cache->get<Texture2D>(get_metallic_texture());
-        Texture *env = cache->get<Texture2D>(get_env_texture());
+        Texture *env = cache->get<TextureCube>(get_env_texture());
 
         graphics->set_texture(0, albedo);
         graphics->set_texture(1, normal);

@@ -72,6 +72,7 @@
 		<Unit filename="src/input/InputController.cpp" />
 		<Unit filename="src/input/InputController.h" />
 		<Unit filename="src/main.cpp" />
+		<Unit filename="src/math/Aabb.h" />
 		<Unit filename="src/math/Math.cpp" />
 		<Unit filename="src/math/Math.h" />
 		<Unit filename="src/math/Matrix3.cpp" />
@@ -146,6 +147,8 @@
 		<Unit filename="src/scene/GameObject.h" />
 		<Unit filename="src/scene/Light.cpp" />
 		<Unit filename="src/scene/Light.h" />
+		<Unit filename="src/scene/QuadTree.cpp" />
+		<Unit filename="src/scene/QuadTree.h" />
 		<Unit filename="src/scene/Scene.cpp" />
 		<Unit filename="src/scene/Scene.h" />
 		<Unit filename="src/ui/Button.cpp" />

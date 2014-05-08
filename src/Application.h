@@ -35,6 +35,8 @@ namespace der
         bool init_gui();
         void render();
 
+        void update_title(double current_time);
+
     private:
         Config m_config;
         Window m_window;

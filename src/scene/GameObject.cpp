@@ -1,8 +1,13 @@
 
 #include "GameObject.h"
 #include "Camera.h"
+#include "Light.h"
 #include "../renderer/MeshRenderer.h"
 #include "../renderer/TransformRenderer.h"
+#include "../renderer/Mesh.h"
+
+#include "../resource/ResourceCache.h"
+
 #include "../Debug.h"
 
 namespace der
@@ -19,6 +24,7 @@ namespace der
         , m_tr_renderer(nullptr)
         , m_camera(nullptr)
         , m_light(nullptr)
+        , m_bounding_box()
     {
         m_tr_renderer = new TransformRenderer();
     }
@@ -188,5 +194,22 @@ namespace der
 
     void GameObject::set_transform(const Matrix3x4 &tr)
     { tr.decompose(m_position, m_rotation, m_scale); }
+
+
+    void GameObject::update_bounding_box(ResourceCache *cache)
+    {
+        m_bounding_box.reset();
+        if (m_mesh_renderer)
+        {
+            Mesh *mesh = cache->get<Mesh>(m_mesh_renderer->get_mesh());
+            if (mesh)
+                m_bounding_box += mesh->get_bounding_box();
+        }
+        if (m_light)
+            m_bounding_box += m_light->get_bounding_box();
+    }
+
+    Aabb GameObject::get_bounding_box() const
+    { return m_bounding_box; }
 
 } // der

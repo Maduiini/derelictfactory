@@ -3,6 +3,7 @@
 #define H_DER_MESH_BUILDER_H
 
 #include "../math/Math.h"
+#include "../math/Aabb.h"
 #include "../Types.h"
 
 #include <vector>
@@ -128,7 +129,7 @@ namespace der
 
         uint32_t        m_start_index;
 
-//        AABBox          m_bounding_box;
+        Aabb            m_bounding_box;
         bool            m_bounding_box_reset;
     };
 

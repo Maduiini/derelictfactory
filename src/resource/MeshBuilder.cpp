@@ -63,6 +63,7 @@ namespace der
             const ResourceID material = make_resource(material_name.c_str());
             mesh.add_submesh(submesh.start_index, submesh.index_count, material);
         }
+        mesh.set_bounding_box(m_bounding_box);
     }
 
     uint32_t MeshBuilder::get_position_count() const
@@ -206,7 +207,16 @@ namespace der
 
     void MeshBuilder::update_bounding_box(uint32_t vertex_index)
     {
-
+        const Vertex &vertex = m_vertices.at(vertex_index);
+        if (m_bounding_box_reset)
+        {
+            m_bounding_box.m_min = m_bounding_box.m_max = vertex.position;
+            m_bounding_box_reset = false;
+        }
+        else
+        {
+            m_bounding_box.add_point(vertex.position);
+        }
     }
 
     void MeshBuilder::calculate_tangents()

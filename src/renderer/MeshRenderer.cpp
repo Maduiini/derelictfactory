@@ -14,7 +14,7 @@ namespace der
 {
 
     MeshRenderer::MeshRenderer()
-        : m_mesh(0)
+        : m_mesh(InvalidResource)
     { }
 
     void MeshRenderer::render(Graphics *graphics, ResourceCache *cache)
@@ -46,7 +46,6 @@ namespace der
         if (!mesh) return;
 
         renderer->set_vao(mesh->get_vao());
-
         IndexBuffer *ib = mesh->get_index_buffer();
         for (size_t i = 0; i < mesh->get_submesh_count(); i++)
         {

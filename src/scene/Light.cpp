@@ -44,4 +44,9 @@ namespace der
     float Light::get_energy() const
     { return m_energy; }
 
+    Aabb Light::get_bounding_box() const
+    {
+        return Aabb(Vector3(-m_radius), Vector3(m_radius));
+    }
+
 } // der

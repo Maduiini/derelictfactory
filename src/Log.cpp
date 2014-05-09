@@ -51,6 +51,11 @@ namespace log
         while (*msg) write(*msg++);
     }
 
+    void write(const std::string &msg)
+    {
+        write(msg.c_str());
+    }
+
     void write(const short value)
     {
         std::cout << value;

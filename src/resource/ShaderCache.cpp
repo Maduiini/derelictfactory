@@ -94,6 +94,19 @@ namespace der
                 }
             }
         }
+        else
+        {
+            res.program->detach_shaders();
+            vs = m_resource_cache.get<Shader>(m_default_vert);
+            fs = m_resource_cache.get<Shader>(m_default_frag);
+            res.program->attach(vs);
+            res.program->attach(fs);
+            if (!res.program->link())
+            {
+                delete res.program;
+                res.program = nullptr;
+            }
+        }
     }
 
     Program* ProgramCache::get(ResourceID v, ResourceID f)

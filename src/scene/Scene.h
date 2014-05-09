@@ -11,6 +11,8 @@
 namespace der
 {
 
+    class ResourceCache;
+
     struct Vector3;
 
     typedef unsigned int GameObjectID;
@@ -25,6 +27,8 @@ namespace der
         ~Scene();
 
         void reshape(int w, int h);
+
+        void update(ResourceCache *cache);
 
         size_t get_object_count() const;
         GameObject* get_object(const size_t index) const;

@@ -13,6 +13,7 @@ namespace der
         , m_index_buffer(nullptr)
         , m_vao(nullptr)
         , m_submesh_count(0)
+        , m_bounding_box()
     {
         m_vao = new VertexArrayObject();
     }
@@ -56,5 +57,11 @@ namespace der
 
     size_t Mesh::get_submesh_count() const
     { return m_submesh_count; }
+
+    void Mesh::set_bounding_box(const Aabb &aabb)
+    { m_bounding_box = aabb; }
+
+    const Aabb& Mesh::get_bounding_box() const
+    { return m_bounding_box; }
 
 } // der

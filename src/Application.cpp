@@ -23,9 +23,21 @@
 #include "ui/Slider.h"
 
 #include <GLFW/glfw3.h>
+#include <sstream>
 
 namespace der
 {
+
+    // NOTE: The c++11 value to string conversion functionality
+    // std::to_string does not work in MinGW (at least <4.8.1).
+    template <class T>
+    std::string to_string(const T value)
+    {
+        std::ostringstream out;
+        out << value;
+        return out.str();
+    }
+
 
     void glfw_error_callback(int err, const char * const msg)
     {
@@ -111,7 +123,6 @@ namespace der
         }
 
         double last_time = ::glfwGetTime();
-        double last_log_time = ::glfwGetTime();
 
         while (!m_window.should_close())
         {
@@ -132,14 +143,12 @@ namespace der
             if (m_current_controller)
                 m_current_controller->update(delta_time);
 
+            m_scene->update(&m_resource_cache);
+
             m_scene_renderer->set_time(cur_time);
             render();
 
-            if (cur_time - last_log_time > 0.5)
-            {
-                log::info("State changes: %", m_graphics.get_state_changes());
-                last_log_time = cur_time;
-            }
+            update_title(cur_time);
 
             m_window.poll_events();
             if (m_window.has_resized())
@@ -210,6 +219,28 @@ namespace der
         m_gui_renderer->render(&m_graphics, m_resource_cache);
 
         m_window.swap_buffer();
+    }
+
+
+    void Application::update_title(double current_time)
+    {
+        static double last_time = current_time;
+        static size_t frames = 0;
+
+        if (current_time - last_time >= 0.5)
+        {
+            std::string title = "derelict fps: ";
+
+            const double fps = double(frames) / (current_time - last_time);
+            title += to_string(fps);
+            title += ", state changes: " + to_string(m_graphics.get_state_changes());
+
+            m_window.set_title(title.c_str());
+
+            last_time = current_time;
+            frames = 0;
+        }
+        frames++;
     }
 
 

@@ -3,6 +3,7 @@
 #define H_DER_LIGHT_H
 
 #include "../math/Vector.h"
+#include "../math/Aabb.h"
 
 namespace der
 {
@@ -29,6 +30,8 @@ namespace der
 
         void set_energy(float energy);
         float get_energy() const;
+
+        Aabb get_bounding_box() const;
 
     private:
         LightType m_type;

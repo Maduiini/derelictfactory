@@ -30,6 +30,16 @@ namespace der
         }
     }
 
+
+    void Scene::update(ResourceCache *cache)
+    {
+        for (GameObject *object : m_gameobjects)
+        {
+            object->update_bounding_box(cache);
+        }
+    }
+
+
     size_t Scene::get_object_count() const
     {
         return m_gameobjects.size();

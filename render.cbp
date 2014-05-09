@@ -43,6 +43,7 @@
 		</Linker>
 		<Unit filename="assets/materials/Barrel.material" />
 		<Unit filename="assets/materials/Brickwall.material" />
+		<Unit filename="assets/materials/Cube.material" />
 		<Unit filename="assets/materials/Ground.material" />
 		<Unit filename="assets/materials/Rock.material" />
 		<Unit filename="assets/materials/Shed.material" />
@@ -54,6 +55,7 @@
 		<Unit filename="assets/shaders/gui.vert" />
 		<Unit filename="assets/shaders/pbs.frag" />
 		<Unit filename="assets/shaders/pbs.vert" />
+		<Unit filename="assets/textures/Test_cube_map.cube" />
 		<Unit filename="doc/Plan.txt" />
 		<Unit filename="doc/Scene_export_manual.txt" />
 		<Unit filename="src/Application.cpp" />
@@ -72,6 +74,7 @@
 		<Unit filename="src/input/InputController.cpp" />
 		<Unit filename="src/input/InputController.h" />
 		<Unit filename="src/main.cpp" />
+		<Unit filename="src/math/Aabb.h" />
 		<Unit filename="src/math/Math.cpp" />
 		<Unit filename="src/math/Math.h" />
 		<Unit filename="src/math/Matrix3.cpp" />
@@ -110,6 +113,9 @@
 		<Unit filename="src/renderer/Shader.h" />
 		<Unit filename="src/renderer/Texture.cpp" />
 		<Unit filename="src/renderer/Texture.h" />
+		<Unit filename="src/renderer/TextureCube.cpp" />
+		<Unit filename="src/renderer/TextureCube.h" />
+		<Unit filename="src/renderer/TextureInternalConv.h" />
 		<Unit filename="src/renderer/TransformRenderer.cpp" />
 		<Unit filename="src/renderer/TransformRenderer.h" />
 		<Unit filename="src/renderer/UniformBuffer.cpp" />
@@ -123,6 +129,8 @@
 		<Unit filename="src/resource/DirectoryFiles.h" />
 		<Unit filename="src/resource/FileStat.cpp" />
 		<Unit filename="src/resource/FileStat.h" />
+		<Unit filename="src/resource/ImageTga.cpp" />
+		<Unit filename="src/resource/ImageTga.h" />
 		<Unit filename="src/resource/MaterialCache.cpp" />
 		<Unit filename="src/resource/MaterialCache.h" />
 		<Unit filename="src/resource/MeshBuilder.cpp" />
@@ -140,12 +148,16 @@
 		<Unit filename="src/resource/ShaderCache.h" />
 		<Unit filename="src/resource/TextureCache.cpp" />
 		<Unit filename="src/resource/TextureCache.h" />
+		<Unit filename="src/resource/TextureCubeCache.cpp" />
+		<Unit filename="src/resource/TextureCubeCache.h" />
 		<Unit filename="src/scene/Camera.cpp" />
 		<Unit filename="src/scene/Camera.h" />
 		<Unit filename="src/scene/GameObject.cpp" />
 		<Unit filename="src/scene/GameObject.h" />
 		<Unit filename="src/scene/Light.cpp" />
 		<Unit filename="src/scene/Light.h" />
+		<Unit filename="src/scene/QuadTree.cpp" />
+		<Unit filename="src/scene/QuadTree.h" />
 		<Unit filename="src/scene/Scene.cpp" />
 		<Unit filename="src/scene/Scene.h" />
 		<Unit filename="src/ui/BitmapFont.cpp" />

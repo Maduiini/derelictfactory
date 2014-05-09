@@ -3,6 +3,7 @@
 #define H_DER_MESH_H
 
 #include "../Types.h"
+#include "../math/Aabb.h"
 
 namespace der
 {
@@ -37,6 +38,9 @@ namespace der
         const SubMesh& get_submesh(size_t index) const;
         size_t get_submesh_count() const;
 
+        void set_bounding_box(const Aabb &aabb);
+        const Aabb& get_bounding_box() const;
+
     private:
         VertexBuffer *m_vertex_buffer;
         IndexBuffer *m_index_buffer;
@@ -44,6 +48,8 @@ namespace der
 
         SubMesh m_submeshes[MAX_SUB_MESHES];
         size_t m_submesh_count;
+
+        Aabb m_bounding_box;
     };
 
 } // der

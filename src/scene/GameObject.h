@@ -9,12 +9,15 @@
 #include "../math/Quaternion.h"
 #include "../math/Matrix3.h"
 #include "../math/Matrix4.h"
+#include "../math/Aabb.h"
 #include "../Types.h"
 
 namespace der
 {
     typedef unsigned int GameObjectID;
     constexpr GameObjectID InvalidID = -1;
+
+    class ResourceCache;
 
     class GameObject;
     class MeshRenderer;
@@ -72,6 +75,10 @@ namespace der
         void set_transform(const Matrix4 &tr);
         void set_transform(const Matrix3x4 &tr);
 
+        void update_bounding_box(ResourceCache *cache);
+
+        Aabb get_bounding_box() const;
+
     private:
         GameObject(const GameObjectID id);
 
@@ -92,6 +99,8 @@ namespace der
         TransformRenderer *m_tr_renderer;
         Camera *m_camera;
         Light *m_light;
+
+        Aabb m_bounding_box;
 
     };
 

@@ -170,6 +170,8 @@
 		<Unit filename="src/ui/BitmapFontLoader.h" />
 		<Unit filename="src/ui/Button.cpp" />
 		<Unit filename="src/ui/Button.h" />
+		<Unit filename="src/ui/Checkbox.cpp" />
+		<Unit filename="src/ui/Checkbox.h" />
 		<Unit filename="src/ui/GUIManager.cpp" />
 		<Unit filename="src/ui/GUIManager.h" />
 		<Unit filename="src/ui/GUIRenderer.cpp" />

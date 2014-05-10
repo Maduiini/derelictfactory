@@ -21,6 +21,8 @@ namespace der
         std::string get_title() const
         { return m_title; }
 
+        virtual void update(double delta_time, Vector2 mouse) override;
+
         virtual void mouse_pressed(Vector2 point) override;
 
         virtual void mouse_released(Vector2 point) override;
@@ -32,8 +34,11 @@ namespace der
         Vector2 m_position;
         Vector2 m_size;
         std::string m_title;
+        bool m_down;
 
         static ResourceID m_button_texture;
+        static ResourceID m_button_highlight_texture;
+        static ResourceID m_button_pressed_texture;
 
     };
 

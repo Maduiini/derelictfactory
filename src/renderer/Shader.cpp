@@ -177,6 +177,11 @@ namespace der
         ::glUniform2f(location, vec.x, vec.y);
     }
 
+    void Program::uniform(int location, const Vector3 &vec)
+    {
+        ::glUniform3f(location, vec.x, vec.y, vec.z);
+    }
+
     void Program::uniform_sampler2D(int location, int sampler)
     {
         ::glUniform1i(location, sampler);

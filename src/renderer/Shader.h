@@ -12,6 +12,7 @@ namespace der
     struct Matrix4;
     struct Matrix3x4;
     struct Vector2;
+    struct Vector3;
 
     class Shader
     {
@@ -54,6 +55,7 @@ namespace der
         void uniform(int location, const Matrix4 &mat);
         void uniform(int location, const Matrix3x4 &mat);
         void uniform(int location, const Vector2 &vec);
+        void uniform(int location, const Vector3 &vec);
 
     private:
         GLuint m_program;

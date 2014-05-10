@@ -10,6 +10,7 @@
 
 namespace der
 {
+
     class GUIRenderer;
 
     struct WidgetRenderCommand

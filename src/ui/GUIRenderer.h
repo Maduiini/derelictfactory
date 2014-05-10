@@ -49,6 +49,7 @@ namespace der
         bool m_visible;
         float m_win_width;
         float m_win_height;
+        float m_z;
         const float m_font_texture_size;
 
         VertexArrayObject *m_vao;

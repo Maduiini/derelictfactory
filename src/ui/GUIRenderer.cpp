@@ -39,6 +39,7 @@ namespace gui_renderer_internal
         , m_visible(true)
         , m_win_width(0.0f)
         , m_win_height(0.0f)
+        , m_z(0.0f)
         , m_font_texture_size(256.0f)
         , m_vao(nullptr)
         , m_vbuffer(nullptr)
@@ -69,6 +70,7 @@ namespace gui_renderer_internal
         if (!m_visible) return;
 
         update_window_size();
+        m_z = 0.0f;
 
         std::vector<Widget*> widgets;
         m_gui->get_widgets(widgets);
@@ -88,9 +90,10 @@ namespace gui_renderer_internal
     {
         update_buffers(uv);
 
-        Vector2 scaled_position = {
+        Vector3 scaled_position = {
             position.x / m_win_width,
-            position.y / m_win_height
+            position.y / m_win_height,
+            m_z
         };
 
         Vector2 scaled_scale = {
@@ -114,6 +117,7 @@ namespace gui_renderer_internal
             graphics->update_state();
 
             graphics->draw_triangles(0, 6);
+            m_z -= 0.005f;
         }
     }
 

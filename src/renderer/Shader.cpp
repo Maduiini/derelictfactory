@@ -34,6 +34,17 @@ namespace der
 
         GLint compiled = GL_FALSE;
         ::glGetShaderiv(m_object, GL_COMPILE_STATUS, &compiled);
+
+        // Report shader compilation errors
+        if (compiled == GL_FALSE)
+        {
+            int info_log_length, actual_length;
+            ::glGetShaderiv(m_object, GL_INFO_LOG_LENGTH, &info_log_length);
+            char message_buffer[info_log_length];
+            ::glGetShaderInfoLog(m_object, info_log_length, &actual_length, message_buffer);
+            log::error(message_buffer);
+        }
+
         return compiled == GL_TRUE;
     }
 

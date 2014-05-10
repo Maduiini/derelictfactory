@@ -5,14 +5,14 @@
 
 namespace der
 {
-    ResourceID Button::button_texture = make_resource("button.tga");
+    ResourceID Button::m_button_texture = make_resource("button.tga");
 
     Button::Button(Vector2 position, Vector2 size, std::string title)
         : m_position(position)
         , m_size(size)
         , m_title(title)
     {
-        m_render_cmds.push_back({Button::button_texture, m_position, m_size});
+        m_render_cmds.push_back({Button::m_button_texture, m_position, m_size});
     }
 
     Button::~Button()

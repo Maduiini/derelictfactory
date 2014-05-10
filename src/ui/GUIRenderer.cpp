@@ -17,27 +17,52 @@
 namespace der
 {
 
+namespace gui_renderer_internal
+{
+
+    struct Vertex
+    {
+        Vector2 position;
+        Vector2 uv;
+    };
+
+} // gui_renderer_internal
+
+    ResourceID GUIRenderer::m_font_texture = make_resource("gauge_fix.tga");
     ResourceID GUIRenderer::m_vert_shader = make_resource("gui.vert");
     ResourceID GUIRenderer::m_frag_shader = make_resource("gui.frag");
-    VertexArrayObject *GUIRenderer::m_vao = nullptr;
-    VertexBuffer *GUIRenderer::m_vbuffer = nullptr;
 
     GUIRenderer::GUIRenderer(GUIManager *gui, Window *window)
         : m_gui(gui)
         , m_window(window)
+        , m_font()
         , m_visible(true)
         , m_win_width(0.0f)
         , m_win_height(0.0f)
+        , m_font_texture_size(256.0f)
+        , m_vao(nullptr)
+        , m_vbuffer(nullptr)
     {
-        build();
-
-        // Testing font loading.
-        BitmapFont font;
-        BitmapFontLoader::load("assets\\font\\gauge.fnt", font);
+        m_vbuffer = new VertexBuffer();
+        m_vao = new VertexArrayObject();
+        init_buffers();
     }
 
     GUIRenderer::~GUIRenderer()
-    { }
+    {
+        delete m_vao;
+        delete m_vbuffer;
+    }
+
+    bool GUIRenderer::init()
+    {
+        if (!BitmapFontLoader::load("assets\\font\\gauge.fnt", m_font))
+        {
+            log::error("GuiRenderer: failed to load font.");
+            return false;
+        }
+        return true;
+    }
 
     void GUIRenderer::render(Graphics *graphics, ResourceCache &cache)
     {
@@ -48,6 +73,8 @@ namespace der
         std::vector<Widget*> widgets;
         m_gui->get_widgets(widgets);
 
+        render_text(graphics, cache, {300.0f, 300.0f}, "Font rendering is broken 1234567890");
+
         for (Widget *widget : widgets)
         {
             for (WidgetRenderCommand &cmd : widget->get_render_commands())
@@ -57,16 +84,18 @@ namespace der
         }
     }
 
-    void GUIRenderer::render_widget(Graphics *graphics, ResourceCache &cache, WidgetRenderCommand &cmd)
+    void GUIRenderer::render_quad(Graphics *graphics, ResourceCache &cache, const Vector2 &position, const Vector2 &scale, const ResourceID texture_id, const Vector4 uv /* = {0.0,0.0,1.0,1.0} */)
     {
-        Vector2 position = {
-            cmd.position.x / m_win_width,
-            cmd.position.y / m_win_height
+        update_buffers(uv);
+
+        Vector2 scaled_position = {
+            position.x / m_win_width,
+            position.y / m_win_height
         };
 
-        Vector2 scale = {
-            cmd.size.x / m_win_width,
-            cmd.size.y / m_win_height
+        Vector2 scaled_scale = {
+            scale.x / m_win_width,
+            scale.y / m_win_height
         };
 
         m_vao->bind();
@@ -77,15 +106,47 @@ namespace der
             const int scale_loc = program->get_uniform_location("gui_scale");
             const int position_loc = program->get_uniform_location("gui_position");
             const int texture_loc = program->get_uniform_location("gui_texture");
-            program->uniform(scale_loc, scale);
-            program->uniform(position_loc, position);
+            program->uniform(scale_loc, scaled_scale);
+            program->uniform(position_loc, scaled_position);
             program->uniform_sampler2D(texture_loc, 0);
             graphics->set_blend_enabled(true);
-            graphics->set_texture(0, cache.get<Texture2D>(cmd.texture_id));
+            graphics->set_texture(0, cache.get<Texture2D>(texture_id));
             graphics->update_state();
 
             graphics->draw_triangles(0, 6);
         }
+    }
+
+    void GUIRenderer::render_text(Graphics *graphics, ResourceCache &cache, const Vector2 &position, const char * const buffer)
+    {
+        Vector2 cursor = Vector2::zero;
+
+        for (size_t i=0; buffer[i] != '\0'; i++)
+        {
+            if (buffer[i] != ' ')
+            {
+                BitmapFontCharacter fontchar = m_font.get_character(static_cast<unsigned int>(buffer[i]));
+                Vector4 uv = { fontchar.x / m_font_texture_size,
+                               0.945f - (fontchar.y / m_font_texture_size), // doesn't work without the 0.945 for some reason
+                               fontchar.width / m_font_texture_size,
+                               fontchar.height / m_font_texture_size };
+                Vector2 size = { static_cast<float>(fontchar.width), static_cast<float>(fontchar.height) };
+                render_quad(graphics, cache,
+                            position + Vector2(0.0f, static_cast<float>(fontchar.offset_y)) + cursor,
+                            size, m_font_texture, uv);
+
+                cursor += Vector2(fontchar.width, 0.0f);
+            }
+            else
+            {
+                cursor += Vector2(8.0f, 0.0f);
+            }
+        }
+    }
+
+    void GUIRenderer::render_widget(Graphics *graphics, ResourceCache &cache, WidgetRenderCommand &cmd)
+    {
+        render_quad(graphics, cache, cmd.position, cmd.size, cmd.texture_id);
     }
 
     void GUIRenderer::update_window_size()
@@ -102,26 +163,48 @@ namespace der
     bool GUIRenderer::is_visible() const
     { return m_visible; }
 
-    // static
-    void GUIRenderer::build()
+    void GUIRenderer::init_buffers()
     {
-        float vertices[] = {
-            -1.0f, -1.0f,
-             1.0f, -1.0f,
-            -1.0f,  1.0f,
-            -1.0f,  1.0f,
-             1.0f, -1.0f,
-             1.0f,  1.0f
+        using namespace gui_renderer_internal;
+
+        Vertex vertices[] = {
+            {{ -1.0f, -1.0f }, { 0.0f, 0.0f }},
+            {{ 1.0f, -1.0f }, { 1.0f, 0.0f }},
+            {{ -1.0f, 1.0f }, { 0.0f, 1.0f }},
+            {{ -1.0f, 1.0f }, { 0.0f, 1.0f }},
+            {{ 1.0f, -1.0f }, { 1.0f, 0.0f }},
+            {{ 1.0f, 1.0f }, { 1.0f, 1.0f }}
         };
 
-        m_vbuffer = new VertexBuffer();
         m_vbuffer->bind();
-        m_vbuffer->resize(sizeof(vertices), false);
+        m_vbuffer->resize(sizeof(vertices), true);
         m_vbuffer->write(0, sizeof(vertices), &vertices);
 
-        m_vao = new VertexArrayObject();
         m_vao->bind();
-        m_vao->set_attribute(VertexAttrib::Position, 0, 0, 2);
+        m_vao->set_attribute(VertexAttrib::Position, 0, sizeof(Vertex), 2);
+        m_vao->set_attribute(VertexAttrib::TexCoord, sizeof(Vector2), sizeof(Vertex), 2);
+    }
+
+    void GUIRenderer::update_buffers(const Vector4 &uv)
+    {
+        using namespace gui_renderer_internal;
+
+        Vector2 top_left = { uv.x, uv.y };
+        Vector2 top_right = { uv.x + uv.z, uv.y };
+        Vector2 bot_left = { uv.x, uv.y + uv.w };
+        Vector2 bot_right = { uv.x + uv.z, uv.y + uv.w };
+
+        Vertex vertices[] = {
+            {{ -1.0f, -1.0f }, top_left },
+            {{ 1.0f, -1.0f }, top_right },
+            {{ -1.0f, 1.0f }, bot_left },
+            {{ -1.0f, 1.0f }, bot_left },
+            {{ 1.0f, -1.0f }, top_right },
+            {{ 1.0f, 1.0f }, bot_right }
+        };
+
+        m_vbuffer->bind();
+        m_vbuffer->write(0, sizeof(vertices), &vertices);
     }
 
 } // der

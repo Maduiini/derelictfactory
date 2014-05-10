@@ -6,6 +6,7 @@
 #include "../Log.h"
 
 #include <string>
+#include <vector>
 #include <fstream>
 #include <sstream>
 #include <exception>
@@ -129,7 +130,7 @@ namespace der
         char bytes[2];
         file.read(bytes, 2);
         if (file.eof()) throw EndOfFile();
-        uint16_t value = bytes[0] | (bytes[1] << 8);
+        uint16_t value = static_cast<unsigned char>(bytes[0]) | (static_cast<unsigned char>(bytes[1]) << 8);
         return value;
     }
 
@@ -171,6 +172,10 @@ namespace der
     // static
     bool BitmapFontLoader::load(const char * const filepath, BitmapFont &font)
     {
+        uint32_t largest_id = 0;
+        std::vector<BmfCharBlock> character_blocks;
+        BmfCommonBlock common_block;
+
         std::ifstream file(filepath, std::ifstream::in | std::ifstream::binary);
 
         if (!file.is_open())
@@ -198,7 +203,6 @@ namespace der
             {
                 uint8_t block_type = read_uint8(file);
                 uint32_t block_size = read_uint32(file);
-                int pos = file.tellg();
 
                 switch (block_type)
                 {
@@ -222,19 +226,16 @@ namespace der
                     break;
 
                 case BmfCommonBlock::TYPE:
-                    {
-                        BmfCommonBlock block;
-                        block.line_height = read_uint16(file);
-                        block.base = read_uint16(file);
-                        block.scale_w = read_uint16(file);
-                        block.scale_h = read_uint16(file);
-                        block.pages = read_uint16(file);
-                        block.bit_field = read_uint8(file);
-                        block.alpha_channel = read_uint8(file);
-                        block.red_channel = read_uint8(file);
-                        block.green_channel = read_uint8(file);
-                        block.blue_channel = read_uint8(file);
-                    }
+                    common_block.line_height = read_uint16(file);
+                    common_block.base = read_uint16(file);
+                    common_block.scale_w = read_uint16(file);
+                    common_block.scale_h = read_uint16(file);
+                    common_block.pages = read_uint16(file);
+                    common_block.bit_field = read_uint8(file);
+                    common_block.alpha_channel = read_uint8(file);
+                    common_block.red_channel = read_uint8(file);
+                    common_block.green_channel = read_uint8(file);
+                    common_block.blue_channel = read_uint8(file);
                     break;
 
                 case BmfPageBlock::TYPE:
@@ -260,6 +261,9 @@ namespace der
                             block.page = read_uint8(file);
                             block.channel = read_uint8(file);
                             //log::debug("BitmapFontLoader: char id: % (%)", block.id, (char)block.id);
+                            character_blocks.push_back(block);
+                            if (block.id > largest_id)
+                                largest_id = block.id;
                         }
                     }
                     break;
@@ -286,13 +290,35 @@ namespace der
         {
             log::error("BitmapFontLoader: Encountered end of file unexpectedly.");
             log::debug("File position: %", file.tellg());
+            file.close();
+            return false;
         }
         catch (ParseError &err)
         {
             log::error("BitmapFontLoader: Failed to parse font definition. Position: %\n       Reason: %", file.tellg(), err.what());
+            file.close();
+            return false;
         }
 
         file.close();
+
+        font.m_base = common_block.base;
+        font.m_line_height = common_block.line_height;
+        font.reserve(largest_id+1);
+        for (BmfCharBlock &cblock : character_blocks)
+        {
+            BitmapFontCharacter c;
+            c.id = cblock.id;
+            c.x = cblock.x;
+            c.y = cblock.y;
+            c.width = cblock.width;
+            c.height = cblock.height;
+            c.offset_x = cblock.offset_x;
+            c.offset_y = cblock.offset_y;
+            c.advance_x = cblock.advance_x;
+            font.add_character(c);
+        }
+
         return true;
     }
 

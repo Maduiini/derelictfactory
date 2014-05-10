@@ -200,6 +200,12 @@ namespace der
         m_gui = new GUIManager();
         m_gui_renderer = new GUIRenderer(m_gui, &m_window);
 
+        if (!m_gui_renderer->init())
+        {
+            log::error("Failed to initialize GUIRenderer.");
+            return false;
+        }
+
         m_gui->add_widget(new Button(Vector2(32, 32), Vector2(128, 32), "Hello World"));
         m_gui->add_widget(new Slider(Vector2(15, 200), 150.0f, -20.0f, 20.0));
 

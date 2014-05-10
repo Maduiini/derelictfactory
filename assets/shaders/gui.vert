@@ -4,12 +4,13 @@ uniform vec2 gui_scale;
 uniform vec2 gui_position;
 
 in vec2 in_position;
+in vec2 in_tex_coord;
 
 out vec2 tcoord;
 
 void main()
 {
-    tcoord = (in_position + 1.0) * 0.5;
+    tcoord = in_tex_coord; //(in_position + 1.0) * 0.5;
 
     // Moves the origin of the quad from the center to the top-left corner of the quad
     vec2 origin_fix = vec2(in_position.x + 1.0, in_position.y - 1.0) * gui_scale;

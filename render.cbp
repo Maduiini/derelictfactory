@@ -44,8 +44,12 @@
 		<Unit filename="assets/materials/Barrel.material" />
 		<Unit filename="assets/materials/Brickwall.material" />
 		<Unit filename="assets/materials/Cube.material" />
+		<Unit filename="assets/materials/GeneratorBase.material" />
+		<Unit filename="assets/materials/GeneratorCylinder.material" />
+		<Unit filename="assets/materials/GeneratorTop.material" />
 		<Unit filename="assets/materials/Ground.material" />
 		<Unit filename="assets/materials/Rock.material" />
+		<Unit filename="assets/materials/Rust.material" />
 		<Unit filename="assets/materials/Shed.material" />
 		<Unit filename="assets/shaders/color.frag" />
 		<Unit filename="assets/shaders/color.vert" />
@@ -160,6 +164,10 @@
 		<Unit filename="src/scene/QuadTree.h" />
 		<Unit filename="src/scene/Scene.cpp" />
 		<Unit filename="src/scene/Scene.h" />
+		<Unit filename="src/ui/BitmapFont.cpp" />
+		<Unit filename="src/ui/BitmapFont.h" />
+		<Unit filename="src/ui/BitmapFontLoader.cpp" />
+		<Unit filename="src/ui/BitmapFontLoader.h" />
 		<Unit filename="src/ui/Button.cpp" />
 		<Unit filename="src/ui/Button.h" />
 		<Unit filename="src/ui/GUIManager.cpp" />

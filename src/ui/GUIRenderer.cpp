@@ -2,6 +2,8 @@
 #include "GUIRenderer.h"
 #include "GUIManager.h"
 #include "Widget.h"
+#include "BitmapFontLoader.h"
+#include "BitmapFont.h"
 
 #include "../renderer/Graphics.h"
 #include "../renderer/VertexBuffer.h"
@@ -28,6 +30,10 @@ namespace der
         , m_win_height(0.0f)
     {
         build();
+
+        // Testing font loading.
+        BitmapFont font;
+        BitmapFontLoader::load("assets\\font\\gauge.fnt", font);
     }
 
     GUIRenderer::~GUIRenderer()

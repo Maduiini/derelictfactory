@@ -123,27 +123,28 @@ namespace gui_renderer_internal
 
     void GUIRenderer::render_text(Graphics *graphics, ResourceCache &cache, const Vector2 &position, const char * const buffer)
     {
-        Vector2 cursor = Vector2::zero;
+        const Vector2 space_advance(m_font.get_line_height() * 0.25f, 0.0f);
+        Vector2 cursor = position;
 
         for (size_t i=0; buffer[i] != '\0'; i++)
         {
+            const BitmapFontCharacter fontchar = m_font.get_character(static_cast<unsigned int>(buffer[i]));
             if (buffer[i] != ' ')
             {
-                BitmapFontCharacter fontchar = m_font.get_character(static_cast<unsigned int>(buffer[i]));
-                Vector4 uv = { fontchar.x / m_font_texture_size,
-                               0.945f - (fontchar.y / m_font_texture_size), // doesn't work without the 0.945 for some reason
-                               fontchar.width / m_font_texture_size,
-                               fontchar.height / m_font_texture_size };
-                Vector2 size = { static_cast<float>(fontchar.width), static_cast<float>(fontchar.height) };
-                render_quad(graphics, cache,
-                            position + Vector2(0.0f, static_cast<float>(fontchar.offset_y)) + cursor,
-                            size, m_font_texture, uv);
+                Vector2 offset(fontchar.offset_x, fontchar.offset_y);
+                Vector2 size(fontchar.width, fontchar.height);
 
-                cursor += Vector2(fontchar.width, 0.0f);
+                Vector4 uv(fontchar.x, fontchar.y + fontchar.height,
+                           fontchar.width, fontchar.height);
+                uv /= m_font_texture_size;
+                uv.y = 1.0f - uv.y;
+
+                render_quad(graphics, cache, offset + cursor, size, m_font_texture, uv);
+                cursor += Vector2(fontchar.advance_x, 0.0f);
             }
             else
             {
-                cursor += Vector2(8.0f, 0.0f);
+                cursor += space_advance;
             }
         }
     }

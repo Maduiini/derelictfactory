@@ -75,7 +75,8 @@ namespace gui_renderer_internal
         std::vector<Widget*> widgets;
         m_gui->get_widgets(widgets);
 
-        render_text(graphics, cache, {300.0f, 300.0f}, "Font rendering is broken 1234567890");
+        render_text(graphics, cache, {300.0f, 300.0f}, "abvwxyz 1234567890");
+        render_text(graphics, cache, {300.0f, 350.0f}, "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
         for (Widget *widget : widgets)
         {
@@ -88,6 +89,9 @@ namespace gui_renderer_internal
 
     void GUIRenderer::render_quad(Graphics *graphics, ResourceCache &cache, const Vector2 &position, const Vector2 &scale, const ResourceID texture_id, const Vector4 uv /* = {0.0,0.0,1.0,1.0} */)
     {
+        if (texture_id == InvalidResource)
+            return;
+
         update_buffers(uv);
 
         Vector3 scaled_position = {
@@ -152,6 +156,9 @@ namespace gui_renderer_internal
     void GUIRenderer::render_widget(Graphics *graphics, ResourceCache &cache, WidgetRenderCommand &cmd)
     {
         render_quad(graphics, cache, cmd.position, cmd.size, cmd.texture_id);
+
+        if (cmd.text != nullptr)
+            render_text(graphics, cache, cmd.text_position, cmd.text);
     }
 
     void GUIRenderer::update_window_size()

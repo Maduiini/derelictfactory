@@ -2,6 +2,7 @@ pbs.vert
 pbs.frag
 DirtyCopper_A.tga
 DirtyCopper_N.tga
-Param_50.tga
+DirtyCopper_R.tga
 DirtyCopper_M.tga
+Skybox.cube
 Test_cube_map.cube

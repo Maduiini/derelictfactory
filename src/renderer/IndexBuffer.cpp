@@ -2,6 +2,7 @@
 #include "IndexBuffer.h"
 
 #include <GL/glew.h>
+#include "PrimitiveTypeInternalConv.h"
 
 namespace der
 {
@@ -30,13 +31,8 @@ namespace der
 
     void IndexBuffer::draw_primitives(PrimitiveType prim_type, size_t start_index, size_t index_count)
     {
-        static const GLenum modes[] {
-            [static_cast<int>(PrimitiveType::Triangles)] = GL_TRIANGLES,
-            [static_cast<int>(PrimitiveType::Lines)] = GL_LINES
-        };
-
         const void *start = reinterpret_cast<const void*>(start_index * m_element_size);
-        ::glDrawElements(modes[static_cast<int>(prim_type)], index_count, m_gl_type, start);
+        ::glDrawElements(g_gl_modes[static_cast<int>(prim_type)], index_count, m_gl_type, start);
     }
 
     void IndexBuffer::draw_triangles(size_t start_index, size_t index_count)
@@ -45,10 +41,34 @@ namespace der
         ::glDrawElements(GL_TRIANGLES, index_count, m_gl_type, start);
     }
 
+    void IndexBuffer::draw_triangle_strip(size_t start_index, size_t index_count)
+    {
+        const void *start = reinterpret_cast<const void*>(start_index * m_element_size);
+        ::glDrawElements(GL_TRIANGLE_STRIP, index_count, m_gl_type, start);
+    }
+
+    void IndexBuffer::draw_triangle_fan(size_t start_index, size_t index_count)
+    {
+        const void *start = reinterpret_cast<const void*>(start_index * m_element_size);
+        ::glDrawElements(GL_TRIANGLE_FAN, index_count, m_gl_type, start);
+    }
+
     void IndexBuffer::draw_lines(size_t start_index, size_t index_count)
     {
         const void *start = reinterpret_cast<const void*>(start_index * m_element_size);
         ::glDrawElements(GL_LINES, index_count, m_gl_type, start);
+    }
+
+    void IndexBuffer::draw_line_strip(size_t start_index, size_t index_count)
+    {
+        const void *start = reinterpret_cast<const void*>(start_index * m_element_size);
+        ::glDrawElements(GL_LINE_STRIP, index_count, m_gl_type, start);
+    }
+
+    void IndexBuffer::draw_line_loop(size_t start_index, size_t index_count)
+    {
+        const void *start = reinterpret_cast<const void*>(start_index * m_element_size);
+        ::glDrawElements(GL_LINE_LOOP, index_count, m_gl_type, start);
     }
 
 } // der

@@ -29,8 +29,14 @@ namespace der
         Type get_index_type() const;
 
         void draw_primitives(PrimitiveType prim_type, size_t start_index, size_t index_count);
+
         void draw_triangles(size_t start_index, size_t index_count);
+        void draw_triangle_strip(size_t start_index, size_t index_count);
+        void draw_triangle_fan(size_t start_index, size_t index_count);
+
         void draw_lines(size_t start_index, size_t index_count);
+        void draw_line_strip(size_t start_index, size_t index_count);
+        void draw_line_loop(size_t start_index, size_t index_count);
 
     private:
         GLenum m_gl_type;

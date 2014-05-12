@@ -120,7 +120,7 @@ namespace gui_renderer_internal
             graphics->set_texture(0, cache.get<Texture2D>(texture_id));
             graphics->update_state();
 
-            graphics->draw_triangles(0, 6);
+            graphics->draw_triangle_strip(0, 4);
             m_z -= 0.005f;
         }
     }
@@ -183,8 +183,6 @@ namespace gui_renderer_internal
             {{ -1.0f, -1.0f }, { 0.0f, 0.0f }},
             {{ 1.0f, -1.0f }, { 1.0f, 0.0f }},
             {{ -1.0f, 1.0f }, { 0.0f, 1.0f }},
-            {{ -1.0f, 1.0f }, { 0.0f, 1.0f }},
-            {{ 1.0f, -1.0f }, { 1.0f, 0.0f }},
             {{ 1.0f, 1.0f }, { 1.0f, 1.0f }}
         };
 
@@ -210,8 +208,6 @@ namespace gui_renderer_internal
             {{ -1.0f, -1.0f }, top_left },
             {{ 1.0f, -1.0f }, top_right },
             {{ -1.0f, 1.0f }, bot_left },
-            {{ -1.0f, 1.0f }, bot_left },
-            {{ 1.0f, -1.0f }, top_right },
             {{ 1.0f, 1.0f }, bot_right }
         };
 

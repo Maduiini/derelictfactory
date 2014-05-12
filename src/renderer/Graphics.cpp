@@ -6,6 +6,8 @@
 #include "../Log.h"
 
 #include <GL/glew.h>
+#include "PrimitiveTypeInternalConv.h"
+
 
 void __stdcall gl_debug_callback(GLenum source, GLenum type, GLuint id, GLenum severity,
                                   GLsizei length, const GLchar *message, GLvoid *userParam)
@@ -177,25 +179,47 @@ namespace der
 
     void Graphics::draw_primitives(PrimitiveType prim_type, size_t start_index, size_t index_count)
     {
-        static const GLenum modes[] = {
-            [static_cast<int>(PrimitiveType::Triangles)] = GL_TRIANGLES,
-            [static_cast<int>(PrimitiveType::Lines)] = GL_LINES
-        };
-
-        ::glDrawArrays(modes[static_cast<int>(prim_type)], start_index, index_count);
+        ::glDrawArrays(g_gl_modes[static_cast<int>(prim_type)], start_index, index_count);
     }
 
     void Graphics::draw_triangles(IndexBuffer *ib, size_t start_index, size_t index_count)
     { ib->draw_triangles(start_index, index_count); }
 
+    void Graphics::draw_triangle_strip(IndexBuffer *ib, size_t start_index, size_t index_count)
+    { ib->draw_triangle_strip(start_index, index_count); }
+
+    void Graphics::draw_triangle_fan(IndexBuffer *ib, size_t start_index, size_t index_count)
+    { ib->draw_triangle_fan(start_index, index_count); }
+
     void Graphics::draw_lines(IndexBuffer *ib, size_t start_index, size_t index_count)
     { ib->draw_lines(start_index, index_count); }
+
+    void Graphics::draw_line_strip(IndexBuffer *ib, size_t start_index, size_t index_count)
+    { ib->draw_line_strip(start_index, index_count); }
+
+    void Graphics::draw_line_loop(IndexBuffer *ib, size_t start_index, size_t index_count)
+    { ib->draw_line_loop(start_index, index_count); }
+
 
     void Graphics::draw_triangles(size_t start_index, size_t index_count)
     { ::glDrawArrays(GL_TRIANGLES, start_index, index_count); }
 
+    void Graphics::draw_triangle_strip(size_t start_index, size_t index_count)
+    { ::glDrawArrays(GL_TRIANGLE_STRIP, start_index, index_count); }
+
+    void Graphics::draw_triangle_fan(size_t start_index, size_t index_count)
+    { ::glDrawArrays(GL_TRIANGLE_FAN, start_index, index_count); }
+
     void Graphics::draw_lines(size_t start_index, size_t index_count)
     { ::glDrawArrays(GL_LINES, start_index, index_count); }
+
+    void Graphics::draw_line_strip(size_t start_index, size_t index_count)
+    { ::glDrawArrays(GL_LINE_STRIP, start_index, index_count); }
+
+    void Graphics::draw_line_loop(size_t start_index, size_t index_count)
+    { ::glDrawArrays(GL_LINE_LOOP, start_index, index_count); }
+
+
 
     void Graphics::reset_state_changes()
     { m_state_changes = 0; }

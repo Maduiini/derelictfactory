@@ -43,9 +43,18 @@ namespace der
         void draw_primitives(PrimitiveType prim_type, size_t start_index, size_t index_count);
 
         void draw_triangles(IndexBuffer *ib, size_t start_index, size_t index_count);
+        void draw_triangle_strip(IndexBuffer *ib, size_t start_index, size_t index_count);
+        void draw_triangle_fan(IndexBuffer *ib, size_t start_index, size_t index_count);
         void draw_lines(IndexBuffer *ib, size_t start_index, size_t index_count);
+        void draw_line_strip(IndexBuffer *ib, size_t start_index, size_t index_count);
+        void draw_line_loop(IndexBuffer *ib, size_t start_index, size_t index_count);
+
         void draw_triangles(size_t start_index, size_t index_count);
+        void draw_triangle_strip(size_t start_index, size_t index_count);
+        void draw_triangle_fan(size_t start_index, size_t index_count);
         void draw_lines(size_t start_index, size_t index_count);
+        void draw_line_strip(size_t start_index, size_t index_count);
+        void draw_line_loop(size_t start_index, size_t index_count);
 
         void reset_state_changes();
         size_t get_state_changes() const;

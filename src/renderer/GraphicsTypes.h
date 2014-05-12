@@ -26,7 +26,11 @@ namespace der
     enum class PrimitiveType
     {
         Triangles,
-        Lines
+        TriangleStrip,
+        TriangleFan,
+        Lines,
+        LineStrip,
+        LineLoop
     };
 
 } // der

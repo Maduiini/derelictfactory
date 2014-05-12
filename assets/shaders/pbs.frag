@@ -81,7 +81,8 @@ vec3 lighting(vec3 N)
 
 void main()
 {
-    vec3 color = get_color();
+    vec3 albedo = get_color();
+    vec3 color = albedo;
     vec3 N = get_normal();
 //    vec3 N = normal;
 
@@ -95,12 +96,14 @@ void main()
     vec3 R = reflect(V, N);
 
     float r = texture(tex_roughness, tcoord).x;
-////    r = r * 10;
+    r = r * 10;
     vec3 env = textureLod(tex_env, R * vec3(-1.0, 1.0, -1.0), r).rgb;
     env = pow(env, vec3(2.2));
 //    color += env * (m * scolor);
 //    color += env * (m * scolor); // * (1.0 - r);
     color += env * m;// * (m * scolor);
+
+    color += albedo * textureLod(tex_env, R * vec3(-1.0, 1.0, -1.0), 5.0).rgb * 0.04;
 
     // gamma corrected output
     out_color = vec4(pow(color, vec3(1.0 / 2.2)), 1.0);

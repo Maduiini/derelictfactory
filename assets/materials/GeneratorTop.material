@@ -2,6 +2,6 @@ pbs.vert
 pbs.frag
 GeneratorTop_A.tga
 GeneratorTop_N.tga
-Ground_Gravel_R.tga
 Param_0.tga
+GeneratorTop_M.tga
 Test_cube_map.cube

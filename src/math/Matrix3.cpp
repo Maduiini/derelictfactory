@@ -27,6 +27,19 @@ namespace der
         forward.z = m33;
     }
 
+    void Matrix3::from_basis(const Vector3 &right, const Vector3 &up, const Vector3 &forward)
+    {
+        m11 = right.x;
+        m21 = right.y;
+        m31 = right.z;
+        m12 = up.x;
+        m22 = up.y;
+        m32 = up.z;
+        m13 = forward.x;
+        m23 = forward.y;
+        m33 = forward.z;
+    }
+
     void Matrix3::from_axis_angle(const Vector3 &axis, float theta)
     { from_axis_angle(axis.x, axis.y, axis.z, theta); }
 

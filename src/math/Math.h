@@ -27,6 +27,16 @@ namespace der
     /// Tests equality of \c a and \c b within tolerance of given \c epsilon.
     bool equals(float a, float b, float epsilon);
 
+
+    template <class T>
+    T min(T a, T b)
+    { return (a < b) ? a : b; }
+
+    template <class T>
+    T max(T a, T b)
+    { return (a > b) ? a : b; }
+
+
     template <class T>
     T clamp(T x, T a, T b)
     { return x < a ? a : (x > b ? b : x); }

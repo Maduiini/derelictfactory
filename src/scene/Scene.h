@@ -36,7 +36,6 @@ namespace der
         const GameObject* get_object_by_id(GameObjectID id) const;
         GameObject* get_object_by_id(GameObjectID id);
 
-        void get_visible_objects(const Vector3 &position, std::vector<GameObject*> &objects) const;
         void get_light_objects(const Vector3 &position, std::vector<GameObject*> &objects) const;
 
         GameObject* new_object();

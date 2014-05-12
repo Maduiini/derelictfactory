@@ -3,6 +3,7 @@
 #define H_DER_CAMERA_H
 
 #include "../math/Math.h"
+#include "../math/Frustum.h"
 
 namespace der
 {
@@ -26,6 +27,8 @@ namespace der
         float get_far() const;
 
         Matrix4 get_projection() const;
+
+        Frustum construct_frustum(const Matrix4 &world_mat) const;
 
     private:
 //        Matrix4 m_projection;

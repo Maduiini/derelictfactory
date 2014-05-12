@@ -63,7 +63,10 @@ namespace der
 
         bool equals(const Matrix3 &a) const;
 
-        void get_basis(Vector3 &right, Vector3 &up,  Vector3 & forward) const;
+        /// Returns the basis vectors of the rotation matrix.
+        void get_basis(Vector3 &right, Vector3 &up, Vector3 &forward) const;
+        /// Sets the rotation matrix from basis vectors.
+        void from_basis(const Vector3 &right, const Vector3 &up, const Vector3 &forward);
 
         void transpose()
         { *this = transposed(); }

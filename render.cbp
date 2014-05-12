@@ -81,6 +81,8 @@
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/math/Aabb.cpp" />
 		<Unit filename="src/math/Aabb.h" />
+		<Unit filename="src/math/Frustum.cpp" />
+		<Unit filename="src/math/Frustum.h" />
 		<Unit filename="src/math/Math.cpp" />
 		<Unit filename="src/math/Math.h" />
 		<Unit filename="src/math/Matrix3.cpp" />

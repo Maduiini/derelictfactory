@@ -54,4 +54,11 @@ namespace der
         return projection_perspective_lh(m_fov, m_aspect, m_near, m_far);
     }
 
+    Frustum Camera::construct_frustum(const Matrix4 &world_mat) const
+    {
+        Frustum frustum;
+        frustum.construct(world_mat, m_fov, m_aspect, m_near, m_far);
+        return frustum;
+    }
+
 } // der

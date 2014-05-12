@@ -3,6 +3,7 @@
 #include "../scene/Scene.h"
 #include "../scene/GameObject.h"
 #include "../scene/Camera.h"
+#include "../scene/QuadTree.h"
 
 #include "Graphics.h"
 #include "Renderer.h"
@@ -54,8 +55,12 @@ namespace der
             m_global_uniforms->set_camera_pos(camera_pos);
             m_global_uniforms->bind_uniforms();
 
+            QuadTree *quad_tree = m_scene->get_quad_tree();
+
             std::vector<GameObject*> objects;
-            m_scene->get_visible_objects(camera_pos, objects);
+            Frustum frustum = camera->construct_frustum(camera_obj->get_world_matrix());
+            quad_tree->get_objects_by_frustum(frustum, objects);
+//            m_scene->get_visible_objects(camera_pos, objects);
 
             m_visible_object_count = objects.size();
 
@@ -112,8 +117,12 @@ namespace der
             renderer->set_view_matrix(view_mat);
             renderer->set_camera_pos(camera_pos);
 
+            QuadTree *quad_tree = m_scene->get_quad_tree();
+
             std::vector<GameObject*> objects;
-            m_scene->get_visible_objects(camera_pos, objects);
+            Frustum frustum = camera->construct_frustum(camera_obj->get_world_matrix());
+            quad_tree->get_objects_by_frustum(frustum, objects);
+//            m_scene->get_visible_objects(camera_pos, objects);
 
             m_visible_object_count = objects.size();
 

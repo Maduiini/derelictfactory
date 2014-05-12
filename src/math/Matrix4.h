@@ -12,6 +12,7 @@ namespace der
     bool equals(float, float, float);
     struct Vector3;
     struct Quaternion;
+    struct Matrix3;
 
 
     /// A row-major 4x4 matrix, for transformation and projection matrices.
@@ -76,6 +77,11 @@ namespace der
 
         bool equals(const Matrix4 &a) const;
 
+        /// Returns the basis vectors of the rotation part.
+        void get_basis(Vector3 &right, Vector3 &up,  Vector3 & forward) const;
+
+        /// Divides the transformation matrix into components.
+        void decompose(Vector3 &pos, Matrix3 &rot, Vector3 &scale) const;
         /// Divides the transformation matrix into components.
         void decompose(Vector3 &pos, Quaternion &rot, Vector3 &scale) const;
 
@@ -347,6 +353,11 @@ namespace der
 
         bool equals(const Matrix3x4 &a) const;
 
+        /// Returns the basis vectors of the rotation part.
+        void get_basis(Vector3 &right, Vector3 &up,  Vector3 & forward) const;
+
+        /// Divides the transformation matrix into components.
+        void decompose(Vector3 &pos, Matrix3 &rot, Vector3 &scale) const;
         /// Divides the transformation matrix into components.
         void decompose(Vector3 &pos, Quaternion &rot, Vector3 &scale) const;
 

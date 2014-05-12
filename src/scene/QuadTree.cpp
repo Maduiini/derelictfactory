@@ -1,6 +1,7 @@
 
 #include "QuadTree.h"
 #include "GameObject.h"
+#include "../math/Frustum.h"
 #include "../math/Math.h"
 
 #include "../Debug.h"
@@ -73,16 +74,35 @@ namespace der
         for (size_t i = 0; i < 4; i++)
         {
             QuadTreeNode *child = m_children[i];
-//            const Vector3 radius_vec(child->m_radius);
-            Vector3 radius_vec(child->m_radius);
-            radius_vec.y = 0.0f;
-//            const Vector3 center_vec(child->m_center.x, position.y, child->m_center.y);
-            const Vector3 center_vec(child->m_center.x, 0.0f, child->m_center.y);
 
+            const Vector3 radius_vec(child->m_radius, 0.0f, child->m_radius);
+            const Vector3 center_vec(child->m_center.x, 0.0f, child->m_center.y);
             const Aabb node_aabb(center_vec - radius_vec, center_vec + radius_vec);
 
             if (node_aabb.intersects_sphere(position, radius))
                 child->get_objects_by_radius(position, radius, objects);
+        }
+    }
+
+    void QuadTreeNode::get_objects_by_frustum(const Frustum &frustum, std::vector<GameObject*> &objects)
+    {
+        for (GameObject *object : m_objects)
+        {
+            const Aabb &aabb = object->get_bounding_box();
+            if (frustum.intersects_aabb(aabb))
+                objects.push_back(object);
+        }
+        if (is_leaf()) return;
+        for (size_t i = 0; i < 4; i++)
+        {
+            QuadTreeNode *child = m_children[i];
+
+            const Vector3 radius_vec(child->m_radius, 1000.0f, child->m_radius);
+            const Vector3 center_vec(child->m_center.x, 0.0f, child->m_center.y);
+            const Aabb node_aabb(center_vec - radius_vec, center_vec + radius_vec);
+
+            if (frustum.intersects_aabb(node_aabb))
+                child->get_objects_by_frustum(frustum, objects);
         }
     }
 
@@ -226,6 +246,11 @@ namespace der
                                          std::vector<GameObject*> &objects)
     {
         get_root()->get_objects_by_radius(position, radius, objects);
+    }
+
+    void QuadTree::get_objects_by_frustum(const Frustum &frustum, std::vector<GameObject*> &objects)
+    {
+        get_root()->get_objects_by_frustum(frustum, objects);
     }
 
 } // der

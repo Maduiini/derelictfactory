@@ -79,16 +79,6 @@ namespace der
         return nullptr;
     }
 
-    void Scene::get_visible_objects(const Vector3 &position, std::vector<GameObject*> &objects) const
-    {
-        m_quad_tree->get_objects_by_radius(position, 20.0f, objects);
-//        auto iter = m_gameobjects.begin();
-//        for (; iter != m_gameobjects.end(); ++iter)
-//        {
-//            objects.push_back(*iter);
-//        }
-    }
-
     void Scene::get_light_objects(const Vector3 &position, std::vector<GameObject*> &objects) const
     {
         auto iter = m_gameobjects.begin();

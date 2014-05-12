@@ -12,6 +12,8 @@
 namespace der
 {
 
+    struct Frustum;
+
     class QuadTreeNode
     {
     public:
@@ -32,6 +34,7 @@ namespace der
         bool has_objects() const;
 
         void get_objects_by_radius(const Vector3 &position, float radius, std::vector<GameObject*> &objects);
+        void get_objects_by_frustum(const Frustum &frustum, std::vector<GameObject*> &objects);
 
     private:
         std::vector<GameObject*> m_objects;
@@ -59,6 +62,7 @@ namespace der
         void update_object(GameObject *object);
 
         void get_objects_by_radius(const Vector3 &position, float radius, std::vector<GameObject*> &objects);
+        void get_objects_by_frustum(const Frustum &frustum, std::vector<GameObject*> &objects);
 //        void get_objects_by_aabb();
 
     private:

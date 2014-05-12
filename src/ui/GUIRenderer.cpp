@@ -80,7 +80,7 @@ namespace gui_renderer_internal
 
         for (Widget *widget : widgets)
         {
-            for (WidgetRenderCommand &cmd : widget->get_render_commands())
+            for (WidgetRenderCommand &cmd : widget->get_render_commands(this))
             {
                 render_widget(graphics, cache, cmd);
             }
@@ -174,6 +174,9 @@ namespace gui_renderer_internal
 
     bool GUIRenderer::is_visible() const
     { return m_visible; }
+
+    unsigned int GUIRenderer::get_text_width(const char * const text) const
+    { return m_font.get_text_width(text); }
 
     void GUIRenderer::init_buffers()
     {

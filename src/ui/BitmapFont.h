@@ -34,7 +34,9 @@ namespace der
         void reserve(const size_t characters);
         void add_character(BitmapFontCharacter character);
 
-        BitmapFontCharacter get_character(unsigned int id);
+        BitmapFontCharacter get_character(unsigned int id) const;
+
+        unsigned int get_text_width(const char * const text) const;
 
         unsigned int get_line_height() const
         { return m_line_height; }

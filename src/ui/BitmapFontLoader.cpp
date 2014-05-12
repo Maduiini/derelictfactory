@@ -109,14 +109,6 @@ namespace der
         const char * const m_message;
     };
 
-    template<typename T>
-    std::string to_string(T value)
-    {
-        std::ostringstream string_stream;
-        string_stream << value;
-        return string_stream.str();
-    }
-
     uint8_t read_uint8(std::ifstream &file)
     {
         char byte;

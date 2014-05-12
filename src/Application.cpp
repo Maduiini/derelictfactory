@@ -23,23 +23,13 @@
 #include "ui/Slider.h"
 #include "ui/Checkbox.h"
 #include "ui/Label.h"
+#include "ui/ValueDisplay.h"
 
 #include <GLFW/glfw3.h>
 #include <sstream>
 
 namespace der
 {
-
-    // NOTE: The c++11 value to string conversion functionality
-    // std::to_string does not work in MinGW (at least <4.8.1).
-    template <class T>
-    std::string to_string(const T value)
-    {
-        std::ostringstream out;
-        out << value;
-        return out.str();
-    }
-
 
     void glfw_error_callback(int err, const char * const msg)
     {
@@ -57,6 +47,12 @@ namespace der
         , m_scene_loader(m_resource_cache)
         , m_current_controller(nullptr)
         , m_scene_update_server()
+        , m_gui(nullptr)
+        , m_gui_renderer(nullptr)
+        , m_fps_label(nullptr)
+        , m_fps_display(nullptr)
+        , m_state_change_display(nullptr)
+        , m_vis_objects_display(nullptr)
         , m_glfw_ready(false)
         , m_ready(false)
         , m_queued_render(true)
@@ -227,12 +223,27 @@ namespace der
             return false;
         }
 
-        m_gui->add_widget(new Button(Vector2(32, 32), Vector2(128, 32), "Hello World"));
+//        m_gui->add_widget(new Button(Vector2(32, 32), Vector2(128, 32), "Hello World"));
+//        m_gui->add_widget(new Label(Vector2(15, 10), "FPS:"));
+//        m_fps_label = new Label(Vector2(65, 10), "0");
+//        m_gui->add_widget(m_fps_label);
+
+        m_fps_display = new ValueDisplay(Vector2(15, 10), "FPS  ");
+        m_gui->add_widget(m_fps_display);
+
+        m_state_change_display = new ValueDisplay(Vector2(15, 40), "State changes  ");
+        m_gui->add_widget(m_state_change_display);
+
+        m_vis_objects_display = new ValueDisplay(Vector2(15, 70), "Visible objects  ");
+        m_gui->add_widget(m_vis_objects_display);
+
+        m_gui->add_widget(new Label(Vector2(15, 160), "Normal mapping"));
         m_gui->add_widget(new Slider(Vector2(15, 200), 150.0f, -20.0f, 20.0));
         m_gui->add_widget(new Checkbox(Vector2(15, 250), "Test checkbox"));
 
         Checkbox *frustum_culling_box = new Checkbox(Vector2(15, 290), "Frustum culling on");
         frustum_culling_box->set_state_changed_handler(new FrustumCullingBoxHandler(m_scene_renderer));
+        frustum_culling_box->set_checked(true);
         m_gui->add_widget(frustum_culling_box);
 
         return true;
@@ -270,6 +281,11 @@ namespace der
             title += ", visible objects: " + to_string(m_scene_renderer->get_visible_object_count());
 
             m_window.set_title(title.c_str());
+
+//            m_fps_label->set_text(to_string(int(fps)));
+            m_fps_display->set_value(int(fps));
+            m_state_change_display->set_value(m_graphics.get_state_changes());
+            m_vis_objects_display->set_value(m_scene_renderer->get_visible_object_count());
 
             last_time = current_time;
             frames = 0;

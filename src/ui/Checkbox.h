@@ -25,6 +25,7 @@ namespace der
 
         bool is_inside(Vector2 point) const;
 
+        void set_checked(bool checked);
         bool is_checked() const;
 
         void set_state_changed_handler(GUIEventHandler *handler)

@@ -16,8 +16,11 @@ namespace der
     class Renderer;
     class SceneRenderer;
     class InputController;
+
     class GUIManager;
     class GUIRenderer;
+    class Label;
+    class ValueDisplay;
 
     class Application
     {
@@ -55,6 +58,11 @@ namespace der
 
         GUIManager *m_gui;
         GUIRenderer *m_gui_renderer;
+
+        Label *m_fps_label;
+        ValueDisplay *m_fps_display;
+        ValueDisplay *m_state_change_display;
+        ValueDisplay *m_vis_objects_display;
 
         bool m_glfw_ready;
         bool m_ready;

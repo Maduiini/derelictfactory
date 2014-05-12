@@ -30,6 +30,9 @@ namespace der
         /// Returns slider value in range [min, max]
         float get_absolute_value() const;
 
+        void set_value_changed_handler(GUIEventHandler *handler)
+        { m_value_changed = handler; }
+
     private:
         Vector2 get_knob_center() const;
 
@@ -42,6 +45,8 @@ namespace der
         float m_knob_position;
         float m_knob_radius;
         bool m_knob_grabbed;
+
+        GUIEventHandler *m_value_changed;
 
         static ResourceID slider_bar_texture;
         static ResourceID slider_knob_texture;

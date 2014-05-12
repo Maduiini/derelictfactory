@@ -39,7 +39,7 @@ mat3 tangent_space()
 
 vec3 get_normal()
 {
-    vec3 n = texture2D(tex_normal, tcoord).xyz * vec3(2.0, 2.0, 1.0) - vec3(1.0, 1.0, 0.0);
+    vec3 n = texture(tex_normal, tcoord).xyz * vec3(2.0, 2.0, 1.0) - vec3(1.0, 1.0, 0.0);
     return tangent_space() * n;
 }
 
@@ -85,7 +85,7 @@ void main()
     vec3 N = get_normal();
 //    vec3 N = normal;
 
-    float m = texture2D(tex_metallic, tcoord).x;
+    float m = texture(tex_metallic, tcoord).x;
     vec3 scolor = color * m;
 //    color = mix(color, vec3(0.04), m);
 
@@ -94,13 +94,13 @@ void main()
     vec3 V = normalize(view_vec);
     vec3 R = reflect(V, N);
 
-    float r = texture2D(tex_roughness, tcoord).x;
+    float r = texture(tex_roughness, tcoord).x;
 ////    r = r * 10;
-    vec3 env = textureCubeLod(tex_env, R * vec3(1.0, -1.0, 1.0), r).rgb;
+    vec3 env = textureLod(tex_env, R * vec3(-1.0, 1.0, -1.0), r).rgb;
     env = pow(env, vec3(2.2));
 //    color += env * (m * scolor);
-    color += env * (m * scolor) * (1.0 - r);
-//    color += env * m;// * (m * scolor);
+//    color += env * (m * scolor); // * (1.0 - r);
+    color += env * m;// * (m * scolor);
 
     // gamma corrected output
     out_color = vec4(pow(color, vec3(1.0 / 2.2)), 1.0);

@@ -57,7 +57,7 @@ namespace der
         virtual void mouse_released(Vector2 point)
         { }
 
-        virtual std::vector<WidgetRenderCommand> get_render_commands() const
+        virtual std::vector<WidgetRenderCommand> get_render_commands(GUIRenderer *renderer) const
         {
             return m_render_cmds;
         }

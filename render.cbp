@@ -191,6 +191,8 @@
 		<Unit filename="src/ui/Label.h" />
 		<Unit filename="src/ui/Slider.cpp" />
 		<Unit filename="src/ui/Slider.h" />
+		<Unit filename="src/ui/ValueDisplay.cpp" />
+		<Unit filename="src/ui/ValueDisplay.h" />
 		<Unit filename="src/ui/Widget.h" />
 		<Extensions>
 			<code_completion />

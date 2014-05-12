@@ -50,6 +50,8 @@ namespace der
         void set_camera_object(GameObjectID id);
         GameObject *get_camera_object();
 
+        QuadTree* get_quad_tree();
+
         void set_source(const std::string &scene_source);
         std::string get_source() const;
 

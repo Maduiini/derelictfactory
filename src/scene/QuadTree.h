@@ -22,9 +22,14 @@ namespace der
         void remove_object(GameObject *object);
 
         void set_child(size_t x, size_t y, QuadTreeNode *child);
+        const QuadTreeNode* get_child(size_t index) const;
+
         void set_geometry(float x, float y, float radius);
         float get_radius() const;
+        const Vector2& get_center() const;
+
         bool is_leaf() const;
+        bool has_objects() const;
 
         void get_objects_by_radius(const Vector3 &position, float radius, std::vector<GameObject*> &objects);
 

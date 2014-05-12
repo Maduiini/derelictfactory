@@ -3,6 +3,8 @@
 #include "GameObject.h"
 #include "../math/Math.h"
 
+#include "../Debug.h"
+
 namespace der
 {
 
@@ -37,6 +39,9 @@ namespace der
     void QuadTreeNode::set_child(size_t x, size_t y, QuadTreeNode *child)
     { m_children[y * 2 + x] = child; }
 
+    const QuadTreeNode* QuadTreeNode::get_child(size_t index) const
+    { return m_children[index]; }
+
     void QuadTreeNode::set_geometry(float x, float y, float radius)
     {
         m_center.x = x;
@@ -47,10 +52,14 @@ namespace der
     float QuadTreeNode::get_radius() const
     { return m_radius; }
 
+    const Vector2& QuadTreeNode::get_center() const
+    { return m_center; }
+
     bool QuadTreeNode::is_leaf() const
-    {
-        return !m_children[0];
-    }
+    { return !m_children[0]; }
+
+    bool QuadTreeNode::has_objects() const
+    { return !m_objects.empty(); }
 
     void QuadTreeNode::get_objects_by_radius(const Vector3 &position, float radius,
                                              std::vector<GameObject*> &objects)
@@ -72,7 +81,7 @@ namespace der
 
             const Aabb node_aabb(center_vec - radius_vec, center_vec + radius_vec);
 
-//            if (node_aabb.intersects_sphere(position, radius))
+            if (node_aabb.intersects_sphere(position, radius))
                 child->get_objects_by_radius(position, radius, objects);
         }
     }
@@ -106,10 +115,10 @@ namespace der
             for (size_t y = grid_size; y--; )
             {
                 QuadTreeNode *row = cur + y * grid_size;
-                const float pos_y = float(y) / float(grid_size) * full_size + half_size;
+                const float pos_y = float(y) / float(grid_size) * full_size + size;
                 for (size_t x = grid_size; x--; )
                 {
-                    const float pos_x = float(x) / float(grid_size) * full_size + half_size;
+                    const float pos_x = float(x) / float(grid_size) * full_size + size;
                     row[x].set_geometry(pos_x + offset.x, pos_y + offset.y, size);
 
                     if (last)
@@ -136,18 +145,14 @@ namespace der
 
     static size_t highest_bit(size_t x)
     {
-//        x |= (x >> 1);
-//        x |= (x >> 2);
-//        x |= (x >> 4);
-//        x |= (x >> 8);
-//        x |= (x >> 16);
-//        return x - (x >> 1);
         size_t bit = 0;
-        while (x)
-        {
+//        while (x)
+//        {
+//            bit++;
+//            x >>= 1;
+//        }
+        while (x >>= 1)
             bit++;
-            x >>= 1;
-        }
         return bit;
     }
 
@@ -174,15 +179,23 @@ namespace der
         const size_t max_y = static_cast<size_t>(clamp(std::ceil(shifted.m_max.z), 0.0f, 255.0f));
 
         const size_t x_xor = (min_x ^ max_x);
-        const size_t lx = !x_xor ? 7UL : 8UL - highest_bit(x_xor);
+//        const size_t lx = !x_xor ? 7UL : 8UL - highest_bit(x_xor);
+        const size_t lx = !x_xor ? 7UL : 7UL - highest_bit(x_xor);
         const size_t y_xor = (min_y ^ max_y);
-        const size_t ly = !y_xor ? 7UL : 8UL - highest_bit(y_xor);
+//        const size_t ly = !y_xor ? 7UL : 8UL - highest_bit(y_xor);
+        const size_t ly = !y_xor ? 7UL : 7UL - highest_bit(y_xor);
 
         const size_t level = (lx < ly) ? lx : ly;
-        const size_t x = lx >> (8UL - level);
-        const size_t y = ly >> (8UL - level);
+        const size_t x = min_x >> (8UL - level);
+        const size_t y = min_y >> (8UL - level);
 
         QuadTreeNode &node = m_levels[level][y * (1UL << level) + x];
+
+        DER_ASSERT( node.get_center().x - node.get_radius() <= aabb.m_min.x );
+		DER_ASSERT( node.get_center().x + node.get_radius() >= aabb.m_max.x );
+		DER_ASSERT( node.get_center().y - node.get_radius() <= aabb.m_min.z );
+		DER_ASSERT( node.get_center().y + node.get_radius() >= aabb.m_max.z );
+
         m_object_node_map[object->getID()] = &node;
         node.add_object(object);
     }
@@ -201,6 +214,9 @@ namespace der
 
         add_object(object);
     }
+
+    const QuadTreeNode* QuadTree::get_root() const
+    { return m_nodes; }
 
     QuadTreeNode* QuadTree::get_root()
     { return m_nodes; }

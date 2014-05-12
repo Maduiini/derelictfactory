@@ -166,6 +166,9 @@ namespace der
     GameObject* Scene::get_camera_object()
     { return get_object_by_id(m_camera_object_id); }
 
+    QuadTree* Scene::get_quad_tree()
+    { return m_quad_tree; }
+
     void Scene::set_source(const std::string &scene_source)
     { m_scene_source = scene_source; }
 

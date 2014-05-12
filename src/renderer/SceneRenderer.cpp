@@ -78,9 +78,7 @@ namespace der
                     tr_renderer->render(graphics, cache);
             }
 
-            m_instance_uniforms->set_model_mat(Matrix4::identity);
-            m_instance_uniforms->bind_uniforms();
-            m_qt_renderer->render(graphics, cache);
+            m_qt_renderer->render(graphics, cache, m_instance_uniforms, m_scene->get_quad_tree());
 
 //            AccelerationStructure *acc_struct = m_scene->get_acceleration_structure();
 //

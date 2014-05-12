@@ -13,16 +13,22 @@ namespace der
     class VertexArrayObject;
     class VertexBuffer;
     class IndexBuffer;
+    class InstanceUniformBlock;
+    class QuadTree;
+    class QuadTreeNode;
 
     class QuadTreeRenderer
     {
     public:
         QuadTreeRenderer();
 
-        void render(Graphics *graphics, ResourceCache &cache);
-        void render(Renderer *renderer);
+        void render(Graphics *graphics, ResourceCache &cache, InstanceUniformBlock *uniforms, const QuadTree *qt);
+        void render(Renderer *renderer, QuadTree *qt);
 
     private:
+        static void render_node(Graphics *graphics, ResourceCache &cache, InstanceUniformBlock *uniforms,
+                                const QuadTreeNode *node, size_t level);
+
         static void build();
 
     private:

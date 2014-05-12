@@ -96,7 +96,7 @@ void main()
 
     float r = texture2D(tex_roughness, tcoord).x;
 ////    r = r * 10;
-    vec3 env = textureCubeLod(tex_env, R * vec3(1.0, -1.0, 1.0), r).rgb;
+    vec3 env = texture(tex_env, R * vec3(1.0, -1.0, 1.0), r).rgb;
     env = pow(env, vec3(2.2));
 //    color += env * (m * scolor);
     color += env * (m * scolor) * (1.0 - r);

@@ -27,7 +27,7 @@ out vec4 out_color;
 
 vec3 get_color()
 {
-    vec3 color = textureCube(tex_env, view_vec * vec3(1.0, -1.0, 1.0)).rgb;
+    vec3 color = texture(tex_env, view_vec * vec3(1.0, -1.0, 1.0)).rgb;
     // linearize gamma
 //    return pow(color, vec3(2.2));
     return color;

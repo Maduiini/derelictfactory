@@ -85,19 +85,22 @@ void main()
     vec3 N = get_normal();
 //    vec3 N = normal;
 
-//    float m = 1.0; //texture2D(tex_metallic, tcoord).x;
-//    vec3 scolor = color * m;
+    float m = texture2D(tex_metallic, tcoord).x;
+    vec3 scolor = color * m;
 //    color = mix(color, vec3(0.04), m);
 
     color = color * lighting(N);
 
-//    vec3 V = normalize(view_vec);
-//    vec3 R = reflect(V, N);
-//
-//    float r = texture2D(tex_roughness, tcoord).x;
-//////    r = r * 10;
-//    vec3 env = textureCubeLod(tex_env, R, r).rgb;
-//    color += env;// * (m * scolor);
+    vec3 V = normalize(view_vec);
+    vec3 R = reflect(V, N);
+
+    float r = texture2D(tex_roughness, tcoord).x;
+////    r = r * 10;
+    vec3 env = textureCubeLod(tex_env, R * vec3(1.0, -1.0, 1.0), r).rgb;
+    env = pow(env, vec3(2.2));
+//    color += env * (m * scolor);
+    color += env * (m * scolor) * (1.0 - r);
+//    color += env * m;// * (m * scolor);
 
     // gamma corrected output
     out_color = vec4(pow(color, vec3(1.0 / 2.2)), 1.0);

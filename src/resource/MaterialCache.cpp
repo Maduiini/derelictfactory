@@ -25,6 +25,11 @@ namespace der
 
         Material *material = new Material();
 
+        std::string vert_name, frag_name;
+        in >> vert_name;
+        in >> frag_name;
+        material->set_shaders(make_resource(vert_name.c_str()), make_resource(frag_name.c_str()));
+
         std::string albedo_name, normal_name, roughness_name, metallic_name, env_name;
         in >> albedo_name;
         in >> normal_name;

@@ -52,6 +52,7 @@
 		<Unit filename="assets/materials/Rock.material" />
 		<Unit filename="assets/materials/Rust.material" />
 		<Unit filename="assets/materials/Shed.material" />
+		<Unit filename="assets/materials/Skybox.material" />
 		<Unit filename="assets/shaders/color.frag" />
 		<Unit filename="assets/shaders/color.vert" />
 		<Unit filename="assets/shaders/default.frag" />
@@ -60,6 +61,9 @@
 		<Unit filename="assets/shaders/gui.vert" />
 		<Unit filename="assets/shaders/pbs.frag" />
 		<Unit filename="assets/shaders/pbs.vert" />
+		<Unit filename="assets/shaders/skybox.frag" />
+		<Unit filename="assets/shaders/skybox.vert" />
+		<Unit filename="assets/textures/Skybox.cube" />
 		<Unit filename="assets/textures/Test_cube_map.cube" />
 		<Unit filename="doc/Plan.txt" />
 		<Unit filename="doc/Scene_export_manual.txt" />

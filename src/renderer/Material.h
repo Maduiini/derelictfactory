@@ -19,6 +19,8 @@ namespace der
         Material();
         ~Material();
 
+        void set_shaders(ResourceID vert_id, ResourceID frag_id);
+
         void set_albedo_texture(ResourceID tex_id);
         ResourceID get_albedo_texture() const;
 

@@ -25,6 +25,12 @@ namespace der
     Material::~Material()
     { }
 
+    void Material::set_shaders(ResourceID vert_id, ResourceID frag_id)
+    {
+        m_vert_shader = vert_id;
+        m_frag_shader = frag_id;
+    }
+
     void Material::set_albedo_texture(ResourceID tex_id)
     { m_tex_albedo = tex_id; }
 

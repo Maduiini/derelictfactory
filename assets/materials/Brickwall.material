@@ -1,5 +1,7 @@
+pbs.vert
+pbs.frag
 Brickwall_Window_A.tga
 Brickwall_Window_N.tga
 Brickwall_Window_R.tga
 Param_0.tga
-Text_cube_map.cube
+Test_cube_map.cube

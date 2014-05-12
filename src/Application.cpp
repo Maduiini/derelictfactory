@@ -49,7 +49,6 @@ namespace der
         , m_scene_update_server()
         , m_gui(nullptr)
         , m_gui_renderer(nullptr)
-        , m_fps_label(nullptr)
         , m_fps_display(nullptr)
         , m_state_change_display(nullptr)
         , m_vis_objects_display(nullptr)
@@ -223,11 +222,6 @@ namespace der
             return false;
         }
 
-//        m_gui->add_widget(new Button(Vector2(32, 32), Vector2(128, 32), "Hello World"));
-//        m_gui->add_widget(new Label(Vector2(15, 10), "FPS:"));
-//        m_fps_label = new Label(Vector2(65, 10), "0");
-//        m_gui->add_widget(m_fps_label);
-
         m_fps_display = new ValueDisplay(Vector2(15, 10), "FPS  ");
         m_gui->add_widget(m_fps_display);
 
@@ -282,7 +276,6 @@ namespace der
 
             m_window.set_title(title.c_str());
 
-//            m_fps_label->set_text(to_string(int(fps)));
             m_fps_display->set_value(int(fps));
             m_state_change_display->set_value(m_graphics.get_state_changes());
             m_vis_objects_display->set_value(m_scene_renderer->get_visible_object_count());

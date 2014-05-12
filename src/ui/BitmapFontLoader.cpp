@@ -64,8 +64,8 @@ namespace der
         uint16_t y;
         uint16_t width;
         uint16_t height;
-        uint16_t offset_x;
-        uint16_t offset_y;
+        int16_t offset_x;
+        int16_t offset_y;
         uint16_t advance_x;
         uint8_t page;
         uint8_t channel;
@@ -255,8 +255,8 @@ namespace der
                             block.y = read_uint16(file);
                             block.width = read_uint16(file);
                             block.height = read_uint16(file);
-                            block.offset_x = read_uint16(file);
-                            block.offset_y = read_uint16(file);
+                            block.offset_x = read_int16(file);
+                            block.offset_y = read_int16(file);
                             block.advance_x = read_uint16(file);
                             block.page = read_uint8(file);
                             block.channel = read_uint8(file);

@@ -2,6 +2,8 @@
 #ifndef H_DER_SCENE_RENDERER_H
 #define H_DER_SCENE_RENDERER_H
 
+#include "../Types.h"
+
 namespace der
 {
 
@@ -17,6 +19,8 @@ namespace der
     class InstanceUniformBlock;
     class LightUniformBlock;
 
+    class QuadTreeRenderer;
+
     class SceneRenderer
     {
     public:
@@ -28,6 +32,8 @@ namespace der
 
         void set_time(float time);
 
+        size_t get_visible_object_count() const;
+
     private:
         void set_lights(const Vector3 &position);
         void set_lights(Renderer *renderer, const Vector3 &position);
@@ -38,6 +44,10 @@ namespace der
         GlobalUniformBlock *    m_global_uniforms;
         InstanceUniformBlock *  m_instance_uniforms;
         LightUniformBlock *     m_light_uniforms;
+
+        size_t m_visible_object_count;
+
+        QuadTreeRenderer *m_qt_renderer;
     };
 
 } // der

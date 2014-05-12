@@ -2,6 +2,7 @@
 #include "Scene.h"
 #include "Camera.h"
 #include "Light.h"
+#include "QuadTree.h"
 
 #include "../Debug.h"
 
@@ -12,12 +13,17 @@ namespace der
         : m_gameobjects()
         , m_next_id(0)
         , m_camera_object_id(InvalidID)
+        , m_quad_tree(nullptr)
         , m_scene_source()
-    { }
+    {
+        m_quad_tree = new QuadTree();
+        m_quad_tree->create(2000.0f);
+    }
 
     Scene::~Scene()
     {
         delete_all();
+        delete m_quad_tree;
     }
 
     void Scene::reshape(int w, int h)
@@ -37,6 +43,12 @@ namespace der
         {
             object->update_bounding_box(cache);
         }
+
+        for (GameObject *object : m_gameobjects)
+        {
+            m_quad_tree->update_object(object);
+        }
+
     }
 
 
@@ -67,13 +79,14 @@ namespace der
         return nullptr;
     }
 
-    void Scene::get_visible_objects(std::vector<GameObject*> &objects) const
+    void Scene::get_visible_objects(const Vector3 &position, std::vector<GameObject*> &objects) const
     {
-        auto iter = m_gameobjects.begin();
-        for (; iter != m_gameobjects.end(); ++iter)
-        {
-            objects.push_back(*iter);
-        }
+        m_quad_tree->get_objects_by_radius(position, 20.0f, objects);
+//        auto iter = m_gameobjects.begin();
+//        for (; iter != m_gameobjects.end(); ++iter)
+//        {
+//            objects.push_back(*iter);
+//        }
     }
 
     void Scene::get_light_objects(const Vector3 &position, std::vector<GameObject*> &objects) const
@@ -100,6 +113,7 @@ namespace der
         GameObject *newobj = new GameObject(m_next_id++);
         m_gameobjects.push_back(newobj);
         m_gameobject_map[newobj->getID()] = newobj;
+        m_quad_tree->add_object(newobj);
         return newobj;
     }
 
@@ -108,6 +122,7 @@ namespace der
         GameObject *obj = get_object_by_id(id);
         DER_ASSERT(obj != nullptr);
 
+        m_quad_tree->remove_object(obj);
         m_gameobject_map.erase(id);
 
         auto it = m_gameobjects.begin();
@@ -127,10 +142,14 @@ namespace der
         obj->m_id = m_next_id++;
         m_gameobjects.push_back(obj);
         m_gameobject_map[obj->getID()] = obj;
+        m_quad_tree->add_object(obj);
     }
 
     void Scene::delete_all()
     {
+        m_quad_tree->reset();
+        m_quad_tree->create(2000.0f);
+
         auto iter = m_gameobjects.begin();
         for (; iter != m_gameobjects.end(); ++iter)
         {

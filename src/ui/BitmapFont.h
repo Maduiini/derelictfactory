@@ -18,8 +18,8 @@ namespace der
         unsigned int y;
         unsigned int width;
         unsigned int height;
-        unsigned int offset_x;
-        unsigned int offset_y;
+        int offset_x;
+        int offset_y;
         unsigned int advance_x;
     };
 

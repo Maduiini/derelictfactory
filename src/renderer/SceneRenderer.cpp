@@ -9,6 +9,7 @@
 #include "UniformBuffer.h"
 #include "MeshRenderer.h"
 #include "TransformRenderer.h"
+#include "QuadTreeRenderer.h"
 
 namespace der
 {
@@ -19,10 +20,12 @@ namespace der
         , m_global_uniforms(nullptr)
         , m_instance_uniforms(nullptr)
         , m_light_uniforms(nullptr)
+        , m_visible_object_count(0)
     {
         m_global_uniforms = new GlobalUniformBlock();
         m_instance_uniforms = new InstanceUniformBlock();
         m_light_uniforms = new LightUniformBlock();
+        m_qt_renderer = new QuadTreeRenderer();
     }
 
     SceneRenderer::~SceneRenderer()
@@ -30,10 +33,13 @@ namespace der
         delete m_global_uniforms;
         delete m_instance_uniforms;
         delete m_light_uniforms;
+        delete m_qt_renderer;
     }
 
     void SceneRenderer::render(Graphics *graphics, ResourceCache &cache)
     {
+        m_visible_object_count = 0;
+
         GameObject *camera_obj = m_scene->get_camera_object();
         if (!camera_obj) return;
 
@@ -42,13 +48,17 @@ namespace der
         {
             const Matrix4 proj_mat = camera->get_projection();
             const Matrix4 view_mat = camera_obj->get_inv_world_matrix();
+            const Vector3 camera_pos = camera_obj->get_position();
             m_global_uniforms->set_projection_mat(proj_mat);
             m_global_uniforms->set_view_mat(view_mat);
-            m_global_uniforms->set_camera_pos(camera_obj->get_position());
+            m_global_uniforms->set_camera_pos(camera_pos);
             m_global_uniforms->bind_uniforms();
 
             std::vector<GameObject*> objects;
-            m_scene->get_visible_objects(objects);
+            m_scene->get_visible_objects(camera_pos, objects);
+
+            m_visible_object_count = objects.size();
+
             for (GameObject *object : objects)
             {
                 MeshRenderer *renderer = object->get_renderer();
@@ -68,6 +78,10 @@ namespace der
                     tr_renderer->render(graphics, cache);
             }
 
+            m_instance_uniforms->set_model_mat(Matrix4::identity);
+            m_instance_uniforms->bind_uniforms();
+            m_qt_renderer->render(graphics, cache);
+
 //            AccelerationStructure *acc_struct = m_scene->get_acceleration_structure();
 //
 //            const Frustum frustum = camera->construct_frustum(camera_obj->get_world_matrix());
@@ -85,6 +99,8 @@ namespace der
 
     void SceneRenderer::render(Renderer *renderer)
     {
+        m_visible_object_count = 0;
+
         GameObject *camera_obj = m_scene->get_camera_object();
         if (!camera_obj) return;
 
@@ -93,12 +109,16 @@ namespace der
         {
             const Matrix4 proj_mat = camera->get_projection();
             const Matrix4 view_mat = camera_obj->get_inv_world_matrix();
+            const Vector3 camera_pos = camera_obj->get_position();
             renderer->set_projection_matrix(proj_mat);
             renderer->set_view_matrix(view_mat);
-            renderer->set_camera_pos(camera_obj->get_position());
+            renderer->set_camera_pos(camera_pos);
 
             std::vector<GameObject*> objects;
-            m_scene->get_visible_objects(objects);
+            m_scene->get_visible_objects(camera_pos, objects);
+
+            m_visible_object_count = objects.size();
+
             for (GameObject *object : objects)
             {
                 MeshRenderer *obj_renderer = object->get_renderer();
@@ -120,9 +140,10 @@ namespace der
     }
 
     void SceneRenderer::set_time(float time)
-    {
-        m_global_uniforms->set_time(time);
-    }
+    { m_global_uniforms->set_time(time); }
+
+    size_t SceneRenderer::get_visible_object_count() const
+    { return m_visible_object_count; }
 
     void SceneRenderer::set_lights(const Vector3 &position)
     {

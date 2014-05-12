@@ -12,6 +12,7 @@ namespace der
 {
 
     class ResourceCache;
+    class QuadTree;
 
     struct Vector3;
 
@@ -35,7 +36,7 @@ namespace der
         const GameObject* get_object_by_id(GameObjectID id) const;
         GameObject* get_object_by_id(GameObjectID id);
 
-        void get_visible_objects(std::vector<GameObject*> &objects) const;
+        void get_visible_objects(const Vector3 &position, std::vector<GameObject*> &objects) const;
         void get_light_objects(const Vector3 &position, std::vector<GameObject*> &objects) const;
 
         GameObject* new_object();
@@ -59,6 +60,8 @@ namespace der
         GameObjectID m_next_id;
 
         GameObjectID m_camera_object_id;
+
+        QuadTree *m_quad_tree;
 
         std::string m_scene_source;
 

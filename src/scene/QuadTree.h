@@ -24,6 +24,9 @@ namespace der
         void set_child(size_t x, size_t y, QuadTreeNode *child);
         void set_geometry(float x, float y, float radius);
         float get_radius() const;
+        bool is_leaf() const;
+
+        void get_objects_by_radius(const Vector3 &position, float radius, std::vector<GameObject*> &objects);
 
     private:
         std::vector<GameObject*> m_objects;
@@ -48,6 +51,10 @@ namespace der
 
         void add_object(GameObject *object);
         void remove_object(GameObject *object);
+        void update_object(GameObject *object);
+
+        void get_objects_by_radius(const Vector3 &position, float radius, std::vector<GameObject*> &objects);
+//        void get_objects_by_aabb();
 
     private:
         QuadTreeNode* get_root();

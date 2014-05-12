@@ -44,6 +44,8 @@ namespace der
     // static
     void TransformRenderer::build()
     {
+        if (m_vbuffer) return;
+
         struct Vertex
         {
             Vector3 position;

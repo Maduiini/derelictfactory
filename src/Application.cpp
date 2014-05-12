@@ -243,6 +243,8 @@ namespace der
             title += to_string(fps);
             title += ", state changes: " + to_string(m_graphics.get_state_changes());
 
+            title += ", visible objects: " + to_string(m_scene_renderer->get_visible_object_count());
+
             m_window.set_title(title.c_str());
 
             last_time = current_time;

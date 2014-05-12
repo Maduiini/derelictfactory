@@ -7,6 +7,8 @@
 namespace der
 {
 
+    struct Matrix4;
+
     struct Aabb
     {
         Vector3 m_min, m_max;
@@ -42,6 +44,14 @@ namespace der
             return aabb;
         }
 
+        friend Aabb operator + (const Aabb &a, const Vector3 &v)
+        {
+            Aabb aabb(a);
+            aabb.m_min += v;
+            aabb.m_min += v;
+            return aabb;
+        }
+
         Aabb& operator += (const Aabb &a)
         {
             if (a.is_degenerate())
@@ -57,18 +67,33 @@ namespace der
             return *this;
         }
 
-        void add_point(const Vector3 &pt)
+        Aabb& operator += (const Vector3 &v)
         {
-            m_min.x = (pt.x < m_min.x) ? pt.x: m_min.x;
-            m_min.y = (pt.y < m_min.y) ? pt.y: m_min.y;
-            m_min.z = (pt.z < m_min.z) ? pt.z: m_min.z;
-            m_max.x = (pt.x > m_max.x) ? pt.x: m_max.x;
-            m_max.y = (pt.y > m_max.y) ? pt.y: m_max.y;
-            m_max.z = (pt.z > m_max.z) ? pt.z: m_max.z;
+            m_min += v;
+            m_min += v;
+            return *this;
+        }
+
+        void add_point(const Vector3 &pt)
+        { add_point(pt.x, pt.y, pt.z); }
+
+        void add_point(float x, float y, float z)
+        {
+            m_min.x = (x < m_min.x) ? x: m_min.x;
+            m_min.y = (y < m_min.y) ? y: m_min.y;
+            m_min.z = (z < m_min.z) ? z: m_min.z;
+            m_max.x = (x > m_max.x) ? x: m_max.x;
+            m_max.y = (y > m_max.y) ? y: m_max.y;
+            m_max.z = (z > m_max.z) ? z: m_max.z;
         }
 
         Vector3 get_size() const
         { return m_max - m_min; }
+
+        /// Intersection with a sphere using Arvo's algorithm.
+        bool intersects_sphere(const Vector3 &center, const float radius) const;
+
+        void transform(const Matrix4 &mat);
     };
 
 } // der

@@ -207,9 +207,17 @@ namespace der
         }
         if (m_light)
             m_bounding_box += m_light->get_bounding_box();
+
+        if (m_bounding_box.is_degenerate())
+            m_bounding_box.m_min = m_bounding_box.m_max = Vector3::zero;
     }
 
     Aabb GameObject::get_bounding_box() const
-    { return m_bounding_box; }
+//    { return m_bounding_box + m_position; }
+    {
+        Aabb aabb(m_bounding_box);
+        aabb.transform(get_world_matrix());
+        return aabb;
+    }
 
 } // der

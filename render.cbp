@@ -79,6 +79,7 @@
 		<Unit filename="src/input/InputController.cpp" />
 		<Unit filename="src/input/InputController.h" />
 		<Unit filename="src/main.cpp" />
+		<Unit filename="src/math/Aabb.cpp" />
 		<Unit filename="src/math/Aabb.h" />
 		<Unit filename="src/math/Math.cpp" />
 		<Unit filename="src/math/Math.h" />
@@ -110,6 +111,8 @@
 		<Unit filename="src/renderer/Mesh.h" />
 		<Unit filename="src/renderer/MeshRenderer.cpp" />
 		<Unit filename="src/renderer/MeshRenderer.h" />
+		<Unit filename="src/renderer/QuadTreeRenderer.cpp" />
+		<Unit filename="src/renderer/QuadTreeRenderer.h" />
 		<Unit filename="src/renderer/Renderer.cpp" />
 		<Unit filename="src/renderer/Renderer.h" />
 		<Unit filename="src/renderer/SceneRenderer.cpp" />

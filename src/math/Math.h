@@ -31,6 +31,29 @@ namespace der
     T clamp(T x, T a, T b)
     { return x < a ? a : (x > b ? b : x); }
 
+
+    inline Vector2 clamp(const Vector2 &v, const Vector2 &a, const Vector2 &b)
+    {
+        return Vector2(v.x < a.x ? a.x : (v.x > b.x ? b.x : v.x),
+                       v.y < a.y ? a.y : (v.y > b.y ? b.y : v.y));
+    }
+
+    inline Vector3 clamp(const Vector3 &v, const Vector3 &a, const Vector3 &b)
+    {
+        return Vector3(v.x < a.x ? a.x : (v.x > b.x ? b.x : v.x),
+                       v.y < a.y ? a.y : (v.y > b.y ? b.y : v.y),
+                       v.z < a.z ? a.z : (v.z > b.z ? b.z : v.z));
+    }
+
+    inline Vector4 clamp(const Vector4 &v, const Vector4 &a, const Vector4 &b)
+    {
+        return Vector4(v.x < a.x ? a.x : (v.x > b.x ? b.x : v.x),
+                       v.y < a.y ? a.y : (v.y > b.y ? b.y : v.y),
+                       v.z < a.z ? a.z : (v.z > b.z ? b.z : v.z),
+                       v.w < a.w ? a.w : (v.w > b.w ? b.w : v.w));
+    }
+
+
     template <class T>
     T lerp(T a, T b, float t)
     { return a * (1.0f - t) + b * t; }

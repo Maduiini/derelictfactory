@@ -75,7 +75,7 @@ namespace gui_renderer_internal
         std::vector<Widget*> widgets;
         m_gui->get_widgets(widgets);
 
-        render_text(graphics, cache, {300.0f, 300.0f}, "Font rendering is broken 1234567890");
+        render_text(graphics, cache, {300.0f, 300.0f}, "Aa aa Font rendering is broken 1234567890");
 
         for (Widget *widget : widgets)
         {

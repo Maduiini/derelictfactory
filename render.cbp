@@ -53,6 +53,8 @@
 		<Unit filename="assets/materials/Rust.material" />
 		<Unit filename="assets/materials/Shed.material" />
 		<Unit filename="assets/materials/Skybox.material" />
+		<Unit filename="assets/materials/SpiderbotCables.material" />
+		<Unit filename="assets/materials/SpiderbotCopper.material" />
 		<Unit filename="assets/shaders/color.frag" />
 		<Unit filename="assets/shaders/color.vert" />
 		<Unit filename="assets/shaders/default.frag" />

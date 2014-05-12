@@ -32,6 +32,8 @@ namespace der
         void set_visible(const bool visible);
         bool is_visible() const;
 
+        unsigned int get_text_width(const char * const text) const;
+
     private:
         void render_quad(Graphics *graphics, ResourceCache &cache, const Vector2 &position, const Vector2 &scale, const ResourceID texture_id, const Vector4 uv = {0.0,0.0,1.0,1.0});
         void render_text(Graphics *graphics, ResourceCache &cache, const Vector2 &position, const char * const buffer);

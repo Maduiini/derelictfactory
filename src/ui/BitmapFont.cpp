@@ -37,10 +37,29 @@ namespace der
         m_characters[character.id] = character;
     }
 
-    BitmapFontCharacter BitmapFont::get_character(unsigned int id)
+    BitmapFontCharacter BitmapFont::get_character(unsigned int id) const
     {
         DER_ASSERT(id < m_max_characters);
         return m_characters[id];
+    }
+
+    unsigned int BitmapFont::get_text_width(const char *text) const
+    {
+        unsigned int width = 0;
+        while (*text)
+        {
+            char c = *text++;
+            if (c == ' ')
+            {
+                width += get_line_height() * 0.25f;
+            }
+            else
+            {
+                BitmapFontCharacter glyph = get_character(c);
+                width += glyph.advance_x;
+            }
+        }
+        return width;
     }
 
 } // der

@@ -44,6 +44,12 @@ namespace der
             && point_moved.y < m_size.y;
     }
 
+    void Checkbox::set_checked(bool checked)
+    {
+        if (m_checked != checked)
+            switch_state();
+    }
+
     bool Checkbox::is_checked() const
     { return m_checked; }
 

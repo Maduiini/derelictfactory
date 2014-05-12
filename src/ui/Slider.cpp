@@ -41,11 +41,18 @@ namespace der
     {
         if (m_knob_grabbed)
         {
+            float last_knob_position = m_knob_position;
             m_knob_position = mouse.x - m_position.x;
             if (m_knob_position < 0)
                 m_knob_position = 0;
             if (m_knob_position > m_width)
                 m_knob_position = m_width;
+
+            if (m_knob_position != last_knob_position)
+            {
+                if (m_value_changed)
+                    m_value_changed->handle(this);
+            }
 
             log::debug("Slider value: % (%)",
                       (int)(get_absolute_value() * 100.0f) / 100.0f,

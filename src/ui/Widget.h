@@ -3,6 +3,7 @@
 #define H_DER_WIDGET_H
 
 #include <vector>
+#include <string>
 
 #include "../math/Vector.h"
 
@@ -18,6 +19,9 @@ namespace der
         ResourceID texture_id;
         Vector2 position;
         Vector2 size;
+
+        const char* text;
+        Vector2 text_position;
     };
 
     class Widget

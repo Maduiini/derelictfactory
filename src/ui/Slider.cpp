@@ -19,8 +19,8 @@ namespace der
         , m_knob_radius(16.0f)
         , m_knob_grabbed(false)
     {
-        m_render_cmds.push_back({ Slider::slider_bar_texture, m_position, Vector2(m_width, m_height) });
-        m_render_cmds.push_back({ Slider::slider_knob_texture, m_position, Vector2(m_knob_radius, m_knob_radius) });
+        m_render_cmds.push_back({ Slider::slider_bar_texture, m_position, Vector2(m_width, m_height), nullptr });
+        m_render_cmds.push_back({ Slider::slider_knob_texture, m_position, Vector2(m_knob_radius, m_knob_radius), nullptr });
     }
 
     Slider::~Slider()

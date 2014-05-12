@@ -15,7 +15,7 @@ namespace der
         , m_title(title)
         , m_checked(false)
     {
-        m_render_cmds.push_back({Checkbox::m_checkbox_texture, m_position, m_size});
+        m_render_cmds.push_back({Checkbox::m_checkbox_texture, m_position, m_size, nullptr});
     }
 
     Checkbox::~Checkbox()

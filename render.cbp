@@ -180,6 +180,8 @@
 		<Unit filename="src/ui/GUIManager.h" />
 		<Unit filename="src/ui/GUIRenderer.cpp" />
 		<Unit filename="src/ui/GUIRenderer.h" />
+		<Unit filename="src/ui/Label.cpp" />
+		<Unit filename="src/ui/Label.h" />
 		<Unit filename="src/ui/Slider.cpp" />
 		<Unit filename="src/ui/Slider.h" />
 		<Unit filename="src/ui/Widget.h" />

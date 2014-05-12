@@ -15,7 +15,7 @@ namespace der
         , m_title(title)
         , m_down(false)
     {
-        m_render_cmds.push_back({Button::m_button_texture, m_position, m_size});
+        m_render_cmds.push_back({ Button::m_button_texture, m_position, m_size, nullptr });
     }
 
     Button::~Button()

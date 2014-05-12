@@ -22,6 +22,7 @@
 #include "ui/Button.h"
 #include "ui/Slider.h"
 #include "ui/Checkbox.h"
+#include "ui/Label.h"
 
 #include <GLFW/glfw3.h>
 #include <sstream>
@@ -210,6 +211,7 @@ namespace der
         m_gui->add_widget(new Button(Vector2(32, 32), Vector2(128, 32), "Hello World"));
         m_gui->add_widget(new Slider(Vector2(15, 200), 150.0f, -20.0f, 20.0));
         m_gui->add_widget(new Checkbox(Vector2(15, 250), "test checkbox"));
+        m_gui->add_widget(new Label(Vector2(70, 260), "Testing"));
 
         return true;
     }

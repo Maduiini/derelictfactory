@@ -32,6 +32,10 @@ namespace der
 
         void set_time(float time);
 
+        void set_frustum_culling_enabled(bool enabled);
+        void toggle_frustum_culling_enabled();
+        bool is_frustum_culling_enabled() const;
+
         size_t get_visible_object_count() const;
 
     private:
@@ -44,6 +48,8 @@ namespace der
         GlobalUniformBlock *    m_global_uniforms;
         InstanceUniformBlock *  m_instance_uniforms;
         LightUniformBlock *     m_light_uniforms;
+
+        bool m_frustum_culling;
 
         size_t m_visible_object_count;
 

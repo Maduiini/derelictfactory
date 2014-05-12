@@ -12,6 +12,16 @@
 namespace der
 {
 
+    class Widget;
+
+    class GUIEventHandler
+    {
+    public:
+        virtual ~GUIEventHandler() { }
+        virtual void handle(Widget *widget) = 0;
+    };
+
+
     class GUIRenderer;
 
     struct WidgetRenderCommand

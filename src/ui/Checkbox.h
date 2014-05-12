@@ -25,6 +25,11 @@ namespace der
 
         bool is_inside(Vector2 point) const;
 
+        bool is_checked() const;
+
+        void set_state_changed_handler(GUIEventHandler *handler)
+        { m_state_changed = handler; }
+
     private:
         void switch_state();
 
@@ -33,6 +38,8 @@ namespace der
         Vector2 m_size;
         std::string m_title;
         bool m_checked;
+
+        GUIEventHandler *m_state_changed;
 
         static ResourceID m_checkbox_texture;
         static ResourceID m_checkbox_mark_texture;

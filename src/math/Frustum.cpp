@@ -57,15 +57,6 @@ namespace der
                         (d4 < -radius) || (d5 < -radius);
 
         return !out;
-
-//        for (int i = 0; i < 6; i++)
-//        {
-//            real distance = Planes[i].DistanceToPlane(center);
-//            if (distance < -radius)
-//                return Out;
-//            if (std::fabs(distance) < radius)
-//                return Intersects;
-//        }
     }
 
     bool Frustum::intersects_aabb(const Aabb &aabb) const
@@ -73,6 +64,7 @@ namespace der
         const Vector3 &m = aabb.m_min;
         const Vector3 &M = aabb.m_max;
 
+//         Most likely testing the near plane would not be needed.
         const float d0 = max(m.x * m_planes[0].x, M.x * m_planes[0].x)
             + max(m.y * m_planes[0].y, M.y * m_planes[0].y)
             + max(m.z * m_planes[0].z, M.z * m_planes[0].z)
@@ -93,13 +85,12 @@ namespace der
             + max(m.y * m_planes[4].y, M.y * m_planes[4].y)
             + max(m.z * m_planes[4].z, M.z * m_planes[4].z)
             + m_planes[4].w;
-        // Most likely testing the near plane will not be needed.
-//        const float d5 = max(min.x * m_planes[5].x, max.x * m_planes[5].x)
-//            + max(min.y * m_planes[5].y, max.y * m_planes[5].y)
-//            + max(min.z * m_planes[5].z, max.z * m_planes[5].z)
-//            + m_planes[5].w;
+        const float d5 = max(m.x * m_planes[5].x, M.x * m_planes[5].x)
+            + max(m.y * m_planes[5].y, M.y * m_planes[5].y)
+            + max(m.z * m_planes[5].z, M.z * m_planes[5].z)
+            + m_planes[5].w;
 
-        const bool inside = (d0 > 0.0f) && (d1 > 0.0f) && (d2 > 0.0f) && (d3 > 0.0f) && (d4 > 0.0f);
+        const bool inside = (d0 > 0.0f) && (d1 > 0.0f) && (d2 > 0.0f) && (d3 > 0.0f) && (d4 > 0.0f) && (d5 > 0.0f);
         return inside;
     }
 

@@ -21,6 +21,7 @@ namespace der
         , m_global_uniforms(nullptr)
         , m_instance_uniforms(nullptr)
         , m_light_uniforms(nullptr)
+        , m_frustum_culling(true)
         , m_visible_object_count(0)
     {
         m_global_uniforms = new GlobalUniformBlock();
@@ -58,9 +59,15 @@ namespace der
             QuadTree *quad_tree = m_scene->get_quad_tree();
 
             std::vector<GameObject*> objects;
-            Frustum frustum = camera->construct_frustum(camera_obj->get_world_matrix());
-            quad_tree->get_objects_by_frustum(frustum, objects);
-//            m_scene->get_visible_objects(camera_pos, objects);
+            if (is_frustum_culling_enabled())
+            {
+                Frustum frustum = camera->construct_frustum(camera_obj->get_world_matrix());
+                quad_tree->get_objects_by_frustum(frustum, objects);
+            }
+            else
+            {
+                m_scene->get_all_objects(objects);
+            }
 
             m_visible_object_count = objects.size();
 
@@ -120,9 +127,15 @@ namespace der
             QuadTree *quad_tree = m_scene->get_quad_tree();
 
             std::vector<GameObject*> objects;
-            Frustum frustum = camera->construct_frustum(camera_obj->get_world_matrix());
-            quad_tree->get_objects_by_frustum(frustum, objects);
-//            m_scene->get_visible_objects(camera_pos, objects);
+            if (is_frustum_culling_enabled())
+            {
+                Frustum frustum = camera->construct_frustum(camera_obj->get_world_matrix());
+                quad_tree->get_objects_by_frustum(frustum, objects);
+            }
+            else
+            {
+                m_scene->get_all_objects(objects);
+            }
 
             m_visible_object_count = objects.size();
 
@@ -148,6 +161,15 @@ namespace der
 
     void SceneRenderer::set_time(float time)
     { m_global_uniforms->set_time(time); }
+
+    void SceneRenderer::set_frustum_culling_enabled(bool enabled)
+    { m_frustum_culling = enabled; }
+
+    void SceneRenderer::toggle_frustum_culling_enabled()
+    { m_frustum_culling = !m_frustum_culling; }
+
+    bool SceneRenderer::is_frustum_culling_enabled() const
+    { return m_frustum_culling; }
 
     size_t SceneRenderer::get_visible_object_count() const
     { return m_visible_object_count; }

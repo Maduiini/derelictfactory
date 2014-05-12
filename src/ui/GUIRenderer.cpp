@@ -75,8 +75,8 @@ namespace gui_renderer_internal
         std::vector<Widget*> widgets;
         m_gui->get_widgets(widgets);
 
-        render_text(graphics, cache, {300.0f, 300.0f}, "abvwxyz 1234567890");
-        render_text(graphics, cache, {300.0f, 350.0f}, "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+//        render_text(graphics, cache, {300.0f, 300.0f}, "abvwxyz 1234567890");
+//        render_text(graphics, cache, {300.0f, 350.0f}, "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
         for (Widget *widget : widgets)
         {

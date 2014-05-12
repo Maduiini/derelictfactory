@@ -14,12 +14,17 @@ namespace der
         , m_size(Vector2(50.0f, 50.0f))
         , m_title(title)
         , m_checked(false)
+        , m_state_changed(nullptr)
     {
         m_render_cmds.push_back({Checkbox::m_checkbox_texture, m_position, m_size, nullptr});
+        m_render_cmds.push_back({InvalidResource, m_position + Vector2(50.0f, 10.0f), Vector2::zero, m_title.c_str()});
+        m_render_cmds[1].text_position = m_render_cmds[1].position;
     }
 
     Checkbox::~Checkbox()
-    { }
+    {
+        delete m_state_changed;
+    }
 
     void Checkbox::mouse_released(Vector2 point)
     {
@@ -39,9 +44,14 @@ namespace der
             && point_moved.y < m_size.y;
     }
 
+    bool Checkbox::is_checked() const
+    { return m_checked; }
+
     void Checkbox::switch_state()
     {
         m_checked = !m_checked;
+        if (m_state_changed)
+            m_state_changed->handle(this);
 
         if (m_checked)
         {

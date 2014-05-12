@@ -142,6 +142,9 @@ namespace der
             if (m_window.key_pressed(Key::F1))
                 m_queued_render = !m_queued_render;
 
+            if (m_window.key_pressed(Key::F2))
+                m_scene_renderer->toggle_frustum_culling_enabled();
+
             if (m_current_controller)
                 m_current_controller->update(delta_time);
 
@@ -197,6 +200,22 @@ namespace der
         return true;
     }
 
+    class FrustumCullingBoxHandler : public GUIEventHandler
+    {
+    public:
+        FrustumCullingBoxHandler(SceneRenderer *renderer)
+            : m_scene_renderer(renderer)
+        { }
+
+        SceneRenderer *m_scene_renderer;
+
+        virtual void handle(Widget *widget) override
+        {
+            const Checkbox *cb = reinterpret_cast<Checkbox*>(widget);
+            m_scene_renderer->set_frustum_culling_enabled(cb->is_checked());
+        }
+    };
+
     bool Application::init_gui()
     {
         m_gui = new GUIManager();
@@ -210,8 +229,11 @@ namespace der
 
         m_gui->add_widget(new Button(Vector2(32, 32), Vector2(128, 32), "Hello World"));
         m_gui->add_widget(new Slider(Vector2(15, 200), 150.0f, -20.0f, 20.0));
-        m_gui->add_widget(new Checkbox(Vector2(15, 250), "test checkbox"));
-        m_gui->add_widget(new Label(Vector2(70, 260), "Testing"));
+        m_gui->add_widget(new Checkbox(Vector2(15, 250), "Test checkbox"));
+
+        Checkbox *frustum_culling_box = new Checkbox(Vector2(15, 290), "Frustum culling on");
+        frustum_culling_box->set_state_changed_handler(new FrustumCullingBoxHandler(m_scene_renderer));
+        m_gui->add_widget(frustum_culling_box);
 
         return true;
     }

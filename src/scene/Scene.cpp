@@ -79,6 +79,16 @@ namespace der
         return nullptr;
     }
 
+    void Scene::get_all_objects(std::vector<GameObject*> &objects) const
+    {
+        auto iter = m_gameobjects.begin();
+        for (; iter != m_gameobjects.end(); ++iter)
+        {
+            GameObject *object = *iter;
+            objects.push_back(object);
+        }
+    }
+
     void Scene::get_light_objects(const Vector3 &position, std::vector<GameObject*> &objects) const
     {
         auto iter = m_gameobjects.begin();

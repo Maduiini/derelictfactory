@@ -138,7 +138,6 @@ vec3 BRDF(vec3 c_diff, vec3 c_spec, const vec3 N, const vec3 L, const vec3 V, co
     vec3 H = normalize(L + V);
 
     float NoL = dot(N, L);
-//    float NoL = max(dot(N, L), 0.0);
     if (NoL < 0.0) return vec3(0.0);
 
     float NoH = clamp(dot(N, H), 0.0, 1.0);
@@ -147,7 +146,11 @@ vec3 BRDF(vec3 c_diff, vec3 c_spec, const vec3 N, const vec3 L, const vec3 V, co
 
 //    float NoH = dot(N, H);
 //    float NoH = max(dot(N, H), 0.0);
-    float NoV = min(dot(N, V), 1.0);
+
+    // This corrects some of the artifacts caused by poor tesselation of smooth surfaces.
+    const float normal_view_correction = 0.25;
+
+    float NoV = min(dot(N, V) + normal_view_correction, 1.0);
     float VoH = max(dot(V, H), 0.0);
 
     vec3 color = diffuse_BRDF(c_diff) * NoL;

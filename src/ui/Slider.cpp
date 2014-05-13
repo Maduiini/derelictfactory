@@ -54,9 +54,9 @@ namespace der
                     m_value_changed->handle(this);
             }
 
-            log::debug("Slider value: % (%)",
-                      (int)(get_absolute_value() * 100.0f) / 100.0f,
-                      (int)(get_relative_value() * 100.0f) / 100.0f);
+//            log::debug("Slider value: % (%)",
+//                      (int)(get_absolute_value() * 100.0f) / 100.0f,
+//                      (int)(get_relative_value() * 100.0f) / 100.0f);
         }
 
         m_render_cmds[0] = {

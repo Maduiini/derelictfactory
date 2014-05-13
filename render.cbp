@@ -44,6 +44,7 @@
 		<Unit filename="assets/materials/Barrel.material" />
 		<Unit filename="assets/materials/Brick.material" />
 		<Unit filename="assets/materials/Brickwall.material" />
+		<Unit filename="assets/materials/Color.material" />
 		<Unit filename="assets/materials/Cube.material" />
 		<Unit filename="assets/materials/GeneratorBase.material" />
 		<Unit filename="assets/materials/GeneratorCylinder.material" />

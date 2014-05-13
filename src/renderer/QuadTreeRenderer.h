@@ -8,12 +8,9 @@ namespace der
 {
 
     class Renderer;
-    class Graphics;
-    class ResourceCache;
     class VertexArrayObject;
     class VertexBuffer;
     class IndexBuffer;
-    class InstanceUniformBlock;
     class QuadTree;
     class QuadTreeNode;
 
@@ -22,21 +19,22 @@ namespace der
     public:
         QuadTreeRenderer();
 
-        void render(Graphics *graphics, ResourceCache &cache, InstanceUniformBlock *uniforms, const QuadTree *qt);
-        void render(Renderer *renderer, QuadTree *qt);
+        void render_immediate(Renderer *renderer, const QuadTree *qt);
+        void render(Renderer *renderer, const QuadTree *qt);
 
     private:
-        static void render_node(Graphics *graphics, ResourceCache &cache, InstanceUniformBlock *uniforms,
-                                const QuadTreeNode *node, size_t level);
+        void render_node_immediate(Renderer *renderer, const QuadTreeNode *node, size_t level);
+        void render_node(Renderer *renderer, const QuadTreeNode *node, size_t level);
 
-        static void build();
+        void build();
 
     private:
-        static ResourceID m_vert_shader;
-        static ResourceID m_frag_shader;
-        static VertexArrayObject *m_vao;
-        static VertexBuffer *m_vbuffer;
-        static IndexBuffer *m_ibuffer;
+        ResourceID m_vert_shader;
+        ResourceID m_frag_shader;
+        ResourceID m_material;
+        VertexArrayObject *m_vao;
+        VertexBuffer *m_vbuffer;
+        IndexBuffer *m_ibuffer;
     };
 
 } // der

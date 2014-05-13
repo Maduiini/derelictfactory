@@ -1,6 +1,7 @@
 
 #include "QuadTreeRenderer.h"
 #include "Graphics.h"
+#include "Renderer.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "VertexArrayObject.h"
@@ -14,42 +15,47 @@
 namespace der
 {
 
-    ResourceID QuadTreeRenderer::m_vert_shader = make_resource("color.vert");
-    ResourceID QuadTreeRenderer::m_frag_shader = make_resource("color.frag");
-    VertexArrayObject *QuadTreeRenderer::m_vao = nullptr;
-    VertexBuffer *QuadTreeRenderer::m_vbuffer = nullptr;
-    IndexBuffer *QuadTreeRenderer::m_ibuffer = nullptr;
+//    ResourceID QuadTreeRenderer::m_vert_shader = make_resource("color.vert");
+//    ResourceID QuadTreeRenderer::m_frag_shader = make_resource("color.frag");
+//    VertexArrayObject *QuadTreeRenderer::m_vao = nullptr;
+//    VertexBuffer *QuadTreeRenderer::m_vbuffer = nullptr;
+//    IndexBuffer *QuadTreeRenderer::m_ibuffer = nullptr;
 
 
     QuadTreeRenderer::QuadTreeRenderer()
+        : m_vert_shader(make_resource("color.vert"))
+        , m_frag_shader(make_resource("color.frag"))
+        , m_material(make_resource("Color.material"))
+        , m_vao(nullptr)
+        , m_vbuffer(nullptr)
+        , m_ibuffer(nullptr)
     {
         build();
     }
 
-    void QuadTreeRenderer::render(Graphics *graphics, ResourceCache &cache, InstanceUniformBlock *uniforms, const QuadTree *qt)
+    void QuadTreeRenderer::render_immediate(Renderer *renderer, const QuadTree *qt)
     {
-        m_vao->bind();
-        Program *program = cache.get_program(m_vert_shader, m_frag_shader);
-        if (program)
-        {
-            program->use();
-            graphics->set_blend_enabled(false);
-            graphics->update_state();
-            const QuadTreeNode *root = qt->get_root();
-            render_node(graphics, cache, uniforms, root, 0);
-        }
+        renderer->set_material(m_material);
+        renderer->set_vao(m_vao);
+        renderer->set_primitive_type(PrimitiveType::Lines);
+
+        const QuadTreeNode *root = qt->get_root();
+        render_node_immediate(renderer, root, 0);
     }
 
-    void QuadTreeRenderer::render(Renderer *renderer, QuadTree *qt)
+    void QuadTreeRenderer::render(Renderer *renderer, const QuadTree *qt)
     {
+        renderer->set_material(m_material);
+        renderer->set_vao(m_vao);
+        renderer->set_primitive_type(PrimitiveType::Lines);
 
+        const QuadTreeNode *root = qt->get_root();
+        render_node(renderer, root, 0);
     }
 
-    // static
-    void QuadTreeRenderer::render_node(Graphics *graphics, ResourceCache &cache, InstanceUniformBlock *uniforms,
-                                       const QuadTreeNode *node, size_t level)
+    void QuadTreeRenderer::render_node_immediate(Renderer *renderer, const QuadTreeNode *node, size_t level)
     {
-        if (node->has_objects()) // || node->is_leaf())
+        if (node->has_objects())
         {
             const float radius = node->get_radius();
             const Vector2 center = node->get_center();
@@ -58,23 +64,45 @@ namespace der
             mat_t.translation(center.x, 0.0f, center.y);
             mat_s.scale(radius, 10.0f, radius);
 
-            uniforms->set_model_mat(mat_t * mat_s);
-            uniforms->bind_uniforms();
-            graphics->draw_lines(m_ibuffer, 0, 12 * 2);
+            renderer->set_model_matrix(mat_t * mat_s);
+            renderer->set_indices(m_ibuffer, 0, 12 * 2);
+            renderer->render_command();
         }
 
-//        if (level < 4 && !node->is_leaf())
         if (!node->is_leaf())
         {
             for (size_t i = 0; i < 4; i++)
             {
-                if (node->get_child(i))
-                    render_node(graphics, cache, uniforms, node->get_child(i), level + 1);
+                render_node_immediate(renderer, node->get_child(i), level + 1);
             }
         }
     }
 
-    // static
+    void QuadTreeRenderer::render_node(Renderer *renderer, const QuadTreeNode *node, size_t level)
+    {
+        if (node->has_objects())
+        {
+            const float radius = node->get_radius();
+            const Vector2 center = node->get_center();
+
+            Matrix4 mat_t, mat_s;
+            mat_t.translation(center.x, 0.0f, center.y);
+            mat_s.scale(radius, 10.0f, radius);
+
+            renderer->set_model_matrix(mat_t * mat_s);
+            renderer->set_indices(m_ibuffer, 0, 12 * 2);
+            renderer->emit_command();
+        }
+
+        if (!node->is_leaf())
+        {
+            for (size_t i = 0; i < 4; i++)
+            {
+                render_node(renderer, node->get_child(i), level + 1);
+            }
+        }
+    }
+
     void QuadTreeRenderer::build()
     {
         if (m_vbuffer) return;

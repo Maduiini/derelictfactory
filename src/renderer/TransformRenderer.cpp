@@ -12,8 +12,7 @@
 namespace der
 {
 
-    ResourceID TransformRenderer::m_vert_shader = make_resource("color.vert");
-    ResourceID TransformRenderer::m_frag_shader = make_resource("color.frag");
+    ResourceID TransformRenderer::m_material = make_resource("Color.material");
     VertexArrayObject *TransformRenderer::m_vao = nullptr;
     VertexBuffer *TransformRenderer::m_vbuffer = nullptr;
 
@@ -23,22 +22,29 @@ namespace der
         build();
     }
 
-    void TransformRenderer::render(Graphics *graphics, ResourceCache &cache)
+    void TransformRenderer::render_immediate(Renderer *renderer)
     {
-        m_vao->bind();
-        Program *program = cache.get_program(m_vert_shader, m_frag_shader);
-        if (program)
-        {
-            program->use();
-            graphics->draw_lines(0, 6);
-        }
+        renderer->set_material(m_material);
+        renderer->set_vao(m_vao);
+        renderer->set_primitive_type(PrimitiveType::Lines);
+        renderer->set_indices(0, 0, 6);
+        renderer->render_command();
+//        m_vao->bind();
+//        Program *program = cache.get_program(m_vert_shader, m_frag_shader);
+//        if (program)
+//        {
+//            program->use();
+//            graphics->draw_lines(0, 6);
+//        }
     }
 
     void TransformRenderer::render(Renderer *renderer)
     {
+        renderer->set_material(m_material);
         renderer->set_vao(m_vao);
         renderer->set_primitive_type(PrimitiveType::Lines);
         renderer->set_indices(0, 0, 6);
+        renderer->emit_command();
     }
 
     // static

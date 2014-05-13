@@ -197,12 +197,12 @@ namespace der
         return true;
     }
 
-    class FrustumCullingBoxHandler : public GUIEventHandler
+    class FrustumCullingChanged : public GUIEventHandler
     {
     public:
         SceneRenderer *m_scene_renderer;
 
-        FrustumCullingBoxHandler(SceneRenderer *renderer)
+        FrustumCullingChanged(SceneRenderer *renderer)
             : m_scene_renderer(renderer)
         { }
 
@@ -210,6 +210,22 @@ namespace der
         {
             const Checkbox *cb = reinterpret_cast<Checkbox*>(widget);
             m_scene_renderer->set_frustum_culling_enabled(cb->is_checked());
+        }
+    };
+
+    class DebugDrawChanged : public GUIEventHandler
+    {
+    public:
+        SceneRenderer *m_scene_renderer;
+
+        DebugDrawChanged(SceneRenderer *renderer)
+            : m_scene_renderer(renderer)
+        { }
+
+        virtual void handle(Widget *widget) override
+        {
+            const Checkbox *cb = reinterpret_cast<Checkbox*>(widget);
+            m_scene_renderer->set_debug_draw_enabled(cb->is_checked());
         }
     };
 
@@ -262,9 +278,14 @@ namespace der
         m_gui->add_widget(m_nm_slider);
 
         Checkbox *frustum_culling_box = new Checkbox(Vector2(15, 200), "Frustum culling on");
-        frustum_culling_box->set_state_changed_handler(new FrustumCullingBoxHandler(m_scene_renderer));
+        frustum_culling_box->set_state_changed_handler(new FrustumCullingChanged(m_scene_renderer));
         frustum_culling_box->set_checked(true);
         m_gui->add_widget(frustum_culling_box);
+
+        Checkbox *debug_draw_box = new Checkbox(Vector2(15, 240), "Debug draw on");
+        debug_draw_box->set_state_changed_handler(new DebugDrawChanged(m_scene_renderer));
+        debug_draw_box->set_checked(false);
+        m_gui->add_widget(debug_draw_box);
 
         return true;
     }
@@ -277,7 +298,7 @@ namespace der
         if (m_queued_render)
             m_scene_renderer->render(m_renderer);
         else
-            m_scene_renderer->render(&m_graphics, m_renderer, m_resource_cache);
+            m_scene_renderer->render_immediate(m_renderer);
 
         m_gui_renderer->render(&m_graphics, m_resource_cache);
 

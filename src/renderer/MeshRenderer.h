@@ -18,7 +18,7 @@ namespace der
     public:
         MeshRenderer();
 
-        void render_immediate(Renderer *renderer, ResourceCache *cache);
+        void render_immediate(Renderer *rendere, ResourceCache *cache);
         void render(Renderer *renderer, ResourceCache *cache);
 
         void set_mesh(ResourceID mesh);

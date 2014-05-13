@@ -38,6 +38,7 @@ namespace der
 
     private:
         Vector2 get_knob_center() const;
+        void set_knob_position(float pos);
 
     private:
         Vector2 m_position;

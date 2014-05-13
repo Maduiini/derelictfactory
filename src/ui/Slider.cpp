@@ -41,18 +41,7 @@ namespace der
     {
         if (m_knob_grabbed)
         {
-            float last_knob_position = m_knob_position;
-            m_knob_position = mouse.x - m_position.x;
-            if (m_knob_position < 0)
-                m_knob_position = 0;
-            if (m_knob_position > m_width)
-                m_knob_position = m_width;
-
-            if (m_knob_position != last_knob_position)
-            {
-                if (m_value_changed)
-                    m_value_changed->handle(this);
-            }
+            set_knob_position(mouse.x - m_position.x);
 
 //            log::debug("Slider value: % (%)",
 //                      (int)(get_absolute_value() * 100.0f) / 100.0f,
@@ -81,7 +70,7 @@ namespace der
     void Slider::set_value(float value)
     {
         const float x = value / (m_max_value - m_min_value);
-        m_knob_position = x * m_width;
+        set_knob_position(x * m_width);
     }
 
     float Slider::get_relative_value() const
@@ -97,6 +86,23 @@ namespace der
     Vector2 Slider::get_knob_center() const
     {
         return m_position + Vector2(m_knob_position, m_height * 0.5f);
+    }
+
+    void Slider::set_knob_position(float pos)
+    {
+        const float last_knob_position = m_knob_position;
+
+        m_knob_position = pos;
+        if (m_knob_position < 0)
+            m_knob_position = 0;
+        if (m_knob_position > m_width)
+            m_knob_position = m_width;
+
+        if (m_knob_position != last_knob_position)
+        {
+            if (m_value_changed)
+                m_value_changed->handle(this);
+        }
     }
 
 } // der

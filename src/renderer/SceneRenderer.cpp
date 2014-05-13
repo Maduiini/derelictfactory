@@ -21,12 +21,15 @@ namespace der
         , m_global_uniforms(nullptr)
         , m_instance_uniforms(nullptr)
         , m_light_uniforms(nullptr)
+        , m_nm_influence(1.0f)
         , m_frustum_culling(true)
         , m_visible_object_count(0)
     {
         m_global_uniforms = new GlobalUniformBlock();
         m_instance_uniforms = new InstanceUniformBlock();
         m_light_uniforms = new LightUniformBlock();
+        m_param_uniforms = new ParamUniformBlock();
+
         m_qt_renderer = new QuadTreeRenderer();
     }
 
@@ -35,6 +38,7 @@ namespace der
         delete m_global_uniforms;
         delete m_instance_uniforms;
         delete m_light_uniforms;
+        delete m_param_uniforms;
         delete m_qt_renderer;
     }
 
@@ -55,6 +59,9 @@ namespace der
             m_global_uniforms->set_view_mat(view_mat);
             m_global_uniforms->set_camera_pos(camera_pos);
             m_global_uniforms->bind_uniforms();
+
+            m_param_uniforms->set_normalmap_influence(m_nm_influence);
+            m_param_uniforms->bind_uniforms();
 
             QuadTree *quad_tree = m_scene->get_quad_tree();
 
@@ -123,6 +130,7 @@ namespace der
             renderer->set_projection_matrix(proj_mat);
             renderer->set_view_matrix(view_mat);
             renderer->set_camera_pos(camera_pos);
+            renderer->set_normalmap_influence(m_nm_influence);
 
             QuadTree *quad_tree = m_scene->get_quad_tree();
 
@@ -161,6 +169,9 @@ namespace der
 
     void SceneRenderer::set_time(float time)
     { m_global_uniforms->set_time(time); }
+
+    void SceneRenderer::set_normalmap_influence(float value)
+    { m_nm_influence = value; }
 
     void SceneRenderer::set_frustum_culling_enabled(bool enabled)
     { m_frustum_culling = enabled; }

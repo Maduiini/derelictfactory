@@ -20,6 +20,7 @@ namespace der
     class GUIManager;
     class GUIRenderer;
     class ValueDisplay;
+    class Slider;
 
     class Application
     {
@@ -61,6 +62,8 @@ namespace der
         ValueDisplay *m_fps_display;
         ValueDisplay *m_state_change_display;
         ValueDisplay *m_vis_objects_display;
+        ValueDisplay *m_nm_display;
+        Slider *m_nm_slider;
 
         bool m_glfw_ready;
         bool m_ready;

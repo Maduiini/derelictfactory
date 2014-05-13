@@ -78,6 +78,12 @@ namespace der
         return point_moved.length2() <= m_knob_radius * m_knob_radius;
     }
 
+    void Slider::set_value(float value)
+    {
+        const float x = value / (m_max_value - m_min_value);
+        m_knob_position = x * m_width;
+    }
+
     float Slider::get_relative_value() const
     {
         return m_knob_position / m_width;

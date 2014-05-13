@@ -126,6 +126,7 @@ namespace der
             bind_uniform_block("Globals", GlobalUniformBlock::BindingPoint);
             bind_uniform_block("Instance", InstanceUniformBlock::BindingPoint);
             bind_uniform_block("Lights", LightUniformBlock::BindingPoint);
+            bind_uniform_block("Params", ParamUniformBlock::BindingPoint);
 
             return true;
         }

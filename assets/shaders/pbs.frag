@@ -6,6 +6,19 @@ uniform sampler2D tex_roughness;
 uniform sampler2D tex_metallic;
 uniform samplerCube tex_env;
 
+layout(row_major) uniform Globals
+{
+    mat4 mat_proj;
+    mat4 mat_view;
+    vec3 camera_pos;
+    float time;
+};
+
+uniform Params
+{
+    float nm_influence; // Normalmap influence
+};
+
 struct Light
 {
     vec4 position;      // Position(w=1) or direction(w=0)
@@ -117,7 +130,7 @@ vec3 specular_BRDF(const vec3 c_spec, const float NoL, const float NoH, const fl
     float D = D_GGX_Trowbridge_Reitz(alpha, NoH);
     vec3 F = F_Schlick_Epic(c_spec, VoH);
     float G = G_Smith(NoL, NoV, roughness);
-    return (D * F * G) / (4.0 * NoV);
+    return (D * F * G) / (4.0 * NoV); // NoL divider has been rearrangd out
 }
 
 vec3 BRDF(vec3 c_diff, vec3 c_spec, const vec3 N, const vec3 L, const vec3 V, const float roughness)
@@ -125,12 +138,14 @@ vec3 BRDF(vec3 c_diff, vec3 c_spec, const vec3 N, const vec3 L, const vec3 V, co
     vec3 H = normalize(L + V);
 
     float NoL = dot(N, L);
+//    float NoL = max(dot(N, L), 0.0);
     if (NoL < 0.0) return vec3(0.0);
 
     float NoH = clamp(dot(N, H), 0.0, 1.0);
 //    float NoV = clamp(dot(N, V), 0.0, 1.0);
 //    float VoH = clamp(dot(V, H), 0.0, 1.0);
 
+//    float NoH = dot(N, H);
 //    float NoH = max(dot(N, H), 0.0);
     float NoV = min(dot(N, V), 1.0);
     float VoH = max(dot(V, H), 0.0);
@@ -163,7 +178,7 @@ vec3 light(const int i, vec3 c_diff, vec3 c_spec, const vec3 N, const vec3 V, co
 
 vec3 IBL(vec3 c_spec, const vec3 N, const vec3 V, const float roughness)
 {
-    vec3 L = -reflect(V, N) * vec3(1.0, -1.0, 1.0);
+    vec3 L = -reflect(V, N); // * vec3(1.0, -1.0, 1.0);
 
     float lod = roughness * 5.0;
     vec3 color = linearize(textureLod(tex_env, L, lod).rgb);
@@ -186,7 +201,8 @@ vec3 lighting(vec3 c_diff, vec3 c_spec, const vec3 N, const vec3 V, const float 
 void main()
 {
     vec3 albedo = get_albedo();
-    vec3 N = get_normal();
+//    vec3 N = get_normal();
+    vec3 N = normalize(mix(normal, get_normal(), nm_influence));
     vec3 V = -normalize(view_vec);
 //    vec3 N = normal;
 

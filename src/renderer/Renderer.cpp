@@ -49,6 +49,7 @@ namespace der
         m_global_uniforms = new GlobalUniformBlock();
         m_instance_uniforms = new InstanceUniformBlock();
         m_light_uniforms = new LightUniformBlock();
+        m_param_uniforms = new ParamUniformBlock();
     }
 
     Renderer::~Renderer()
@@ -56,6 +57,7 @@ namespace der
         delete m_global_uniforms;
         delete m_instance_uniforms;
         delete m_light_uniforms;
+        delete m_param_uniforms;
     }
 
     void Renderer::set_projection_matrix(const Matrix4 &proj_mat)
@@ -69,6 +71,9 @@ namespace der
 
     void Renderer::set_time(float time)
     { m_global_uniforms->set_time(time); }
+
+    void Renderer::set_normalmap_influence(float value)
+    { m_param_uniforms->set_normalmap_influence(value); }
 
 
     void Renderer::set_model_matrix(const Matrix4 &model_mat)
@@ -138,6 +143,7 @@ namespace der
         std::sort(m_commands.begin(), m_commands.end(), command_cmp);
 
         m_global_uniforms->bind_uniforms();
+        m_param_uniforms->bind_uniforms();
 
         for (RenderCommand &command : m_commands)
         {

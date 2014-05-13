@@ -113,6 +113,19 @@ namespace der
         } m_lights[MAX_LIGHTS];
     };
 
+    class ParamUniformBlock : public UniformBuffer
+    {
+    public:
+        static const unsigned int BindingPoint = 3;
+    public:
+        ParamUniformBlock();
+
+        void set_normalmap_influence(float value);
+
+    private:
+        float m_nm_influence;
+    };
+
 } // der
 
 #endif // H_DER_UNIFORM_BUFFER_H

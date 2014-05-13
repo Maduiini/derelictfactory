@@ -191,4 +191,17 @@ namespace der
     { m_lights[light].radius = radius; }
 
 
+
+    ParamUniformBlock::ParamUniformBlock()
+        : UniformBuffer(BindingPoint)
+        , m_nm_influence(1.0f)
+    {
+        add_float(m_nm_influence);
+        apply_format();
+    }
+
+    void ParamUniformBlock::set_normalmap_influence(float value)
+    { m_nm_influence = value; }
+
+
 } // der

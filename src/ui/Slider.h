@@ -24,6 +24,9 @@ namespace der
         /// Returns true if the point is inside the knob.
         bool is_inside_knob(Vector2 point) const;
 
+        /// Sets the absolute value of the slider.
+        void set_value(float value);
+
         /// Returns slider value in range [0.0, 1.0]
         float get_relative_value() const;
 

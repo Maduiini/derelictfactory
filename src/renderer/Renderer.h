@@ -25,6 +25,7 @@ namespace der
     class GlobalUniformBlock;
     class InstanceUniformBlock;
     class LightUniformBlock;
+    class ParamsUniformBlock;
 
     struct RenderCommand
     {
@@ -62,6 +63,8 @@ namespace der
         void set_camera_pos(const Vector3 &camera_pos);
         void set_time(float time);
 
+        void set_normalmap_influence(float value);
+
         void set_model_matrix(const Matrix4 &model_mat);
 
         void set_light_count(size_t light_count);
@@ -90,6 +93,7 @@ namespace der
         GlobalUniformBlock *    m_global_uniforms;
         InstanceUniformBlock *  m_instance_uniforms;
         LightUniformBlock *     m_light_uniforms;
+        ParamUniformBlock *     m_param_uniforms;
 
     };
 

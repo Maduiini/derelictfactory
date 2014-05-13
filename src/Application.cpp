@@ -52,6 +52,8 @@ namespace der
         , m_fps_display(nullptr)
         , m_state_change_display(nullptr)
         , m_vis_objects_display(nullptr)
+        , m_nm_display(nullptr)
+        , m_nm_slider(nullptr)
         , m_glfw_ready(false)
         , m_ready(false)
         , m_queued_render(true)
@@ -198,16 +200,36 @@ namespace der
     class FrustumCullingBoxHandler : public GUIEventHandler
     {
     public:
+        SceneRenderer *m_scene_renderer;
+
         FrustumCullingBoxHandler(SceneRenderer *renderer)
             : m_scene_renderer(renderer)
         { }
-
-        SceneRenderer *m_scene_renderer;
 
         virtual void handle(Widget *widget) override
         {
             const Checkbox *cb = reinterpret_cast<Checkbox*>(widget);
             m_scene_renderer->set_frustum_culling_enabled(cb->is_checked());
+        }
+    };
+
+    class NormalMapSliderChanged : public GUIEventHandler
+    {
+    public:
+        SceneRenderer *m_scene_renderer;
+        ValueDisplay *m_nm_display;
+
+        NormalMapSliderChanged(SceneRenderer *renderer, ValueDisplay *nm_display)
+            : m_scene_renderer(renderer), m_nm_display(nm_display)
+        { }
+
+        virtual void handle(Widget *widget) override
+        {
+            const Slider *slider = reinterpret_cast<Slider*>(widget);
+            const float value = slider->get_absolute_value();
+            m_scene_renderer->set_normalmap_influence(value);
+            const float rounded_value = int(value * 100.0f) / 100.0f;
+            m_nm_display->set_value(rounded_value);
         }
     };
 
@@ -231,11 +253,15 @@ namespace der
         m_vis_objects_display = new ValueDisplay(Vector2(15, 70), "Visible objects  ");
         m_gui->add_widget(m_vis_objects_display);
 
-        m_gui->add_widget(new Label(Vector2(15, 160), "Normal mapping"));
-        m_gui->add_widget(new Slider(Vector2(15, 200), 150.0f, -20.0f, 20.0));
-        m_gui->add_widget(new Checkbox(Vector2(15, 250), "Test checkbox"));
+//        m_gui->add_widget(new Label(Vector2(15, 160), "Normal mapping"));
+        m_nm_display = new ValueDisplay(Vector2(15, 100), "Normalmap influence  ");
+        m_gui->add_widget(m_nm_display);
+        m_nm_slider = new Slider(Vector2(15, 140), 150.0f, 0.0f, 2.0);
+        m_nm_slider->set_value_changed_handler(new NormalMapSliderChanged(m_scene_renderer, m_nm_display));
+        m_nm_slider->set_value(1.0f);
+        m_gui->add_widget(m_nm_slider);
 
-        Checkbox *frustum_culling_box = new Checkbox(Vector2(15, 290), "Frustum culling on");
+        Checkbox *frustum_culling_box = new Checkbox(Vector2(15, 200), "Frustum culling on");
         frustum_culling_box->set_state_changed_handler(new FrustumCullingBoxHandler(m_scene_renderer));
         frustum_culling_box->set_checked(true);
         m_gui->add_widget(frustum_culling_box);

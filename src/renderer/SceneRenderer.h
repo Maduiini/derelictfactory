@@ -18,6 +18,7 @@ namespace der
     class GlobalUniformBlock;
     class InstanceUniformBlock;
     class LightUniformBlock;
+    class ParamUniformBlock;
 
     class QuadTreeRenderer;
 
@@ -31,6 +32,7 @@ namespace der
         void render(Renderer *renderer);
 
         void set_time(float time);
+        void set_normalmap_influence(float value);
 
         void set_frustum_culling_enabled(bool enabled);
         void toggle_frustum_culling_enabled();
@@ -45,9 +47,13 @@ namespace der
     private:
         Scene *m_scene;
         ResourceCache *m_cache;
+
         GlobalUniformBlock *    m_global_uniforms;
         InstanceUniformBlock *  m_instance_uniforms;
         LightUniformBlock *     m_light_uniforms;
+        ParamUniformBlock *     m_param_uniforms;
+
+        float m_nm_influence;
 
         bool m_frustum_culling;
 

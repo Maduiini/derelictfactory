@@ -28,7 +28,7 @@ namespace der
         explicit SceneRenderer(Scene *scene, ResourceCache *cache);
         ~SceneRenderer();
 
-        void render(Graphics *graphics, ResourceCache &cache);
+        void render(Graphics *graphics, Renderer *renderer, ResourceCache &cache);
         void render(Renderer *renderer);
 
         void set_time(float time);

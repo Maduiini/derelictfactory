@@ -277,7 +277,7 @@ namespace der
         if (m_queued_render)
             m_scene_renderer->render(m_renderer);
         else
-            m_scene_renderer->render(&m_graphics, m_resource_cache);
+            m_scene_renderer->render(&m_graphics, m_renderer, m_resource_cache);
 
         m_gui_renderer->render(&m_graphics, m_resource_cache);
 

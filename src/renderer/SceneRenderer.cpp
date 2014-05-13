@@ -42,7 +42,7 @@ namespace der
         delete m_qt_renderer;
     }
 
-    void SceneRenderer::render(Graphics *graphics, ResourceCache &cache)
+    void SceneRenderer::render(Graphics *graphics, Renderer *renderer, ResourceCache &cache)
     {
         m_visible_object_count = 0;
 
@@ -55,13 +55,18 @@ namespace der
             const Matrix4 proj_mat = camera->get_projection();
             const Matrix4 view_mat = camera_obj->get_inv_world_matrix();
             const Vector3 camera_pos = camera_obj->get_position();
-            m_global_uniforms->set_projection_mat(proj_mat);
-            m_global_uniforms->set_view_mat(view_mat);
-            m_global_uniforms->set_camera_pos(camera_pos);
-            m_global_uniforms->bind_uniforms();
-
-            m_param_uniforms->set_normalmap_influence(m_nm_influence);
-            m_param_uniforms->bind_uniforms();
+//            m_global_uniforms->set_projection_mat(proj_mat);
+//            m_global_uniforms->set_view_mat(view_mat);
+//            m_global_uniforms->set_camera_pos(camera_pos);
+//            m_global_uniforms->bind_uniforms();
+//
+//            m_param_uniforms->set_normalmap_influence(m_nm_influence);
+//            m_param_uniforms->bind_uniforms();
+            renderer->set_projection_matrix(proj_mat);
+            renderer->set_view_matrix(view_mat);
+            renderer->set_camera_pos(camera_pos);
+            renderer->set_normalmap_influence(m_nm_influence);
+            renderer->bind_global_uniforms();
 
             QuadTree *quad_tree = m_scene->get_quad_tree();
 
@@ -80,37 +85,26 @@ namespace der
 
             for (GameObject *object : objects)
             {
-                MeshRenderer *renderer = object->get_renderer();
-                if (!renderer) continue;
+                MeshRenderer *obj_renderer = object->get_renderer();
+                if (!obj_renderer) continue;
 
 
                 const Matrix4 model_mat = object->get_world_matrix();
-                m_instance_uniforms->set_model_mat(model_mat);
-                m_instance_uniforms->bind_uniforms();
+                renderer->set_model_matrix(model_mat);
+//                m_instance_uniforms->set_model_mat(model_mat);
+//                m_instance_uniforms->bind_uniforms();
 
-                set_lights(object->get_position());
+                set_lights(renderer, object->get_position());
 
-                renderer->render(graphics, &cache);
+//                renderer->render(graphics, &cache);
+                obj_renderer->render_immediate(renderer, &cache);
 
-                TransformRenderer *tr_renderer = object->get_tr_renderer();
-                if (tr_renderer)
-                    tr_renderer->render(graphics, cache);
+//                TransformRenderer *tr_renderer = object->get_tr_renderer();
+//                if (tr_renderer)
+//                    tr_renderer->render(graphics, cache);
             }
 
             m_qt_renderer->render(graphics, cache, m_instance_uniforms, m_scene->get_quad_tree());
-
-//            AccelerationStructure *acc_struct = m_scene->get_acceleration_structure();
-//
-//            const Frustum frustum = camera->construct_frustum(camera_obj->get_world_matrix());
-//            FrustumQuery frustum_query(frustum);
-//            acc_struct->query(frustum_query);
-//
-//            for (GameObject *object : frustum_query.get_objects())
-//            {
-//                MeshRenderer *renderer = object->get_renderer();
-//                // -- set model matrix --
-//                renderer->render();
-//            }
         }
     }
 
@@ -160,9 +154,9 @@ namespace der
 
                 obj_renderer->render(renderer, m_cache);
 
-                TransformRenderer *tr_renderer = object->get_tr_renderer();
-                if (tr_renderer)
-                    tr_renderer->render(renderer);
+//                TransformRenderer *tr_renderer = object->get_tr_renderer();
+//                if (tr_renderer)
+//                    tr_renderer->render(renderer);
             }
         }
         renderer->render();

@@ -78,6 +78,9 @@ namespace der
         void set_indices(IndexBuffer *ib, size_t start_index, size_t index_count);
         void emit_command();
 
+        void bind_global_uniforms();
+        void render_command();
+
         void render();
 
     private:

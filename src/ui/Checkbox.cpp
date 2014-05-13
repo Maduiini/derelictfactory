@@ -31,7 +31,7 @@ namespace der
         if (is_inside(point))
         {
             switch_state();
-            log::debug("checkbox state: %", (m_checked? "pressed" : "not pressed"));
+//            log::debug("checkbox state: %", (m_checked? "pressed" : "not pressed"));
         }
     }
 

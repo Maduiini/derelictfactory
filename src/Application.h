@@ -33,6 +33,9 @@ namespace der
 
         bool is_ready() const;
 
+        void set_queued_render_enabled(bool enabled);
+        bool is_queued_render_enabled() const;
+
     private:
         bool init_scene();
         bool init_gui();

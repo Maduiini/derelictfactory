@@ -173,6 +173,12 @@ namespace der
     bool Application::is_ready() const
     { return m_glfw_ready && m_ready; }
 
+    void Application::set_queued_render_enabled(bool enabled)
+    { m_queued_render = enabled; }
+
+    bool Application::is_queued_render_enabled() const
+    { return m_queued_render; }
+
     bool Application::init_scene()
     {
         m_scene = new Scene();
@@ -197,35 +203,25 @@ namespace der
         return true;
     }
 
-    class FrustumCullingChanged : public GUIEventHandler
+
+    template <class T>
+    class CheckboxForwarder : public GUIEventHandler
     {
     public:
-        SceneRenderer *m_scene_renderer;
+        typedef void (T::*MethodT)(bool);
 
-        FrustumCullingChanged(SceneRenderer *renderer)
-            : m_scene_renderer(renderer)
+        T *     m_object;
+        MethodT m_method;
+
+        CheckboxForwarder(T *object, MethodT method)
+            : m_object(object)
+            , m_method(method)
         { }
 
         virtual void handle(Widget *widget) override
         {
             const Checkbox *cb = reinterpret_cast<Checkbox*>(widget);
-            m_scene_renderer->set_frustum_culling_enabled(cb->is_checked());
-        }
-    };
-
-    class DebugDrawChanged : public GUIEventHandler
-    {
-    public:
-        SceneRenderer *m_scene_renderer;
-
-        DebugDrawChanged(SceneRenderer *renderer)
-            : m_scene_renderer(renderer)
-        { }
-
-        virtual void handle(Widget *widget) override
-        {
-            const Checkbox *cb = reinterpret_cast<Checkbox*>(widget);
-            m_scene_renderer->set_debug_draw_enabled(cb->is_checked());
+            (m_object->*m_method)(cb->is_checked());
         }
     };
 
@@ -269,7 +265,6 @@ namespace der
         m_vis_objects_display = new ValueDisplay(Vector2(15, 70), "Visible objects  ");
         m_gui->add_widget(m_vis_objects_display);
 
-//        m_gui->add_widget(new Label(Vector2(15, 160), "Normal mapping"));
         m_nm_display = new ValueDisplay(Vector2(15, 120), "Normalmap influence  ");
         m_gui->add_widget(m_nm_display);
         m_nm_slider = new Slider(Vector2(15, 160), 150.0f, 0.0f, 2.0);
@@ -277,13 +272,21 @@ namespace der
         m_nm_slider->set_value(1.0f);
         m_gui->add_widget(m_nm_slider);
 
-        Checkbox *frustum_culling_box = new Checkbox(Vector2(15, 200), "Frustum culling on");
-        frustum_culling_box->set_state_changed_handler(new FrustumCullingChanged(m_scene_renderer));
+        Checkbox *render_queue_box = new Checkbox(Vector2(15, 200), "Render queue on");
+        render_queue_box->set_state_changed_handler(
+            new CheckboxForwarder<Application>(this, &Application::set_queued_render_enabled));
+        render_queue_box->set_checked(true);
+        m_gui->add_widget(render_queue_box);
+
+        Checkbox *frustum_culling_box = new Checkbox(Vector2(15, 240), "Frustum culling on");
+        frustum_culling_box->set_state_changed_handler(
+            new CheckboxForwarder<SceneRenderer>(m_scene_renderer, &SceneRenderer::set_frustum_culling_enabled));
         frustum_culling_box->set_checked(true);
         m_gui->add_widget(frustum_culling_box);
 
-        Checkbox *debug_draw_box = new Checkbox(Vector2(15, 240), "Debug draw on");
-        debug_draw_box->set_state_changed_handler(new DebugDrawChanged(m_scene_renderer));
+        Checkbox *debug_draw_box = new Checkbox(Vector2(15, 280), "Debug draw on");
+        debug_draw_box->set_state_changed_handler(
+            new CheckboxForwarder<SceneRenderer>(m_scene_renderer, &SceneRenderer::set_debug_draw_enabled));
         debug_draw_box->set_checked(false);
         m_gui->add_widget(debug_draw_box);
 

@@ -178,7 +178,7 @@ vec3 light(const int i, vec3 c_diff, vec3 c_spec, const vec3 N, const vec3 V, co
 
 vec3 IBL(vec3 c_spec, const vec3 N, const vec3 V, const float roughness)
 {
-    vec3 L = reflect(V, N) * vec3(1.0, -1.0, 1.0);
+    vec3 L = -reflect(V, N) * vec3(1.0, -1.0, 1.0);
 
     float lod = roughness * 5.0;
     vec3 color = linearize(textureLod(tex_env, L, lod).rgb);

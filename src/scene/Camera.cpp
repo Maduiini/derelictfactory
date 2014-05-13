@@ -61,4 +61,11 @@ namespace der
         return frustum;
     }
 
+    Frustum Camera::extract_frustum(const Matrix4 &view_proj) const
+    {
+        Frustum frustum;
+        frustum.extract(view_proj);
+        return frustum;
+    }
+
 } // der

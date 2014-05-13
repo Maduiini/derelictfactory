@@ -63,6 +63,7 @@
 		<Unit filename="assets/shaders/gui.vert" />
 		<Unit filename="assets/shaders/pbs.frag" />
 		<Unit filename="assets/shaders/pbs.vert" />
+		<Unit filename="assets/shaders/pbs_ground.frag" />
 		<Unit filename="assets/shaders/skybox.frag" />
 		<Unit filename="assets/shaders/skybox.vert" />
 		<Unit filename="assets/textures/Skybox.cube" />

@@ -137,7 +137,8 @@ namespace der
             std::vector<GameObject*> objects;
             if (is_frustum_culling_enabled())
             {
-                Frustum frustum = camera->construct_frustum(camera_obj->get_world_matrix());
+//                Frustum frustum = camera->construct_frustum(camera_obj->get_world_matrix());
+                Frustum frustum = camera->extract_frustum(proj_mat * view_mat);
                 quad_tree->get_objects_by_frustum(frustum, objects);
             }
             else

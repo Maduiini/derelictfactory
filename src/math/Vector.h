@@ -123,6 +123,9 @@ namespace der
         friend Vector2 operator - (const Vector2 &u, const Vector2 &v)
         { return Vector2(u.x - v.x, u.y - v.y); }
 
+        friend Vector2 operator * (const Vector2 &u, const Vector2 &v)
+        { return Vector2(u.x * v.x, u.y * v.y); }
+
         friend Vector2 operator * (float s, const Vector2 &v)
         { return Vector2(v.x * s, v.y * s); }
 
@@ -258,6 +261,9 @@ namespace der
 
         friend Vector3 operator - (const Vector3 &u, const Vector3 &v)
         { return Vector3(u.x - v.x, u.y - v.y, u.z - v.z); }
+
+        friend Vector3 operator * (const Vector3 &u, const Vector3 &v)
+        { return Vector3(u.x * v.x, u.y * v.y, u.z * v.z); }
 
         friend Vector3 operator * (float s, const Vector3 &v)
         { return Vector3(v.x * s, v.y * s, v.z * s); }
@@ -412,6 +418,9 @@ namespace der
 
         friend Vector4 operator - (const Vector4 &u, const Vector4 &v)
         { return Vector4(u.x - v.x, u.y - v.y, u.z - v.z, u.w - v.w); }
+
+        friend Vector4 operator * (const Vector4 &u, const Vector4 &v)
+        { return Vector4(u.x * v.x, u.y * v.y, u.z * v.z, u.w * v.w); }
 
         friend Vector4 operator * (float s, const Vector4 &v)
         { return Vector4(v.x * s, v.y * s, v.z * s, v.w * s); }

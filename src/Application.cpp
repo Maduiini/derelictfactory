@@ -256,16 +256,16 @@ namespace der
             return false;
         }
 
-        m_fps_display = new ValueDisplay(Vector2(15, 10), "FPS  ");
+        m_fps_display = new ValueDisplay(Vector2(15, 10), "FPS: ");
         m_gui->add_widget(m_fps_display);
 
-        m_state_change_display = new ValueDisplay(Vector2(15, 40), "State changes  ");
+        m_state_change_display = new ValueDisplay(Vector2(15, 40), "State changes: ");
         m_gui->add_widget(m_state_change_display);
 
-        m_vis_objects_display = new ValueDisplay(Vector2(15, 70), "Visible objects  ");
+        m_vis_objects_display = new ValueDisplay(Vector2(15, 70), "Visible objects: ");
         m_gui->add_widget(m_vis_objects_display);
 
-        m_nm_display = new ValueDisplay(Vector2(15, 120), "Normalmap influence  ");
+        m_nm_display = new ValueDisplay(Vector2(15, 120), "Normalmap influence: ");
         m_gui->add_widget(m_nm_display);
         m_nm_slider = new Slider(Vector2(15, 160), 150.0f, 0.0f, 2.0);
         m_nm_slider->set_value_changed_handler(new NormalMapSliderChanged(m_scene_renderer, m_nm_display));

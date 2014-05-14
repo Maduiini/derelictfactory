@@ -116,7 +116,7 @@ float G1_Smith(const float XoN, const float k)
     return XoN / (XoN * (1.0 - k) + k);
 }
 
-// Smiths geometric attenuation
+// Smith's geometric attenuation
 float G_Smith(const float NoL, const float NoV, const float roughness)
 {
     float r = roughness + 1.0;

@@ -42,6 +42,7 @@
 			<Add directory="$(#glew.lib)" />
 		</Linker>
 		<Unit filename="assets/materials/Barrel.material" />
+		<Unit filename="assets/materials/Barrel2.material" />
 		<Unit filename="assets/materials/Brick.material" />
 		<Unit filename="assets/materials/Brickwall.material" />
 		<Unit filename="assets/materials/Color.material" />

@@ -8,6 +8,7 @@ namespace der
 {
 
     struct Vector3;
+    struct Aabb;
 
     class ResourceCache;
 
@@ -45,7 +46,7 @@ namespace der
         size_t get_visible_object_count() const;
 
     private:
-        void set_lights(Renderer *renderer, const Vector3 &position);
+        void set_lights(Renderer *renderer, const Aabb &aabb);
 
     private:
         Scene *m_scene;

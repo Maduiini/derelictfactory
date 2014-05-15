@@ -75,7 +75,7 @@ namespace der
                 const Matrix4 model_mat = object->get_world_matrix();
                 renderer->set_model_matrix(model_mat);
 
-                set_lights(renderer, object->get_position());
+                set_lights(renderer, object->get_bounding_box());
 
                 obj_renderer->render_immediate(renderer, m_cache);
             }
@@ -139,7 +139,7 @@ namespace der
                 const Matrix4 model_mat = object->get_world_matrix();
                 renderer->set_model_matrix(model_mat);
 
-                set_lights(renderer, object->get_position());
+                set_lights(renderer, object->get_bounding_box());
 
                 obj_renderer->render(renderer, m_cache);
             }
@@ -189,10 +189,10 @@ namespace der
     size_t SceneRenderer::get_visible_object_count() const
     { return m_visible_object_count; }
 
-    void SceneRenderer::set_lights(Renderer *renderer, const Vector3 &position)
+    void SceneRenderer::set_lights(Renderer *renderer, const Aabb &aabb)
     {
         std::vector<GameObject*> objects;
-        m_scene->get_light_objects(position, objects);
+        m_scene->get_light_objects(aabb, objects);
 
         size_t light_count = min(objects.size(), LightUniformBlock::MAX_LIGHTS);
 

@@ -89,7 +89,7 @@ namespace der
         }
     }
 
-    void Scene::get_light_objects(const Vector3 &position, std::vector<GameObject*> &objects) const
+    void Scene::get_light_objects(const Aabb &aabb, std::vector<GameObject*> &objects) const
     {
         auto iter = m_gameobjects.begin();
         for (; iter != m_gameobjects.end(); ++iter)
@@ -103,7 +103,7 @@ namespace der
                 {
                     objects.insert(objects.begin(), object);
                 }
-                else if ((object->get_position() - position).length2() < r * r)
+                else if (aabb.intersects_sphere(object->get_position(), r))
                 {
                     objects.push_back(object);
                 }

@@ -60,8 +60,10 @@ vec3 get_normal()
 vec4 gamma_correct(vec3 color)
 {
     vec3 s1 = sqrt(color);
+    color = min(color, vec3(4.0));
     vec3 s2 = sqrt(s1);
     vec3 s3 = sqrt(s2);
+    vec3 s4 = sqrt(s3);
     vec3 srgb = 0.662002687 * s1 + 0.684122060 * s2 - 0.3235601 * s3 - 0.225411470 * color;
     return vec4(srgb, 1.0);
 
@@ -101,7 +103,7 @@ vec3 get_env(vec3 v, float lod)
 }
 
 
-const float PI = 3.14;
+const float PI = 3.1415926;
 const float ONE_OVER_PI = 1.0 / PI;
 
 // --- Physically based shading
@@ -174,7 +176,8 @@ vec3 BRDF(vec3 c_diff, vec3 c_spec, const vec3 N, const vec3 L, const vec3 V, co
 
     float NoH = clamp(dot(N, H), 0.0, 1.0);
     float NoV = clamp(dot(N, V), 0.001, 1.0);
-    float VoH = max(dot(V, H), 0.0);
+//    float VoH = max(dot(V, H), 0.0);
+    float VoH = clamp(dot(V, H), 0.0, 1.0);
 
     vec3 color = diffuse_BRDF(c_diff) * NoL;
     color += specular_BRDF(c_spec, NoL, NoH, NoV, VoH, roughness);

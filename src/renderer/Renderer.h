@@ -35,6 +35,7 @@ namespace der
 
         struct LightData
         {
+            LightData() : radius(0.0f) { }
             LightType type;
             Vector3 position;
             Vector4 color_energy;

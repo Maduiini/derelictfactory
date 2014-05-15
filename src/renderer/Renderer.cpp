@@ -133,6 +133,7 @@ namespace der
 
         m_light_uniforms->set_light_count(command.light_count);
         for (size_t i = 0; i < command.light_count; i++)
+//        for (size_t i = 0; i < LightUniformBlock::MAX_LIGHTS; i++)
         {
             m_light_uniforms->set_position(i, command.lights[i].position, command.lights[i].type);
             m_light_uniforms->set_color(i, command.lights[i].color_energy.xyz(), command.lights[i].color_energy.w);

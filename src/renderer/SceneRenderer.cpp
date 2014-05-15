@@ -194,8 +194,7 @@ namespace der
         std::vector<GameObject*> objects;
         m_scene->get_light_objects(position, objects);
 
-        size_t light_count = (objects.size() < LightUniformBlock::MAX_LIGHTS) ?
-            objects.size() : LightUniformBlock::MAX_LIGHTS;
+        size_t light_count = min(objects.size(), LightUniformBlock::MAX_LIGHTS);
 
         renderer->set_light_count(light_count);
         for (size_t i = 0; i < light_count; i++)

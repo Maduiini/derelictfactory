@@ -99,8 +99,11 @@ namespace der
             if (light)
             {
                 const float r = light->get_radius();
-                if (light->get_type() == LightType::Directional ||
-                    (object->get_position() - position).length2() < r * r)
+                if (light->get_type() == LightType::Directional)
+                {
+                    objects.insert(objects.begin(), object);
+                }
+                else if ((object->get_position() - position).length2() < r * r)
                 {
                     objects.push_back(object);
                 }

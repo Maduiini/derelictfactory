@@ -138,7 +138,7 @@ vec3 BRDF(vec3 c_diff, vec3 c_spec, const vec3 N, const vec3 L, const vec3 V, co
     vec3 H = normalize(L + V);
 
     float NoL = dot(N, L);
-    if (NoL < 0.0) return vec3(0.0);
+//    if (NoL < 0.0) return vec3(0.0);
 
     float NoH = clamp(dot(N, H), 0.0, 1.0);
 //    float NoV = clamp(dot(N, V), 0.0, 1.0);
@@ -166,16 +166,18 @@ vec3 light(const int i, vec3 c_diff, vec3 c_spec, const vec3 N, const vec3 V, co
 {
     vec4 pos = lights[i].position;
     vec3 L = pos.xyz - (position * pos.w);
-
     L = normalize(L);
 
     float r = lights[i].radius;
+    float NoL = dot(N, L);
+    if (NoL * r < 0.0) return vec3(0.0);
+
     float dist = distance(pos.xyz, position);
 
     float dist2 = dist * dist * 0.05;
 //    float dist2 = dist * dist * 0.1;
     float v = max(1.0 - pow(dist2 / (r * r), 2), 0.0);
-    float attenuation = mix(1.0, (v * v) / (dist2 + 1.0), pos.w);
+    float attenuation = mix(1.0, (v * v) / (dist2 + 0.5), pos.w);
 
     vec3 color = BRDF(c_diff, c_spec, N, L, V, roughness);
     vec4 lcolor = lights[i].color_energy;
@@ -200,6 +202,15 @@ vec3 lighting(vec3 c_diff, vec3 c_spec, const vec3 N, const vec3 V, const float 
     {
         color += light(i, c_diff, c_spec, N, V, roughness);
     }
+//    color += light(0, c_diff, c_spec, N, V, roughness);
+//    color += light(1, c_diff, c_spec, N, V, roughness);
+//    color += light(2, c_diff, c_spec, N, V, roughness);
+//    color += light(3, c_diff, c_spec, N, V, roughness);
+//    color += light(4, c_diff, c_spec, N, V, roughness);
+//    color += light(5, c_diff, c_spec, N, V, roughness);
+//    color += light(6, c_diff, c_spec, N, V, roughness);
+//    color += light(7, c_diff, c_spec, N, V, roughness);
+
     color += IBL(c_spec, N, V, roughness);
     return color;
 }
@@ -210,7 +221,6 @@ void main()
 //    vec3 N = get_normal();
     vec3 N = normalize(mix(normal, get_normal(), nm_influence));
     vec3 V = -normalize(view_vec);
-//    vec3 N = normal;
 
     float m = texture(tex_metallic, tcoord).x;
     float r = texture(tex_roughness, tcoord).x;

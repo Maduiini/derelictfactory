@@ -70,11 +70,17 @@ namespace der
         m_command.lights[light].type = type;
     }
 
+    void Renderer::set_light_direction(size_t light, const Vector3 &direction)
+    { m_command.lights[light].direction = direction; }
+
     void Renderer::set_light_color(size_t light, const Vector3 &color, float energy)
     { m_command.lights[light].color_energy = Vector4(color, energy); }
 
     void Renderer::set_light_radius(size_t light, float radius)
     { m_command.lights[light].radius = radius; }
+
+    void Renderer::set_light_spot_angle(size_t light, float spot_angle)
+    { m_command.lights[light].spot_angle = spot_angle; }
 
 
     void Renderer::set_material(ResourceID material_id)
@@ -97,6 +103,9 @@ namespace der
     {
         if (m_command.material)
         {
+            size_t i = LightUniformBlock::MAX_LIGHTS - 1;
+            for (; i >= m_command.light_count; i--)
+                m_command.lights[i].radius = 0.0f;
             m_commands.push_back(m_command);
         }
     }
@@ -132,12 +141,16 @@ namespace der
         m_instance_uniforms->bind_uniforms();
 
         m_light_uniforms->set_light_count(command.light_count);
-        for (size_t i = 0; i < command.light_count; i++)
-//        for (size_t i = 0; i < LightUniformBlock::MAX_LIGHTS; i++)
+//        for (size_t i = 0; i < command.light_count; i++)
+        for (size_t i = 0; i < LightUniformBlock::MAX_LIGHTS; i++)
         {
             m_light_uniforms->set_position(i, command.lights[i].position, command.lights[i].type);
+            m_light_uniforms->set_direction(i, command.lights[i].direction);
             m_light_uniforms->set_color(i, command.lights[i].color_energy.xyz(), command.lights[i].color_energy.w);
             m_light_uniforms->set_radius(i, command.lights[i].radius);
+            const float cos_spot = (command.lights[i].type == LightType::Spot) ?
+                std::cos(command.lights[i].spot_angle) : 0.0f;
+            m_light_uniforms->set_cos_spot_angle(i, cos_spot);
         }
         m_light_uniforms->bind_uniforms();
 

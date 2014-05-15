@@ -37,7 +37,7 @@ namespace scene_loader
 
     enum class LightType
     {
-        Point = 0, Directional = 1
+        Point = 0, Directional = 1, Spot = 2
     };
 
     struct LightObjectInfo
@@ -46,6 +46,7 @@ namespace scene_loader
         Vector3 m_color;
         float m_energy;
         float m_radius;
+        float m_spot_angle;
     };
 } // scene_loader
 
@@ -110,15 +111,16 @@ namespace scene_loader
 
                     const der::LightType types[] = {
                         [scene_loader::LightType::Point] = der::LightType::Point,
-                        [scene_loader::LightType::Directional] = der::LightType::Directional
+                        [scene_loader::LightType::Directional] = der::LightType::Directional,
+                        [scene_loader::LightType::Spot] = der::LightType::Spot
                     };
 
                     Light *light = new Light(types[static_cast<int>(info.m_type)]);
                     light->set_color(info.m_color);
                     light->set_energy(info.m_energy);
                     light->set_radius(info.m_radius);
+                    light->set_spot_angle(info.m_spot_angle * 0.5);
                     object->set_light(light);
-//                    log::info("Light loaded: %", info.m_color);
 
                     break;
                 }

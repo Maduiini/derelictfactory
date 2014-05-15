@@ -99,17 +99,19 @@ namespace der
         void set_light_count(size_t light_count);
 
         void set_position(size_t light, const Vector3 &pos, LightType type);
+        void set_direction(size_t light, const Vector3 &direction);
         void set_color(size_t light, const Vector3 &color, float energy);
         void set_radius(size_t light, float radius);
+        void set_cos_spot_angle(size_t light, float cos_spot_angle);
 
     private:
         unsigned int m_light_count;
         struct LightData
         {
             Vector4 position;      // Position(w=1) or direction(w=0)
+            Vector4 direction;     // xyz = direction, w = cos(spot_angle)
             Vector4 color_energy;  // rgb = color, w = energy
             float radius;
-//            Vector4 radius;
         } m_lights[MAX_LIGHTS];
     };
 

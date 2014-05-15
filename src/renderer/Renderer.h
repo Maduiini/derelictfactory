@@ -38,12 +38,11 @@ namespace der
             LightData() : radius(0.0f) { }
             LightType type;
             Vector3 position;
+            Vector3 direction;
             Vector4 color_energy;
             float radius;
+            float spot_angle;
         } lights[LightUniformBlock::MAX_LIGHTS];
-
-//        InstanceUniformBlock *instance_uniforms;
-//        LightUniformBlock * light_uniforms;
 
         Material *          material;
         VertexArrayObject * vao;
@@ -70,8 +69,10 @@ namespace der
 
         void set_light_count(size_t light_count);
         void set_light_position(size_t light, const Vector3 &pos, LightType type);
+        void set_light_direction(size_t light, const Vector3 &direction);
         void set_light_color(size_t light, const Vector3 &color, float energy);
         void set_light_radius(size_t light, float radius);
+        void set_light_spot_angle(size_t light, float spot_angle);
 
         void set_material(ResourceID material_id);
         void set_vao(VertexArrayObject *vao);

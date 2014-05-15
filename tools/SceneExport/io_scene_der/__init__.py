@@ -15,6 +15,7 @@ import mathutils
 
 import time
 import struct
+import math
 
 import socket
 
@@ -22,7 +23,7 @@ import socket
 PORT = 30001
 
 ObjectType = { 'MESH': 0, 'LAMP': 1 }
-LightType = { 'POINT': 0, 'SUN': 1 }
+LightType = { 'POINT': 0, 'SUN': 1, 'SPOT': 2 }
 
 class DerSceneExport(bpy.types.Operator):
   bl_idname  = "export_der_scene.derscene";
@@ -133,6 +134,11 @@ class DerSceneExport(bpy.types.Operator):
     self._write_color(out, lamp.color)
     self._write_float(out, lamp.energy)
     self._write_float(out, lamp.distance)
+    spot_angle = 0.0
+    if lamp.type == 'SPOT':
+        spot_angle = lamp.spot_size
+        print("spot: ", spot_angle)
+    self._write_float(out, spot_angle)
 
 
 def menu_func(self, context):

@@ -200,10 +200,16 @@ namespace der
         for (size_t i = 0; i < light_count; i++)
         {
             GameObject *object = objects[i];
+
+            Vector3 r, direction, f;
+            object->get_world_matrix().get_basis(r, direction, f);
+
             Light *light = object->get_light();
             renderer->set_light_position(i, object->get_position(), light->get_type());
+            renderer->set_light_direction(i, direction);
             renderer->set_light_color(i, light->get_color(), light->get_energy());
             renderer->set_light_radius(i, light->get_radius());
+            renderer->set_light_spot_angle(i, light->get_spot_angle());
         }
     }
 

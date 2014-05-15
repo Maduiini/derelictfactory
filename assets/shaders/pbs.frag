@@ -22,6 +22,7 @@ uniform Params
 struct Light
 {
     vec4 position;      // Position(w=1) or direction(w=0)
+    vec4 direction;     // xyz = direction, w = cos(spot_angle)
     vec4 color_energy;  // rgb = color, w = energy
     float radius;
 };
@@ -58,12 +59,32 @@ vec3 get_normal()
 
 vec3 linearize(vec3 color)
 {
-    return pow(color, vec3(2.2));
+
+    // The official sRGB linearization. Very inefficient.
+//    vec3 c1 = pow((color + vec3(0.055) / 1.055), vec3(2.4));
+//    vec3 c2 = color / 12.92;
+//    return mix(c1, c2, lessThanEqual(color, vec3(0.04045)));
+
+    // A fair approximation
+//    return pow(color, vec3(2.2));
+
+    // A very crude approximation
+//    return color * color;
+
+    // A good and fast approximation
+    return color * (color * (color * 0.305306011 + 0.682171111) + 0.012522878);
 }
 
 vec3 get_albedo()
 {
     vec3 color = texture2D(tex_albedo, tcoord).rgb;
+    // linearize gamma
+    return linearize(color);
+}
+
+vec3 get_env(vec3 v, float lod)
+{
+    vec3 color = textureLod(tex_env, v, lod).rgb;
     // linearize gamma
     return linearize(color);
 }
@@ -141,19 +162,7 @@ vec3 BRDF(vec3 c_diff, vec3 c_spec, const vec3 N, const vec3 L, const vec3 V, co
 //    if (NoL < 0.0) return vec3(0.0);
 
     float NoH = clamp(dot(N, H), 0.0, 1.0);
-//    float NoV = clamp(dot(N, V), 0.0, 1.0);
-//    float VoH = clamp(dot(V, H), 0.0, 1.0);
-
-//    float NoH = dot(N, H);
-//    float NoH = max(dot(N, H), 0.0);
-
-    // This corrects some of the artifacts caused by poor tesselation of smooth surfaces.
-//    const float normal_view_correction = 0.25;
-
-//    float NoV = min(dot(N, V) + normal_view_correction, 1.0);
-//    float NoV = min(dot(N, V), 1.0);
     float NoV = clamp(dot(N, V), 0.001, 1.0);
-//    if (NoV < 0.0) return vec3(1.0, 0.0, 0.0);
     float VoH = max(dot(V, H), 0.0);
 
     vec3 color = diffuse_BRDF(c_diff) * NoL;
@@ -165,44 +174,84 @@ vec3 BRDF(vec3 c_diff, vec3 c_spec, const vec3 N, const vec3 L, const vec3 V, co
 vec3 light(const int i, vec3 c_diff, vec3 c_spec, const vec3 N, const vec3 V, const float roughness)
 {
     vec4 pos = lights[i].position;
-    vec3 L = pos.xyz - (position * pos.w);
-    L = normalize(L);
+    vec4 dir = lights[i].direction;
+    vec3 L = mix(dir.xyz, normalize(pos.xyz - position), pos.w);
 
     float r = lights[i].radius;
+    float cos_spot = dir.w;
+//    cos_spot = 0.8;
+
     float NoL = dot(N, L);
-    if (NoL * r < 0.0) return vec3(0.0);
+//    float spot_f = smoothstep(0.0, cos_spot, abs(dot(dir.xyz, L)));
+//    float spot_f = float(cos_spot < dot(dir.xyz, L));
+//    float spot_f = smoothstep(0.0, abs(cos_spot), abs(dot(dir.xyz, L)));
+    float spot_f = dot(dir.xyz, L);
+//    spot_f *= float(spot_f > cos_spot);
+//    if (spot_f < cos_spot*2)
+        spot_f = smoothstep(cos_spot-0.02, cos_spot+0.002, spot_f);
+//    else
+//        spot_f = 1.0;
+    spot_f = mix(1.0, spot_f, cos_spot > 0.0);
+    if (NoL * r * spot_f <= 0.0) return vec3(0.0);
+//    if (pos.w <= 0.0) return vec3(0.0);
 
     float dist = distance(pos.xyz, position);
 
-    float dist2 = dist * dist * 0.05;
-//    float dist2 = dist * dist * 0.1;
-    float v = max(1.0 - pow(dist2 / (r * r), 2), 0.0);
+//    const float df = 0.05;
+    const float df = 0.5;
+//    const float df = 1.0;
+//    float v = max(1.0 - pow(dist2 / (r * r), 2), 0.0);
+    float dist2 = dist * dist * df;
+    float x = dist2 / (r * r); // * df);
+    float v = max(1.0 - x * x, 0.0);
     float attenuation = mix(1.0, (v * v) / (dist2 + 0.5), pos.w);
+    attenuation *= spot_f;
 
     vec3 color = BRDF(c_diff, c_spec, N, L, V, roughness);
     vec4 lcolor = lights[i].color_energy;
     return color * lcolor.rgb * lcolor.w * attenuation;
 }
 
-vec3 IBL(vec3 c_spec, const vec3 N, const vec3 V, const float roughness)
+vec3 IBL_diffuse(const vec3 c_diff, const vec3 N, const vec3 V, const float roughness)
+{
+    vec3 L = -N;
+
+    float lod = 5.0 + roughness * 5.0;
+//    vec3 color = linearize(textureLod(tex_env, L, lod).rgb);
+    vec3 color = get_env(L, lod);
+
+    float NoL = 0.225; //max(dot(N, L), 0.0);
+    return color * c_diff * NoL;// * 0.25;
+}
+
+vec3 IBL_specular(const vec3 c_spec, const vec3 N, const vec3 V, const float roughness)
 {
     vec3 L = -reflect(V, N) * vec3(1.0, -1.0, 1.0);
 
     float lod = roughness * 5.0;
-    vec3 color = linearize(textureLod(tex_env, L, lod).rgb);
+//    vec3 color = linearize(textureLod(tex_env, L, lod).rgb);
+    vec3 color = get_env(L, lod);
 
     float NoL = max(dot(N, L), 0.0);
-    return color * c_spec * 0.25 * (NoL * 0.5 + 0.5);
+    return color * c_spec * NoL; // * 0.25;
+//    return color * c_spec * mix(NoL, 1.0, 0.5) * 0.25;
+//    return color * c_spec * 0.25 * (NoL * 0.5 + 0.5);
+}
+
+vec3 IBL(const vec3 c_diff, const vec3 c_spec, const vec3 N, const vec3 V, const float roughness)
+{
+    return IBL_diffuse(c_diff, N, V, roughness) +
+        IBL_specular(c_spec, N, V, roughness);
 }
 
 vec3 lighting(vec3 c_diff, vec3 c_spec, const vec3 N, const vec3 V, const float roughness)
 {
     vec3 color = vec3(0.0);
-    for (int i = 0; i < light_count; i++)
+    for (int i = 1; i < light_count; i++)
     {
         color += light(i, c_diff, c_spec, N, V, roughness);
     }
-//    color += light(0, c_diff, c_spec, N, V, roughness);
+    color += light(0, c_diff, c_spec, N, V, roughness);
 //    color += light(1, c_diff, c_spec, N, V, roughness);
 //    color += light(2, c_diff, c_spec, N, V, roughness);
 //    color += light(3, c_diff, c_spec, N, V, roughness);
@@ -210,8 +259,16 @@ vec3 lighting(vec3 c_diff, vec3 c_spec, const vec3 N, const vec3 V, const float 
 //    color += light(5, c_diff, c_spec, N, V, roughness);
 //    color += light(6, c_diff, c_spec, N, V, roughness);
 //    color += light(7, c_diff, c_spec, N, V, roughness);
+//    color += light(8, c_diff, c_spec, N, V, roughness);
+//    color += light(9, c_diff, c_spec, N, V, roughness);
+//    color += light(10, c_diff, c_spec, N, V, roughness);
+//    color += light(11, c_diff, c_spec, N, V, roughness);
+//    color += light(12, c_diff, c_spec, N, V, roughness);
+//    color += light(13, c_diff, c_spec, N, V, roughness);
+//    color += light(14, c_diff, c_spec, N, V, roughness);
+//    color += light(15, c_diff, c_spec, N, V, roughness);
 
-    color += IBL(c_spec, N, V, roughness);
+    color += IBL(c_diff, c_spec, N, V, roughness);
     return color;
 }
 
@@ -229,19 +286,6 @@ void main()
     vec3 c_spec = mix(vec3(0.04), albedo, m);
 
     vec3 color = lighting(c_diff, c_spec, N, V, r);
-
-//    vec3 R = reflect(V, N);
-//    color = albedo * lighting(c_diff, c_spec, N, V);
-//
-//    float r = texture(tex_roughness, tcoord).x;
-//    r = r * 10;
-//    vec3 env = textureLod(tex_env, R * vec3(-1.0, 1.0, -1.0), r).rgb;
-//    env = pow(env, vec3(2.2));
-////    color += env * (m * scolor);
-////    color += env * (m * scolor); // * (1.0 - r);
-//    color += env * m;// * (m * scolor);
-//
-//    color += albedo * textureLod(tex_env, R * vec3(-1.0, 1.0, -1.0), 5.0).rgb * 0.04;
 
     // gamma corrected output
     out_color = vec4(pow(color, vec3(1.0 / 2.2)), 1.0);

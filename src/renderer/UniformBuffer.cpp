@@ -169,6 +169,7 @@ namespace der
         for (size_t i = 0; i < MAX_LIGHTS; i++)
         {
             add_vec4(m_lights[i].position);
+            add_vec4(m_lights[i].direction);
             add_vec4(m_lights[i].color_energy);
             add_float(m_lights[i].radius);
         }
@@ -180,8 +181,15 @@ namespace der
 
     void LightUniformBlock::set_position(size_t light, const Vector3 &pos, LightType type)
     {
-        const float w = (type == LightType::Point) ? 1.0f : 0.0f;
+        const float w = (type != LightType::Directional) ? 1.0f : 0.0f;
         m_lights[light].position = Vector4(pos, w);
+    }
+
+    void LightUniformBlock::set_direction(size_t light, const Vector3 &direction)
+    {
+        m_lights[light].direction.x = direction.x;
+        m_lights[light].direction.y = direction.y;
+        m_lights[light].direction.z = direction.z;
     }
 
     void LightUniformBlock::set_color(size_t light, const Vector3 &color, float energy)
@@ -189,6 +197,9 @@ namespace der
 
     void LightUniformBlock::set_radius(size_t light, float radius)
     { m_lights[light].radius = radius; }
+
+    void LightUniformBlock::set_cos_spot_angle(size_t light, float cos_spot_angle)
+    { m_lights[light].direction.w = cos_spot_angle; }
 
 
 

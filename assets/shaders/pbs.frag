@@ -57,16 +57,27 @@ vec3 get_normal()
     return tangent_space() * n;
 }
 
+vec4 gamma_correct(vec3 color)
+{
+    vec3 s1 = sqrt(color);
+    vec3 s2 = sqrt(s1);
+    vec3 s3 = sqrt(s2);
+    vec3 srgb = 0.662002687 * s1 + 0.684122060 * s2 - 0.3235601 * s3 - 0.225411470 * color;
+    return vec4(srgb, 1.0);
+
+    // An expensive approximation
+//    return vec4(pow(color, vec3(1.0/2.23333)), 1.0);
+}
+
 vec3 linearize(vec3 color)
 {
-
     // The official sRGB linearization. Very inefficient.
 //    vec3 c1 = pow((color + vec3(0.055) / 1.055), vec3(2.4));
 //    vec3 c2 = color / 12.92;
 //    return mix(c1, c2, lessThanEqual(color, vec3(0.04045)));
 
     // A fair approximation
-//    return pow(color, vec3(2.2));
+//    return pow(color, vec3(2.23333));
 
     // A very crude approximation
 //    return color * color;
@@ -77,7 +88,7 @@ vec3 linearize(vec3 color)
 
 vec3 get_albedo()
 {
-    vec3 color = texture2D(tex_albedo, tcoord).rgb;
+    vec3 color = texture(tex_albedo, tcoord).rgb;
     // linearize gamma
     return linearize(color);
 }
@@ -247,11 +258,11 @@ vec3 IBL(const vec3 c_diff, const vec3 c_spec, const vec3 N, const vec3 V, const
 vec3 lighting(vec3 c_diff, vec3 c_spec, const vec3 N, const vec3 V, const float roughness)
 {
     vec3 color = vec3(0.0);
-    for (int i = 1; i < light_count; i++)
+    for (int i = 0; i < light_count; i++)
     {
         color += light(i, c_diff, c_spec, N, V, roughness);
     }
-    color += light(0, c_diff, c_spec, N, V, roughness);
+//    color += light(0, c_diff, c_spec, N, V, roughness);
 //    color += light(1, c_diff, c_spec, N, V, roughness);
 //    color += light(2, c_diff, c_spec, N, V, roughness);
 //    color += light(3, c_diff, c_spec, N, V, roughness);
@@ -288,6 +299,6 @@ void main()
     vec3 color = lighting(c_diff, c_spec, N, V, r);
 
     // gamma corrected output
-    out_color = vec4(pow(color, vec3(1.0 / 2.2)), 1.0);
+    out_color = gamma_correct(color);
 }
 

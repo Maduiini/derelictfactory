@@ -42,6 +42,12 @@ namespace der
         material->set_metallic_texture(make_resource(metallic_name.c_str()));
         material->set_env_texture(make_resource(env_name.c_str()));
 
+        std::string cull_mode_str;
+        in >> cull_mode_str;
+
+        if (cull_mode_str == "cull_none")
+            material->set_cull_mode(CullMode::None);
+
         return material;
     }
 

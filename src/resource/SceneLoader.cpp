@@ -98,8 +98,12 @@ namespace scene_loader
                         continue;
                     }
 
+                    std::string mat_name = info.m_material_name;
+                    mat_name += ".material";
+
                     MeshRenderer *renderer = new MeshRenderer();
                     renderer->set_mesh(mesh_id);
+//                    renderer->set_material(make_resource(mat_name.c_str()));
                     object->set_renderer(renderer);
 
                     break;

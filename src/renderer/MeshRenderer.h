@@ -22,10 +22,14 @@ namespace der
         void render(Renderer *renderer, ResourceCache *cache);
 
         void set_mesh(ResourceID mesh);
-        ResourceID get_mesh();
+        ResourceID get_mesh() const;
+
+        void set_material(ResourceID material);
+        ResourceID get_material() const;
 
     private:
         ResourceID m_mesh;
+        ResourceID m_override_material;
     };
 
 } // der

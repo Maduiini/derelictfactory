@@ -41,6 +41,9 @@ namespace der
     Vector2 InputController::get_mouse_delta() const
     { return Vector2(m_window->get_mouse_dx(), m_window->get_mouse_dy()); }
 
+    float InputController::get_delta_scroll() const
+    { return m_window->get_delta_scroll(); }
+
     void InputController::set_capture_mouse(bool captured)
     { return m_window->set_mouse_captured(captured); }
 

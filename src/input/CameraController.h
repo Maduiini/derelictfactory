@@ -17,6 +17,7 @@ namespace der
     protected:
         float m_rot_x;
         float m_rot_y;
+        float m_speed_up;
     };
 
 } // der

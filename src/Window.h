@@ -46,6 +46,7 @@ namespace der
         float get_mouse_y() const;
         float get_mouse_dx() const;
         float get_mouse_dy() const;
+        float get_delta_scroll() const;
 
         void set_mouse_captured(bool captured);
         void toggle_mouse_captured();
@@ -56,11 +57,13 @@ namespace der
         friend void on_window_key(GLFWwindow*, int, int, int, int);
         friend void on_window_mouse_button(GLFWwindow*, int, int, int);
         friend void on_window_mouse_move(GLFWwindow*, double, double);
+        friend void on_window_scroll(GLFWwindow*, double, double);
 
         void on_resize(int w, int h);
         void on_key(int key, int scancode, int action, int mods);
         void on_mouse_button(int button, int action, int mods);
         void on_mouse_move(double x, double y);
+        void on_scroll(double delta);
 
     private:
         GLFWwindow *    m_window;
@@ -76,6 +79,7 @@ namespace der
         float m_mouse_y;
         float m_mouse_dx;
         float m_mouse_dy;
+        float m_delta_scroll;
 
         bool m_mouse_captured;
     };

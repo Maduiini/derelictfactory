@@ -31,6 +31,12 @@ namespace der
         wnd->on_mouse_move(x, y);
     }
 
+    void on_window_scroll(GLFWwindow *window, double xoffs, double yoffs)
+    {
+        Window *wnd = static_cast<Window*>(::glfwGetWindowUserPointer(window));
+        wnd->on_scroll(yoffs);
+    }
+
 
     Window::Window()
         : m_window(nullptr)
@@ -40,6 +46,7 @@ namespace der
         , m_mouse_y(0.0f)
         , m_mouse_dx(0.0f)
         , m_mouse_dy(0.0f)
+        , m_delta_scroll(0.0f)
         , m_mouse_captured(false)
     {
         for (size_t i = 0; i < KEY_COUNT; i++) m_keys[i] = GLFW_RELEASE;
@@ -90,6 +97,7 @@ namespace der
         ::glfwSetKeyCallback(m_window, &on_window_key);
         ::glfwSetMouseButtonCallback(m_window, &on_window_mouse_button);
         ::glfwSetCursorPosCallback(m_window, &on_window_mouse_move);
+        ::glfwSetScrollCallback(m_window, &on_window_scroll);
 
         int major = ::glfwGetWindowAttrib(m_window, GLFW_CONTEXT_VERSION_MAJOR);
         int minor = ::glfwGetWindowAttrib(m_window, GLFW_CONTEXT_VERSION_MINOR);
@@ -136,8 +144,9 @@ namespace der
 
     void Window::poll_events()
     {
-        m_mouse_dx = 0;
-        m_mouse_dy = 0;
+        m_mouse_dx = 0.0f;
+        m_mouse_dy = 0.0f;
+        m_delta_scroll = 0.0f;
         for (size_t i = 0; i < KEY_COUNT; i++)
             if (m_keys[i] == GLFW_PRESS) m_keys[i] = GLFW_REPEAT;
 
@@ -197,6 +206,9 @@ namespace der
     float Window::get_mouse_dy() const
     { return m_mouse_dy; }
 
+    float Window::get_delta_scroll() const
+    { return m_delta_scroll; }
+
 
     void Window::set_mouse_captured(bool captured)
     {
@@ -250,6 +262,11 @@ namespace der
             m_mouse_x = xpos;
             m_mouse_y = ypos;
         }
+    }
+
+    void Window::on_scroll(double delta)
+    {
+        m_delta_scroll = delta;
     }
 
 } // der

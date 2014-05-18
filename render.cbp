@@ -47,6 +47,7 @@
 		<Unit filename="assets/materials/Brickwall.material" />
 		<Unit filename="assets/materials/Bush.material" />
 		<Unit filename="assets/materials/Color.material" />
+		<Unit filename="assets/materials/CoolingTower.material" />
 		<Unit filename="assets/materials/Cube.material" />
 		<Unit filename="assets/materials/GeneratorBase.material" />
 		<Unit filename="assets/materials/GeneratorCylinder.material" />

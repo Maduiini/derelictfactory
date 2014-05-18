@@ -25,30 +25,20 @@ namespace der
     class Widget
     {
     public:
-        Widget()
-            : m_render_cmds()
-        { }
+        Widget();
+        virtual ~Widget();
 
-        virtual ~Widget()
-        { }
-
-        virtual void update(double delta_time, Vector2 mouse)
-        { }
+        virtual void update(double delta_time, Vector2 mouse);
 
         /// Mouse was pressed.
         /// \note \c point might not be on top of the widget.
-        virtual void mouse_pressed(Vector2 point)
-        { }
+        virtual void mouse_pressed(Vector2 point);
 
         /// Mouse was released.
         /// \note \c point might not be on top of the widget.
-        virtual void mouse_released(Vector2 point)
-        { }
+        virtual void mouse_released(Vector2 point);
 
-        virtual std::vector<GUIRendererCommand*> get_render_commands(GUIRenderer *renderer) const
-        {
-            return m_render_cmds;
-        }
+        virtual std::vector<GUIRendererCommand*> get_render_commands(GUIRenderer *renderer) const;
 
     protected:
         std::vector<GUIRendererCommand*> m_render_cmds;

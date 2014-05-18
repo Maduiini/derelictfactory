@@ -211,6 +211,7 @@
 		<Unit filename="src/ui/TextureDisplay.h" />
 		<Unit filename="src/ui/ValueDisplay.cpp" />
 		<Unit filename="src/ui/ValueDisplay.h" />
+		<Unit filename="src/ui/Widget.cpp" />
 		<Unit filename="src/ui/Widget.h" />
 		<Extensions>
 			<code_completion />

@@ -13,6 +13,7 @@
 #include "../math/Vector.h"
 
 #include "../Window.h"
+#include "../Debug.h"
 
 namespace der
 {
@@ -27,6 +28,22 @@ namespace gui_renderer_internal
     };
 
 } // gui_renderer_internal
+
+    void RenderCachedTexture::render(GUIRenderer *gui_renderer, Graphics *graphics, ResourceCache &cache)
+    {
+        gui_renderer->render_quad(graphics, cache, m_position, m_size, cache.get<Texture2D>(m_texture_id));
+    }
+
+    void RenderTexture::render(GUIRenderer *gui_renderer, Graphics *graphics, ResourceCache &cache)
+    {
+        if (m_texture)
+            gui_renderer->render_quad(graphics, cache, m_position, m_size, m_texture);
+    }
+
+    void RenderText::render(GUIRenderer *gui_renderer, Graphics *graphics, ResourceCache &cache)
+    {
+        gui_renderer->render_text(graphics, cache, m_text_position, m_text);
+    }
 
     ResourceID GUIRenderer::m_font_texture = make_resource("domine_0.tga");
     ResourceID GUIRenderer::m_vert_shader = make_resource("gui.vert");
@@ -80,17 +97,16 @@ namespace gui_renderer_internal
 
         for (Widget *widget : widgets)
         {
-            for (WidgetRenderCommand &cmd : widget->get_render_commands(this))
+            for (GUIRendererCommand *cmd : widget->get_render_commands(this))
             {
-                render_widget(graphics, cache, cmd);
+                cmd->render(this, graphics, cache);
             }
         }
     }
 
-    void GUIRenderer::render_quad(Graphics *graphics, ResourceCache &cache, const Vector2 &position, const Vector2 &scale, const ResourceID texture_id, const Vector4 uv /* = {0.0,0.0,1.0,1.0} */)
+    void GUIRenderer::render_quad(Graphics *graphics, ResourceCache &cache, const Vector2 &position, const Vector2 &scale, Texture *texture, const Vector4 uv /* = {0.0,0.0,1.0,1.0} */)
     {
-        if (texture_id == InvalidResource)
-            return;
+        DER_ASSERT(texture);
 
         update_buffers(uv);
 
@@ -117,7 +133,7 @@ namespace gui_renderer_internal
             program->uniform(position_loc, scaled_position);
             program->uniform_sampler2D(texture_loc, 0);
             graphics->set_blend_enabled(true);
-            graphics->set_texture(0, cache.get<Texture2D>(texture_id));
+            graphics->set_texture(0, texture);
             graphics->update_state();
 
             graphics->draw_triangle_strip(0, 4);
@@ -143,7 +159,7 @@ namespace gui_renderer_internal
                 uv /= m_font_texture_size;
                 uv.y = 1.0f - uv.y;
 
-                render_quad(graphics, cache, offset + cursor, size, m_font_texture, uv);
+                render_quad(graphics, cache, offset + cursor, size, cache.get<Texture2D>(m_font_texture), uv);
                 cursor += Vector2(fontchar.advance_x, 0.0f);
             }
             else
@@ -151,14 +167,6 @@ namespace gui_renderer_internal
                 cursor += space_advance;
             }
         }
-    }
-
-    void GUIRenderer::render_widget(Graphics *graphics, ResourceCache &cache, WidgetRenderCommand &cmd)
-    {
-        render_quad(graphics, cache, cmd.position, cmd.size, cmd.texture_id);
-
-        if (cmd.text != nullptr)
-            render_text(graphics, cache, cmd.text_position, cmd.text);
     }
 
     void GUIRenderer::update_window_size()

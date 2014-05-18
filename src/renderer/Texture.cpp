@@ -53,4 +53,22 @@ namespace der
         ::glGenerateMipmap(m_target);
     }
 
+
+    DepthTexture::DepthTexture()
+        : Texture(GL_TEXTURE_2D)
+    { }
+
+    void DepthTexture::TexImage(int w, int h, const void *data)
+    {
+        ::glActiveTexture(GL_TEXTURE0);
+        ::glBindTexture(m_target, m_tex_id);
+
+        ::glTexParameteri(m_target, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        ::glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        ::glTexParameteri(m_target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        ::glTexParameteri(m_target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+        ::glTexImage2D(m_target, 0, GL_DEPTH_COMPONENT, w, h, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, data);
+    }
+
 } // der

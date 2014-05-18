@@ -11,27 +11,15 @@
 
 namespace der
 {
-
     class Widget;
+    class GUIRenderer;
+    class GUIRendererCommand;
 
     class GUIEventHandler
     {
     public:
         virtual ~GUIEventHandler() { }
         virtual void handle(Widget *widget) = 0;
-    };
-
-
-    class GUIRenderer;
-
-    struct WidgetRenderCommand
-    {
-        ResourceID texture_id;
-        Vector2 position;
-        Vector2 size;
-
-        const char* text;
-        Vector2 text_position;
     };
 
     class Widget
@@ -57,13 +45,13 @@ namespace der
         virtual void mouse_released(Vector2 point)
         { }
 
-        virtual std::vector<WidgetRenderCommand> get_render_commands(GUIRenderer *renderer) const
+        virtual std::vector<GUIRendererCommand*> get_render_commands(GUIRenderer *renderer) const
         {
             return m_render_cmds;
         }
 
     protected:
-        std::vector<WidgetRenderCommand> m_render_cmds;
+        std::vector<GUIRendererCommand*> m_render_cmds;
 
     };
 

@@ -1,6 +1,8 @@
 
 #include "Button.h"
 
+#include "GUIRenderer.h"
+
 #include "../Log.h"
 
 namespace der
@@ -15,7 +17,7 @@ namespace der
         , m_title(title)
         , m_down(false)
     {
-        m_render_cmds.push_back({ Button::m_button_texture, m_position, m_size, nullptr });
+        m_render_cmds.push_back(new RenderCachedTexture(m_button_texture, m_position, m_size));
     }
 
     Button::~Button()
@@ -26,21 +28,12 @@ namespace der
         if (is_inside(mouse))
         {
             if (m_down)
-                m_render_cmds[0].texture_id = Button::m_button_pressed_texture;
+                 static_cast<RenderCachedTexture*>(m_render_cmds[0])->set_texture_id(Button::m_button_pressed_texture);
             else
-                m_render_cmds[0].texture_id = Button::m_button_highlight_texture;
+                static_cast<RenderCachedTexture*>(m_render_cmds[0])->set_texture_id(Button::m_button_highlight_texture);
         }
         else
-            m_render_cmds[0].texture_id = Button::m_button_texture;
-
-        /*
-        if (m_down)
-        {
-
-        }
-        else
-            m_render_cmds[0].texture_id = Button::m_button_texture;
-        */
+            static_cast<RenderCachedTexture*>(m_render_cmds[0])->set_texture_id(Button::m_button_texture);
     }
 
     void Button::mouse_pressed(Vector2 point)

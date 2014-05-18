@@ -40,6 +40,14 @@ namespace der
         void TexImage(int w, int h, Format fmt, InputFormat input_fmt, const void *data);
     };
 
+    class DepthTexture : public Texture
+    {
+    public:
+        DepthTexture();
+
+        void TexImage(int w, int h, const void *data);
+    };
+
 } // der
 
 #endif // H_DER_TEXTURE_H

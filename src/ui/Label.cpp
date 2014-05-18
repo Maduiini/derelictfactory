@@ -1,6 +1,8 @@
 
 #include "Label.h"
 
+#include "GUIRenderer.h"
+
 namespace der
 {
 
@@ -8,7 +10,7 @@ namespace der
         : m_position(position)
         , m_text(text)
     {
-        m_render_cmds.push_back({ InvalidResource, Vector2::zero, Vector2::zero, m_text.c_str(), m_position});
+        m_render_cmds.push_back(new RenderText(m_text.c_str(), m_position));
     }
 
     Label::~Label()
@@ -16,7 +18,7 @@ namespace der
 
     void Label::update(double delta_time, Vector2 mouse)
     {
-        m_render_cmds[0].text = m_text.c_str();
+        static_cast<RenderText*>(m_render_cmds[0])->set_text(m_text.c_str());
     }
 
 } // der

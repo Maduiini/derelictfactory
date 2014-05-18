@@ -1,6 +1,8 @@
 
 #include "Slider.h"
 
+#include "GUIRenderer.h"
+
 #include "../Log.h"
 
 namespace der
@@ -19,8 +21,8 @@ namespace der
         , m_knob_radius(16.0f)
         , m_knob_grabbed(false)
     {
-        m_render_cmds.push_back({ Slider::slider_bar_texture, m_position, Vector2(m_width, m_height), nullptr });
-        m_render_cmds.push_back({ Slider::slider_knob_texture, m_position, Vector2(m_knob_radius, m_knob_radius), nullptr });
+        m_render_cmds.push_back(new RenderCachedTexture(Slider::slider_bar_texture, m_position, Vector2(m_width, m_height)));
+        m_render_cmds.push_back(new RenderCachedTexture(Slider::slider_knob_texture, m_position, Vector2(2.0f * m_knob_radius, 2.0f * m_knob_radius)));
     }
 
     Slider::~Slider()
@@ -42,23 +44,10 @@ namespace der
         if (m_knob_grabbed)
         {
             set_knob_position(mouse.x - m_position.x);
-
-//            log::debug("Slider value: % (%)",
-//                      (int)(get_absolute_value() * 100.0f) / 100.0f,
-//                      (int)(get_relative_value() * 100.0f) / 100.0f);
         }
 
-        m_render_cmds[0] = {
-            Slider::slider_bar_texture,
-            m_position + Vector2(0.0f, -m_height * 0.5f),
-            Vector2(m_width, m_height)
-        };
-
-        m_render_cmds[1] = {
-            Slider::slider_knob_texture,
-            get_knob_center() - Vector2(m_knob_radius, m_knob_radius + m_height * 0.5f),
-            Vector2(m_knob_radius * 2.0f, m_knob_radius * 2.0f)
-        };
+        static_cast<RenderCachedTexture*>(m_render_cmds[0])->set_position(m_position + Vector2(0.0f, -m_height * 0.5f));
+        static_cast<RenderCachedTexture*>(m_render_cmds[1])->set_position(get_knob_center() - Vector2(m_knob_radius, m_knob_radius + m_height * 0.5f));
     }
 
     bool Slider::is_inside_knob(Vector2 point) const

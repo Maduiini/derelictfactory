@@ -1,6 +1,8 @@
 
 #include "Checkbox.h"
 
+#include "GUIRenderer.h"
+
 #include "../Log.h"
 
 namespace der
@@ -16,9 +18,8 @@ namespace der
         , m_checked(false)
         , m_state_changed(nullptr)
     {
-        m_render_cmds.push_back({Checkbox::m_checkbox_texture, m_position, m_size, nullptr});
-        m_render_cmds.push_back({InvalidResource, m_position + Vector2(50.0f, 10.0f), Vector2::zero, m_title.c_str()});
-        m_render_cmds[1].text_position = m_render_cmds[1].position;
+        m_render_cmds.push_back(new RenderCachedTexture(Checkbox::m_checkbox_texture, m_position, m_size));
+        m_render_cmds.push_back(new RenderText(m_title.c_str(), m_position + Vector2(50.0f, 10.0f)));
     }
 
     Checkbox::~Checkbox()
@@ -61,11 +62,11 @@ namespace der
 
         if (m_checked)
         {
-            m_render_cmds[0].texture_id = m_checkbox_mark_texture;
+            static_cast<RenderCachedTexture*>(m_render_cmds[0])->set_texture_id(m_checkbox_mark_texture);
         }
         else
         {
-            m_render_cmds[0].texture_id = m_checkbox_texture;
+            static_cast<RenderCachedTexture*>(m_render_cmds[0])->set_texture_id(m_checkbox_texture);
         }
     }
 

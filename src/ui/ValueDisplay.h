@@ -27,7 +27,7 @@ namespace der
 
         virtual void update(double delta_time, Vector2 mouse) override;
 
-        virtual std::vector<WidgetRenderCommand> get_render_commands(GUIRenderer *renderer) const override;
+        virtual std::vector<GUIRendererCommand*> get_render_commands(GUIRenderer *renderer) const override;
 
     private:
         Vector2 m_position;

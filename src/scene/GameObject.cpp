@@ -36,8 +36,10 @@ namespace der
             delete child;
         }
 
-        delete m_camera;
         delete m_mesh_renderer;
+        delete m_tr_renderer;
+        delete m_camera;
+        delete m_light;
     }
 
     bool GameObject::operator == (const GameObject &obj) const

@@ -51,6 +51,7 @@
 		<Unit filename="assets/materials/GeneratorBase.material" />
 		<Unit filename="assets/materials/GeneratorCylinder.material" />
 		<Unit filename="assets/materials/GeneratorTop.material" />
+		<Unit filename="assets/materials/Gold.material" />
 		<Unit filename="assets/materials/Ground.material" />
 		<Unit filename="assets/materials/IBeam.material" />
 		<Unit filename="assets/materials/Rock.material" />

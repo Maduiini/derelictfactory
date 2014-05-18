@@ -34,6 +34,8 @@ namespace der
         Vector2 get_mouse_pos() const;
         Vector2 get_mouse_delta() const;
 
+        float get_delta_scroll() const;
+
         void set_capture_mouse(bool captured);
         void toggle_mouse_captured();
         bool is_mouse_captured() const;

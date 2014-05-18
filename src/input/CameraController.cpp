@@ -8,6 +8,7 @@ namespace der
     CameraController::CameraController()
         : m_rot_x(0.0f)
         , m_rot_y(0.0f)
+        , m_speed_up(1.0f)
     { }
 
     void CameraController::update(float delta_time)
@@ -35,7 +36,7 @@ namespace der
         if (key_down(Key::Left_Control))
             delta -= up;
 
-        get_object()->move(delta * move_speed * delta_time);
+        get_object()->move(delta * move_speed * m_speed_up * delta_time);
 
         if (key_pressed(Key::Left_Alt))
             toggle_mouse_captured();
@@ -45,6 +46,8 @@ namespace der
             const Vector2 mouse_delta = get_mouse_delta() * rotate_speed;
             m_rot_x += mouse_delta.y;
             m_rot_y += mouse_delta.x;
+
+            m_speed_up += get_delta_scroll();
         }
 
         Quaternion rot_x, rot_y;

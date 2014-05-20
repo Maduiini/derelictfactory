@@ -112,7 +112,7 @@ namespace der
             if (line.find("#include ") == 0)
             {
                 file_num++;
-                contents += "#line " + to_string(0) + " " + to_string(file_num);
+                contents += "#line " + to_string(1) + " " + to_string(file_num);
 
                 const std::string include_file = strip_filepath(line.substr(9));
                 const std::string inc_filepath = m_resource_dir + include_file;

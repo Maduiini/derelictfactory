@@ -66,6 +66,13 @@ vec3 der_get_albedo(sampler2D tex_albedo, vec2 tcoord)
     return linearize(color);
 }
 
+vec4 der_get_albedo4(sampler2D tex_albedo, vec2 tcoord)
+{
+    vec4 color = texture(tex_albedo, tcoord);
+    // linearize gamma
+    return vec4(linearize(color.rgb), color.a);
+}
+
 vec3 der_get_normal(sampler2D tex_normal, vec2 tcoord, vec3 normal, vec4 tangent)
 {
     vec3 n = texture(tex_normal, tcoord).xyz * vec3(2.0, 2.0, 1.0) - vec3(1.0, 1.0, 0.0);

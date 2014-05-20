@@ -14,7 +14,7 @@ namespace der
         m_supported_extensions.push_back("material");
     }
 
-    Material* MaterialCache::load(const char * const filepath)
+    Material* MaterialCache::load(const char * const filepath, InputFileList &dependencies)
     {
         std::ifstream in(filepath);
         if (!in)

@@ -17,7 +17,9 @@ namespace der
         ShaderCache();
 
     protected:
-        virtual Shader* load(const char * const filepath);
+        virtual Shader* load(const char * const filepath, InputFileList &dependencies);
+        bool load_file(const char * const filepath, size_t &file_num,
+                       std::string &contents, InputFileList &dependencies, bool add_dep = true);
     };
 
     class ResourceCache;

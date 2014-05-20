@@ -19,7 +19,7 @@ namespace der
         MeshCache();
 
     protected:
-        virtual Mesh* load(const char * const filepath);
+        virtual Mesh* load(const char * const filepath, InputFileList &dependencies);
 
     };
 

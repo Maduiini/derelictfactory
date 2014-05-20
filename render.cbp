@@ -64,6 +64,7 @@
 		<Unit filename="assets/materials/SpiderbotCopper.material" />
 		<Unit filename="assets/shaders/color.frag" />
 		<Unit filename="assets/shaders/color.vert" />
+		<Unit filename="assets/shaders/common.glsl" />
 		<Unit filename="assets/shaders/default.frag" />
 		<Unit filename="assets/shaders/default.vert" />
 		<Unit filename="assets/shaders/gui.frag" />

@@ -13,7 +13,7 @@ namespace der
         m_supported_extensions.push_back("obj");
     }
 
-    Mesh* MeshCache::load(const char * const filepath)
+    Mesh* MeshCache::load(const char * const filepath, InputFileList &dependencies)
     {
         ObjMeshLoader loader;
         Mesh *mesh = new Mesh();

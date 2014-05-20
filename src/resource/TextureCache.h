@@ -14,7 +14,7 @@ namespace der
     public:
         TextureCache();
     private:
-        virtual Texture2D* load(const char * const filepath);
+        virtual Texture2D* load(const char * const filepath, InputFileList &dependencies);
     };
 
 } // der

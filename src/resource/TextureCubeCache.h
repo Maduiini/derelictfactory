@@ -13,8 +13,8 @@ namespace der
     public:
         TextureCubeCache();
     private:
-        virtual TextureCube* load(const char * const filepath);
-        bool load_side(TextureCube *texture, TextureCube::Side side, const std::string &filepath);
+        virtual TextureCube* load(const char * const filepath, InputFileList &dependencies);
+        bool load_side(TextureCube *texture, TextureCube::Side side, const std::string &filepath, InputFileList &dependencies);
     };
 
 } // der

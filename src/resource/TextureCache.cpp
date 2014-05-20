@@ -15,7 +15,7 @@ namespace der
         m_supported_extensions.push_back("tga");
     }
 
-    Texture2D* TextureCache::load(const char * const filepath)
+    Texture2D* TextureCache::load(const char * const filepath, InputFileList &dependencies)
     {
         std::ifstream in(filepath, std::ios_base::binary);
         if (!in)

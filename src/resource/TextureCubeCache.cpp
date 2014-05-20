@@ -14,7 +14,7 @@ namespace der
         m_supported_extensions.push_back("cube");
     }
 
-    TextureCube* TextureCubeCache::load(const char * const filepath)
+    TextureCube* TextureCubeCache::load(const char * const filepath, InputFileList &dependencies)
     {
         std::ifstream in(filepath);
         if (!in)
@@ -34,22 +34,22 @@ namespace der
         in >> path_pos_z;
 
         TextureCube *texture = new TextureCube();
-        if (!load_side(texture, TextureCube::Negative_X, path_neg_x.c_str()))
+        if (!load_side(texture, TextureCube::Negative_X, path_neg_x.c_str(), dependencies))
             return texture;
-        if (!load_side(texture, TextureCube::Positive_X, path_pos_x.c_str()))
+        if (!load_side(texture, TextureCube::Positive_X, path_pos_x.c_str(), dependencies))
             return texture;
-        if (!load_side(texture, TextureCube::Negative_Y, path_neg_y.c_str()))
+        if (!load_side(texture, TextureCube::Negative_Y, path_neg_y.c_str(), dependencies))
             return texture;
-        if (!load_side(texture, TextureCube::Positive_Y, path_pos_y.c_str()))
+        if (!load_side(texture, TextureCube::Positive_Y, path_pos_y.c_str(), dependencies))
             return texture;
-        if (!load_side(texture, TextureCube::Negative_Z, path_neg_z.c_str()))
+        if (!load_side(texture, TextureCube::Negative_Z, path_neg_z.c_str(), dependencies))
             return texture;
-        if (!load_side(texture, TextureCube::Positive_Z, path_pos_z.c_str()))
+        if (!load_side(texture, TextureCube::Positive_Z, path_pos_z.c_str(), dependencies))
             return texture;
         return texture;
     }
 
-    bool TextureCubeCache::load_side(TextureCube *texture, TextureCube::Side side, const std::string &filepath)
+    bool TextureCubeCache::load_side(TextureCube *texture, TextureCube::Side side, const std::string &filepath, InputFileList &dependencies)
     {
         std::ifstream in(m_resource_dir + filepath, std::ios_base::binary);
         if (!in)
@@ -86,6 +86,11 @@ namespace der
         }
 
         texture->TexImage(side, reader.get_width(), reader.get_height(), fmt, input_fmt, reader.get_data());
+
+        InputFile input_file;
+        input_file.filepath = filepath;
+        input_file.last_modified = get_modify_time(filepath.c_str());
+        dependencies.push_back(input_file);
         return true;
     }
 

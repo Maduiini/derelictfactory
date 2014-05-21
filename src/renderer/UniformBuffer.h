@@ -65,6 +65,7 @@ namespace der
         void set_projection_mat(const Matrix4 &proj);
         void set_view_mat(const Matrix4 &view);
         void set_camera_pos(const Vector3 &camera_pos);
+        Vector3 get_camera_pos() const;
         void set_time(float time);
 
     private:

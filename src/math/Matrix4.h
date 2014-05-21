@@ -80,6 +80,9 @@ namespace der
         /// Returns the basis vectors of the rotation part.
         void get_basis(Vector3 &right, Vector3 &up,  Vector3 & forward) const;
 
+        /// Returns the translation vector of the transform matrix.
+        Vector3 get_translation() const;
+
         /// Divides the transformation matrix into components.
         void decompose(Vector3 &pos, Matrix3 &rot, Vector3 &scale) const;
         /// Divides the transformation matrix into components.
@@ -355,6 +358,9 @@ namespace der
 
         /// Returns the basis vectors of the rotation part.
         void get_basis(Vector3 &right, Vector3 &up,  Vector3 & forward) const;
+
+        /// Returns the translation vector of the transform matrix.
+        Vector3 get_translation() const;
 
         /// Divides the transformation matrix into components.
         void decompose(Vector3 &pos, Matrix3 &rot, Vector3 &scale) const;

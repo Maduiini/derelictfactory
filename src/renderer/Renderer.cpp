@@ -15,6 +15,44 @@
 namespace der
 {
 
+    struct command_cmp_struct
+    {
+        const Vector3 m_camera_pos;
+
+        explicit command_cmp_struct(const Vector3 &camera_pos)
+            : m_camera_pos(camera_pos)
+        { }
+
+        bool cmp_materials(const RenderCommand &a, const RenderCommand &b) const
+        {
+            return a.material->get_albedo_texture() < b.material->get_albedo_texture();
+        }
+
+        float cmp_distance(const RenderCommand &a, const RenderCommand &b) const
+        {
+            const Vector3 a_pos = a.model_mat.get_translation();
+            const Vector3 b_pos = b.model_mat.get_translation();
+            return a_pos.dot(a_pos) - b_pos.dot(b_pos) - 2.0f * m_camera_pos.dot(a_pos + b_pos); // < 0.0f;
+//            return distance2(a_pos, camera_pos) < distance2(b_pos, camera_pos);
+        }
+
+        bool operator ()(const RenderCommand &a, const RenderCommand &b) const
+        {
+            int blending = int(a.material->is_blending_enabled()) - int(b.material->is_blending_enabled());
+            if (blending > 0)
+                return false;
+            if (blending < 0)
+                return true;
+//            if (blending == 0)
+//            {
+//                float cmp = cmp_distance(a, b);
+//                return (cmp < 0.0f) || ((cmp == 0.0f) && cmp_materials(a, b));
+//            }
+//            return (blending > 0) || cmp_materials(a, b);
+            return cmp_materials(a, b);
+        }
+    };
+
     static bool command_cmp(const RenderCommand &a, const RenderCommand &b)
     {
         return a.material->get_albedo_texture() < b.material->get_albedo_texture();
@@ -124,7 +162,8 @@ namespace der
 
     void Renderer::render()
     {
-        std::sort(m_commands.begin(), m_commands.end(), command_cmp);
+//        std::sort(m_commands.begin(), m_commands.end(), command_cmp);
+        std::sort(m_commands.begin(), m_commands.end(), command_cmp_struct(m_global_uniforms->get_camera_pos()));
 
         bind_global_uniforms();
         for (RenderCommand &command : m_commands)

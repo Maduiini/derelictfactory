@@ -14,6 +14,14 @@ namespace der
         m_supported_extensions.push_back("material");
     }
 
+    void interpret_option(Material *material, const std::string &option)
+    {
+        if (option == "cull_none")
+            material->set_cull_mode(CullMode::None);
+        else if (option == "blending")
+            material->set_blending_enabled(true);
+    }
+
     Material* MaterialCache::load(const char * const filepath, InputFileList &dependencies)
     {
         std::ifstream in(filepath);
@@ -42,11 +50,12 @@ namespace der
         material->set_metallic_texture(make_resource(metallic_name.c_str()));
         material->set_env_texture(make_resource(env_name.c_str()));
 
-        std::string cull_mode_str;
-        in >> cull_mode_str;
-
-        if (cull_mode_str == "cull_none")
-            material->set_cull_mode(CullMode::None);
+        while (in)
+        {
+            std::string option;
+            in >> option;
+            interpret_option(material, option);
+        }
 
         return material;
     }

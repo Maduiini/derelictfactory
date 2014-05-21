@@ -145,6 +145,9 @@ namespace der
     void GlobalUniformBlock::set_camera_pos(const Vector3 &camera_pos)
     { m_camera_pos = camera_pos; }
 
+    Vector3 GlobalUniformBlock::get_camera_pos() const
+    { return m_camera_pos; }
+
     void GlobalUniformBlock::set_time(float time)
     { m_time = time; }
 

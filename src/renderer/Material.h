@@ -39,6 +39,9 @@ namespace der
         void set_cull_mode(CullMode mode);
         CullMode get_cull_mode() const;
 
+        void set_blending_enabled(bool enabled);
+        bool is_blending_enabled() const;
+
         void use(Graphics *graphics, ResourceCache *cache);
 
     private:
@@ -54,7 +57,9 @@ namespace der
         ResourceID m_tex_roughness;
         ResourceID m_tex_metallic;
         ResourceID m_tex_env;
+
         CullMode m_cull_mode;
+        bool m_blending;
     };
 
 } // der

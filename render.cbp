@@ -53,6 +53,7 @@
 		<Unit filename="assets/materials/GeneratorBase.material" />
 		<Unit filename="assets/materials/GeneratorCylinder.material" />
 		<Unit filename="assets/materials/GeneratorTop.material" />
+		<Unit filename="assets/materials/Glass.material" />
 		<Unit filename="assets/materials/Gold.material" />
 		<Unit filename="assets/materials/Ground.material" />
 		<Unit filename="assets/materials/IBeam.material" />
@@ -67,6 +68,7 @@
 		<Unit filename="assets/shaders/common.glsl" />
 		<Unit filename="assets/shaders/default.frag" />
 		<Unit filename="assets/shaders/default.vert" />
+		<Unit filename="assets/shaders/glass.frag" />
 		<Unit filename="assets/shaders/gui.frag" />
 		<Unit filename="assets/shaders/gui.vert" />
 		<Unit filename="assets/shaders/pbs.frag" />

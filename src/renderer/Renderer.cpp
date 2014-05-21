@@ -28,28 +28,19 @@ namespace der
             return a.material->get_albedo_texture() < b.material->get_albedo_texture();
         }
 
-        float cmp_distance(const RenderCommand &a, const RenderCommand &b) const
+        static float distance2(const Vector3 &a, const Vector3 &b)
+        { return (a - b).length2(); }
+
+        bool cmp_distance(const RenderCommand &a, const RenderCommand &b) const
         {
             const Vector3 a_pos = a.model_mat.get_translation();
             const Vector3 b_pos = b.model_mat.get_translation();
-            return a_pos.dot(a_pos) - b_pos.dot(b_pos) - 2.0f * m_camera_pos.dot(a_pos + b_pos); // < 0.0f;
-//            return distance2(a_pos, camera_pos) < distance2(b_pos, camera_pos);
+            return distance2(a_pos, m_camera_pos) > distance2(b_pos, m_camera_pos);
         }
 
         bool operator ()(const RenderCommand &a, const RenderCommand &b) const
         {
-            int blending = int(a.material->is_blending_enabled()) - int(b.material->is_blending_enabled());
-            if (blending > 0)
-                return false;
-            if (blending < 0)
-                return true;
-//            if (blending == 0)
-//            {
-//                float cmp = cmp_distance(a, b);
-//                return (cmp < 0.0f) || ((cmp == 0.0f) && cmp_materials(a, b));
-//            }
-//            return (blending > 0) || cmp_materials(a, b);
-            return cmp_materials(a, b);
+            return cmp_distance(a, b);
         }
     };
 
@@ -65,6 +56,7 @@ namespace der
         , m_cache(cache)
     {
         m_commands.reserve(1000);
+        m_blend_commands.reserve(1000);
         m_global_uniforms = new GlobalUniformBlock();
         m_instance_uniforms = new InstanceUniformBlock();
         m_light_uniforms = new LightUniformBlock();
@@ -144,7 +136,11 @@ namespace der
             size_t i = LightUniformBlock::MAX_LIGHTS - 1;
             for (; i >= m_command.light_count; i--)
                 m_command.lights[i].radius = 0.0f;
-            m_commands.push_back(m_command);
+
+            if (m_command.material->is_blending_enabled())
+                m_blend_commands.push_back(m_command);
+            else
+                m_commands.push_back(m_command);
         }
     }
 
@@ -162,16 +158,23 @@ namespace der
 
     void Renderer::render()
     {
-//        std::sort(m_commands.begin(), m_commands.end(), command_cmp);
-        std::sort(m_commands.begin(), m_commands.end(), command_cmp_struct(m_global_uniforms->get_camera_pos()));
+        std::sort(m_commands.begin(), m_commands.end(), command_cmp);
+//        std::sort(m_commands.begin(), m_commands.end(), cmd_cmp);
+        const command_cmp_struct blend_cmd_cmp(m_global_uniforms->get_camera_pos());
+        std::sort(m_blend_commands.begin(), m_blend_commands.end(), blend_cmd_cmp);
 
         bind_global_uniforms();
         for (RenderCommand &command : m_commands)
         {
             render_command(command);
         }
+        for (RenderCommand &command : m_blend_commands)
+        {
+            render_command(command);
+        }
 
         m_commands.clear();
+        m_blend_commands.clear();
     }
 
     void Renderer::render_command(RenderCommand &command)

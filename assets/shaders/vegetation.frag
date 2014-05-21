@@ -160,6 +160,8 @@ void main()
     if (albedo.a < 0.55) discard;
 
 //    vec3 N = normal; //get_normal();
+//    vec3 N = normalize(position);
+//    N = normalize(mix(N, get_normal(), 0.5));
     vec3 N = normalize(mix(normal, get_normal(), nm_influence));
     vec3 V = -normalize(view_vec);
 

@@ -93,6 +93,7 @@ namespace der
         ResourceCache *m_cache;
 
         std::vector<RenderCommand> m_commands;
+        std::vector<RenderCommand> m_blend_commands;
         RenderCommand m_command;
 
         GlobalUniformBlock *    m_global_uniforms;

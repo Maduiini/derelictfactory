@@ -4,6 +4,8 @@
 
 #include "ResourceCache.h"
 
+#include "../Log.h"
+
 #include <fstream>
 #include <iostream>
 
@@ -17,7 +19,7 @@ namespace der
         m_supported_extensions.push_back("frag");
     }
 
-    Shader* ShaderCache::load(const char * const filepath)
+    Shader* ShaderCache::load(const char * const filepath, InputFileList &dependencies)
     {
         const std::string fpath(filepath);
         size_t pos = fpath.find_last_of('.');
@@ -32,28 +34,101 @@ namespace der
             else
                 return nullptr;
 
-            std::ifstream in(filepath, std::ios::binary);
-            if (!in.is_open()) return nullptr;
-
-            in.seekg(0, std::ios::end);
-            const size_t file_size = in.tellg();
-            in.seekg(0, std::ios::beg);
-
-            char *contents = new char[file_size + 1];
-            for (size_t i = 0; i < file_size; i++)
-                contents[i] = 0;
-            in.read(contents, file_size);
-            contents[file_size] = 0; // make null-terminated
-
-            in.close();
+            size_t file_num = 0;
+            std::string contents;
+            if (!load_file(filepath, file_num, contents, dependencies, false))
+                return nullptr;
 
             Shader *shader = new Shader(type);
-            shader->compile(contents);
+            shader->compile(contents.c_str());
 
-            delete[] contents;
             return shader;
+
+//            std::ifstream in(filepath, std::ios::binary);
+//            if (!in.is_open()) return nullptr;
+//
+//            in.seekg(0, std::ios::end);
+//            const size_t file_size = in.tellg();
+//            in.seekg(0, std::ios::beg);
+//
+//            char *contents = new char[file_size + 1];
+//            for (size_t i = 0; i < file_size; i++)
+//                contents[i] = 0;
+//            in.read(contents, file_size);
+//            contents[file_size] = 0; // make null-terminated
+//
+//            in.close();
+//
+//            Shader *shader = new Shader(type);
+//            shader->compile(contents);
+//
+//            delete[] contents;
+//            return shader;
         }
         return nullptr;
+    }
+
+    static std::string strip_filepath(const std::string &filepath)
+    {
+        const size_t posl = filepath.find('"');
+        if (posl != std::string::npos)
+        {
+            const size_t posr = filepath.rfind('"');
+            if (posr != std::string::npos)
+            {
+//                const size_t discard = posl + 1 + filepath.size() - posr;
+                const size_t len = posr - posl - 1;
+                return filepath.substr(posl + 1, len);
+            }
+        }
+        // Return the original string, which should cause problems,
+        // or it has no "-characters surrounding it. Which is also OK.
+        return filepath;
+    }
+
+    bool ShaderCache::load_file(const char * const filepath, size_t &file_num,
+                                std::string &contents, InputFileList &dependencies, bool add_dep /*= true*/)
+    {
+        std::ifstream in(filepath, std::ios::binary);
+        if (!in.is_open())
+        {
+            log::error("Could not open: %", filepath);
+            return false;
+        }
+
+        if (add_dep)
+        {
+            InputFile input_file;
+            input_file.filepath = filepath;
+            input_file.last_modified = get_modify_time(filepath);
+            dependencies.push_back(input_file);
+        }
+
+        std::string line;
+        const size_t this_file_num = file_num;
+        size_t line_num = 1;
+        while (std::getline(in, line))
+        {
+            if (line.find("#include ") == 0)
+            {
+                file_num++;
+                contents += "#line " + to_string(1) + " " + to_string(file_num);
+
+                const std::string include_file = strip_filepath(line.substr(9));
+                const std::string inc_filepath = m_resource_dir + include_file;
+                if (!load_file(inc_filepath.c_str(), file_num, contents, dependencies))
+                    return false;
+
+                contents += "#line " + to_string(line_num) + " " + to_string(this_file_num);
+            }
+            else
+            {
+                line_num++;
+                contents += line + "\n";
+            }
+        }
+
+        return true;
     }
 
 

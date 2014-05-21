@@ -64,11 +64,13 @@
 		<Unit filename="assets/materials/SpiderbotCopper.material" />
 		<Unit filename="assets/shaders/color.frag" />
 		<Unit filename="assets/shaders/color.vert" />
+		<Unit filename="assets/shaders/common.glsl" />
 		<Unit filename="assets/shaders/default.frag" />
 		<Unit filename="assets/shaders/default.vert" />
 		<Unit filename="assets/shaders/gui.frag" />
 		<Unit filename="assets/shaders/gui.vert" />
 		<Unit filename="assets/shaders/pbs.frag" />
+		<Unit filename="assets/shaders/pbs.glsl" />
 		<Unit filename="assets/shaders/pbs.vert" />
 		<Unit filename="assets/shaders/pbs_ground.frag" />
 		<Unit filename="assets/shaders/skybox.frag" />

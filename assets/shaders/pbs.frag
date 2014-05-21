@@ -1,10 +1,13 @@
 #version 330
 
+#include "common.glsl"
+
 uniform sampler2D tex_albedo;
 uniform sampler2D tex_normal;
 uniform sampler2D tex_roughness;
 uniform sampler2D tex_metallic;
 uniform samplerCube tex_env;
+uniform sampler2D tex_env_brdf;
 
 layout(row_major) uniform Globals
 {
@@ -43,149 +46,25 @@ in vec3 view_vec;
 
 out vec4 out_color;
 
-mat3 tangent_space()
-{
-    vec3 n = normalize(normal);
-    vec3 t = normalize(tangent.xyz);
-    vec3 bt = cross(n, t) * tangent.w;
-    return mat3(t, bt, n);
-}
 
 vec3 get_normal()
 {
-    vec3 n = texture(tex_normal, tcoord).xyz * vec3(2.0, 2.0, 1.0) - vec3(1.0, 1.0, 0.0);
-    return tangent_space() * n;
-}
-
-vec4 gamma_correct(vec3 color)
-{
-    vec3 s1 = sqrt(color);
-    color = min(color, vec3(4.0));
-    vec3 s2 = sqrt(s1);
-    vec3 s3 = sqrt(s2);
-    vec3 s4 = sqrt(s3);
-    vec3 srgb = 0.662002687 * s1 + 0.684122060 * s2 - 0.3235601 * s3 - 0.225411470 * color;
-    return vec4(srgb, 1.0);
-
-    // An expensive approximation
-//    return vec4(pow(color, vec3(1.0/2.23333)), 1.0);
-}
-
-vec3 linearize(vec3 color)
-{
-    // The official sRGB linearization. Very inefficient.
-//    vec3 c1 = pow((color + vec3(0.055) / 1.055), vec3(2.4));
-//    vec3 c2 = color / 12.92;
-//    return mix(c1, c2, lessThanEqual(color, vec3(0.04045)));
-
-    // A fair approximation
-//    return pow(color, vec3(2.23333));
-
-    // A very crude approximation
-//    return color * color;
-
-    // A good and fast approximation
-    return color * (color * (color * 0.305306011 + 0.682171111) + 0.012522878);
+    return der_get_normal(tex_normal, tcoord, normal, tangent);
 }
 
 vec3 get_albedo()
 {
-    vec3 color = texture(tex_albedo, tcoord).rgb;
-    // linearize gamma
-    return linearize(color);
+    return der_get_albedo(tex_albedo, tcoord);
 }
 
-vec3 get_env(vec3 v, float lod)
+vec3 get_env(const vec3 v, const float lod)
 {
-    vec3 color = textureLod(tex_env, v, lod).rgb;
-    // linearize gamma
-    return linearize(color);
+    return der_get_env(tex_env, v, lod);
 }
 
+#include "pbs.glsl"
 
-const float PI = 3.1415926;
-const float ONE_OVER_PI = 1.0 / PI;
-
-// --- Physically based shading
-
-// Diffuse term
-vec3 diffuse_BRDF(const vec3 c_diff)
-{
-    return c_diff * ONE_OVER_PI;
-}
-
-// The Cook-Torrance microfacet specular shading model:
-
-//
-//           D(h) F(v, h) G(l, v, h)
-// f(l, v) = ----------------------
-//                4 (n|l) (n|v)
-//
-// D = normal distribution function (NDF)
-// F = Fresnel term
-// F = Geometric attenuation
-//
-// (x|y) means dot product
-// n = surface normal
-// l = light direction
-// v = view direction
-// h = half vector = normalized(l + v)
-
-// Normal distribution function
-float D_GGX_Trowbridge_Reitz(const float alpha, const float NoH)
-{
-    float a2 = alpha * alpha + 0.05;
-    float x = NoH * NoH * (a2 - 1.0) + 1.0;
-    return a2 / (PI * x * x);
-}
-
-// Epic games' approximation of the usual Schlick's Fresnel term.
-vec3 F_Schlick_Epic(const vec3 c_spec, const float VoH)
-{
-    return c_spec + (vec3(1.0) - c_spec) * exp2((-5.55473 * VoH - 6.98316) * VoH);
-}
-
-float G1_Schlick(const float XoN, const float k)
-{
-    return XoN / (XoN * (1.0 - k) + k);
-}
-
-// Schlick's approximation of Smith's geometric attenuation
-float G_Schlick(const float NoL, const float NoV, const float roughness)
-{
-    float r = roughness + 1.0;
-    float k = r * r / 8.0;
-    return G1_Schlick(NoL, k) * G1_Schlick(NoV, k);
-}
-
-vec3 specular_BRDF(const vec3 c_spec, const float NoL, const float NoH, const float NoV, const float VoH, const float roughness)
-{
-    float alpha = roughness * roughness;
-    float D = D_GGX_Trowbridge_Reitz(alpha, NoH);
-    vec3 F = F_Schlick_Epic(c_spec, VoH);
-    float G = G_Schlick(NoL, NoV, roughness);
-    return (D * F * G) / (4.0 * NoV); // NoL divider has been rearrangd out
-}
-
-vec3 BRDF(vec3 c_diff, vec3 c_spec, const vec3 N, const vec3 L, const vec3 V, const float roughness)
-{
-    vec3 H = normalize(L + V);
-
-    float NoL = dot(N, L);
-//    if (NoL < 0.0) return vec3(0.0);
-
-    float NoH = clamp(dot(N, H), 0.0, 1.0);
-    float NoV = clamp(dot(N, V), 0.001, 1.0);
-//    float VoH = max(dot(V, H), 0.0);
-    float VoH = clamp(dot(V, H), 0.0, 1.0);
-
-    vec3 color = diffuse_BRDF(c_diff) * NoL;
-    color += specular_BRDF(c_spec, NoL, NoH, NoV, VoH, roughness);
-    return color;
-}
-
-
-vec3 light(const int i, vec3 c_diff, vec3 c_spec, const vec3 N, const vec3 V, const float roughness)
+vec3 light(const int i, const vec3 c_diff, const vec3 c_spec, const vec3 N, const vec3 V, const float roughness)
 {
     vec4 pos = lights[i].position;
     vec4 dir = lights[i].direction;
@@ -193,28 +72,19 @@ vec3 light(const int i, vec3 c_diff, vec3 c_spec, const vec3 N, const vec3 V, co
 
     float r = lights[i].radius;
     float cos_spot = dir.w;
-//    cos_spot = 0.8;
 
     float NoL = dot(N, L);
-//    float spot_f = smoothstep(0.0, cos_spot, abs(dot(dir.xyz, L)));
-//    float spot_f = float(cos_spot < dot(dir.xyz, L));
-//    float spot_f = smoothstep(0.0, abs(cos_spot), abs(dot(dir.xyz, L)));
     float spot_f = dot(dir.xyz, L);
-//    spot_f *= float(spot_f > cos_spot);
-//    if (spot_f < cos_spot*2)
-        spot_f = smoothstep(cos_spot-0.02, cos_spot+0.002, spot_f);
-//    else
-//        spot_f = 1.0;
+    spot_f = smoothstep(cos_spot-0.02, cos_spot+0.002, spot_f);
     spot_f = mix(1.0, spot_f, cos_spot > 0.0);
+
     if (NoL * r * spot_f <= 0.0) return vec3(0.0);
-//    if (pos.w <= 0.0) return vec3(0.0);
 
     float dist = distance(pos.xyz, position);
 
 //    const float df = 0.05;
     const float df = 0.5;
 //    const float df = 1.0;
-//    float v = max(1.0 - pow(dist2 / (r * r), 2), 0.0);
     float dist2 = dist * dist * df;
     float x = dist2 / (r * r); // * df);
     float v = max(1.0 - x * x, 0.0);
@@ -226,99 +96,7 @@ vec3 light(const int i, vec3 c_diff, vec3 c_spec, const vec3 N, const vec3 V, co
     return color * lcolor.rgb * lcolor.w * attenuation;
 }
 
-
-
-//// Normal distribution function
-//float D_GGX_Trowbridge_Reitz(const float alpha, const float NoH)
-//{
-//    float a2 = alpha * alpha + 0.05;
-//    float x = NoH * NoH * (a2 - 1.0) + 1.0;
-//    return a2 / (PI * x * x);
-//}
-
-//// Epic games' approximation of the usual Schlick's Fresnel term.
-//vec3 F_Schlick_Epic(const vec3 c_spec, const float VoH)
-//{
-//    return c_spec + (vec3(1.0) - c_spec) * exp2((-5.55473 * VoH - 6.98316) * VoH);
-//}
-
-//float G1_Schlick(const float XoN, const float k)
-//{
-//    return XoN / (XoN * (1.0 - k) + k);
-//}
-
-// Schlick's approximation of Smith's geometric attenuation
-float G_Schlick_IBL(const float NoL, const float NoV, const float roughness)
-{
-    float r = roughness;
-    float k = r * r / 4.0;
-    return G1_Schlick(NoL, k) * G1_Schlick(NoV, k);
-}
-
-vec3 specular_IBL_BRDF(const vec3 c_spec, const float NoL, const float NoH, const float NoV, const float VoH, const float roughness)
-{
-    float alpha = roughness * roughness;
-    float D = D_GGX_Trowbridge_Reitz(alpha, NoH);
-    vec3 F = F_Schlick_Epic(c_spec, VoH);
-    float G = G_Schlick_IBL(NoL, NoV, roughness);
-    return (D * F * G) / (4.0 * NoV); // NoL divider has been rearrangd out
-}
-
-vec3 IBL_BRDF(vec3 c_diff, vec3 c_spec, const vec3 N, const vec3 L, const vec3 V, const float roughness)
-{
-    vec3 H = normalize(L + V);
-
-    float NoL = dot(N, L);
-//    if (NoL < 0.0) return vec3(0.0);
-
-    float NoH = clamp(dot(N, H), 0.0, 1.0);
-    float NoV = clamp(dot(N, V), 0.001, 1.0);
-//    float VoH = max(dot(V, H), 0.0);
-    float VoH = clamp(dot(V, H), 0.0, 1.0);
-
-    vec3 color = diffuse_BRDF(c_diff) * NoL;
-    color += specular_IBL_BRDF(c_spec, NoL, NoH, NoV, VoH, roughness);
-    return color;
-}
-
-
-vec3 IBL_diffuse(const vec3 c_diff, const vec3 N, const vec3 V, const float roughness)
-{
-    vec3 L = -N;
-
-    float lod = 5.0 + roughness * 5.0;
-//    vec3 color = linearize(textureLod(tex_env, L, lod).rgb);
-    vec3 color = get_env(L, lod);
-
-//    float NoL = 0.225; //max(dot(N, L), 0.0);
-//    float NoL = 1.0;
-    return color * c_diff; // * NoL;// * 0.25;
-}
-
-vec3 IBL_specular(const vec3 c_spec, const vec3 N, const vec3 V, const float roughness)
-{
-    vec3 L = -reflect(V, N) * vec3(1.0, -1.0, 1.0);
-
-//    float lod = roughness * 5.0;
-    float lod = roughness * 20.0;
-    vec3 color = get_env(L, lod);
-
-//    float NoL = max(dot(N, L), 0.0);
-    return color * c_spec; // * NoL; // * 0.25;
-//    return color * c_spec * mix(NoL, 1.0, 0.5) * 0.25;
-//    return color * c_spec * 0.25 * (NoL * 0.5 + 0.5);
-}
-
-vec3 IBL(const vec3 c_diff, const vec3 c_spec, const vec3 N, const vec3 V, const float roughness)
-{
-    vec3 cd = IBL_diffuse(c_diff, N, V, roughness) * 1.0;
-    vec3 cs = IBL_specular(c_spec, N, V, roughness) * 1.0;
-    return IBL_BRDF(cd, cs, N, N, N, roughness) * ONE_OVER_PI;
-//    return IBL_diffuse(c_diff, N, V, roughness) +
-//        IBL_specular(c_spec, N, V, roughness);
-}
-
-vec3 lighting(vec3 c_diff, vec3 c_spec, const vec3 N, const vec3 V, const float roughness)
+vec3 lighting(const vec3 c_diff, const vec3 c_spec, const vec3 N, const vec3 V, const float roughness)
 {
     vec3 color = vec3(0.0);
     for (int i = 0; i < light_count; i++)
@@ -349,8 +127,8 @@ vec3 lighting(vec3 c_diff, vec3 c_spec, const vec3 N, const vec3 V, const float 
 void main()
 {
     vec3 albedo = get_albedo();
-//    vec3 N = get_normal();
-    vec3 N = normalize(mix(normal, get_normal(), nm_influence));
+
+    vec3 N = normalize(mix(normalize(normal), get_normal(), nm_influence));
     vec3 V = -normalize(view_vec);
 
     float m = texture(tex_metallic, tcoord).x;

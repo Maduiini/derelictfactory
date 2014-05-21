@@ -8,6 +8,7 @@
 #include "../Log.h"
 
 #include <string>
+#include <vector>
 #include <unordered_map>
 
 namespace der
@@ -17,11 +18,19 @@ namespace der
     class BaseResourceCache
     {
     protected:
-        struct Resource
+        struct InputFile
         {
             std::string filepath;
             time_t      last_modified;
-            RT *        resource;
+        };
+
+        typedef std::vector<InputFile> InputFileList;
+
+        struct Resource
+        {
+            InputFile       file;
+            InputFileList   dependencies;
+            RT *            resource;
         };
     public:
         explicit BaseResourceCache(const char * const dir);
@@ -36,9 +45,12 @@ namespace der
 
     protected:
         void scan_resources(const char * const dir);
-        virtual RT* load(const char * const filepath) = 0;
+        virtual RT* load(const char * const filepath, InputFileList &dependencies) = 0;
     private:
         void do_load(Resource &res);
+
+        static bool needs_refresh(const InputFile &file);
+        static bool needs_refresh(const Resource &res);
 
         bool has_supported_extension(const std::string &filepath);
         static std::string get_extension(const std::string &filepath);
@@ -71,12 +83,13 @@ namespace der
     template <class RT>
     void BaseResourceCache<RT>::do_load(Resource &res)
     {
-        const char * const filepath = res.filepath.c_str();
-        res.resource = load(filepath);
+        const char * const filepath = res.file.filepath.c_str();
+        res.dependencies.clear();
+        res.resource = load(filepath, res.dependencies);
         if (res.resource)
         {
             log::info("Resource loaded: %", filepath);
-            res.last_modified = get_modify_time(filepath);
+            res.file.last_modified = get_modify_time(filepath);
         }
     }
 
@@ -110,16 +123,37 @@ namespace der
         }
     }
 
+    // static
+    template <class RT>
+    bool BaseResourceCache<RT>::needs_refresh(const InputFile &file)
+    {
+        time_t last_modified = get_modify_time(file.filepath.c_str());
+        return (file.last_modified != last_modified);
+    }
+
+    // static
+    template <class RT>
+    bool BaseResourceCache<RT>::needs_refresh(const Resource &res)
+    {
+        if (needs_refresh(res.file)) return true;
+        const size_t dep_count = res.dependencies.size();
+        for (size_t i = 0; i < dep_count; i++)
+        {
+            const InputFile &input_file = res.dependencies[i];
+            if (needs_refresh(input_file)) return true;
+        }
+        return false;
+    }
+
     template <class RT>
     void BaseResourceCache<RT>::refresh_all()
     {
-//        scan();
+        scan();
         typename ResourceMap::iterator it = m_resources.begin();
         for (; it != m_resources.end(); ++it)
         {
             Resource &res = it->second;
-            time_t last_modified = get_modify_time(res.filepath.c_str());
-            if (res.last_modified != last_modified)
+            if (needs_refresh(res))
             {
                 delete res.resource;
                 do_load(res);
@@ -152,9 +186,9 @@ namespace der
                     continue;
 
                 Resource res;
-                res.filepath = dir + file;
+                res.file.filepath = dir + file;
+                res.file.last_modified = get_modify_time(res.file.filepath.c_str());
                 res.resource = nullptr;
-                res.last_modified = get_modify_time(res.filepath.c_str());
                 m_resources[id] = res;
             }
         }

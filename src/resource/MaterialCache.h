@@ -14,7 +14,7 @@ namespace der
     public:
         MaterialCache();
     private:
-        virtual Material* load(const char * const filepath);
+        virtual Material* load(const char * const filepath, InputFileList &dependencies);
     };
 
 } // der

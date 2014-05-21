@@ -16,11 +16,13 @@ namespace der
     class Renderer;
     class SceneRenderer;
     class InputController;
+    class ColorFrameBuffer;
 
     class GUIManager;
     class GUIRenderer;
     class ValueDisplay;
     class Slider;
+    class TextureDisplay;
 
     class Application
     {
@@ -67,6 +69,9 @@ namespace der
         ValueDisplay *m_vis_objects_display;
         ValueDisplay *m_nm_display;
         Slider *m_nm_slider;
+        TextureDisplay *m_depth_buffer_display;
+
+        ColorFrameBuffer *m_test_buffer;
 
         bool m_glfw_ready;
         bool m_ready;

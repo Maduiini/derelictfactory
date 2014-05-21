@@ -13,6 +13,9 @@ namespace der
     public:
         DepthOnlyFrameBuffer(int size);
 
+        DepthTexture* get_depth_texture()
+        { return &m_depth_texture; }
+
     private:
         DepthTexture m_depth_texture;
         int m_size;

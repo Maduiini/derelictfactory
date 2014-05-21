@@ -20,7 +20,7 @@ namespace der
         static void bind_default_buffer();
 
     private:
-        GLuint m_buffer;
+        GLuint m_framebuffer;
 
     };
 

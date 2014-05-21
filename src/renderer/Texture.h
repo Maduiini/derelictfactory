@@ -12,11 +12,13 @@ namespace der
     public:
         enum InputFormat
         {
-            IN_R8, IN_RG8, IN_RGB8, IN_RGBA8
+            IN_R8, IN_RG8, IN_RGB8, IN_RGBA8,
+            IN_R16, IN_RG16, IN_RGB16, IN_RGBA16
         };
         enum Format
         {
             R8, RG8, RGB8, RGBA8,
+            R16, RG16, RGB16, RGBA16,
             RGB_DXT1, RGBA_DXT1, RGBA_DXT5,
             R_RGTC1, RG_RGTC2
         };

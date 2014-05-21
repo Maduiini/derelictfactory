@@ -7,6 +7,7 @@ uniform sampler2D tex_normal;
 uniform sampler2D tex_roughness;
 uniform sampler2D tex_metallic;
 uniform samplerCube tex_env;
+uniform sampler2D tex_env_brdf;
 
 layout(row_major) uniform Globals
 {
@@ -126,7 +127,8 @@ vec3 lighting(const vec3 c_diff, const vec3 c_spec, const vec3 N, const vec3 V, 
 void main()
 {
     vec3 albedo = get_albedo();
-    vec3 N = normalize(mix(normal, get_normal(), nm_influence));
+
+    vec3 N = normalize(mix(normalize(normal), get_normal(), nm_influence));
     vec3 V = -normalize(view_vec);
 
     float m = texture(tex_metallic, tcoord).x;

@@ -177,7 +177,7 @@ namespace der
         return result;
     }
 
-    bool TgaReader::save(std::ostream &out, int w, int h, int bytes_per_pixel, const void *data) const
+    bool TgaReader::save(std::ostream &out, int w, int h, int bytes_per_pixel, int channels, const void *data) const
     {
         if (!out) return false;
 
@@ -196,7 +196,7 @@ namespace der
         header.height            = h;
 
          // 0: No alpha, 8: 8bit alpha
-        uint8_t img_desc_alpha = (m_channels == 4) ? 0x8 : 0x0;
+        uint8_t img_desc_alpha = (channels == 4) ? 0x8 : 0x0;
         uint8_t origin = 0x00;
 
 //        switch (image.GetOrigin())
@@ -206,7 +206,7 @@ namespace der
 //        case Image::BottomRight:    origin = 0x10; break;
 //        case Image::TopRight:       origin = 0x30; break;
 //        }
-        header.bits_per_pixel = m_bytes_per_ch * m_channels / 8;
+        header.bits_per_pixel = bytes_per_pixel * 8;//m_bytes_per_ch * channels / 8;
         header.image_desc = img_desc_alpha | origin;
 
         out.write(reinterpret_cast<const char*>(&header), SIZE_OF_TGA_HEADER);

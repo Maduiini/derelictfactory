@@ -77,6 +77,11 @@ namespace der
         }
         #endif // DER_DEBUG
 
+//        if (::glewIsSupported("GL_ARB_seamless_cube_map"))
+        {
+            ::glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+        }
+
         ::glEnable(GL_DEPTH_TEST);
 
         return true;

@@ -6,3 +6,5 @@ doxygen/
 *.layout
 *.depend
 *.cscope_file_list
+assets/env_brdf.tga
+

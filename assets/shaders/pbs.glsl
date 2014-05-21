@@ -128,7 +128,8 @@ vec3 IBL_specular(const vec3 c_spec, const vec3 N, const vec3 V, const float rou
     vec3 L = -reflect(V, N) * vec3(1.0, -1.0, 1.0);
 
 //    float lod = roughness * 5.0;
-    float lod = roughness * 20.0;
+//    float lod = roughness * 20.0;
+    float lod = roughness * 10.0;
     vec3 color = get_env(L, lod);
 
 //    float NoL = max(dot(N, L), 0.0);
@@ -137,11 +138,58 @@ vec3 IBL_specular(const vec3 c_spec, const vec3 N, const vec3 V, const float rou
 //    return color * c_spec * 0.25 * (NoL * 0.5 + 0.5);
 }
 
-vec3 IBL(const vec3 c_diff, const vec3 c_spec, const vec3 N, const vec3 V, const float roughness)
+vec3 adhoc_IBL(const vec3 c_diff, const vec3 c_spec, const vec3 N, const vec3 V, const float roughness)
 {
     vec3 cd = IBL_diffuse(c_diff, N, V, roughness) * 1.0;
     vec3 cs = IBL_specular(c_spec, N, V, roughness) * 1.0;
-    return IBL_BRDF(cd, cs, N, N, N, roughness) * ONE_OVER_PI;
+    return IBL_BRDF(cd, cs, N, N, N, roughness);
+
+//    return IBL_BRDF(cd, cs, N, N, N, roughness) * ONE_OVER_PI;
+
 //    return IBL_diffuse(c_diff, N, V, roughness) +
 //        IBL_specular(c_spec, N, V, roughness);
+}
+
+
+vec3 approx_diff_IBL(const vec3 c_diff, const vec3 N, const vec3 V, const float roughness)
+{
+    return IBL_diffuse(c_diff, N, V, roughness) * ONE_OVER_PI;
+//    return vec3(0.0);
+}
+
+vec3 approx_spec_IBL(const vec3 c_spec, const vec3 N, const vec3 V, const float roughness)
+{
+//    float NoV = max(dot(N, V), 0.0);
+    float NoV = max(dot(N, V), 0.1);
+    vec3 L = -reflect(V, N) * vec3(1.0, -1.0, 1.0);
+
+//    float lod = roughness * 20.0;
+//    float lod = roughness * 15.0;
+    float lod = roughness * 10.0;
+//    float lod = sqrt(roughness) * 5;
+//    float lod = roughness * 5.0;
+//    float lod = roughness * 1.5;
+    vec3 color = get_env(L, lod);
+//    vec2 env_brdf = textureLod(tex_env_brdf, vec2(NoV, roughness) * 0.98 + vec2(0.01), 0.0).rg;
+    vec2 env_brdf = textureLod(tex_env_brdf, vec2(NoV, roughness) * 0.88 + vec2(0.1), 0.0).rg;
+//    vec2 env_brdf = texture(tex_env_brdf, vec2(NoV, lod)).rg;
+
+    return color * (c_spec * env_brdf.x + env_brdf.yyy);
+//    return color * (c_spec * (env_brdf.x + env_brdf.yyy) + env_brdf.yyy * 0.05);
+//    return color * (c_spec * env_brdf.x + vec3(env_brdf.y));
+//    return vec3(env_brdf.x); // + env_brdf.y); //, env_brdf.y, 0.0);
+//    return vec3(env_brdf.x);
+}
+
+vec3 approx_IBL(const vec3 c_diff, const vec3 c_spec, const vec3 N, const vec3 V, const float roughness)
+{
+    vec3 cd = approx_diff_IBL(c_diff, N, V, roughness);
+    vec3 cs = approx_spec_IBL(c_spec, N, V, roughness);
+    return cd + cs;
+}
+
+vec3 IBL(const vec3 c_diff, const vec3 c_spec, const vec3 N, const vec3 V, const float roughness)
+{
+    return approx_IBL(c_diff, c_spec, N, V, roughness);
+//    return adhoc_IBL(c_diff, c_spec, N, V, roughness);
 }

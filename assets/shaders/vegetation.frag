@@ -7,6 +7,7 @@ uniform sampler2D tex_normal;
 uniform sampler2D tex_roughness;
 uniform sampler2D tex_metallic;
 uniform samplerCube tex_env;
+uniform sampler2D tex_env_brdf;
 
 layout(row_major) uniform Globals
 {

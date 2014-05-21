@@ -17,8 +17,8 @@ namespace der
         ~TgaReader();
 
         bool load(std::istream &in);
-        bool save(std::ostream &out, int w, int h,
-                  int bytes_per_pixel, const void *data) const;
+        bool save(std::ostream &out, int w, int h, int bytes_per_pixel,
+                  int channels, const void *data) const;
 
         const void *get_data() const { return m_data; }
         int get_width() const { return m_width; }

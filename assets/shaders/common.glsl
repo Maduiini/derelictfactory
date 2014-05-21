@@ -82,7 +82,49 @@ vec3 der_get_normal(sampler2D tex_normal, vec2 tcoord, vec3 normal, vec4 tangent
 vec3 der_get_env(samplerCube tex_env, vec3 v, float lod)
 {
     vec3 color = textureLod(tex_env, v, lod).rgb;
+
+//    vec3 up = (abs(v.y) < 0.999) ? vec3(0, 1, 0) : vec3(1, 0, 0);
+//    vec3 right = normalize(cross(up, v));
+//    vec3 fwd = cross(v, right);
+//
+//    vec3 color_up = textureLod(tex_env, up, lod).rgb;
+//    vec3 color_rt = textureLod(tex_env, right, lod).rgb;
+//    vec3 color_fw = textureLod(tex_env, fwd, lod).rgb;
+//    vec3 color_dw = textureLod(tex_env, -up, lod).rgb;
+//    vec3 color_lt = textureLod(tex_env, -right, lod).rgb;
+//    vec3 color_bk = textureLod(tex_env, -fwd, lod).rgb;
+//
+//    v = v * 0.5 + vec3(1.0);
+//    vec3 c_x = mix(color_lt, color_rt, v.x);
+//    vec3 c_y = mix(color_dw, color_up, v.y);
+//    vec3 c_z = mix(color_bk, color_fw, v.z);
+//
+//    vec3 color = linearize(c_x) + linearize(c_y) + linearize(c_z);
+//    color *= 3;
+//    vec3 color = (c_x) + (c_y) + (c_z);
+
+//    vec3 color = max(color_up * dot(v, up), 0.0) + max(color_rt * dot(v, right), 0.0)
+//        + max(color_fw * dot(v, fwd), 0.0) + max(color_dw * dot(v, -up), 0.0)
+//        + max(color_lt * dot(v, -right), 0.0) + max(color_bk * dot(v, -fwd), 0.0);
+//    vec3 color = max(color_up, 0.0) + max(color_rt, 0.0)
+//        + max(color_fw, 0.0) + max(color_dw, 0.0)
+//        + max(color_lt, 0.0) + max(color_bk, 0.0);
+
+//    vec3 offs0 = vec3(-1.0, 0.0, -1.0) * 0.005;
+//    vec3 offs1 = vec3(1.0, 0.0, 1.0) * 0.005;
+//    vec3 offs2 = vec3(-1.0, 0.0, 1.0) * 0.005;
+//    vec3 offs3 = vec3(1.0, 0.0, -1.0) * 0.005;
+//
+//    vec3 color0 = textureLod(tex_env, normalize(v + offs0), lod).rgb;
+//    vec3 color1 = textureLod(tex_env, normalize(v + offs1), lod).rgb;
+//    vec3 color2 = textureLod(tex_env, normalize(v + offs2), lod).rgb;
+//    vec3 color3 = textureLod(tex_env, normalize(v + offs3), lod).rgb;
+//
+//    color = mix(color + color0 + color1 + color2 + color3, color * 5, lod);
+//    color *= 0.2;
+
     // linearize gamma
     return linearize(color);
+//    return color;
 }
 

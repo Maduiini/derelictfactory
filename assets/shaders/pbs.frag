@@ -144,6 +144,6 @@ void main()
     // gamma corrected output
     out_color = gamma_correct(color);
 
-    out_normal = vec4(normalize(view_normal), gl_FragCoord.z);
+    out_normal = vec4(normalize(view_normal), length(view_vec));
 }
 

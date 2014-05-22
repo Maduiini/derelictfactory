@@ -51,18 +51,9 @@ vec3 get_normal()
     return der_get_normal(tex_normal, tcoord * 2.0e-2, normal, tangent);
 }
 
-vec3 get_albedo(vec2 offset) //float d)
+vec3 get_albedo()
 {
-    return der_get_albedo(tex_albedo, tcoord + offset);
-//    vec3 color0 = texture(tex_albedo, tcoord).rgb;
-//    vec3 color01 = texture(tex_albedo, tcoord * 1.258e-1).rgb;
-//    vec3 color1 = color01 * vec3(0.5, 0.6, 0.4);
-////    vec3 color1 = texture(tex_roughness, tcoord).rgb;
-//    float mask = texture(tex_metallic, tcoord * 1e-2 + vec2(0.5)).x;
-//    vec3 color = mix(mix(color0, color01, d), color1, mask);
-////    vec3 color = vec3(mask);
-//    // linearize gamma
-//    return linearize(color);
+    return der_get_albedo(tex_albedo, tcoord);
 }
 
 vec3 get_env(const vec3 v, const float lod)
@@ -123,18 +114,19 @@ void main()
     vec3 N = normalize(mix(normal, get_normal(), nm_influence * 0.02));
     vec3 V = -normalize(view_vec); // * vec3(-1.0, -1.0, 1.0);
 
-//    vec3 albedo = vec3(0.14);
-    float r = 0.05;
+    vec3 albedo = get_albedo() * 10.0;
+    float r = albedo.r;
 
-    vec3 c_spec = vec3(0.18037);
+    vec3 c_spec = (vec3(1.0) - albedo) * vec3(0.18037);
+//    vec3 c_spec = vec3(0.18037);
 //    vec3 c_spec = vec3(0.08037);
 //    vec3 c_spec = vec3(0.04037);
-    vec3 c_diff = vec3(0.04, 0.02, 0.01);
+    vec3 c_diff = albedo; //vec3(0.04, 0.02, 0.01);
 //    vec3 c_diff = vec3(0.24, 0.22, 0.21);
 
     vec3 color = lighting(c_diff, c_spec, N, V, r);
 
-    float lum = dot(color, vec3(1.0)) + 0.44;
+    float lum = dot(color, vec3(1.0)) + 0.44 + r;
 
     // gamma corrected output
     out_color = vec4(pow(color, vec3(1.0 / 2.2)), lum);

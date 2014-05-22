@@ -16,13 +16,15 @@ namespace der
     class Renderer;
     class SceneRenderer;
     class InputController;
-    class ColorFrameBuffer;
 
     class GUIManager;
     class GUIRenderer;
     class ValueDisplay;
     class Slider;
     class TextureDisplay;
+
+    class ColorFrameBuffer;
+    class PostProcessor;
 
     class Application
     {
@@ -51,6 +53,8 @@ namespace der
         Graphics m_graphics;
         ResourceCache m_resource_cache;
 
+        PostProcessor *m_post_processor;
+
         Scene *m_scene;
         Renderer *m_renderer;
         SceneRenderer *m_scene_renderer;
@@ -69,9 +73,6 @@ namespace der
         ValueDisplay *m_vis_objects_display;
         ValueDisplay *m_nm_display;
         Slider *m_nm_slider;
-        TextureDisplay *m_depth_buffer_display;
-
-        ColorFrameBuffer *m_test_buffer;
 
         bool m_glfw_ready;
         bool m_ready;

@@ -11,15 +11,17 @@ namespace der
     {
     public:
         FrameBuffer();
-        ~FrameBuffer();
+        virtual ~FrameBuffer();
 
         bool is_complete();
 
         void bind();
 
+        virtual void set_draw_buffers() = 0;
+
         static void bind_default_buffer();
 
-    private:
+    protected:
         GLuint m_framebuffer;
 
     };

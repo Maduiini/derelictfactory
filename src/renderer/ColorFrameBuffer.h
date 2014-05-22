@@ -13,12 +13,24 @@ namespace der
     public:
         ColorFrameBuffer(int width, int height);
 
-        Texture2D* get_texture()
+        virtual void set_draw_buffers() override;
+
+        Texture2D* get_color_texture()
         { return &m_color_texture; }
+
+        Texture2D* get_normal_texture()
+        { return &m_normal_texture; }
+
+    private:
+        void initialize_texture(GLenum position, Texture *texture);
 
     private:
         Texture2D m_color_texture;
+        Texture2D m_normal_texture;
         GLuint m_renderbuffer;
+
+        int m_width;
+        int m_height;
 
     };
 

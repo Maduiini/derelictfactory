@@ -11,6 +11,8 @@
 #include "renderer/Renderer.h"
 #include "renderer/SceneRenderer.h"
 #include "renderer/ColorFrameBuffer.h"
+#include "renderer/PostProcessor.h"
+#include "renderer/SSAOEffect.h"
 
 #include "scene/Scene.h"
 #include "scene/GameObject.h"
@@ -43,6 +45,7 @@ namespace der
         : m_config()
         , m_window()
         , m_resource_cache()
+        , m_post_processor(nullptr)
         , m_scene(nullptr)
         , m_renderer(nullptr)
         , m_scene_renderer(nullptr)
@@ -56,8 +59,6 @@ namespace der
         , m_vis_objects_display(nullptr)
         , m_nm_display(nullptr)
         , m_nm_slider(nullptr)
-        , m_depth_buffer_display(nullptr)
-        , m_test_buffer(nullptr)
         , m_glfw_ready(false)
         , m_ready(false)
         , m_queued_render(true)
@@ -100,11 +101,13 @@ namespace der
                 m_ready = m_graphics.init();
                 m_window.set_v_sync(m_config.m_v_sync);
 
-                m_test_buffer = new ColorFrameBuffer(200, 100);
-                if (!m_test_buffer->is_complete())
-                    log::error("Framebuffer is not complete");
-
                 m_renderer = new Renderer(&m_graphics, &m_resource_cache);
+
+                int width, height;
+                m_window.get_size(&width, &height);
+                m_post_processor = new PostProcessor();
+                m_post_processor->resize(width, height);
+                m_post_processor->add_effect(new SSAOEffect());
             }
         }
         return is_ready();
@@ -298,9 +301,11 @@ namespace der
         debug_draw_box->set_checked(false);
         m_gui->add_widget(debug_draw_box);
 
-        m_depth_buffer_display = new TextureDisplay(Vector2(50, 50), Vector2(200, 100));
-        m_depth_buffer_display->set_texture(m_test_buffer->get_texture());
-        m_gui->add_widget(m_depth_buffer_display);
+        Checkbox *post_processing_box = new Checkbox(Vector2(15, 320), "Post-processing");
+        post_processing_box->set_state_changed_handler(
+            new CheckboxForwarder<PostProcessor>(m_post_processor, &PostProcessor::set_enabled));
+        post_processing_box->set_checked(false);
+        m_gui->add_widget(post_processing_box);
 
         return true;
     }
@@ -309,27 +314,15 @@ namespace der
     {
         m_graphics.reset_state_changes();
 
-        m_test_buffer->bind();
-
-        m_graphics.set_viewport(0, 0, 200, 100);
-        m_scene->reshape(200, 100);
-
-        m_graphics.clear();
-        m_scene_renderer->render_immediate(m_renderer);
-
-        FrameBuffer::bind_default_buffer();
-
-        int w = 0, h = 0;
-        m_window.get_size(&w, &h);
-        m_graphics.set_viewport(0, 0, w, h);
-        m_scene->reshape(w, h);
-
+        m_post_processor->begin_scene();
         m_graphics.clear();
 
         if (m_queued_render)
             m_scene_renderer->render(m_renderer);
         else
             m_scene_renderer->render_immediate(m_renderer);
+
+        m_post_processor->post_process(&m_graphics, m_resource_cache);
 
         m_gui_renderer->render(&m_graphics, m_resource_cache);
 

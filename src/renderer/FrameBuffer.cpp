@@ -25,8 +25,6 @@ namespace der
     void FrameBuffer::bind()
     {
         ::glBindFramebuffer(GL_FRAMEBUFFER, m_framebuffer);
-        GLenum draw_buffers[] = { GL_COLOR_ATTACHMENT0 };
-        ::glDrawBuffers(1, draw_buffers);
     }
 
     // static

@@ -24,6 +24,7 @@ out vec3 normal;
 out vec4 tangent;
 out vec2 tcoord;
 out vec3 view_vec;
+out vec3 view_normal;
 
 
 void main()
@@ -37,6 +38,7 @@ void main()
     tangent = vec4(nmat * in_tangent.xyz, in_tangent.w);
     tcoord = in_tex_coord;
     view_vec = position - camera_pos;
+    view_normal = mat3(mat_view) * normal;
 
     gl_Position = mat_proj * mat_view * pos;
 }

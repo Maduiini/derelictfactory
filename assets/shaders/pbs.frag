@@ -43,8 +43,10 @@ in vec3 normal;
 in vec4 tangent;
 in vec2 tcoord;
 in vec3 view_vec;
+in vec3 view_normal;
 
-out vec4 out_color;
+layout (location = 0) out vec4 out_color;
+layout (location = 1) out vec4 out_normal;
 
 
 vec3 get_normal()
@@ -141,5 +143,7 @@ void main()
 
     // gamma corrected output
     out_color = gamma_correct(color);
+
+    out_normal = vec4(normalize(view_normal), gl_FragCoord.z);
 }
 

@@ -100,6 +100,72 @@ namespace der
         m_size += uniform.padded_size;
     }
 
+    void UniformBuffer::add_int_np(int &value)
+    {
+        UniformPtr uniform;
+        uniform.ptr = &value;
+        uniform.size = sizeof(value);
+        uniform.padded_size = sizeof(value);
+
+        m_uniforms.push_back(uniform);
+        m_size += uniform.padded_size;
+    }
+
+    void UniformBuffer::add_uint_np(unsigned int &value)
+    {
+        UniformPtr uniform;
+        uniform.ptr = &value;
+        uniform.size = sizeof(value);
+        uniform.padded_size = sizeof(value);
+
+        m_uniforms.push_back(uniform);
+        m_size += uniform.padded_size;
+    }
+
+    void UniformBuffer::add_float_np(float &value)
+    {
+        UniformPtr uniform;
+        uniform.ptr = &value;
+        uniform.size = sizeof(value);
+        uniform.padded_size = sizeof(value);
+
+        m_uniforms.push_back(uniform);
+        m_size += uniform.padded_size;
+    }
+
+    void UniformBuffer::add_vec2_np(Vector2 &value)
+    {
+        UniformPtr uniform;
+        uniform.ptr = &value;
+        uniform.size = sizeof(value);
+        uniform.padded_size = sizeof(value);
+
+        m_uniforms.push_back(uniform);
+        m_size += uniform.padded_size;
+    }
+
+    void UniformBuffer::add_vec3_np(Vector3 &value)
+    {
+        UniformPtr uniform;
+        uniform.ptr = &value;
+        uniform.size = sizeof(value);
+        uniform.padded_size = sizeof(value);
+
+        m_uniforms.push_back(uniform);
+        m_size += uniform.padded_size;
+    }
+
+    void UniformBuffer::add_mat3_np(Matrix3 &value)
+    {
+        UniformPtr uniform;
+        uniform.ptr = &value;
+        uniform.size = sizeof(value);
+        uniform.padded_size = sizeof(value);
+
+        m_uniforms.push_back(uniform);
+        m_size += uniform.padded_size;
+    }
+
     void UniformBuffer::apply_format()
     {
         bind();
@@ -131,8 +197,8 @@ namespace der
     {
         add_mat4(m_projection);
         add_mat4(m_view);
-        add_vec3(m_camera_pos);
-        add_float(m_time);
+        add_vec3_np(m_camera_pos);
+        add_float_np(m_time);
         apply_format();
     }
 

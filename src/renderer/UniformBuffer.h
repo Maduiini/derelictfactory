@@ -37,6 +37,15 @@ namespace der
         void add_vec4(Vector4 &value);
         void add_mat3(Matrix3 &value);
         void add_mat4(Matrix4 &value);
+
+        // These do not add padding
+        void add_int_np(int &value);
+        void add_uint_np(unsigned int &value);
+        void add_float_np(float &value);
+        void add_vec2_np(Vector2 &value);
+        void add_vec3_np(Vector3 &value);
+        void add_mat3_np(Matrix3 &value);
+
         void apply_format();
 
     protected:

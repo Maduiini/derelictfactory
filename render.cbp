@@ -57,6 +57,7 @@
 		<Unit filename="assets/materials/Gold.material" />
 		<Unit filename="assets/materials/Ground.material" />
 		<Unit filename="assets/materials/IBeam.material" />
+		<Unit filename="assets/materials/Puddle.material" />
 		<Unit filename="assets/materials/Rock.material" />
 		<Unit filename="assets/materials/Rust.material" />
 		<Unit filename="assets/materials/Shed.material" />
@@ -78,6 +79,7 @@
 		<Unit filename="assets/shaders/skybox.frag" />
 		<Unit filename="assets/shaders/skybox.vert" />
 		<Unit filename="assets/shaders/vegetation.frag" />
+		<Unit filename="assets/shaders/water.frag" />
 		<Unit filename="assets/textures/Skybox.cube" />
 		<Unit filename="assets/textures/Test_cube_map.cube" />
 		<Unit filename="doc/Plan.txt" />

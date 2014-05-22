@@ -112,7 +112,7 @@ void main()
 
 //    vec3 N = normal;
     vec3 N = normalize(mix(normal, get_normal(), nm_influence * 0.02));
-    vec3 V = -normalize(view_vec); // * vec3(-1.0, -1.0, 1.0);
+    vec3 V = -normalize(view_vec);
 
     vec3 albedo = get_albedo() * 10.0;
     float r = albedo.r;

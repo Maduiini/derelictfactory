@@ -46,9 +46,27 @@ in vec3 view_vec;
 
 out vec4 out_color;
 
+
+vec3 waveN()
+{
+    return vec3(0.0, 1.0, 0.0);
+}
+
+vec2 get_tex_coord()
+{
+    return tcoord * 50.0;
+}
+
+vec2 get_tex_coord2()
+{
+    return tcoord * 6.0;
+}
+
 vec3 get_normal(float wet)
 {
-    return mix(der_get_normal(tex_normal, tcoord, normal, tangent), normal, wet);
+    vec3 n1 = der_get_normal(tex_normal, get_tex_coord(), normal, tangent);
+    vec3 n2 = der_get_normal(tex_normal, get_tex_coord2(), normal, tangent);
+    return mix(n1 + n2, waveN(), wet);
 //    vec3 n0 = texture(tex_normal, tcoord).xyz * vec3(2.0, 2.0, 1.0) - vec3(1.0, 1.0, 0.0);
 //    vec3 n1 = texture(tex_normal, tcoord * 1e-1).xyz * vec3(2.0, 2.0, 1.0) - vec3(1.0, 1.0, 0.0);
 //    float mask = texture2D(tex_metallic, tcoord * 1e-2 + vec2(0.5)).x;
@@ -56,9 +74,12 @@ vec3 get_normal(float wet)
 //    return tangent_space() * n;
 }
 
-vec3 get_albedo(vec2 offset) //float d)
+vec3 get_albedo()
 {
-    return der_get_albedo(tex_albedo, tcoord + offset);
+    vec3 albedo1 = der_get_albedo(tex_albedo, get_tex_coord());
+    vec3 albedo2 = der_get_albedo(tex_albedo, get_tex_coord2());
+    return mix(albedo1, albedo2, 0.5);
+
 //    vec3 color0 = texture(tex_albedo, tcoord).rgb;
 //    vec3 color01 = texture(tex_albedo, tcoord * 1.258e-1).rgb;
 //    vec3 color1 = color01 * vec3(0.5, 0.6, 0.4);
@@ -124,24 +145,27 @@ void main()
 {
     float d = length(view_vec);
 
-    float wet = 1.0f - texture(tex_roughness, tcoord * 2.5e-2 + vec2(0.005)).x;
+    float wet = 1.0f - texture(tex_roughness, tcoord).x; // * 2.5e-2 + vec2(0.005)).x;
 
 
     vec3 N = normalize(mix(normal, get_normal(wet), nm_influence));
+//    vec3 N = normalize(mix(vec3(0.0, 1.0, 0.0), get_normal(wet), nm_influence));
     vec3 V = -normalize(view_vec);
 
-    vec2 offset = normalize((der_tangent_space(normal, tangent) * V)).xz;
-    vec3 albedo = get_albedo(wet * offset * 0.0); //min(d / 60.0, 0.8));
+//    vec2 offset = normalize((der_tangent_space(normal, tangent) * V)).xz;
+    vec3 albedo = get_albedo(); //wet * offset * 0.0); //min(d / 60.0, 0.8));
 
-//    wet *= 0.65;
-
-//    float m = 1.0 - wet; //0.0; //texture(tex_metallic, tcoord).x;
     float r = 1.0 - wet;
 
-    vec3 c_diff = mix(albedo, albedo * vec3(0.95), wet);
-//    vec3 c_spec = mix(vec3(0.04), albedo, wet);
-//    vec3 c_spec = mix(vec3(0.04), vec3(1.0), wet);
-//    vec3 c_spec = mix(vec3(0.04), vec3(0.02037), wet);
+    float waterlevel = 0.25;
+//    float abso = 1.0 - (waterlevel - clamp(position.y + waterlevel, -1.0, 0.25));
+    float abso = 1.0 - (waterlevel - clamp(position.y + waterlevel, -1.0, 0.25));
+    vec3 absorbtion = vec3(0.9, 0.92, 1.0) * abso * abso;
+
+    albedo *= absorbtion;
+
+    vec3 c_diff = albedo; //mix(albedo, albedo * vec3(0.95), wet);
+//    vec3 c_diff = mix(albedo, albedo * vec3(0.91), wet);
     vec3 c_spec = mix(vec3(0.04), vec3(0.04037), wet);
 
     vec3 color = lighting(c_diff, c_spec, N, V, r);

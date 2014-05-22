@@ -53,9 +53,11 @@
 		<Unit filename="assets/materials/GeneratorBase.material" />
 		<Unit filename="assets/materials/GeneratorCylinder.material" />
 		<Unit filename="assets/materials/GeneratorTop.material" />
+		<Unit filename="assets/materials/Glass.material" />
 		<Unit filename="assets/materials/Gold.material" />
 		<Unit filename="assets/materials/Ground.material" />
 		<Unit filename="assets/materials/IBeam.material" />
+		<Unit filename="assets/materials/Puddle.material" />
 		<Unit filename="assets/materials/Rock.material" />
 		<Unit filename="assets/materials/Rust.material" />
 		<Unit filename="assets/materials/Shed.material" />
@@ -67,6 +69,7 @@
 		<Unit filename="assets/shaders/common.glsl" />
 		<Unit filename="assets/shaders/default.frag" />
 		<Unit filename="assets/shaders/default.vert" />
+		<Unit filename="assets/shaders/glass.frag" />
 		<Unit filename="assets/shaders/gui.frag" />
 		<Unit filename="assets/shaders/gui.vert" />
 		<Unit filename="assets/shaders/pbs.frag" />
@@ -78,6 +81,7 @@
 		<Unit filename="assets/shaders/skybox.vert" />
 		<Unit filename="assets/shaders/ssao.frag" />
 		<Unit filename="assets/shaders/vegetation.frag" />
+		<Unit filename="assets/shaders/water.frag" />
 		<Unit filename="assets/textures/Skybox.cube" />
 		<Unit filename="assets/textures/Test_cube_map.cube" />
 		<Unit filename="doc/Plan.txt" />

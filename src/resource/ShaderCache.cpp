@@ -171,7 +171,10 @@ namespace der
         }
         else
         {
-            res.program->detach_shaders();
+            if (!res.program)
+                res.program = new Program();
+            else
+                res.program->detach_shaders();
             vs = m_resource_cache.get<Shader>(m_default_vert);
             fs = m_resource_cache.get<Shader>(m_default_frag);
             res.program->attach(vs);

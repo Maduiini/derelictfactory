@@ -15,6 +15,35 @@
 namespace der
 {
 
+    struct command_cmp_struct
+    {
+        const Vector3 m_camera_pos;
+
+        explicit command_cmp_struct(const Vector3 &camera_pos)
+            : m_camera_pos(camera_pos)
+        { }
+
+        bool cmp_materials(const RenderCommand &a, const RenderCommand &b) const
+        {
+            return a.material->get_albedo_texture() < b.material->get_albedo_texture();
+        }
+
+        static float distance2(const Vector3 &a, const Vector3 &b)
+        { return (a - b).length2(); }
+
+        bool cmp_distance(const RenderCommand &a, const RenderCommand &b) const
+        {
+            const Vector3 a_pos = a.model_mat.get_translation();
+            const Vector3 b_pos = b.model_mat.get_translation();
+            return distance2(a_pos, m_camera_pos) > distance2(b_pos, m_camera_pos);
+        }
+
+        bool operator ()(const RenderCommand &a, const RenderCommand &b) const
+        {
+            return cmp_distance(a, b);
+        }
+    };
+
     static bool command_cmp(const RenderCommand &a, const RenderCommand &b)
     {
         return a.material->get_albedo_texture() < b.material->get_albedo_texture();
@@ -27,6 +56,7 @@ namespace der
         , m_cache(cache)
     {
         m_commands.reserve(1000);
+        m_blend_commands.reserve(1000);
         m_global_uniforms = new GlobalUniformBlock();
         m_instance_uniforms = new InstanceUniformBlock();
         m_light_uniforms = new LightUniformBlock();
@@ -106,7 +136,11 @@ namespace der
             size_t i = LightUniformBlock::MAX_LIGHTS - 1;
             for (; i >= m_command.light_count; i--)
                 m_command.lights[i].radius = 0.0f;
-            m_commands.push_back(m_command);
+
+            if (m_command.material->is_blending_enabled())
+                m_blend_commands.push_back(m_command);
+            else
+                m_commands.push_back(m_command);
         }
     }
 
@@ -125,14 +159,22 @@ namespace der
     void Renderer::render()
     {
         std::sort(m_commands.begin(), m_commands.end(), command_cmp);
+//        std::sort(m_commands.begin(), m_commands.end(), cmd_cmp);
+        const command_cmp_struct blend_cmd_cmp(m_global_uniforms->get_camera_pos());
+        std::sort(m_blend_commands.begin(), m_blend_commands.end(), blend_cmd_cmp);
 
         bind_global_uniforms();
         for (RenderCommand &command : m_commands)
         {
             render_command(command);
         }
+        for (RenderCommand &command : m_blend_commands)
+        {
+            render_command(command);
+        }
 
         m_commands.clear();
+        m_blend_commands.clear();
     }
 
     void Renderer::render_command(RenderCommand &command)

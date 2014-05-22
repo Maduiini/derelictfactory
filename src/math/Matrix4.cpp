@@ -30,12 +30,15 @@ namespace der
         forward.z = m33;
     }
 
+    Vector3 Matrix4::get_translation() const
+    { return Vector3(m14, m24, m34); }
+
     void Matrix4::decompose(Vector3 &pos, Matrix3 &rot, Vector3 &scale) const
     {
         Vector3 col1(m11, m21, m31);
         Vector3 col2(m12, m22, m32);
         Vector3 col3(m13, m23, m33);
-        pos = Vector3(m14, m24, m34);
+        pos = get_translation();
         scale = Vector3(col1.length(), col2.length(), col3.length());
         col1 /= scale.x;
         col2 /= scale.y;
@@ -48,7 +51,7 @@ namespace der
         Vector3 col1(m11, m21, m31);
         Vector3 col2(m12, m22, m32);
         Vector3 col3(m13, m23, m33);
-        pos = Vector3(m14, m24, m34);
+        pos = get_translation();
         scale = Vector3(col1.length(), col2.length(), col3.length());
         col1 /= scale.x;
         col2 /= scale.y;
@@ -112,12 +115,15 @@ namespace der
         forward.z = m33;
     }
 
+    Vector3 Matrix3x4::get_translation() const
+    { return Vector3(m14, m24, m34); }
+
     void Matrix3x4::decompose(Vector3 &pos, Matrix3 &rot, Vector3 &scale) const
     {
         Vector3 col1(m11, m21, m31);
         Vector3 col2(m12, m22, m32);
         Vector3 col3(m13, m23, m33);
-        pos = Vector3(m14, m24, m34);
+        pos = get_translation();
         scale = Vector3(col1.length(), col2.length(), col3.length());
         col1 /= scale.x;
         col2 /= scale.y;
@@ -130,7 +136,7 @@ namespace der
         Vector3 col1(m11, m21, m31);
         Vector3 col2(m12, m22, m32);
         Vector3 col3(m13, m23, m33);
-        pos = Vector3(m14, m24, m34);
+        pos = get_translation();
         scale = Vector3(col1.length(), col2.length(), col3.length());
         col1 /= scale.x;
         col2 /= scale.y;

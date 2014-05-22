@@ -230,6 +230,7 @@ namespace der
         , m_tex_metallic(InvalidResource)
         , m_tex_env(InvalidResource)
         , m_cull_mode(CullMode::BackFace)
+        , m_blending(false)
     {
         m_vert_shader = make_resource("pbs.vert");
         m_frag_shader = make_resource("pbs.frag");
@@ -282,6 +283,12 @@ namespace der
     CullMode Material::get_cull_mode() const
     { return m_cull_mode; }
 
+    void Material::set_blending_enabled(bool enabled)
+    { m_blending = enabled; }
+
+    bool Material::is_blending_enabled() const
+    { return m_blending; }
+
 
     void Material::use(Graphics *graphics, ResourceCache *cache)
     {
@@ -303,6 +310,7 @@ namespace der
         update_program(program);
 
         graphics->set_cull_mode(get_cull_mode());
+        graphics->set_blend_enabled(is_blending_enabled());
     }
 
     void Material::update_program(Program *program)

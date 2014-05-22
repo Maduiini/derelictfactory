@@ -69,28 +69,14 @@ vec3 get_normal(float wet)
     vec3 n1 = der_get_normal(tex_normal, get_tex_coord(), normal, tangent);
     vec3 n2 = der_get_normal(tex_normal, get_tex_coord2(), normal, tangent);
     return mix(n1 + n2, waveN(), wet);
-//    vec3 n0 = texture(tex_normal, tcoord).xyz * vec3(2.0, 2.0, 1.0) - vec3(1.0, 1.0, 0.0);
-//    vec3 n1 = texture(tex_normal, tcoord * 1e-1).xyz * vec3(2.0, 2.0, 1.0) - vec3(1.0, 1.0, 0.0);
-//    float mask = texture2D(tex_metallic, tcoord * 1e-2 + vec2(0.5)).x;
-//    vec3 n = normalize(mix(n0, n1, mask * mask));
-//    return tangent_space() * n;
 }
 
-vec3 get_albedo()
+vec3 get_albedo(vec4 mask)
 {
     vec3 albedo1 = der_get_albedo(tex_albedo, get_tex_coord());
     vec3 albedo2 = der_get_albedo(tex_albedo, get_tex_coord2());
-    return mix(albedo1, albedo2, 0.5);
-
-//    vec3 color0 = texture(tex_albedo, tcoord).rgb;
-//    vec3 color01 = texture(tex_albedo, tcoord * 1.258e-1).rgb;
-//    vec3 color1 = color01 * vec3(0.5, 0.6, 0.4);
-////    vec3 color1 = texture(tex_roughness, tcoord).rgb;
-//    float mask = texture(tex_metallic, tcoord * 1e-2 + vec2(0.5)).x;
-//    vec3 color = mix(mix(color0, color01, d), color1, mask);
-////    vec3 color = vec3(mask);
-//    // linearize gamma
-//    return linearize(color);
+    vec3 mud = mix(vec3(1.0, 1.0, 1.0), vec3(0.6, 0.5, 0.45), mask.x);
+    return mix(albedo1, albedo2, 0.5) * mud;
 }
 
 vec3 get_env(const vec3 v, const float lod)
@@ -147,15 +133,15 @@ void main()
 {
     float d = length(view_vec);
 
-    float wet = 1.0f - texture(tex_roughness, tcoord).x; // * 2.5e-2 + vec2(0.005)).x;
-
+    vec4 mask = texture(tex_roughness, tcoord);
+    float wet = mask.b;
+//    float wet = 1.0f - texture(tex_roughness, tcoord).x; // * 2.5e-2 + vec2(0.005)).x;
 
     vec3 N = normalize(mix(normal, get_normal(wet), nm_influence));
-//    vec3 N = normalize(mix(vec3(0.0, 1.0, 0.0), get_normal(wet), nm_influence));
     vec3 V = -normalize(view_vec);
 
 //    vec2 offset = normalize((der_tangent_space(normal, tangent) * V)).xz;
-    vec3 albedo = get_albedo(); //wet * offset * 0.0); //min(d / 60.0, 0.8));
+    vec3 albedo = get_albedo(mask); //wet * offset * 0.0); //min(d / 60.0, 0.8));
 
     float r = 1.0 - wet;
 

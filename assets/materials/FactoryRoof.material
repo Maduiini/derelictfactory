@@ -2,7 +2,6 @@ pbs.vert
 pbs.frag
 FactoryRoof_A.tga
 FactoryRoof_N.tga
-Param_50.tga
-Param_0.tga
+FactoryRoof_R.tga
+FactoryRoof_M.tga
 Test_cube_map.cube
-Brickwall_N.tga

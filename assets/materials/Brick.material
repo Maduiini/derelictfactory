@@ -1,7 +1,7 @@
 pbs.vert
 pbs.frag
-Brick_A.tga
-Brick_N.tga
-Brick_R.tga
+Brick/Brick_A.tga
+Brick/Brick_N.tga
+Brick/Brick_R.tga
 Param_0.tga
 Test_cube_map.cube

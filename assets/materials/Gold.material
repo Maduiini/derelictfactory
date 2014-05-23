@@ -1,7 +1,7 @@
 pbs.vert
 pbs.frag
 Gold_A.tga
-Rock_N.tga
+Rock/Rock_N.tga
 Param_15.tga
 Param_100.tga
 Test_cube_map.cube

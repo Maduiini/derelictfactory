@@ -8,8 +8,8 @@
 namespace der
 {
 
-    ResourceID Checkbox::m_checkbox_texture = make_resource("checkbox.tga");
-    ResourceID Checkbox::m_checkbox_mark_texture = make_resource("checkbox_mark.tga");
+    ResourceID Checkbox::m_checkbox_texture = make_resource("UI/checkbox.tga");
+    ResourceID Checkbox::m_checkbox_mark_texture = make_resource("UI/checkbox_mark.tga");
 
     Checkbox::Checkbox(Vector2 position, std::string title)
         : m_position(position)

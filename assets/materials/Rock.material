@@ -1,7 +1,7 @@
 pbs.vert
 pbs.frag
-Rock_A.tga
-Rock_N.tga
-Rock_R.tga
+Rock/Rock_A.tga
+Rock/Rock_N.tga
+Rock/Rock_R.tga
 Param_0.tga
 Test_cube_map.cube

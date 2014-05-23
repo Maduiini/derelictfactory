@@ -1,7 +1,7 @@
 pbs.vert
 pbs.frag
-GeneratorBase_A.tga
-GeneratorBase_N.tga
+Generator/Base_A.tga
+Generator/Base_N.tga
 Param_50.tga
-GeneratorBase_M.tga
+Generator/Base_M.tga
 Test_cube_map.cube

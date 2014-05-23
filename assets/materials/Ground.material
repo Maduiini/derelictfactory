@@ -1,8 +1,8 @@
 pbs.vert
 pbs_ground.frag
-Ground_Gravel_A.tga
-Ground_Gravel_N.tga
-Ground_mask.tga
+Ground/Gravel_A.tga
+Ground/Gravel_N.tga
+Ground/Test_Layer_Mask.tga
 Param_0.tga
 Skybox.cube
 Test_cube_map.cube

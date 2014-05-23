@@ -7,9 +7,9 @@
 
 namespace der
 {
-    ResourceID Button::m_button_texture = make_resource("button.tga");
-    ResourceID Button::m_button_highlight_texture = make_resource("button_highlight.tga");
-    ResourceID Button::m_button_pressed_texture = make_resource("button_pressed.tga");
+    ResourceID Button::m_button_texture = make_resource("UI/button.tga");
+    ResourceID Button::m_button_highlight_texture = make_resource("UI/button_highlight.tga");
+    ResourceID Button::m_button_pressed_texture = make_resource("UI/button_pressed.tga");
 
     Button::Button(Vector2 position, Vector2 size, std::string title)
         : m_position(position)

@@ -1,7 +1,7 @@
 pbs.vert
 pbs.frag
-CoolingTower_A.tga
-CoolingTower_N.tga
+CoolingTower/CoolingTower_A.tga
+CoolingTower/CoolingTower_N.tga
 Param_50.tga
 Param_15.tga
 Test_cube_map.cube

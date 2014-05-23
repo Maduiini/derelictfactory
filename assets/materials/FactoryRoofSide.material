@@ -1,8 +1,8 @@
 pbs.vert
 pbs.frag
-FactorySide_A.tga
-FactorySide_N.tga
-FactorySide_R.tga
-FactorySide_M.tga
+Factory/Side_A.tga
+Factory/Side_N.tga
+Factory/Side_R.tga
+Factory/Side_M.tga
 Test_cube_map.cube
 

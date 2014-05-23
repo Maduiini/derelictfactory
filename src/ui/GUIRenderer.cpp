@@ -45,7 +45,7 @@ namespace gui_renderer_internal
         gui_renderer->render_text(graphics, cache, m_text_position, m_text);
     }
 
-    ResourceID GUIRenderer::m_font_texture = make_resource("domine_0.tga");
+    ResourceID GUIRenderer::m_font_texture = make_resource("UI/domine_0.tga");
     ResourceID GUIRenderer::m_vert_shader = make_resource("gui.vert");
     ResourceID GUIRenderer::m_frag_shader = make_resource("gui.frag");
 
@@ -74,7 +74,7 @@ namespace gui_renderer_internal
 
     bool GUIRenderer::init()
     {
-        if (!BitmapFontLoader::load("assets\\font\\domine.fnt", m_font))
+        if (!BitmapFontLoader::load("assets/font/domine.fnt", m_font))
         {
             log::error("GuiRenderer: failed to load font.");
             return false;

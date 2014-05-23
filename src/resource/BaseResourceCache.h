@@ -171,9 +171,9 @@ namespace der
     void BaseResourceCache<RT>::scan_resources(const char * const dir)
     {
         std::vector<std::string> files;
-        get_directory_files(dir, files);
+        get_directory_files(dir, files, true);
 
-        std::string directory = dir;
+//        std::string directory = dir;
         for (const std::string &file : files)
         {
             if (has_supported_extension(file))

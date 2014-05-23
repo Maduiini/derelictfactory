@@ -1,7 +1,7 @@
 pbs.vert
 pbs.frag
-Brickwall_Window_A.tga
-Brickwall_Window_N.tga
-Brickwall_Window_R.tga
+Factory/Brickwall_Window_A.tga
+Factory/Brickwall_Window_N.tga
+Factory/Brickwall_Window_R.tga
 Param_0.tga
 Test_cube_map.cube

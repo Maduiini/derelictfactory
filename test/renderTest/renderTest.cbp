@@ -37,6 +37,8 @@
 		<Linker>
 			<Add library="..\UnitTest++\Deliv\Release\libUnitTest++.a" />
 		</Linker>
+		<Unit filename="../../src/Log.cpp" />
+		<Unit filename="../../src/Log.h" />
 		<Unit filename="../../src/math/Math.cpp" />
 		<Unit filename="../../src/math/Math.h" />
 		<Unit filename="../../src/math/Matrix3.cpp" />

@@ -21,15 +21,13 @@ layout(row_major) uniform Lights
 };
 
 
-in vec3 position;
 in vec3 view_vec;
 
 out vec4 out_color;
 
 vec3 get_color()
 {
-//    vec3 color = texture(tex_env, view_vec * vec3(-1.0, 1.0, -1.0)).rgb;
-    vec3 color = texture(tex_env, (position - vec3(0.0, 50.0, 0.0)) * vec3(1.0, -1.0, 1.0)).rgb;
+    vec3 color = texture(tex_env, view_vec * vec3(-1.0, 1.0, -1.0)).rgb;
     return color;
 }
 

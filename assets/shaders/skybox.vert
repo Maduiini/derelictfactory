@@ -19,14 +19,12 @@ in vec3 in_normal;
 in vec4 in_tangent;
 in vec2 in_tex_coord;
 
-out vec3 position;
 out vec3 view_vec;
 
 void main()
 {
     vec4 pos = mat_model * vec4(in_position, 1.0);
 
-    position = pos.xyz;
     view_vec = camera_pos - pos.xyz;
 
     gl_Position = mat_proj * mat_view * pos;

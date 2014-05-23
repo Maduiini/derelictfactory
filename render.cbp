@@ -62,6 +62,7 @@
 		<Unit filename="assets/materials/Rock.material" />
 		<Unit filename="assets/materials/Rust.material" />
 		<Unit filename="assets/materials/Shed.material" />
+		<Unit filename="assets/materials/SimpleTable.material" />
 		<Unit filename="assets/materials/Skybox.material" />
 		<Unit filename="assets/materials/SpiderbotCables.material" />
 		<Unit filename="assets/materials/SpiderbotCopper.material" />

@@ -129,7 +129,8 @@ vec3 IBL_specular(const vec3 c_spec, const vec3 N, const vec3 V, const float rou
 
 //    float lod = roughness * 5.0;
 //    float lod = roughness * 20.0;
-    float lod = roughness * 10.0;
+//    float lod = roughness * 10.0;
+    float lod = roughness * 10000.0;
     vec3 color = get_env(L, lod);
 
 //    float NoL = max(dot(N, L), 0.0);

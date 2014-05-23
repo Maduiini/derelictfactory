@@ -44,6 +44,7 @@
 		<Unit filename="assets/materials/Barrel.material" />
 		<Unit filename="assets/materials/Barrel2.material" />
 		<Unit filename="assets/materials/Brick.material" />
+		<Unit filename="assets/materials/BrickWallSmall.material" />
 		<Unit filename="assets/materials/Brickwall.material" />
 		<Unit filename="assets/materials/Bush.material" />
 		<Unit filename="assets/materials/Color.material" />
@@ -65,6 +66,7 @@
 		<Unit filename="assets/materials/Skybox.material" />
 		<Unit filename="assets/materials/SpiderbotCables.material" />
 		<Unit filename="assets/materials/SpiderbotCopper.material" />
+		<Unit filename="assets/materials/TriangleRoof.material" />
 		<Unit filename="assets/shaders/color.frag" />
 		<Unit filename="assets/shaders/color.vert" />
 		<Unit filename="assets/shaders/common.glsl" />

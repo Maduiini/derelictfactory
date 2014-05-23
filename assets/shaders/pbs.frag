@@ -131,7 +131,7 @@ void main()
     vec3 albedo = get_albedo();
 
     vec3 N = normalize(mix(normalize(normal), get_normal(), nm_influence));
-    vec3 V = -normalize(view_vec);
+    vec3 V = normalize(view_vec);
 
     float m = texture(tex_metallic, tcoord).x;
     float r = texture(tex_roughness, tcoord).x;
@@ -141,9 +141,7 @@ void main()
 
     vec3 color = lighting(c_diff, c_spec, N, V, r);
 
-    // gamma corrected output
     out_color = gamma_correct(color);
-
     out_normal = vec4(normalize(view_normal), length(view_vec));
 }
 

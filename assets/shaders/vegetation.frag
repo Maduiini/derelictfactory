@@ -165,7 +165,7 @@ void main()
 //    vec3 N = normalize(position);
 //    N = normalize(mix(N, get_normal(), 0.5));
     vec3 N = normalize(mix(normal, get_normal(), nm_influence));
-    vec3 V = -normalize(view_vec);
+    vec3 V = normalize(view_vec);
 
     N = mix(-N, N, gl_FrontFacing);
 //    out_color = vec4(N, 1.0);
@@ -181,9 +181,7 @@ void main()
     vec3 back_color = back_lighting(c_diff, -N, V, r);
     color += back_color * albedo.a;
 
-    // gamma corrected output
-    out_color = gamma_correct(color) * vec4(1.0, 1.0, 1.0, albedo.a);
-
+    out_color = gamma_correct(color, albedo.a);
     out_normal = vec4(normalize(view_normal), length(view_vec));
 }
 

@@ -26,6 +26,20 @@ vec4 gamma_correct(vec3 color)
 //    return vec4(pow(color, vec3(1.0/2.23333)), 1.0);
 }
 
+vec4 gamma_correct(vec3 color, float a)
+{
+    vec3 s1 = sqrt(color);
+    color = min(color, vec3(4.0));
+    vec3 s2 = sqrt(s1);
+    vec3 s3 = sqrt(s2);
+    vec3 s4 = sqrt(s3);
+    vec3 srgb = 0.662002687 * s1 + 0.684122060 * s2 - 0.3235601 * s3 - 0.225411470 * color;
+    return vec4(srgb, a);
+
+    // An expensive approximation
+//    return vec4(pow(color, vec3(1.0/2.23333)), 1.0);
+}
+
 vec3 linearize(vec3 color)
 {
     // The official sRGB linearization. Very inefficient.

@@ -138,7 +138,7 @@ void main()
 //    float wet = 1.0f - texture(tex_roughness, tcoord).x; // * 2.5e-2 + vec2(0.005)).x;
 
     vec3 N = normalize(mix(normal, get_normal(wet), nm_influence));
-    vec3 V = -normalize(view_vec);
+    vec3 V = normalize(view_vec);
 
 //    vec2 offset = normalize((der_tangent_space(normal, tangent) * V)).xz;
     vec3 albedo = get_albedo(mask); //wet * offset * 0.0); //min(d / 60.0, 0.8));
@@ -158,9 +158,7 @@ void main()
 
     vec3 color = lighting(c_diff, c_spec, N, V, r);
 
-    // gamma corrected output
-    out_color = vec4(pow(color, vec3(1.0 / 2.2)), 1.0);
-
+    out_color = gamma_correct(color);
     out_normal = vec4(normalize(view_normal), length(view_vec));
 }
 

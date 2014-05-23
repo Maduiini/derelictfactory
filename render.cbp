@@ -48,6 +48,7 @@
 		<Unit filename="assets/materials/Brickwall.material" />
 		<Unit filename="assets/materials/Bush.material" />
 		<Unit filename="assets/materials/Color.material" />
+		<Unit filename="assets/materials/ConcreteFloor.material" />
 		<Unit filename="assets/materials/CoolingTower.material" />
 		<Unit filename="assets/materials/FactoryRoof.material" />
 		<Unit filename="assets/materials/FactoryRoofSide.material" />

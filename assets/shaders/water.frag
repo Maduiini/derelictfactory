@@ -149,7 +149,7 @@ vec3 waveN()
 {
     vec3 n = waveN_lin(vec2(0.1, 1.0), 0.005, 2.4)
         + waveN_lin(vec2(0.5, 0.5), 0.005, 1.2);
-//        + waveN_circ(vec2(38.0, -35), 0.002, 1.2);
+//    vec3 n = waveN_circ(vec2(38.0, -35), 0.002, 1.2);
     return normalize(n);
 }
 

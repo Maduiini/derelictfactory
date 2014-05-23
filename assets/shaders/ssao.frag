@@ -27,8 +27,8 @@ float random(vec2 p)
 
 float ssao(vec2 base_seed)
 {
-    const float samples = 8.0;
-    const float inv_samples = 1.0 / samples;
+    const int samples = 8;
+    const float inv_samples = 1.0 / float(samples);
     float sum = 0.0;
 //    return 1.0;
 
@@ -50,20 +50,26 @@ float ssao(vec2 base_seed)
 
     vec3 ray, se, occ_normal;
     float occ_depth, depth_difference, normal_difference;
+    vec4 occluder_fragment;
 
+//        if (current_depth > 1.5)
+//        {
     for (int i=0; i<samples; i++)
     {
         ray = radius_d * reflect(random_points[i & 15], fres);
         se = current_pos + sign(dot(ray, current_normal)) * ray;
 
-        vec4 occluder_fragment = texture(tex_normal, se.xy);
+        occluder_fragment = texture(tex_normal, se.xy);
         occ_normal = occluder_fragment.xyz;
 
         depth_difference = current_depth - occluder_fragment.a;
-        normal_difference = 1.0 - dot(occ_normal, current_normal);
-
-        sum += step(falloff, depth_difference) * normal_difference * (1.0 - smoothstep(falloff, strength, depth_difference));
+//        normal_difference = clamp(1.0 - dot(occ_normal, current_normal), -0.5, 0.5);
+            normal_difference = 1.0 - dot(occ_normal, current_normal);
+//        depth_difference = clamp(1.0 - depth_difference, falloff, strength);
+//        sum += step(falloff, 1.0 - depth_difference) * depth_difference * normal_difference;
+            sum += step(falloff, depth_difference) * normal_difference * (1.0 - smoothstep(falloff, strength, depth_difference));
     }
+//        }
 
     return 1.0 - 1.3 * sum * inv_samples;
 }
@@ -72,20 +78,19 @@ float ssao_unfold(vec2 base_seed)
 {
     const float samples = 8.0;
     const float inv_samples = 1.0 / samples;
-    float sum = 0.0;
 
     vec3 random_vec3 = vec3( random(base_seed), random(base_seed + vec2(0.1, 0.2)), random(base_seed + vec2(0.3, 0.4)) );
     vec3 fres = normalize(random_vec3) * 2.0 - vec3(1.0);
-//    vec3 fres = normalize(random_vec3 * 2.0 - vec3(1.0));
 
     vec4 this_fragment = texture(tex_normal, tcoord);
 
     float current_depth = this_fragment.a;
-    vec3 current_pos = vec3(tcoord.xy, current_depth);
+    vec3 origin = vec3(tcoord.xy, current_depth);
     vec3 current_normal = this_fragment.xyz;
 
     const float strength = 0.32;
     const float falloff = 0.000002;
+//    const float falloff = 0.000000002;
     const float radius = 0.25;
 
     float radius_d = radius / current_depth;
@@ -95,56 +100,56 @@ float ssao_unfold(vec2 base_seed)
     vec4 occluder_fragment;
 
     ray = radius_d * reflect(random_points[0], fres);
-    se = current_pos + sign(dot(ray, current_normal)) * ray;
+    se = origin + sign(dot(ray, current_normal)) * ray;
     occluder_fragment = texture(tex_normal, se.xy);
     depth_difference = current_depth - occluder_fragment.a;
     normal_difference = 1.0 - dot(occluder_fragment.xyz, current_normal);
-    sum += step(falloff, depth_difference) * normal_difference * (1.0 - smoothstep(falloff, strength, depth_difference));
+    float sum = step(falloff, depth_difference) * normal_difference * (1.0 - smoothstep(falloff, strength, depth_difference));
 
     ray = radius_d * reflect(random_points[1], fres);
-    se = current_pos + sign(dot(ray, current_normal)) * ray;
+    se = origin + sign(dot(ray, current_normal)) * ray;
     occluder_fragment = texture(tex_normal, se.xy);
     depth_difference = current_depth - occluder_fragment.a;
     normal_difference = 1.0 - dot(occluder_fragment.xyz, current_normal);
     sum += step(falloff, depth_difference) * normal_difference * (1.0 - smoothstep(falloff, strength, depth_difference));
 
     ray = radius_d * reflect(random_points[2], fres);
-    se = current_pos + sign(dot(ray, current_normal)) * ray;
+    se = origin + sign(dot(ray, current_normal)) * ray;
     occluder_fragment = texture(tex_normal, se.xy);
     depth_difference = current_depth - occluder_fragment.a;
     normal_difference = 1.0 - dot(occluder_fragment.xyz, current_normal);
     sum += step(falloff, depth_difference) * normal_difference * (1.0 - smoothstep(falloff, strength, depth_difference));
 
     ray = radius_d * reflect(random_points[3], fres);
-    se = current_pos + sign(dot(ray, current_normal)) * ray;
+    se = origin + sign(dot(ray, current_normal)) * ray;
     occluder_fragment = texture(tex_normal, se.xy);
     depth_difference = current_depth - occluder_fragment.a;
     normal_difference = 1.0 - dot(occluder_fragment.xyz, current_normal);
     sum += step(falloff, depth_difference) * normal_difference * (1.0 - smoothstep(falloff, strength, depth_difference));
 
     ray = radius_d * reflect(random_points[4], fres);
-    se = current_pos + sign(dot(ray, current_normal)) * ray;
+    se = origin + sign(dot(ray, current_normal)) * ray;
     occluder_fragment = texture(tex_normal, se.xy);
     depth_difference = current_depth - occluder_fragment.a;
     normal_difference = 1.0 - dot(occluder_fragment.xyz, current_normal);
     sum += step(falloff, depth_difference) * normal_difference * (1.0 - smoothstep(falloff, strength, depth_difference));
 
     ray = radius_d * reflect(random_points[5], fres);
-    se = current_pos + sign(dot(ray, current_normal)) * ray;
+    se = origin + sign(dot(ray, current_normal)) * ray;
     occluder_fragment = texture(tex_normal, se.xy);
     depth_difference = current_depth - occluder_fragment.a;
     normal_difference = 1.0 - dot(occluder_fragment.xyz, current_normal);
     sum += step(falloff, depth_difference) * normal_difference * (1.0 - smoothstep(falloff, strength, depth_difference));
 
     ray = radius_d * reflect(random_points[6], fres);
-    se = current_pos + sign(dot(ray, current_normal)) * ray;
+    se = origin + sign(dot(ray, current_normal)) * ray;
     occluder_fragment = texture(tex_normal, se.xy);
     depth_difference = current_depth - occluder_fragment.a;
     normal_difference = 1.0 - dot(occluder_fragment.xyz, current_normal);
     sum += step(falloff, depth_difference) * normal_difference * (1.0 - smoothstep(falloff, strength, depth_difference));
 
     ray = radius_d * reflect(random_points[7], fres);
-    se = current_pos + sign(dot(ray, current_normal)) * ray;
+    se = origin + sign(dot(ray, current_normal)) * ray;
     occluder_fragment = texture(tex_normal, se.xy);
     depth_difference = current_depth - occluder_fragment.a;
     normal_difference = 1.0 - dot(occluder_fragment.xyz, current_normal);

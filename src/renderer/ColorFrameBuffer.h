@@ -21,12 +21,16 @@ namespace der
         Texture2D* get_normal_texture()
         { return &m_normal_texture; }
 
+        Texture2D* get_extra_texture()
+        { return &m_extra_texture; }
+
     private:
         void initialize_texture(GLenum position, Texture *texture);
 
     private:
         Texture2D m_color_texture;
         Texture2D m_normal_texture;
+        Texture2D m_extra_texture;
         GLuint m_renderbuffer;
 
         int m_width;

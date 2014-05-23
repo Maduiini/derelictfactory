@@ -80,6 +80,8 @@
 		<Unit filename="assets/shaders/skybox.frag" />
 		<Unit filename="assets/shaders/skybox.vert" />
 		<Unit filename="assets/shaders/ssao.frag" />
+		<Unit filename="assets/shaders/ssao_blur_x.frag" />
+		<Unit filename="assets/shaders/ssao_blur_y.frag" />
 		<Unit filename="assets/shaders/vegetation.frag" />
 		<Unit filename="assets/shaders/water.frag" />
 		<Unit filename="assets/textures/Skybox.cube" />

@@ -9,6 +9,7 @@ namespace der
     ColorFrameBuffer::ColorFrameBuffer(int width, int height)
         : m_color_texture()
         , m_normal_texture()
+        , m_extra_texture()
         , m_renderbuffer()
         , m_width(width)
         , m_height(height)
@@ -23,6 +24,7 @@ namespace der
         // Create textures
         initialize_texture(GL_COLOR_ATTACHMENT0, &m_color_texture);
         initialize_texture(GL_COLOR_ATTACHMENT1, &m_normal_texture);
+        initialize_texture(GL_COLOR_ATTACHMENT2, &m_extra_texture);
 
         // Attach render buffer to the frame buffer
         ::glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_renderbuffer);
@@ -45,8 +47,8 @@ namespace der
 
     void ColorFrameBuffer::set_draw_buffers()
     {
-        GLenum draw_buffers[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1 };
-        ::glDrawBuffers(2, draw_buffers);
+        GLenum draw_buffers[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 };
+        ::glDrawBuffers(3, draw_buffers);
     }
 
 } // der

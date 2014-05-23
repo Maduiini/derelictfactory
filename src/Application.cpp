@@ -108,6 +108,8 @@ namespace der
                 m_post_processor = new PostProcessor();
                 m_post_processor->resize(width, height);
                 m_post_processor->add_effect(new SSAOEffect());
+                m_post_processor->add_effect(new SSAOBlurX());
+                m_post_processor->add_effect(new SSAOBlurY());
             }
         }
         return is_ready();

@@ -17,7 +17,7 @@ namespace der
         PostProcessingEffect(ResourceID fragment_shader);
         virtual ~PostProcessingEffect();
 
-        virtual void setup_rendering(Graphics *graphics, ResourceCache &cache, ColorFrameBuffer *secondary_buffer) = 0;
+        virtual void setup_rendering(Graphics *graphics, ResourceCache &cache, ColorFrameBuffer *secondary_buffer);
 
         void set_enabled(const bool enabled)
         { m_enabled = enabled; }

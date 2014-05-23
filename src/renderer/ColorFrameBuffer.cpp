@@ -29,6 +29,8 @@ namespace der
         // Attach render buffer to the frame buffer
         ::glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_renderbuffer);
 
+        set_draw_buffers();
+
         FrameBuffer::bind_default_buffer();
     }
 

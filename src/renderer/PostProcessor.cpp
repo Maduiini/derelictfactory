@@ -62,7 +62,7 @@ namespace der
 
         DER_ASSERT(m_primary_buffer);
         m_primary_buffer->bind();
-        m_primary_buffer->set_draw_buffers();
+//        m_primary_buffer->set_draw_buffers();
     }
 
     void PostProcessor::post_process(Graphics *graphics, ResourceCache &cache)
@@ -70,6 +70,7 @@ namespace der
         if (!m_enabled)
             return;
 
+        m_vao->bind();
         for (size_t i=0; i<m_effects.size(); i++)
         {
             swap_buffers();
@@ -82,12 +83,11 @@ namespace der
             else
             {
                 m_primary_buffer->bind();
-                m_primary_buffer->set_draw_buffers();
+//                m_primary_buffer->set_draw_buffers();
             }
 
             PostProcessingEffect *effect = m_effects[i];
 
-            m_vao->bind();
             effect->setup_rendering(graphics, cache, m_secondary_buffer);
             graphics->clear();
             graphics->draw_triangle_strip(0, 4);

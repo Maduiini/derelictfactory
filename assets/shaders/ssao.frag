@@ -42,7 +42,7 @@ float ssao(vec2 base_seed)
 
     const float strength = 0.32;
     const float falloff = 0.000002;
-    const float radius = 0.29;
+    const float radius = 0.25;
 
     float radius_d = radius / current_depth;
 
@@ -71,7 +71,7 @@ float ssao(vec2 base_seed)
 void main()
 {
     float ao = ssao(gl_FragCoord.xy * 0.000999);
-    //out_color = vec4(texture2D(tex_color, tcoord).rgb * ao, 1.0);
+    //out_color = vec4(texture(tex_color, tcoord).rgb * ao, 1.0);
 
     out_color = texture(tex_color, tcoord);
     out_extra = vec4(ao, ao, ao, 1.0);

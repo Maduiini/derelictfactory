@@ -131,7 +131,7 @@ void main()
     float lum = dot(color, vec3(1.0)) + 0.44 + r;
 
     out_color = vec4(gamma_correct(color, lum));
-    out_normal = vec4(normalize(view_normal), 0.0);
+//    out_normal = vec4(normalize(view_normal), 0.0);
 }
 
 

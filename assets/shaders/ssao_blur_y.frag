@@ -19,13 +19,22 @@ layout (location = 2) out vec4 out_extra;
 
 void main()
 {
-    vec3 col = texture2D(tex_extra, tcoord).rgb * weight[0];
+    vec4 col = texture(tex_extra, tcoord) * weight[0];
 
+    float inv_h = 1.0 / height;
     for (int i=1; i<3; i++)
     {
-        col += texture2D(tex_extra, tcoord + vec2(0.0, offset[i])/height).rgb * weight[i];
-        col += texture2D(tex_extra, tcoord - vec2(0.0, offset[i])/height).rgb * weight[i];
+        vec2 offs = vec2(0.0, offset[i] * inv_h);
+
+//        col += texture(tex_extra, tcoord + offs).rgb * weight[i];
+//        col += texture(tex_extra, tcoord - offs).rgb * weight[i];
+
+        vec4 sample = texture(tex_extra, tcoord + offs);
+        sample += texture(tex_extra, tcoord - offs);
+
+        col += sample * weight[i];
     }
 
-    out_color = vec4(texture2D(tex_color, tcoord).rgb * col.r, 1.0);
+    out_color = vec4(texture(tex_color, tcoord).rgb * col.r, 1.0);
+//    out_color = vec4(vec3(col.r), 1.0);
 }

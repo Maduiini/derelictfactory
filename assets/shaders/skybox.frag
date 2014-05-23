@@ -21,15 +21,15 @@ layout(row_major) uniform Lights
 };
 
 
+in vec3 position;
 in vec3 view_vec;
 
 out vec4 out_color;
 
 vec3 get_color()
 {
-    vec3 color = texture(tex_env, view_vec * vec3(1.0, -1.0, 1.0)).rgb;
-    // linearize gamma
-//    return pow(color, vec3(2.2));
+//    vec3 color = texture(tex_env, view_vec * vec3(-1.0, 1.0, -1.0)).rgb;
+    vec3 color = texture(tex_env, (position - vec3(0.0, 50.0, 0.0)) * vec3(1.0, -1.0, 1.0)).rgb;
     return color;
 }
 
@@ -37,7 +37,6 @@ void main()
 {
     vec3 color = get_color();
     // gamma corrected output
-//    out_color = vec4(pow(color, vec3(1.0 / 2.2)), 1.0);
     out_color = vec4(color, 1.0);
 }
 

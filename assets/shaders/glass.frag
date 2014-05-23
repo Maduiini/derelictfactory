@@ -114,7 +114,7 @@ void main()
 
 //    vec3 N = normal;
     vec3 N = normalize(mix(normal, get_normal(), nm_influence * 0.02));
-    vec3 V = -normalize(view_vec);
+    vec3 V = normalize(view_vec);
 
     vec3 albedo = get_albedo() * 10.0;
     float r = albedo.r;
@@ -130,9 +130,7 @@ void main()
 
     float lum = dot(color, vec3(1.0)) + 0.44 + r;
 
-    // gamma corrected output
-    out_color = vec4(pow(color, vec3(1.0 / 2.2)), lum);
-
+    out_color = vec4(gamma_correct(color, lum));
     out_normal = vec4(normalize(view_normal), 0.0);
 }
 

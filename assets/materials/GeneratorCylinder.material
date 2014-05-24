@@ -2,6 +2,6 @@ pbs.vert
 pbs.frag
 Generator/Cylinder_A.tga
 Generator/Cylinder_N.tga
-Param_50.tga
+Generator/Cylinder_R.tga
 Generator/Cylinder_M.tga
 Test_cube_map.cube

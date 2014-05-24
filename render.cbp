@@ -69,6 +69,7 @@
 		<Unit filename="assets/materials/Skybox.material" />
 		<Unit filename="assets/materials/SpiderbotCables.material" />
 		<Unit filename="assets/materials/SpiderbotCopper.material" />
+		<Unit filename="assets/materials/Sun.material" />
 		<Unit filename="assets/materials/TriangleRoof.material" />
 		<Unit filename="assets/shaders/color.frag" />
 		<Unit filename="assets/shaders/color.vert" />
@@ -88,6 +89,8 @@
 		<Unit filename="assets/shaders/ssao.frag" />
 		<Unit filename="assets/shaders/ssao_blur_x.frag" />
 		<Unit filename="assets/shaders/ssao_blur_y.frag" />
+		<Unit filename="assets/shaders/sun.frag" />
+		<Unit filename="assets/shaders/sunrays.frag" />
 		<Unit filename="assets/shaders/vegetation.frag" />
 		<Unit filename="assets/shaders/water.frag" />
 		<Unit filename="assets/textures/Skybox.cube" />
@@ -166,6 +169,7 @@
 		<Unit filename="src/renderer/SceneRenderer.h" />
 		<Unit filename="src/renderer/Shader.cpp" />
 		<Unit filename="src/renderer/Shader.h" />
+		<Unit filename="src/renderer/SunRaysEffect.h" />
 		<Unit filename="src/renderer/Texture.cpp" />
 		<Unit filename="src/renderer/Texture.h" />
 		<Unit filename="src/renderer/TextureCube.cpp" />

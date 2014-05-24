@@ -47,6 +47,7 @@
 		<Unit filename="assets/materials/BrickWallSmall.material" />
 		<Unit filename="assets/materials/Brickwall.material" />
 		<Unit filename="assets/materials/Bush.material" />
+		<Unit filename="assets/materials/Chimney.material" />
 		<Unit filename="assets/materials/Color.material" />
 		<Unit filename="assets/materials/ConcreteFloor.material" />
 		<Unit filename="assets/materials/CoolingTower.material" />

@@ -47,7 +47,7 @@ namespace der
             m_rot_x += mouse_delta.y;
             m_rot_y += mouse_delta.x;
 
-            m_speed_up += get_delta_scroll();
+            m_speed_up += get_delta_scroll() * 0.5f;
         }
 
         Quaternion rot_x, rot_y;

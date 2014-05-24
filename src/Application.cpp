@@ -174,6 +174,7 @@ namespace der
                 m_window.get_size(&w, &h);
                 m_graphics.set_viewport(0, 0, w, h);
                 m_scene->reshape(w, h);
+                m_post_processor->resize(w, h);
             }
 
             m_gui->update(delta_time,

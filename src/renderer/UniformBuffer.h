@@ -76,12 +76,15 @@ namespace der
         void set_camera_pos(const Vector3 &camera_pos);
         Vector3 get_camera_pos() const;
         void set_time(float time);
+        void set_window_size(int width, int height);
 
     private:
         Matrix4 m_projection;
         Matrix4 m_view;
         Vector3 m_camera_pos;
         float m_time;
+        float m_window_width;
+        float m_window_height;
     };
 
     class InstanceUniformBlock : public UniformBuffer

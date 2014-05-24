@@ -83,6 +83,9 @@ namespace der
     void Renderer::set_time(float time)
     { m_global_uniforms->set_time(time); }
 
+    void Renderer::set_window_size(int width, int height)
+    { m_global_uniforms->set_window_size(width, height); }
+
     void Renderer::set_normalmap_influence(float value)
     { m_param_uniforms->set_normalmap_influence(value); }
 

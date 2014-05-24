@@ -62,6 +62,7 @@ namespace der
         void set_view_matrix(const Matrix4 &view_mat);
         void set_camera_pos(const Vector3 &camera_pos);
         void set_time(float time);
+        void set_window_size(int width, int height);
 
         void set_normalmap_influence(float value);
 

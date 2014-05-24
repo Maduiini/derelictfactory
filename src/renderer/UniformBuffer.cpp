@@ -199,6 +199,8 @@ namespace der
         add_mat4(m_view);
         add_vec3_np(m_camera_pos);
         add_float_np(m_time);
+        add_float_np(m_window_width);
+        add_float_np(m_window_height);
         apply_format();
     }
 
@@ -216,6 +218,12 @@ namespace der
 
     void GlobalUniformBlock::set_time(float time)
     { m_time = time; }
+
+    void GlobalUniformBlock::set_window_size(int width, int height)
+    {
+        m_window_width = static_cast<float>(width);
+        m_window_height = static_cast<float>(height);
+    }
 
 
 

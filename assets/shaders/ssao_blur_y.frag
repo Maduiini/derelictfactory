@@ -7,9 +7,18 @@ uniform sampler2D tex_extra;
 uniform float offset[3] = float[](0.0, 1.3846153846, 3.2307692308);
 uniform float weight[3] = float[](0.2270270270, 0.3162162162, 0.0702702703);
 
-// todo: send window size from application
-uniform float width = 1024.0;
-uniform float height = 768.0;
+//uniform float width = 1024.0;
+//uniform float height = 768.0;
+
+layout(row_major) uniform Globals
+{
+    mat4 mat_proj;
+    mat4 mat_view;
+    vec3 camera_pos;
+    float time;
+    float window_width;
+    float window_height;
+};
 
 in vec2 tcoord;
 
@@ -21,7 +30,7 @@ void main()
 {
     float col = texture(tex_extra, tcoord).r * weight[0];
 
-    float inv_h = 1.0 / height;
+    float inv_h = 1.0 / window_height;
     for (int i=1; i<3; i++)
     {
         vec2 offs = vec2(0.0, offset[i] * inv_h);

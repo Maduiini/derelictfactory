@@ -102,10 +102,12 @@ namespace der
                 m_ready = m_graphics.init();
                 m_window.set_v_sync(m_config.m_v_sync);
 
-                m_renderer = new Renderer(&m_graphics, &m_resource_cache);
-
                 int width, height;
                 m_window.get_size(&width, &height);
+
+                m_renderer = new Renderer(&m_graphics, &m_resource_cache);
+                m_renderer->set_window_size(width, height);
+
                 m_post_processor = new PostProcessor();
                 m_post_processor->resize(width, height);
                 m_post_processor->add_effect(new SSAOEffect());
@@ -175,6 +177,7 @@ namespace der
                 m_graphics.set_viewport(0, 0, w, h);
                 m_scene->reshape(w, h);
                 m_post_processor->resize(w, h);
+                m_renderer->set_window_size(w, h);
             }
 
             m_gui->update(delta_time,

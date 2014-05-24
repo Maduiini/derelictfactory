@@ -19,7 +19,7 @@ layout (location = 2) out vec4 out_extra;
 
 void main()
 {
-    vec4 col = texture(tex_extra, tcoord) * weight[0];
+    float col = texture(tex_extra, tcoord).r * weight[0];
 
     float inv_w = 1.0 / width;
     for (int i=1; i<3; i++)
@@ -29,12 +29,13 @@ void main()
 //        col += texture(tex_extra, tcoord + offs).rgb * weight[i];
 //        col += texture(tex_extra, tcoord - offs).rgb * weight[i];
 
-        vec4 sample = texture(tex_extra, tcoord + offs);
-        sample += texture(tex_extra, tcoord - offs);
+        float sample = texture(tex_extra, tcoord + offs).r;
+        sample += texture(tex_extra, tcoord - offs).r;
 
         col += sample * weight[i];
     }
 
     out_color = texture(tex_color, tcoord);
-    out_extra = vec4(col.rgb, 1.0);
+    out_extra = texture(tex_extra, tcoord);
+    out_extra.r = col;
 }

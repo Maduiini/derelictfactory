@@ -47,6 +47,7 @@ in vec3 view_normal;
 
 layout (location = 0) out vec4 out_color;
 layout (location = 1) out vec4 out_normal;
+layout (location = 2) out vec4 out_extra;
 
 vec3 get_normal()
 {
@@ -131,7 +132,8 @@ void main()
     float lum = dot(color, vec3(1.0)) + 0.44 + r;
 
     out_color = vec4(gamma_correct(color, lum));
-//    out_normal = vec4(normalize(view_normal), 0.0);
+    //out_normal = vec4(normalize(view_normal), 0.0);
+    out_extra = vec4(0.0, 0.0, 0.0, 1.0);
 }
 
 

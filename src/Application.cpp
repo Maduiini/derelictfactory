@@ -13,6 +13,7 @@
 #include "renderer/ColorFrameBuffer.h"
 #include "renderer/PostProcessor.h"
 #include "renderer/SSAOEffect.h"
+#include "renderer/SunRaysEffect.h"
 
 #include "scene/Scene.h"
 #include "scene/GameObject.h"
@@ -110,6 +111,7 @@ namespace der
                 m_post_processor->add_effect(new SSAOEffect());
                 m_post_processor->add_effect(new SSAOBlurX());
                 m_post_processor->add_effect(new SSAOBlurY());
+                m_post_processor->add_effect(new SunRaysEffect());
             }
         }
         return is_ready();

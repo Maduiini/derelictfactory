@@ -30,7 +30,6 @@ float ssao(vec2 base_seed)
     const int samples = 8;
     const float inv_samples = 1.0 / float(samples);
     float sum = 0.0;
-//    return 1.0;
 
     vec3 random_vec3 = vec3( random(base_seed), random(base_seed + vec2(0.1, 0.2)), random(base_seed + vec2(0.3, 0.4)) );
     vec3 fres = normalize(random_vec3) * 2.0 - vec3(1.0);
@@ -165,5 +164,6 @@ void main()
     //out_color = vec4(texture(tex_color, tcoord).rgb * ao, 1.0);
 
     out_color = texture(tex_color, tcoord);
-    out_extra = vec4(ao, ao, ao, 1.0);
+    out_extra = texture(tex_extra, tcoord);
+    out_extra.r = ao;
 }

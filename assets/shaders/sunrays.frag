@@ -65,4 +65,5 @@ void main()
 {
     float ao = texture(tex_extra, tcoord).r;
     out_color = vec4(glow() * ao, 1.0);
+    out_normal = texture(tex_normal, tcoord);
 }

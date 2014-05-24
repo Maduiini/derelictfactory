@@ -76,6 +76,7 @@
 		<Unit filename="assets/shaders/common.glsl" />
 		<Unit filename="assets/shaders/default.frag" />
 		<Unit filename="assets/shaders/default.vert" />
+		<Unit filename="assets/shaders/depth_of_field.frag" />
 		<Unit filename="assets/shaders/glass.frag" />
 		<Unit filename="assets/shaders/gui.frag" />
 		<Unit filename="assets/shaders/gui.vert" />
@@ -138,6 +139,7 @@
 		<Unit filename="src/renderer/BufferObject.h" />
 		<Unit filename="src/renderer/ColorFrameBuffer.cpp" />
 		<Unit filename="src/renderer/ColorFrameBuffer.h" />
+		<Unit filename="src/renderer/DepthOfFieldEffect.h" />
 		<Unit filename="src/renderer/DepthOnlyFrameBuffer.cpp" />
 		<Unit filename="src/renderer/DepthOnlyFrameBuffer.h" />
 		<Unit filename="src/renderer/FrameBuffer.cpp" />

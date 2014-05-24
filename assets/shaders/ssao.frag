@@ -164,6 +164,7 @@ void main()
     //out_color = vec4(texture(tex_color, tcoord).rgb * ao, 1.0);
 
     out_color = texture(tex_color, tcoord);
+    out_normal = texture(tex_normal, tcoord);
     out_extra = texture(tex_extra, tcoord);
     out_extra.r = ao;
 }

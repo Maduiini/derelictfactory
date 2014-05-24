@@ -45,6 +45,7 @@ void main()
     }
 
     out_color = texture(tex_color, tcoord);
+    out_normal = texture(tex_normal, tcoord);
     out_extra = texture(tex_extra, tcoord);
     out_extra.r = col;
 }

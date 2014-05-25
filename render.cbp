@@ -51,6 +51,7 @@
 		<Unit filename="assets/materials/Color.material" />
 		<Unit filename="assets/materials/ConcreteFloor.material" />
 		<Unit filename="assets/materials/CoolingTower.material" />
+		<Unit filename="assets/materials/Crate.material" />
 		<Unit filename="assets/materials/FactoryRoof.material" />
 		<Unit filename="assets/materials/FactoryRoofSide.material" />
 		<Unit filename="assets/materials/Fence.material" />
@@ -61,6 +62,7 @@
 		<Unit filename="assets/materials/Gold.material" />
 		<Unit filename="assets/materials/Ground.material" />
 		<Unit filename="assets/materials/IBeam.material" />
+		<Unit filename="assets/materials/Pallet.material" />
 		<Unit filename="assets/materials/Puddle.material" />
 		<Unit filename="assets/materials/Rock.material" />
 		<Unit filename="assets/materials/Rust.material" />

@@ -120,8 +120,8 @@ namespace der
         void set_light_matrix(const Matrix4 &light_mat);
 
     private:
-        unsigned int m_light_count;
         Matrix4 m_light_mat;
+        unsigned int m_light_count;
         struct LightData
         {
             Vector4 position;      // Position(w=1) or direction(w=0)

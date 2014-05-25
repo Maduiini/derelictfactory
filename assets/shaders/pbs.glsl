@@ -256,7 +256,7 @@ float shadowmap()
     float normal_factor = smoothstep(0.0, 1.0, NoL) * 0.05;
     vec3 pos = position + normal * normal_factor;
     vec4 coord = mat_light * vec4(pos, 1.0);
-    coord.z -= 0.001;
+    coord.z -= 0.002;
     return textureProj(tex_shadowmap, coord);
 }
 
@@ -265,18 +265,19 @@ vec3 lighting(const vec3 c_diff, const vec3 c_spec, const vec3 N, const vec3 V, 
     vec3 color = vec3(0.0);
 
     color = light(0, c_diff, c_spec, N, V, roughness) * shadowmap();
-    for (int i = 1; i < light_count; i++)
-    {
-        color += light(i, c_diff, c_spec, N, V, roughness);
-    }
+//    for (int i = 1; i < light_count; i++)
+//    {
+//        color += light(i, c_diff, c_spec, N, V, roughness);
+//    }
+
 //    color += light(0, c_diff, c_spec, N, V, roughness);
-//    color += light(1, c_diff, c_spec, N, V, roughness);
-//    color += light(2, c_diff, c_spec, N, V, roughness);
-//    color += light(3, c_diff, c_spec, N, V, roughness);
-//    color += light(4, c_diff, c_spec, N, V, roughness);
-//    color += light(5, c_diff, c_spec, N, V, roughness);
-//    color += light(6, c_diff, c_spec, N, V, roughness);
-//    color += light(7, c_diff, c_spec, N, V, roughness);
+    color += light(1, c_diff, c_spec, N, V, roughness);
+    color += light(2, c_diff, c_spec, N, V, roughness);
+    color += light(3, c_diff, c_spec, N, V, roughness);
+    color += light(4, c_diff, c_spec, N, V, roughness);
+    color += light(5, c_diff, c_spec, N, V, roughness);
+    color += light(6, c_diff, c_spec, N, V, roughness);
+    color += light(7, c_diff, c_spec, N, V, roughness);
 //    color += light(8, c_diff, c_spec, N, V, roughness);
 //    color += light(9, c_diff, c_spec, N, V, roughness);
 //    color += light(10, c_diff, c_spec, N, V, roughness);

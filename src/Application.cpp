@@ -328,10 +328,7 @@ namespace der
         int w, h;
         m_window.get_size(&w, &h);
 
-//        if (m_queued_render)
-            m_scene_renderer->update_shadowmap(m_renderer, &m_graphics);
-//        else
-//            m_scene_renderer->update_shadowmap_immediate(renderer);
+        m_scene_renderer->update_shadowmap(m_renderer, &m_graphics);
         FrameBuffer::set_viewport(w, h);
 
         m_post_processor->begin_scene();

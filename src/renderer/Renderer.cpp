@@ -203,6 +203,7 @@ namespace der
 //        std::sort(m_blend_commands.begin(), m_blend_commands.end(), blend_cmd_cmp);
 
         bind_global_uniforms();
+
         for (RenderCommand &command : m_commands)
         {
             render_command_depth(command);
@@ -257,8 +258,8 @@ namespace der
         m_instance_uniforms->set_model_mat(command.model_mat);
         m_instance_uniforms->bind_uniforms();
 
-        m_light_uniforms->set_light_count(0);
-        m_light_uniforms->bind_uniforms();
+//        m_light_uniforms->set_light_count(0);
+//        m_light_uniforms->bind_uniforms();
 
         command.vao->bind();
 

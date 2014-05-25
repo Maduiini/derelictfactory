@@ -28,7 +28,8 @@ namespace der
         , m_debug_draw(false)
         , m_visible_object_count(0)
     {
-        m_sm_buffer = new DepthOnlyFrameBuffer(2048);
+//        m_sm_buffer = new DepthOnlyFrameBuffer(2048);
+        m_sm_buffer = new DepthOnlyFrameBuffer(4096);
         m_qt_renderer = new QuadTreeRenderer();
     }
 

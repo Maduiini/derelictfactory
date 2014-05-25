@@ -31,6 +31,9 @@ namespace der
         void set_depth_enabled(bool enabled);
         bool is_depth_enabled() const;
 
+        void set_color_enabled(bool enabled);
+        bool is_color_enabled() const;
+
         void set_blend_enabled(bool enabled);
         bool is_blend_enabled() const;
 
@@ -70,6 +73,7 @@ namespace der
         struct State
         {
             bool m_depth_enabled;
+            bool m_color_enabled;
             bool m_blend_enabled;
             CullMode m_cull_mode;
             TextureUnit m_texture_units[MAX_TEXTURE_UNITS];

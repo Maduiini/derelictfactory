@@ -35,4 +35,10 @@ namespace der
         ::glDrawBuffers(1, draw_buffers);
     }
 
+    //static
+    void FrameBuffer::set_viewport(int width, int height)
+    {
+        ::glViewport(0, 0, width, height);
+    }
+
 }

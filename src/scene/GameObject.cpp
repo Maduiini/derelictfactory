@@ -129,6 +129,9 @@ namespace der
     Light* GameObject::get_light()
     { return m_light; }
 
+    const Light* GameObject::get_light() const
+    { return m_light; }
+
     // Transform
 
     void GameObject::set_position(const Vector3 &position)
@@ -215,11 +218,13 @@ namespace der
     }
 
     Aabb GameObject::get_bounding_box() const
-//    { return m_bounding_box + m_position; }
     {
         Aabb aabb(m_bounding_box);
         aabb.transform(get_world_matrix());
         return aabb;
     }
+
+    Aabb GameObject::get_local_bounding_box() const
+    { return m_bounding_box; }
 
 } // der

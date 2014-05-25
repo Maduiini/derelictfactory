@@ -41,6 +41,31 @@ namespace der
         m_planes[Bottom] = make_plane(near_center, pos, -up_half, -right);
     }
 
+    //static
+    void Frustum::get_points(Vector3 (&pts)[5], const Matrix4 &world_mat,
+                             float fov, float aspect, float near, float far)
+    {
+        Vector3 right, up, forward;
+        world_mat.get_basis(right, up, forward);
+
+        Vector3 pos, scale;
+        Matrix3 rot;
+        world_mat.decompose(pos, rot, scale);
+
+        const float tan_half_fov_y = std::tan(0.5f * fov);
+        const float far_h = tan_half_fov_y * far;
+
+        const Vector3 far_center  = pos + forward * far;
+        const Vector3 right_half  = right * far_h * aspect;
+        const Vector3 up_half     = up * far_h;
+
+        pts[0] = pos;
+        pts[1] = far_center + right_half + up_half;
+        pts[2] = far_center + right_half - up_half;
+        pts[3] = far_center - right_half + up_half;
+        pts[4] = far_center - right_half - up_half;
+    }
+
     static void normalize_plane(Vector4 &plane)
     {
         const float len = plane.xyz().length();
@@ -84,64 +109,6 @@ namespace der
         m_planes[Top].z = view_proj.m43 + view_proj.m23;
         m_planes[Top].w = view_proj.m44 + view_proj.m24;
         normalize_plane(m_planes[Top]);
-
-
-
-
-//        Vector3 near(view_proj.m41 + view_proj.m31,
-//                     view_proj.m42 + view_proj.m32,
-//                     view_proj.m43 + view_proj.m33);
-//        const float l = near.length();
-//        near.normalize();
-//        m_planes[Near].x = near.x;
-//        m_planes[Near].y = near.y;
-//        m_planes[Near].z = near.z;
-//        m_planes[Near].w = (view_proj.m44 + view_proj.m34) / l;
-//
-//        Vector3 far(view_proj.m41 - view_proj.m31,
-//                     view_proj.m42 - view_proj.m32,
-//                     view_proj.m43 - view_proj.m33);
-//        far.normalize();
-//        m_planes[Far].x = far.x;
-//        m_planes[Far].y = far.y;
-//        m_planes[Far].z = far.z;
-//        m_planes[Far].w = view_proj.m44 - view_proj.m34;
-//
-//        Vector3 left(view_proj.m41 + view_proj.m11,
-//                     view_proj.m42 + view_proj.m12,
-//                     view_proj.m43 + view_proj.m13);
-//        left.normalize();
-//        m_planes[Left].x = left.x;
-//        m_planes[Left].y = left.y;
-//        m_planes[Left].z = left.z;
-//        m_planes[Left].w = view_proj.m44 + view_proj.m14;
-//
-//        Vector3 right(view_proj.m41 - view_proj.m11,
-//                     view_proj.m42 - view_proj.m12,
-//                     view_proj.m43 - view_proj.m13);
-//        right.normalize();
-//        m_planes[Right].x = right.x;
-//        m_planes[Right].y = right.y;
-//        m_planes[Right].z = right.z;
-//        m_planes[Right].w = view_proj.m44 - view_proj.m14;
-//
-//        Vector3 bottom(view_proj.m41 + view_proj.m21,
-//                     view_proj.m42 + view_proj.m22,
-//                     view_proj.m43 + view_proj.m23);
-//        bottom.normalize();
-//        m_planes[Bottom].x = bottom.x;
-//        m_planes[Bottom].y = bottom.y;
-//        m_planes[Bottom].z = bottom.z;
-//        m_planes[Bottom].w = view_proj.m44 + view_proj.m24;
-//
-//        Vector3 top(view_proj.m41 - view_proj.m21,
-//                     view_proj.m42 - view_proj.m22,
-//                     view_proj.m43 - view_proj.m23);
-//        top.normalize();
-//        m_planes[Top].x = top.x;
-//        m_planes[Top].y = top.y;
-//        m_planes[Top].z = top.z;
-//        m_planes[Top].w = view_proj.m44 - view_proj.m24;
     }
 
     bool Frustum::intersects_sphere(const Vector3 &position, const float radius) const

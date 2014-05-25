@@ -53,4 +53,9 @@ namespace der
         ::glDrawBuffers(3, draw_buffers);
     }
 
+    void ColorFrameBuffer::set_viewport()
+    {
+        ::glViewport(0, 0, m_width, m_height);
+    }
+
 } // der

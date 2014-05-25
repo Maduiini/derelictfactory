@@ -62,10 +62,11 @@ namespace der
 
         DER_ASSERT(m_primary_buffer);
         m_primary_buffer->bind();
+        m_primary_buffer->set_viewport();
 //        m_primary_buffer->set_draw_buffers();
     }
 
-    void PostProcessor::post_process(Graphics *graphics, ResourceCache &cache)
+    void PostProcessor::post_process(Graphics *graphics, ResourceCache &cache, int width, int height)
     {
         if (!m_enabled)
             return;
@@ -79,10 +80,12 @@ namespace der
             {
                 // This is the last effect, bind the default buffer
                 FrameBuffer::bind_default_buffer();
+                FrameBuffer::set_viewport(width, height);
             }
             else
             {
                 m_primary_buffer->bind();
+                m_primary_buffer->set_viewport();
 //                m_primary_buffer->set_draw_buffers();
             }
 

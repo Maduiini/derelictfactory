@@ -26,7 +26,7 @@ namespace der
 
         void begin_scene();
 
-        void post_process(Graphics *graphics, ResourceCache &cache);
+        void post_process(Graphics *graphics, ResourceCache &cache, int width, int height);
 
         void set_enabled(const bool enabled)
         { m_enabled = enabled; }

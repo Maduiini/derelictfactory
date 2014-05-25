@@ -54,6 +54,7 @@ namespace der
     Renderer::Renderer(Graphics *graphics, ResourceCache *cache)
         : m_graphics(graphics)
         , m_cache(cache)
+        , m_shadowmap(nullptr)
     {
         m_commands.reserve(1000);
         m_blend_commands.reserve(1000);
@@ -115,6 +116,10 @@ namespace der
     void Renderer::set_light_spot_angle(size_t light, float spot_angle)
     { m_command.lights[light].spot_angle = spot_angle; }
 
+    void Renderer::set_light_matrix(const Matrix4 &light_mat)
+    { m_light_uniforms->set_light_matrix(light_mat); }
+//    { m_global_uniforms->set_light_matrix(light_mat); }
+
 
     void Renderer::set_material(ResourceID material_id)
     { m_command.material = m_cache->get<Material>(material_id); }
@@ -136,8 +141,8 @@ namespace der
     {
         if (m_command.material)
         {
-            size_t i = LightUniformBlock::MAX_LIGHTS - 1;
-            for (; i >= m_command.light_count; i--)
+            size_t i = m_command.light_count;
+            for (; i < LightUniformBlock::MAX_LIGHTS; i++)
                 m_command.lights[i].radius = 0.0f;
 
             if (m_command.material->is_blending_enabled())
@@ -145,6 +150,16 @@ namespace der
             else
                 m_commands.push_back(m_command);
         }
+    }
+
+    void Renderer::set_shadowmap(DepthTexture *shadowmap)
+    { m_shadowmap = shadowmap; }
+
+    bool Renderer::current_casts_shadows() const
+    {
+        if (m_command.material)
+            return m_command.material->casts_shadows();
+        return false;
     }
 
     void Renderer::bind_global_uniforms()
@@ -180,6 +195,27 @@ namespace der
         m_blend_commands.clear();
     }
 
+    void Renderer::render_depth()
+    {
+        std::sort(m_commands.begin(), m_commands.end(), command_cmp);
+//        std::sort(m_commands.begin(), m_commands.end(), cmd_cmp);
+//        const command_cmp_struct blend_cmd_cmp(m_global_uniforms->get_camera_pos());
+//        std::sort(m_blend_commands.begin(), m_blend_commands.end(), blend_cmd_cmp);
+
+        bind_global_uniforms();
+        for (RenderCommand &command : m_commands)
+        {
+            render_command_depth(command);
+        }
+//        for (RenderCommand &command : m_blend_commands)
+//        {
+//            render_command(command);
+//        }
+
+        m_commands.clear();
+        m_blend_commands.clear();
+    }
+
     void Renderer::render_command(RenderCommand &command)
     {
         m_instance_uniforms->set_model_mat(command.model_mat);
@@ -201,8 +237,34 @@ namespace der
 
         command.vao->bind();
 
-        command.material->use(m_graphics, m_cache);
+        command.material->use(m_graphics, m_cache, m_shadowmap);
         m_graphics->update_state();
+        if (command.index_buffer)
+        {
+            command.index_buffer->bind();
+            m_graphics->draw_primitives(command.prim_type, command.index_buffer,
+                                        command.start_index, command.index_count);
+        }
+        else
+        {
+            m_graphics->draw_primitives(command.prim_type,
+                                        command.start_index, command.index_count);
+        }
+    }
+
+    void Renderer::render_command_depth(RenderCommand &command)
+    {
+        m_instance_uniforms->set_model_mat(command.model_mat);
+        m_instance_uniforms->bind_uniforms();
+
+        m_light_uniforms->set_light_count(0);
+        m_light_uniforms->bind_uniforms();
+
+        command.vao->bind();
+
+        command.material->use_depth(m_graphics, m_cache);
+        m_graphics->update_state();
+
         if (command.index_buffer)
         {
             command.index_buffer->bind();

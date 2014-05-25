@@ -47,7 +47,7 @@ namespace der
     public:
         DepthTexture();
 
-        void TexImage(int w, int h, const void *data);
+        void TexImage(int w, int h);
     };
 
 } // der

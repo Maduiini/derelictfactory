@@ -20,6 +20,7 @@ namespace der
         virtual void set_draw_buffers() = 0;
 
         static void bind_default_buffer();
+        static void set_viewport(int width, int height);
 
     protected:
         GLuint m_framebuffer;

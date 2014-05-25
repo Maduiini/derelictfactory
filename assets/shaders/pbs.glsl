@@ -1,4 +1,25 @@
 
+uniform sampler2D tex_env_brdf;
+uniform sampler2DShadow tex_shadowmap;
+
+
+struct Light
+{
+    vec4 position;      // Position(w=1) or direction(w=0)
+    vec4 direction;     // xyz = direction, w = cos(spot_angle)
+    vec4 color_energy;  // rgb = color, w = energy
+    float radius;
+};
+
+#define MAX_LIGHTS 16
+layout(row_major) uniform Lights
+{
+    mat4 mat_light;
+    int light_count;
+    Light lights[MAX_LIGHTS];
+};
+
+
 // Physically based shading
 
 
@@ -193,4 +214,78 @@ vec3 IBL(const vec3 c_diff, const vec3 c_spec, const vec3 N, const vec3 V, const
 {
     return approx_IBL(c_diff, c_spec, N, V, roughness);
 //    return adhoc_IBL(c_diff, c_spec, N, V, roughness);
+}
+
+// Lighting
+
+vec3 light(const int i, const vec3 c_diff, const vec3 c_spec, const vec3 N, const vec3 V, const float roughness)
+{
+    vec4 pos = lights[i].position;
+    vec4 dir = lights[i].direction;
+    vec3 L = mix(dir.xyz, normalize(pos.xyz - position), pos.w);
+
+    float r = lights[i].radius;
+    float cos_spot = dir.w;
+
+    float NoL = dot(N, L);
+    float spot_f = dot(dir.xyz, L);
+    spot_f = smoothstep(cos_spot-0.02, cos_spot+0.002, spot_f);
+    spot_f = mix(1.0, spot_f, cos_spot > 0.0);
+
+    if (NoL * r * spot_f <= 0.0) return vec3(0.0);
+
+    float dist = distance(pos.xyz, position);
+
+//    const float df = 0.05;
+    const float df = 0.5;
+//    const float df = 1.0;
+    float dist2 = dist * dist * df;
+    float x = dist2 / (r * r); // * df);
+    float v = max(1.0 - x * x, 0.0);
+    float attenuation = mix(1.0, (v * v) / (dist2 + 0.5), pos.w);
+    attenuation *= spot_f;
+
+    vec3 color = BRDF(c_diff, c_spec, N, L, V, roughness);
+    vec4 lcolor = lights[i].color_energy;
+    return color * lcolor.rgb * lcolor.w * attenuation;
+}
+
+float shadowmap()
+{
+    float NoL = dot(normal, lights[0].direction.xyz);
+    float normal_factor = smoothstep(0.0, 1.0, NoL) * 0.05;
+    vec3 pos = position + normal * normal_factor;
+    vec4 coord = mat_light * vec4(pos, 1.0);
+    coord.z -= 0.001;
+    return textureProj(tex_shadowmap, coord);
+}
+
+vec3 lighting(const vec3 c_diff, const vec3 c_spec, const vec3 N, const vec3 V, const float roughness)
+{
+    vec3 color = vec3(0.0);
+
+    color = light(0, c_diff, c_spec, N, V, roughness) * shadowmap();
+    for (int i = 1; i < light_count; i++)
+    {
+        color += light(i, c_diff, c_spec, N, V, roughness);
+    }
+//    color += light(0, c_diff, c_spec, N, V, roughness);
+//    color += light(1, c_diff, c_spec, N, V, roughness);
+//    color += light(2, c_diff, c_spec, N, V, roughness);
+//    color += light(3, c_diff, c_spec, N, V, roughness);
+//    color += light(4, c_diff, c_spec, N, V, roughness);
+//    color += light(5, c_diff, c_spec, N, V, roughness);
+//    color += light(6, c_diff, c_spec, N, V, roughness);
+//    color += light(7, c_diff, c_spec, N, V, roughness);
+//    color += light(8, c_diff, c_spec, N, V, roughness);
+//    color += light(9, c_diff, c_spec, N, V, roughness);
+//    color += light(10, c_diff, c_spec, N, V, roughness);
+//    color += light(11, c_diff, c_spec, N, V, roughness);
+//    color += light(12, c_diff, c_spec, N, V, roughness);
+//    color += light(13, c_diff, c_spec, N, V, roughness);
+//    color += light(14, c_diff, c_spec, N, V, roughness);
+//    color += light(15, c_diff, c_spec, N, V, roughness);
+
+    color += IBL(c_diff, c_spec, N, V, roughness);
+    return color;
 }

@@ -21,15 +21,21 @@ namespace der
         void render_immediate(Renderer *rendere, ResourceCache *cache);
         void render(Renderer *renderer, ResourceCache *cache);
 
+        void render_depth(Renderer *renderer, ResourceCache *cache);
+
         void set_mesh(ResourceID mesh);
         ResourceID get_mesh() const;
 
         void set_material(ResourceID material);
         ResourceID get_material() const;
 
+        bool casts_shadows() const;
+
     private:
         ResourceID m_mesh;
         ResourceID m_override_material;
+
+        bool m_casts_shadows;
     };
 
 } // der

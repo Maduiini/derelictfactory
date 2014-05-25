@@ -51,6 +51,9 @@ namespace der
         void set_camera_object(GameObjectID id);
         GameObject *get_camera_object();
 
+        /// Gets the first directional light.
+        GameObject *get_sun();
+
         QuadTree* get_quad_tree();
 
         void set_source(const std::string &scene_source);
@@ -63,6 +66,7 @@ namespace der
         GameObjectID m_next_id;
 
         GameObjectID m_camera_object_id;
+        GameObjectID m_sun_object_id;
 
         QuadTree *m_quad_tree;
 

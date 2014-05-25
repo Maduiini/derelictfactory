@@ -79,12 +79,12 @@ namespace der
 
         void add_point(float x, float y, float z)
         {
-            m_min.x = (x < m_min.x) ? x: m_min.x;
-            m_min.y = (y < m_min.y) ? y: m_min.y;
-            m_min.z = (z < m_min.z) ? z: m_min.z;
-            m_max.x = (x > m_max.x) ? x: m_max.x;
-            m_max.y = (y > m_max.y) ? y: m_max.y;
-            m_max.z = (z > m_max.z) ? z: m_max.z;
+            m_min.x = (x < m_min.x) ? x : m_min.x;
+            m_min.y = (y < m_min.y) ? y : m_min.y;
+            m_min.z = (z < m_min.z) ? z : m_min.z;
+            m_max.x = (x > m_max.x) ? x : m_max.x;
+            m_max.y = (y > m_max.y) ? y : m_max.y;
+            m_max.z = (z > m_max.z) ? z : m_max.z;
         }
 
         Vector3 get_size() const

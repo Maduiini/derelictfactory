@@ -13,6 +13,7 @@ namespace der
         : m_gameobjects()
         , m_next_id(0)
         , m_camera_object_id(InvalidID)
+        , m_sun_object_id(InvalidID)
         , m_quad_tree(nullptr)
         , m_scene_source()
     {
@@ -48,7 +49,6 @@ namespace der
         {
             m_quad_tree->update_object(object);
         }
-
     }
 
 
@@ -99,13 +99,19 @@ namespace der
             if (light)
             {
                 const float r = light->get_radius();
-                if (light->get_type() == LightType::Directional)
+                switch (light->get_type())
                 {
+                case LightType::Directional:
                     objects.insert(objects.begin(), object);
-                }
-                else if (aabb.intersects_sphere(object->get_position(), r))
-                {
-                    objects.push_back(object);
+                    break;
+
+                case LightType::Point:
+                case LightType::Spot:
+                    if (aabb.intersects_sphere(object->get_position(), r))
+                    {
+                        objects.push_back(object);
+                    }
+                    break;
                 }
             }
         }
@@ -161,6 +167,7 @@ namespace der
         m_gameobjects.clear();
         m_gameobject_map.clear();
         m_camera_object_id = InvalidID;
+        m_sun_object_id = InvalidID;
     }
 
     void Scene::set_camera_object(GameObjectID id)
@@ -168,6 +175,25 @@ namespace der
 
     GameObject* Scene::get_camera_object()
     { return get_object_by_id(m_camera_object_id); }
+
+    GameObject* Scene::get_sun()
+    {
+        if (m_sun_object_id == InvalidID)
+        {
+            auto it = m_gameobjects.begin();
+            for (; it != m_gameobjects.end(); ++it)
+            {
+                GameObject *obj = *it;
+                Light *light = obj->get_light();
+                if (light && light->get_type() == LightType::Directional)
+                {
+                    m_sun_object_id = obj->getID();
+                    break;
+                }
+            }
+        }
+        return get_object_by_id(m_sun_object_id);
+    }
 
     QuadTree* Scene::get_quad_tree()
     { return m_quad_tree; }

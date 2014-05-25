@@ -79,6 +79,8 @@ namespace der
 
         /// Returns the basis vectors of the rotation part.
         void get_basis(Vector3 &right, Vector3 &up,  Vector3 & forward) const;
+        /// Sets the rotation matrix from basis vectors.
+        void from_basis(const Vector3 &right, const Vector3 &up, const Vector3 &forward);
 
         /// Returns the translation vector of the transform matrix.
         Vector3 get_translation() const;
@@ -358,6 +360,8 @@ namespace der
 
         /// Returns the basis vectors of the rotation part.
         void get_basis(Vector3 &right, Vector3 &up,  Vector3 & forward) const;
+        /// Sets the rotation matrix from basis vectors.
+        void from_basis(const Vector3 &right, const Vector3 &up, const Vector3 &forward);
 
         /// Returns the translation vector of the transform matrix.
         Vector3 get_translation() const;

@@ -29,6 +29,7 @@ namespace der
         Matrix4 get_projection() const;
 
         Frustum construct_frustum(const Matrix4 &world_mat) const;
+        void get_frustum_points(Vector3 (&pts)[5], const Matrix4 &world_mat) const;
         Frustum extract_frustum(const Matrix4 &view_proj) const;
 
     private:

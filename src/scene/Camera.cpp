@@ -68,4 +68,9 @@ namespace der
         return frustum;
     }
 
+    void Camera::get_frustum_points(Vector3 (&pts)[5], const Matrix4 &world_mat) const
+    {
+        Frustum::get_points(pts, world_mat, m_fov, m_aspect, m_near, m_far);
+    }
+
 } // der

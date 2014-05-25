@@ -58,17 +58,22 @@ namespace der
         : Texture(GL_TEXTURE_2D)
     { }
 
-    void DepthTexture::TexImage(int w, int h, const void *data)
+    void DepthTexture::TexImage(int w, int h)
     {
         ::glActiveTexture(GL_TEXTURE0);
         ::glBindTexture(m_target, m_tex_id);
 
-        ::glTexParameteri(m_target, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        ::glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+//        ::glTexParameteri(m_target, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+//        ::glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        ::glTexParameteri(m_target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        ::glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         ::glTexParameteri(m_target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         ::glTexParameteri(m_target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        ::glTexParameteri(m_target, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
+        ::glTexParameteri(m_target, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
 
-        ::glTexImage2D(m_target, 0, GL_DEPTH_COMPONENT, w, h, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, data);
+//        ::glTexImage2D(m_target, 0, GL_DEPTH_COMPONENT, w, h, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, data);
+        ::glTexImage2D(m_target, 0, GL_DEPTH_COMPONENT32, w, h, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, nullptr);
     }
 
 } // der

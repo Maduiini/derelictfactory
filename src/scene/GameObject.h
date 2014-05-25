@@ -54,6 +54,7 @@ namespace der
 
         void set_light(Light *light);
         Light* get_light();
+        const Light* get_light() const;
 
 
         void set_position(const Vector3 &position);
@@ -78,6 +79,7 @@ namespace der
         void update_bounding_box(ResourceCache *cache);
 
         Aabb get_bounding_box() const;
+        Aabb get_local_bounding_box() const;
 
     private:
         GameObject(const GameObjectID id);

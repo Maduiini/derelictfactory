@@ -65,6 +65,7 @@ namespace der
         , m_ready(false)
         , m_queued_render(true)
     {
+        log::set_level(log::LEVEL_TRACE);
 //        m_config.read("config.conf");
 
         ::glfwSetErrorCallback(&glfw_error_callback);
@@ -324,6 +325,15 @@ namespace der
     {
         m_graphics.reset_state_changes();
 
+        int w, h;
+        m_window.get_size(&w, &h);
+
+//        if (m_queued_render)
+            m_scene_renderer->update_shadowmap(m_renderer, &m_graphics);
+//        else
+//            m_scene_renderer->update_shadowmap_immediate(renderer);
+        FrameBuffer::set_viewport(w, h);
+
         m_post_processor->begin_scene();
         m_graphics.clear();
 
@@ -332,7 +342,7 @@ namespace der
         else
             m_scene_renderer->render_immediate(m_renderer);
 
-        m_post_processor->post_process(&m_graphics, m_resource_cache);
+        m_post_processor->post_process(&m_graphics, m_resource_cache, w, h);
 
         m_gui_renderer->render(&m_graphics, m_resource_cache);
 

@@ -27,6 +27,9 @@ namespace der
         /// Constructs the frustum from transform and perspective projection parameters.
         void construct(const Matrix4 &world_mat, float fov, float aspect, float near, float far);
 
+        static void get_points(Vector3 (&pts)[5], const Matrix4 &world_mat,
+                               float fov, float aspect, float near, float far);
+
         void extract(const Matrix4 &view_proj);
 
         bool intersects_sphere(const Vector3 &position, const float radius) const;

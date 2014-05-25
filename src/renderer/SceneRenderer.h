@@ -4,6 +4,8 @@
 
 #include "../Types.h"
 
+#include <vector>
+
 namespace der
 {
 
@@ -13,6 +15,7 @@ namespace der
     class ResourceCache;
 
     class Scene;
+    class GameObject;
 
     class Renderer;
     class Graphics;
@@ -20,6 +23,7 @@ namespace der
     class InstanceUniformBlock;
     class LightUniformBlock;
     class ParamUniformBlock;
+    class DepthOnlyFrameBuffer;
 
     class QuadTreeRenderer;
 
@@ -31,6 +35,8 @@ namespace der
 
         void render_immediate(Renderer *renderer);
         void render(Renderer *renderer);
+
+        void update_shadowmap(Renderer *renderer, Graphics *graphics);
 
         void set_time(float time);
         void set_normalmap_influence(float value);
@@ -48,9 +54,13 @@ namespace der
     private:
         void set_lights(Renderer *renderer, const Aabb &aabb);
 
+        void get_objects_in_view(std::vector<GameObject*> &objects);
+
     private:
         Scene *m_scene;
         ResourceCache *m_cache;
+
+        DepthOnlyFrameBuffer *m_sm_buffer;
 
         float m_time;
         float m_nm_influence;

@@ -30,6 +30,26 @@ namespace der
         forward.z = m33;
     }
 
+    void Matrix4::from_basis(const Vector3 &right, const Vector3 &up, const Vector3 &forward)
+    {
+        m11= right.x;
+        m21 = right.y;
+        m31 = right.z;
+        m41 = 0.0f;
+        m12 = up.x;
+        m22 = up.y;
+        m32 = up.z;
+        m42 = 0.0f;
+        m13 = forward.x;
+        m23 = forward.y;
+        m33 = forward.z;
+        m43 = 0.0f;
+        m14 = 0.0f;
+        m24 = 0.0f;
+        m34 = 0.0f;
+        m44 = 1.0f;
+    }
+
     Vector3 Matrix4::get_translation() const
     { return Vector3(m14, m24, m34); }
 
@@ -113,6 +133,22 @@ namespace der
         forward.x = m13;
         forward.y = m23;
         forward.z = m33;
+    }
+
+    void Matrix3x4::from_basis(const Vector3 &right, const Vector3 &up, const Vector3 &forward)
+    {
+        m11= right.x;
+        m21 = right.y;
+        m31 = right.z;
+        m12 = up.x;
+        m22 = up.y;
+        m32 = up.z;
+        m13 = forward.x;
+        m23 = forward.y;
+        m33 = forward.z;
+        m14 = 0.0f;
+        m24 = 0.0f;
+        m34 = 0.0f;
     }
 
     Vector3 Matrix3x4::get_translation() const

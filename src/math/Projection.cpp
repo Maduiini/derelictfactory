@@ -54,9 +54,14 @@ namespace der
         const float h = top - bottom;
         const float d = far - near;
 
-        const float tx = -(right + left) / w;
-        const float ty = -(top + bottom) / h;
-        const float tz = -(far + near) / d;
+        const float tx = (right + left) / -w;
+        const float ty = (top + bottom) / -h;
+        const float tz = near / -d;
+
+//        2/(r-l)      0            0           0
+//        0            2/(t-b)      0           0
+//        0            0            1/(zf-zn)   0
+//        (l+r)/(l-r)  (t+b)/(b-t)  zn/(zn-zf)  1
 
         return Matrix4(
             2.0f / w, 0.0f,     0.0f,     tx,

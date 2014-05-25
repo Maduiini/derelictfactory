@@ -20,6 +20,8 @@ namespace der
             material->set_cull_mode(CullMode::None);
         else if (option == "blending")
             material->set_blending_enabled(true);
+        else if (option == "cast_no_shadows")
+            material->set_casts_shadows(false);
     }
 
     Material* MaterialCache::load(const char * const filepath, InputFileList &dependencies)

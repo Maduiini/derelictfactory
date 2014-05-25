@@ -21,6 +21,7 @@ namespace der
     class Material;
     class VertexArrayObject;
     class IndexBuffer;
+    class DepthTexture;
 
     class GlobalUniformBlock;
     class InstanceUniformBlock;
@@ -75,19 +76,27 @@ namespace der
         void set_light_radius(size_t light, float radius);
         void set_light_spot_angle(size_t light, float spot_angle);
 
+        void set_light_matrix(const Matrix4 &light_mat);
+
         void set_material(ResourceID material_id);
         void set_vao(VertexArrayObject *vao);
         void set_primitive_type(PrimitiveType prim_type);
         void set_indices(IndexBuffer *ib, size_t start_index, size_t index_count);
         void emit_command();
 
+        void set_shadowmap(DepthTexture *shadowmap);
+        bool current_casts_shadows() const;
+
         void bind_global_uniforms();
         void render_command();
 
         void render();
+        void render_depth();
+
 
     private:
         void render_command(RenderCommand &command);
+        void render_command_depth(RenderCommand &command);
 
     private:
         Graphics *m_graphics;
@@ -101,6 +110,8 @@ namespace der
         InstanceUniformBlock *  m_instance_uniforms;
         LightUniformBlock *     m_light_uniforms;
         ParamUniformBlock *     m_param_uniforms;
+
+        DepthTexture *m_shadowmap;
 
     };
 

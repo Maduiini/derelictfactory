@@ -242,6 +242,7 @@ namespace der
         : UniformBuffer(BindingPoint)
         , m_light_count(0)
     {
+        add_mat4(m_light_mat);
         add_uint(m_light_count);
         for (size_t i = 0; i < MAX_LIGHTS; i++)
         {
@@ -277,6 +278,9 @@ namespace der
 
     void LightUniformBlock::set_cos_spot_angle(size_t light, float cos_spot_angle)
     { m_lights[light].direction.w = cos_spot_angle; }
+
+    void LightUniformBlock::set_light_matrix(const Matrix4 &light_mat)
+    { m_light_mat = light_mat; }
 
 
 

@@ -87,6 +87,8 @@
 		<Unit filename="assets/shaders/postprocess.vert" />
 		<Unit filename="assets/shaders/skybox.frag" />
 		<Unit filename="assets/shaders/skybox.vert" />
+		<Unit filename="assets/shaders/sm_depth.frag" />
+		<Unit filename="assets/shaders/sm_depth.vert" />
 		<Unit filename="assets/shaders/ssao.frag" />
 		<Unit filename="assets/shaders/ssao_blur_x.frag" />
 		<Unit filename="assets/shaders/ssao_blur_y.frag" />

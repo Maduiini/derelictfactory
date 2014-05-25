@@ -21,6 +21,8 @@ namespace der
         bool init();
 
         void clear();
+        void clear_color();
+        void clear_depth();
         void set_viewport(int x, int y, int width, int height);
 
         void reset_state();

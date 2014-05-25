@@ -5,6 +5,8 @@ Ground/Gravel_N.tga
 Ground/Test_Layer_Mask.tga
 Param_0.tga
 Skybox.cube
+-cast_no_shadows
+
 Skybox/Citadella.cube
 Test_cube_map.cube
 

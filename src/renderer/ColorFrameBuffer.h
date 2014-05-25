@@ -24,6 +24,8 @@ namespace der
         Texture2D* get_extra_texture()
         { return &m_extra_texture; }
 
+        void set_viewport();
+
     private:
         void initialize_texture(GLenum position, Texture *texture);
 

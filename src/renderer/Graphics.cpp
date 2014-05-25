@@ -97,6 +97,16 @@ namespace der
         ::glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
+    void Graphics::clear_color()
+    {
+        ::glClear(GL_COLOR_BUFFER_BIT);
+    }
+
+    void Graphics::clear_depth()
+    {
+        ::glClear(GL_DEPTH_BUFFER_BIT);
+    }
+
     void Graphics::reset_state()
     {
         m_current.m_depth_enabled = true;

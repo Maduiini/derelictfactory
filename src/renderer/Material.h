@@ -12,6 +12,7 @@ namespace der
     class ResourceCache;
 
     class Program;
+    class DepthTexture;
 
     class Material
     {
@@ -42,14 +43,21 @@ namespace der
         void set_blending_enabled(bool enabled);
         bool is_blending_enabled() const;
 
-        void use(Graphics *graphics, ResourceCache *cache);
+        void set_casts_shadows(bool casts);
+        bool casts_shadows() const;
+
+        void use(Graphics *graphics, ResourceCache *cache, DepthTexture *shadowmap);
+        void use_depth(Graphics *graphics, ResourceCache *cache);
 
     private:
         void update_program(Program *program);
+        void update_program_depth(Program *program);
 
     private:
         ResourceID m_vert_shader;
         ResourceID m_frag_shader;
+        ResourceID m_depth_vert_shader;
+        ResourceID m_depth_frag_shader;
         Program *m_program;
 
         ResourceID m_tex_albedo;
@@ -60,6 +68,7 @@ namespace der
 
         CullMode m_cull_mode;
         bool m_blending;
+        bool m_casts_shadows;
     };
 
 } // der

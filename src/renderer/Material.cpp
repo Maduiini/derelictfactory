@@ -223,6 +223,8 @@ namespace der
     Material::Material()
         : m_vert_shader(InvalidResource)
         , m_frag_shader(InvalidResource)
+        , m_depth_vert_shader(InvalidResource)
+        , m_depth_frag_shader(InvalidResource)
         , m_program(nullptr)
         , m_tex_albedo(InvalidResource)
         , m_tex_normal(InvalidResource)
@@ -231,9 +233,12 @@ namespace der
         , m_tex_env(InvalidResource)
         , m_cull_mode(CullMode::BackFace)
         , m_blending(false)
+        , m_casts_shadows(true)
     {
         m_vert_shader = make_resource("pbs.vert");
         m_frag_shader = make_resource("pbs.frag");
+        m_depth_vert_shader = make_resource("sm_depth.vert");
+        m_depth_frag_shader = make_resource("sm_depth.frag");
 
         create_env_brdf();
     }
@@ -289,8 +294,14 @@ namespace der
     bool Material::is_blending_enabled() const
     { return m_blending; }
 
+    void Material::set_casts_shadows(bool casts)
+    { m_casts_shadows = casts; }
 
-    void Material::use(Graphics *graphics, ResourceCache *cache)
+    bool Material::casts_shadows() const
+    { return m_casts_shadows; }
+
+
+    void Material::use(Graphics *graphics, ResourceCache *cache, DepthTexture *shadowmap)
     {
         Texture *albedo = cache->get<Texture2D>(get_albedo_texture());
         Texture *normal = cache->get<Texture2D>(get_normal_texture());
@@ -299,12 +310,12 @@ namespace der
         Texture *env = cache->get<TextureCube>(get_env_texture());
 
         graphics->set_texture(0, albedo);
-//        graphics->set_texture(0, g_env_brdf);
         graphics->set_texture(1, normal);
         graphics->set_texture(2, roughness);
         graphics->set_texture(3, metallic);
         graphics->set_texture(4, g_env_brdf);
-        graphics->set_texture(5, env);
+        graphics->set_texture(5, shadowmap);
+        graphics->set_texture(6, env);
 
         Program *program = cache->get_program(m_vert_shader, m_frag_shader);
         update_program(program);
@@ -313,28 +324,20 @@ namespace der
         graphics->set_blend_enabled(is_blending_enabled());
     }
 
+    void Material::use_depth(Graphics *graphics, ResourceCache *cache)
+    {
+        Texture *albedo = cache->get<Texture2D>(get_albedo_texture());
+        graphics->set_texture(0, albedo);
+
+        Program *program = cache->get_program(m_depth_vert_shader, m_depth_frag_shader);
+        update_program_depth(program);
+
+        graphics->set_cull_mode(get_cull_mode());
+    }
+
     void Material::update_program(Program *program)
     {
-        if (program != m_program)
-        {
-            m_program = program;
-//            if (m_program)
-//            {
-//                m_program->use();
-//                const int tex_albedo = m_program->get_uniform_location("tex_albedo");
-//                const int tex_normal = m_program->get_uniform_location("tex_normal");
-//                const int tex_roughness = m_program->get_uniform_location("tex_roughness");
-//                const int tex_metallic = m_program->get_uniform_location("tex_metallic");
-//                const int tex_env = m_program->get_uniform_location("tex_env");
-//
-//                m_program->uniform_sampler2D(tex_albedo, 0);
-//                m_program->uniform_sampler2D(tex_normal, 1);
-//                m_program->uniform_sampler2D(tex_roughness, 2);
-//                m_program->uniform_sampler2D(tex_metallic, 3);
-//                m_program->uniform_sampler2D(tex_env, 4);
-//            }
-        }
-//        else
+        m_program = program;
         if (m_program)
         {
             m_program->use();
@@ -345,13 +348,26 @@ namespace der
             const int tex_metallic = m_program->get_uniform_location("tex_metallic");
             const int tex_env = m_program->get_uniform_location("tex_env");
             const int tex_env_brdf = m_program->get_uniform_location("tex_env_brdf");
+            const int tex_shadowmap = m_program->get_uniform_location("tex_shadowmap");
 
             m_program->uniform_sampler2D(tex_albedo, 0);
             m_program->uniform_sampler2D(tex_normal, 1);
             m_program->uniform_sampler2D(tex_roughness, 2);
             m_program->uniform_sampler2D(tex_metallic, 3);
             m_program->uniform_sampler2D(tex_env_brdf, 4);
-            m_program->uniform_sampler2D(tex_env, 5);
+            m_program->uniform_sampler2D(tex_shadowmap, 5);
+            m_program->uniform_sampler2D(tex_env, 6);
+        }
+    }
+
+    void Material::update_program_depth(Program *program)
+    {
+        if (program)
+        {
+            program->use();
+
+            const int tex_albedo = program->get_uniform_location("tex_albedo");
+            program->uniform_sampler2D(tex_albedo, 0);
         }
     }
 

@@ -71,9 +71,15 @@ namespace der
         if (!m_enabled)
             return;
 
+        graphics->set_blend_enabled(false);
+        graphics->update_state();
+
         m_vao->bind();
         for (size_t i=0; i<m_effects.size(); i++)
         {
+            PostProcessingEffect *effect = m_effects[i];
+            if (!effect->is_enabled()) continue;
+
             swap_buffers();
 
             if (i == m_effects.size()-1)
@@ -88,8 +94,6 @@ namespace der
                 m_primary_buffer->set_viewport();
 //                m_primary_buffer->set_draw_buffers();
             }
-
-            PostProcessingEffect *effect = m_effects[i];
 
             effect->setup_rendering(graphics, cache, m_secondary_buffer);
             graphics->clear();

@@ -80,6 +80,7 @@
 		<Unit filename="assets/shaders/glass.frag" />
 		<Unit filename="assets/shaders/gui.frag" />
 		<Unit filename="assets/shaders/gui.vert" />
+		<Unit filename="assets/shaders/light_uniforms.glsl" />
 		<Unit filename="assets/shaders/pbs.frag" />
 		<Unit filename="assets/shaders/pbs.glsl" />
 		<Unit filename="assets/shaders/pbs.vert" />
@@ -93,6 +94,7 @@
 		<Unit filename="assets/shaders/ssao_blur_x.frag" />
 		<Unit filename="assets/shaders/ssao_blur_y.frag" />
 		<Unit filename="assets/shaders/sun.frag" />
+		<Unit filename="assets/shaders/sun.vert" />
 		<Unit filename="assets/shaders/sunrays.frag" />
 		<Unit filename="assets/shaders/vegetation.frag" />
 		<Unit filename="assets/shaders/water.frag" />

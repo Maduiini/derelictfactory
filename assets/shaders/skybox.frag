@@ -6,20 +6,6 @@ uniform sampler2D tex_roughness;
 uniform sampler2D tex_metallic;
 uniform samplerCube tex_env;
 
-struct Light
-{
-    vec4 position;      // Position(w=1) or direction(w=0)
-    vec4 color_energy;  // rgb = color, w = energy
-    float radius;
-};
-
-#define MAX_LIGHTS 16
-layout(row_major) uniform Lights
-{
-    int light_count;
-    Light lights[MAX_LIGHTS];
-};
-
 
 in vec3 view_vec;
 

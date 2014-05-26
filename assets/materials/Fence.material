@@ -1,5 +1,11 @@
 pbs.vert
 pbs.frag
+DirtyAluminium_A.tga
+Empty_Normalmap.tga
+DirtyAluminium_R.tga
+Param_100.tga
+Test_cube_map.cube
+
 DirtyCopper_A.tga
 Empty_Normalmap.tga
 Param_15.tga

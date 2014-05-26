@@ -1,8 +1,8 @@
 pbs.vert
 vegetation.frag
-Bush_A.tga
-Bush_N.tga
-Param_0.tga
+Vegetation/Bush_A.tga
+Vegetation/Bush_N.tga
+Param_100.tga
 Param_0.tga
 Test_cube_map.cube
 cull_none

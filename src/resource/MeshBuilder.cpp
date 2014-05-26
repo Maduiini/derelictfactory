@@ -7,6 +7,8 @@
 
 #include "Resource.h"
 
+#include "../Debug.h"
+
 #include <string>
 
 namespace der
@@ -269,6 +271,8 @@ namespace der
             // Left handed coordinate system => -(N x T) instead of (N x T)
             float w = (-v.normal.cross(tan).dot(t2) > 0.0f)
                     ? -1.0f : 1.0f;
+
+            DER_ASSERT(tan.dot(tan) != 0.0);
 
             v.tangent = Vector4(tan, w);
         }

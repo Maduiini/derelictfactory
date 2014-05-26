@@ -413,7 +413,7 @@ namespace der
         m_sun_slider->set_value(0.0f);
         m_gui->add_widget(m_sun_slider);
 
-        Button *control_switch_button = new Button(Vector2(15, 430), Vector2(200, 45), "Switch control");
+        Button *control_switch_button = new Button(Vector2(15, 500), Vector2(200, 45), "Switch control");
         control_switch_button->set_released_handler(new SwitchControlPressed(this));
         m_gui->add_widget(control_switch_button);
 

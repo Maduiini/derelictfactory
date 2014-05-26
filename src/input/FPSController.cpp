@@ -28,10 +28,10 @@ namespace der
         const float crouch_depth = 0.8f;
         const float crouch_speed_modifier = 0.2f + 0.8f * (-crouch_depth - m_crouch_y) / -crouch_depth;
 
-        const float acceleration = 0.3f;
+        const float acceleration = 0.5f;
         const float walk_speed = 3.0f;
         const float run_speed = 10.0f;
-        const float friction = 0.95f;
+        const float friction = 0.93f;
         const float max_speed = crouch_speed_modifier * (key_down(Key::Left_Shift) ? run_speed : walk_speed);
         const Matrix3 rot = get_object()->get_rotation_matrix();
 

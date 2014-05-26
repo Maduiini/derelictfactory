@@ -299,20 +299,10 @@ float shadowmap5()
 {
     vec4 coord = shadow_coord();
 //    return textureProj(tex_shadowmap, coord);
-
-    float offs = 0.5 / 4096.0;
     float sum = sample_shadow(coord, vec2(0.0));
 //    return sum;
-    sum += sample_shadow(coord, vec2(-offs, -offs));
-    sum += sample_shadow(coord, vec2(offs, -offs));
-    sum += sample_shadow(coord, vec2(offs, offs));
-    sum += sample_shadow(coord, vec2(-offs, offs));
+    sum += sample_shadow4(coord, vec2(0.5) / 4096.0);
     return sum / 5.0;
-//    sum += sample_shadow(coord, vec2(-offs, 0.0));
-//    sum += sample_shadow(coord, vec2(offs, 0.0));
-//    sum += sample_shadow(coord, vec2(0.0, -offs));
-//    sum += sample_shadow(coord, vec2(0.0, offs));
-//    return sum / 9.0;
 }
 
 float shadowmap8()
@@ -322,6 +312,9 @@ float shadowmap8()
     sum += sample_shadow4(coord, vec2(0.5) / 4096.0);
     sum += sample_shadow4(coord, vec2(1.5) / 4096.0);
     return sum / 8.0;
+//    sum += sample_shadow4(coord, vec2(0.5) / 4096.0) * 0.3;
+//    sum += sample_shadow4(coord, vec2(1.5) / 4096.0) * 0.7;
+//    return sum / 4.0;
 }
 
 float shadowmap16()
@@ -340,15 +333,16 @@ float shadowmap16()
 
 vec3 lighting(const vec3 c_diff, const vec3 c_spec, const vec3 N, const vec3 V, const float roughness)
 {
+    float shadow = (sm_enabled > 0.0) ? shadowmap8() : 1.0;
     vec3 color = vec3(0.0);
 
-    color = light(0, c_diff, c_spec, N, V, roughness) * shadowmap8();
+//    color = light(0, c_diff, c_spec, N, V, roughness) * shadow;
 //    for (int i = 1; i < light_count; i++)
 //    {
 //        color += light(i, c_diff, c_spec, N, V, roughness);
 //    }
 
-//    color += light(0, c_diff, c_spec, N, V, roughness);
+    color += light(0, c_diff, c_spec, N, V, roughness) * shadow;
     color += light(1, c_diff, c_spec, N, V, roughness);
     color += light(2, c_diff, c_spec, N, V, roughness);
     color += light(3, c_diff, c_spec, N, V, roughness);
@@ -369,25 +363,56 @@ vec3 lighting(const vec3 c_diff, const vec3 c_spec, const vec3 N, const vec3 V, 
     return color;
 }
 
-vec3 back_lighting(vec3 c_diff, const vec3 N, const vec3 V, const float roughness)
+vec3 back_lighting(const vec3 c_diff, const vec3 N, const vec3 V, const float roughness, const float shadow)
 {
+//    float shadow = shadowmap5();
     vec3 color = vec3(0.0);
 
-    color = back_light(0, c_diff, N, V, roughness) * shadowmap5();
+//    color = back_light(0, c_diff, N, V, roughness) * shadow;
 //    for (int i = 1; i < light_count; i++)
 //    {
 //        color += back_light(i, c_diff, vec3(0.0), N, V, roughness);
 //    }
 
-//    color += light(0, c_diff, c_spec, N, V, roughness);
+    color += back_light(0, c_diff, N, V, roughness) * shadow;
     color += back_light(1, c_diff, N, V, roughness);
     color += back_light(2, c_diff, N, V, roughness);
     color += back_light(3, c_diff, N, V, roughness);
-    color += back_light(4, c_diff, N, V, roughness);
-    color += back_light(5, c_diff, N, V, roughness);
-    color += back_light(6, c_diff, N, V, roughness);
-    color += back_light(7, c_diff, N, V, roughness);
 
     color += IBL_diffuse(c_diff, N, V, roughness);
-    return color;
+//    return color * c_diff;
+    return color * clamp(vec3(0.1) + c_diff * 0.5, vec3(0.1), vec3(1.0));
+//    return color;
+}
+
+vec3 vege_lighting(const vec3 c_diff, const vec3 c_spec, const vec3 N, const vec3 V, const float roughness)
+{
+    float shadow = (sm_enabled > 0.0) ? shadowmap8() : 1.0;
+    vec3 color = vec3(0.0);
+
+//    color = light(0, c_diff, c_spec, N, V, roughness) * shadow;
+//    for (int i = 1; i < light_count; i++)
+//    {
+//        color += light(i, c_diff, c_spec, N, V, roughness);
+//    }
+
+    color += light(0, c_diff, c_spec, N, V, roughness) * shadow;
+    color += light(1, c_diff, c_spec, N, V, roughness);
+    color += light(2, c_diff, c_spec, N, V, roughness);
+    color += light(3, c_diff, c_spec, N, V, roughness);
+    color += light(4, c_diff, c_spec, N, V, roughness);
+    color += light(5, c_diff, c_spec, N, V, roughness);
+    color += light(6, c_diff, c_spec, N, V, roughness);
+    color += light(7, c_diff, c_spec, N, V, roughness);
+//    color += light(8, c_diff, c_spec, N, V, roughness);
+//    color += light(9, c_diff, c_spec, N, V, roughness);
+//    color += light(10, c_diff, c_spec, N, V, roughness);
+//    color += light(11, c_diff, c_spec, N, V, roughness);
+//    color += light(12, c_diff, c_spec, N, V, roughness);
+//    color += light(13, c_diff, c_spec, N, V, roughness);
+//    color += light(14, c_diff, c_spec, N, V, roughness);
+//    color += light(15, c_diff, c_spec, N, V, roughness);
+
+    color += IBL(c_diff, c_spec, N, V, roughness);
+    return color + back_lighting(c_diff, -N, V, roughness, shadow);
 }

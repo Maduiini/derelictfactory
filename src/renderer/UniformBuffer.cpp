@@ -287,13 +287,18 @@ namespace der
     ParamUniformBlock::ParamUniformBlock()
         : UniformBuffer(BindingPoint)
         , m_nm_influence(1.0f)
+        , m_sm_enabled(1.0f)
     {
-        add_float(m_nm_influence);
+        add_float_np(m_nm_influence);
+        add_float_np(m_sm_enabled);
         apply_format();
     }
 
     void ParamUniformBlock::set_normalmap_influence(float value)
     { m_nm_influence = value; }
+
+    void ParamUniformBlock::set_shadow_map_enabled(bool enabled)
+    { m_sm_enabled = enabled ? 1.0f : 0.0f; }
 
 
 } // der

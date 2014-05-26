@@ -49,6 +49,10 @@ namespace der
         void toggle_debug_draw_enabled();
         bool is_debug_draw_enabled() const;
 
+        void set_shadow_map_enabled(bool enabled);
+        void toggle_shadow_map_enabled();
+        bool is_shadow_map_enabled() const;
+
         size_t get_visible_object_count() const;
 
     private:
@@ -67,6 +71,7 @@ namespace der
 
         bool m_frustum_culling;
         bool m_debug_draw;
+        bool m_shadow_mapping;
         size_t m_visible_object_count;
 
         QuadTreeRenderer *m_qt_renderer;

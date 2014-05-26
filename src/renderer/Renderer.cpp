@@ -90,6 +90,9 @@ namespace der
     void Renderer::set_normalmap_influence(float value)
     { m_param_uniforms->set_normalmap_influence(value); }
 
+    void Renderer::set_shadow_map_enabled(bool enabled)
+    { m_param_uniforms->set_shadow_map_enabled(enabled); }
+
 
     void Renderer::set_model_matrix(const Matrix4 &model_mat)
     { m_command.model_mat = model_mat; }

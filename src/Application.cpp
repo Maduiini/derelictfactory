@@ -376,19 +376,19 @@ namespace der
         m_nm_slider->set_value(1.0f);
         m_gui->add_widget(m_nm_slider);
 
-        Checkbox *render_queue_box = new Checkbox(Vector2(15, 200), "Render queue on");
+        Checkbox *render_queue_box = new Checkbox(Vector2(15, 200), "Use render queue");
         render_queue_box->set_state_changed_handler(
             new CheckboxForwarder<Application>(this, &Application::set_queued_render_enabled));
         render_queue_box->set_checked(true);
         m_gui->add_widget(render_queue_box);
 
-        Checkbox *frustum_culling_box = new Checkbox(Vector2(15, 240), "Frustum culling on");
+        Checkbox *frustum_culling_box = new Checkbox(Vector2(15, 240), "Frustum culling");
         frustum_culling_box->set_state_changed_handler(
             new CheckboxForwarder<SceneRenderer>(m_scene_renderer, &SceneRenderer::set_frustum_culling_enabled));
         frustum_culling_box->set_checked(true);
         m_gui->add_widget(frustum_culling_box);
 
-        Checkbox *debug_draw_box = new Checkbox(Vector2(15, 280), "Debug draw on");
+        Checkbox *debug_draw_box = new Checkbox(Vector2(15, 280), "Debug draw");
         debug_draw_box->set_state_changed_handler(
             new CheckboxForwarder<SceneRenderer>(m_scene_renderer, &SceneRenderer::set_debug_draw_enabled));
         debug_draw_box->set_checked(false);
@@ -400,9 +400,15 @@ namespace der
         post_processing_box->set_checked(false);
         m_gui->add_widget(post_processing_box);
 
-        ValueDisplay *sun_display = new ValueDisplay(Vector2(15, 380), "Sun orientation: ");
+        Checkbox *shadow_mapping_box = new Checkbox(Vector2(15, 360), "Shadow mapping");
+        shadow_mapping_box->set_state_changed_handler(
+            new CheckboxForwarder<SceneRenderer>(m_scene_renderer, &SceneRenderer::set_shadow_map_enabled));
+        shadow_mapping_box->set_checked(true);
+        m_gui->add_widget(shadow_mapping_box);
+
+        ValueDisplay *sun_display = new ValueDisplay(Vector2(15, 420), "Sun orientation: ");
         m_gui->add_widget(sun_display);
-        Slider *m_sun_slider = new Slider(Vector2(15, 420), 260.0f, 0.0f, 1.0);
+        Slider *m_sun_slider = new Slider(Vector2(15, 460), 360.0f, 0.0f, 1.0);
         m_sun_slider->set_value_changed_handler(new SunSliderChanged(m_scene, sun_display));
         m_sun_slider->set_value(0.0f);
         m_gui->add_widget(m_sun_slider);

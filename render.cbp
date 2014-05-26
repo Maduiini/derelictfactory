@@ -41,6 +41,7 @@
 			<Add directory="$(#glfw.lib)" />
 			<Add directory="$(#glew.lib)" />
 		</Linker>
+		<Unit filename="assets/materials/Aluminium.material" />
 		<Unit filename="assets/materials/Barrel.material" />
 		<Unit filename="assets/materials/Barrel2.material" />
 		<Unit filename="assets/materials/Brick.material" />

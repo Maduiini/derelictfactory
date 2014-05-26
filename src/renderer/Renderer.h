@@ -66,6 +66,7 @@ namespace der
         void set_window_size(int width, int height);
 
         void set_normalmap_influence(float value);
+        void set_shadow_map_enabled(bool enabled);
 
         void set_model_matrix(const Matrix4 &model_mat);
 

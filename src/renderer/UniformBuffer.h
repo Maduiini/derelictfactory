@@ -139,9 +139,11 @@ namespace der
         ParamUniformBlock();
 
         void set_normalmap_influence(float value);
+        void set_shadow_map_enabled(bool enabled);
 
     private:
         float m_nm_influence;
+        float m_sm_enabled;
     };
 
 } // der

@@ -21,6 +21,7 @@ layout(row_major) uniform Globals
 uniform Params
 {
     float nm_influence; // Normalmap influence
+    float sm_enabled; // Shadow map enabled
 };
 
 
@@ -75,9 +76,10 @@ void main()
     vec3 c_spec = mix(vec3(0.04), albedo.rgb, m);
 
 //    r = 1.0;
-    vec3 color = lighting(c_diff, c_spec * 0.0, N, V, r);
-    vec3 back_color = back_lighting(c_diff, -N, V, r);
-    color += back_color * albedo.a * clamp(vec3(0.1) + albedo.rgb * 0.5, vec3(0.1), vec3(1.0));
+    vec3 color = vege_lighting(c_diff, c_spec, N, V, r);
+//    vec3 color = lighting(c_diff, c_spec, N, V, r);
+//    vec3 back_color = back_lighting(c_diff, -N, V, r, shadowmap5());
+//    color += back_color * albedo.a * clamp(vec3(0.1) + albedo.rgb * 0.5, vec3(0.1), vec3(1.0));
 
     out_color = gamma_correct(color, albedo.a);
     out_normal = vec4(normalize(view_normal), length(view_vec));

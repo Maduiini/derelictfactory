@@ -26,6 +26,7 @@ namespace der
         , m_nm_influence(1.0f)
         , m_frustum_culling(true)
         , m_debug_draw(false)
+        , m_shadow_mapping(true)
         , m_visible_object_count(0)
     {
 //        m_sm_buffer = new DepthOnlyFrameBuffer(2048);
@@ -58,6 +59,7 @@ namespace der
             renderer->set_camera_pos(camera_pos);
             renderer->set_time(m_time);
             renderer->set_normalmap_influence(m_nm_influence);
+            renderer->set_shadow_map_enabled(m_shadow_mapping);
             renderer->bind_global_uniforms();
 
             std::vector<GameObject*> objects;
@@ -124,6 +126,7 @@ namespace der
             renderer->set_camera_pos(camera_pos);
             renderer->set_time(m_time);
             renderer->set_normalmap_influence(m_nm_influence);
+            renderer->set_shadow_map_enabled(m_shadow_mapping);
 
             std::vector<GameObject*> objects;
             if (is_frustum_culling_enabled())
@@ -193,6 +196,15 @@ namespace der
 
     bool SceneRenderer::is_debug_draw_enabled() const
     { return m_debug_draw; }
+
+    void SceneRenderer::set_shadow_map_enabled(bool enabled)
+    { m_shadow_mapping = enabled; }
+
+    void SceneRenderer::toggle_shadow_map_enabled()
+    { m_shadow_mapping = !m_shadow_mapping; }
+
+    bool SceneRenderer::is_shadow_map_enabled() const
+    { return m_shadow_mapping; }
 
     size_t SceneRenderer::get_visible_object_count() const
     { return m_visible_object_count; }
@@ -267,6 +279,8 @@ namespace der
 
     void SceneRenderer::update_shadowmap(Renderer *renderer, Graphics *graphics)
     {
+        if (!is_shadow_map_enabled()) return;
+
         GameObject *camera_obj = m_scene->get_camera_object();
         if (!camera_obj) return;
 

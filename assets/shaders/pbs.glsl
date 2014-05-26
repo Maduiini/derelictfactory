@@ -4,6 +4,11 @@ uniform sampler2D tex_env_brdf;
 #include "light_uniforms.glsl"
 
 
+vec3 get_env(const vec3 v, const float lod)
+{
+    return der_get_env(tex_env, v, lod);
+}
+
 // Physically based shading
 
 

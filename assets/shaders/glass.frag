@@ -18,11 +18,7 @@ layout(row_major) uniform Globals
     float window_height;
 };
 
-uniform Params
-{
-    float nm_influence; // Normalmap influence
-    float sm_enabled; // Shadow map enabled
-};
+#include "param_uniforms.glsl"
 
 
 in vec3 position;
@@ -46,55 +42,7 @@ vec3 get_albedo()
     return der_get_albedo(tex_albedo, tcoord);
 }
 
-vec3 get_env(const vec3 v, const float lod)
-{
-    return der_get_env(tex_env, v, lod);
-}
-
 #include "pbs.glsl"
-
-//vec3 light(const int i, const vec3 c_diff, const vec3 c_spec, const vec3 N, const vec3 V, const float roughness)
-//{
-//    vec4 pos = lights[i].position;
-//    vec4 dir = lights[i].direction;
-//    vec3 L = mix(dir.xyz, normalize(pos.xyz - position), pos.w);
-//
-//    float r = lights[i].radius;
-//    float cos_spot = dir.w;
-//
-//    float NoL = dot(N, L);
-//    float spot_f = dot(dir.xyz, L);
-//    spot_f = smoothstep(cos_spot-0.02, cos_spot+0.002, spot_f);
-//    spot_f = mix(1.0, spot_f, cos_spot > 0.0);
-//
-//    if (NoL * r * spot_f <= 0.0) return vec3(0.0);
-//
-//    float dist = distance(pos.xyz, position);
-//
-////    const float df = 0.05;
-//    const float df = 0.5;
-////    const float df = 1.0;
-//    float dist2 = dist * dist * df;
-//    float x = dist2 / (r * r); // * df);
-//    float v = max(1.0 - x * x, 0.0);
-//    float attenuation = mix(1.0, (v * v) / (dist2 + 0.5), pos.w);
-//    attenuation *= spot_f;
-//
-//    vec3 color = BRDF(c_diff, c_spec, N, L, V, roughness);
-//    vec4 lcolor = lights[i].color_energy;
-//    return color * lcolor.rgb * lcolor.w * attenuation;
-//}
-//
-//vec3 lighting(vec3 c_diff, vec3 c_spec, const vec3 N, const vec3 V, const float roughness)
-//{
-//    vec3 color = vec3(0.0);
-//    for (int i = 0; i < light_count; i++)
-//    {
-//        color += light(i, c_diff, c_spec, N, V, roughness);
-//    }
-//    color += IBL(c_diff, c_spec, N, V, roughness);
-//    return color;
-//}
 
 void main()
 {

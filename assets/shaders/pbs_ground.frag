@@ -18,11 +18,7 @@ layout(row_major) uniform Globals
     float window_height;
 };
 
-uniform Params
-{
-    float nm_influence; // Normalmap influence
-    float sm_enabled; // Shadow map enabled
-};
+#include "param_uniforms.glsl"
 
 
 in vec3 position;
@@ -69,11 +65,6 @@ vec3 get_albedo(vec4 mask)
     vec3 albedo = mix(albedo1, albedo2, 0.5) * mud;
     albedo = mix(albedo, albedo_grass, mask.y);
     return albedo;
-}
-
-vec3 get_env(const vec3 v, const float lod)
-{
-    return der_get_env(tex_env, v, lod);
 }
 
 #include "pbs.glsl"

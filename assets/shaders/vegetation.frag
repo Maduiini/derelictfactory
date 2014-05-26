@@ -53,34 +53,6 @@ vec3 get_env(const vec3 v, const float lod)
 
 #include "pbs.glsl"
 
-vec3 back_lighting(vec3 c_diff, const vec3 N, const vec3 V, const float roughness)
-{
-    vec3 color = vec3(0.0);
-    for (int i = 0; i < light_count; i++)
-    {
-        color += light(i, c_diff, vec3(0.0), N, V, roughness);
-    }
-//    color += light(0, c_diff, c_spec, N, V, roughness);
-//    color += light(1, c_diff, c_spec, N, V, roughness);
-//    color += light(2, c_diff, c_spec, N, V, roughness);
-//    color += light(3, c_diff, c_spec, N, V, roughness);
-//    color += light(4, c_diff, c_spec, N, V, roughness);
-//    color += light(5, c_diff, c_spec, N, V, roughness);
-//    color += light(6, c_diff, c_spec, N, V, roughness);
-//    color += light(7, c_diff, c_spec, N, V, roughness);
-//    color += light(8, c_diff, c_spec, N, V, roughness);
-//    color += light(9, c_diff, c_spec, N, V, roughness);
-//    color += light(10, c_diff, c_spec, N, V, roughness);
-//    color += light(11, c_diff, c_spec, N, V, roughness);
-//    color += light(12, c_diff, c_spec, N, V, roughness);
-//    color += light(13, c_diff, c_spec, N, V, roughness);
-//    color += light(14, c_diff, c_spec, N, V, roughness);
-//    color += light(15, c_diff, c_spec, N, V, roughness);
-
-    color += IBL_diffuse(c_diff, N, V, roughness);
-    return color;
-}
-
 void main()
 {
     vec4 albedo = get_albedo();
@@ -105,7 +77,7 @@ void main()
     r = 1.0;
     vec3 color = lighting(c_diff, c_spec * 0.0, N, V, r);
     vec3 back_color = back_lighting(c_diff, -N, V, r);
-    color += back_color * albedo.a;
+    color += back_color * albedo.a * clamp(vec3(0.1) + albedo.rgb * 0.5, vec3(0.1), vec3(1.0));
 
     out_color = gamma_correct(color, albedo.a);
     out_normal = vec4(normalize(view_normal), length(view_vec));

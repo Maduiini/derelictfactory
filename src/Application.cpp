@@ -323,7 +323,7 @@ namespace der
 
         m_nm_display = new ValueDisplay(Vector2(15, 120), "Normalmap influence: ");
         m_gui->add_widget(m_nm_display);
-        m_nm_slider = new Slider(Vector2(15, 160), 150.0f, 0.0f, 2.0);
+        m_nm_slider = new Slider(Vector2(15, 160), 360.0f, 0.0f, 2.0);
         m_nm_slider->set_value_changed_handler(new NormalMapSliderChanged(m_scene_renderer, m_nm_display));
         m_nm_slider->set_value(1.0f);
         m_gui->add_widget(m_nm_slider);
@@ -352,9 +352,9 @@ namespace der
         post_processing_box->set_checked(false);
         m_gui->add_widget(post_processing_box);
 
-        ValueDisplay *sun_display = new ValueDisplay(Vector2(15, 360), "Sun orientation: ");
+        ValueDisplay *sun_display = new ValueDisplay(Vector2(15, 380), "Sun orientation: ");
         m_gui->add_widget(sun_display);
-        Slider *m_sun_slider = new Slider(Vector2(15, 400), 150.0f, 0.0f, 1.0);
+        Slider *m_sun_slider = new Slider(Vector2(15, 420), 260.0f, 0.0f, 1.0);
         m_sun_slider->set_value_changed_handler(new SunSliderChanged(m_scene, sun_display));
         m_sun_slider->set_value(0.0f);
         m_gui->add_widget(m_sun_slider);

@@ -336,11 +336,12 @@ namespace der
 
         light_aabb.transform(view);
 
-        const Matrix4 proj = projection_orthogonal_lh(light_aabb.m_min.x, light_aabb.m_max.x,
-                                                      light_aabb.m_min.y, light_aabb.m_max.y,
-                                                      light_aabb.m_min.z, light_aabb.m_max.z);
+//        const Matrix4 proj = projection_orthogonal_lh(light_aabb.m_min.x, light_aabb.m_max.x,
+//                                                      light_aabb.m_min.y, light_aabb.m_max.y,
+//                                                      light_aabb.m_min.z, light_aabb.m_max.z);
 //        const Matrix4 proj = projection_orthogonal_lh(light_aabb.m_min.x, light_aabb.m_max.x, light_aabb.m_min.y, light_aabb.m_max.y, -100, 100);
 //        const Matrix4 proj = projection_orthogonal_lh(-100, 100, -100, 100, -100, 100);
+        const Matrix4 proj = projection_orthogonal_lh(-120.0f, 120.0f, -120.0f, 120.0f, -200.0f, 200.0f);
 
 
         const Matrix4 view_proj = proj * view;
@@ -349,10 +350,6 @@ namespace der
                            0.0f, 0.5f, 0.0f, 0.5f,
                            0.0f, 0.0f, 0.5f, 0.5f,
                            0.0f, 0.0f, 0.0f, 1.0f);
-//        , bias_scale;
-//        bias_scale.scale(0.5f, 0.5f, 0.5f);
-//        bias.translation(0.5f, 0.5f, 0.5f);
-//        bias = bias * bias_scale;
         const Matrix4 light_mat = bias * view_proj;
         renderer->set_light_matrix(light_mat);
 

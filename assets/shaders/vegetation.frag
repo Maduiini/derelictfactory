@@ -74,7 +74,7 @@ void main()
     vec3 c_diff = mix(albedo.rgb, vec3(0.04), m);
     vec3 c_spec = mix(vec3(0.04), albedo.rgb, m);
 
-    r = 1.0;
+//    r = 1.0;
     vec3 color = lighting(c_diff, c_spec * 0.0, N, V, r);
     vec3 back_color = back_lighting(c_diff, -N, V, r);
     color += back_color * albedo.a * clamp(vec3(0.1) + albedo.rgb * 0.5, vec3(0.1), vec3(1.0));

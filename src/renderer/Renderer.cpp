@@ -203,7 +203,6 @@ namespace der
 //        std::sort(m_blend_commands.begin(), m_blend_commands.end(), blend_cmd_cmp);
 
         bind_global_uniforms();
-
         for (RenderCommand &command : m_commands)
         {
             render_command_depth(command);
@@ -240,6 +239,7 @@ namespace der
 
         command.material->use(m_graphics, m_cache, m_shadowmap);
         m_graphics->update_state();
+
         if (command.index_buffer)
         {
             command.index_buffer->bind();
@@ -255,11 +255,10 @@ namespace der
 
     void Renderer::render_command_depth(RenderCommand &command)
     {
+        if (!command.material->casts_shadows()) return;
+
         m_instance_uniforms->set_model_mat(command.model_mat);
         m_instance_uniforms->bind_uniforms();
-
-//        m_light_uniforms->set_light_count(0);
-//        m_light_uniforms->bind_uniforms();
 
         command.vao->bind();
 

@@ -46,6 +46,7 @@
 		<Unit filename="assets/materials/Brick.material" />
 		<Unit filename="assets/materials/BrickWallSmall.material" />
 		<Unit filename="assets/materials/Brickwall.material" />
+		<Unit filename="assets/materials/BrickwallSmall_Empty.material" />
 		<Unit filename="assets/materials/Bush.material" />
 		<Unit filename="assets/materials/Chimney.material" />
 		<Unit filename="assets/materials/Color.material" />
@@ -61,6 +62,7 @@
 		<Unit filename="assets/materials/Gold.material" />
 		<Unit filename="assets/materials/Ground.material" />
 		<Unit filename="assets/materials/IBeam.material" />
+		<Unit filename="assets/materials/Ivy.material" />
 		<Unit filename="assets/materials/Puddle.material" />
 		<Unit filename="assets/materials/Rock.material" />
 		<Unit filename="assets/materials/Rust.material" />

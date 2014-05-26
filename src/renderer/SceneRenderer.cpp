@@ -312,17 +312,27 @@ namespace der
         light_aabb.m_max.y = min(light_aabb.m_max.y, view_aabb.m_max.y);
         light_aabb.m_max.z = min(light_aabb.m_max.z, view_aabb.m_max.z);
 
-        light_aabb.m_max.z = min(light_aabb.m_max.z, 100.0f);
+//        light_aabb.m_max.z = min(light_aabb.m_max.z, 100.0f);
 
 
         GameObject *sun = m_scene->get_sun();
 //        Light *light = sun->get_light();
 
-        Matrix4 view = sun->get_inv_world_matrix();
+//        sun->set_position(Vector3::zero);
+//        Matrix4 view = sun->get_inv_world_matrix();
+//        // change of basis as the local up-axis is the light direction in blender
+//        Vector3 right, up, forward;
+//        view.get_basis(right, forward, up);
+//        view.from_basis(right, -up, forward);
+
+        Matrix4 sun_w = sun->get_world_matrix();
         // change of basis as the local up-axis is the light direction in blender
         Vector3 right, up, forward;
-        view.get_basis(right, forward, up);
-        view.from_basis(right, up, -forward);
+        sun_w.get_basis(right, up, forward);
+
+        Matrix4 view;
+        view.from_basis(right, forward, -up);
+        view.transpose();
 
         light_aabb.transform(view);
 

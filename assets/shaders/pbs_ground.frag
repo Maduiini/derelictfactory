@@ -61,8 +61,13 @@ vec3 get_albedo(vec4 mask)
 {
     vec3 albedo1 = der_get_albedo(tex_albedo, get_tex_coord());
     vec3 albedo2 = der_get_albedo(tex_albedo, get_tex_coord2());
-    vec3 mud = mix(vec3(1.0, 1.0, 1.0), vec3(0.6, 0.5, 0.45), mask.x);
-    return mix(albedo1, albedo2, 0.5) * mud;
+    vec3 albedo_grass = der_get_albedo(tex_metallic, get_tex_coord());
+
+    vec3 mud = mix(vec3(1.0, 1.0, 1.0), vec3(0.55, 0.5, 0.48), mask.x);
+//    return mix(albedo1, albedo2, 0.5) * mud;
+    vec3 albedo = mix(albedo1, albedo2, 0.5) * mud;
+    albedo = mix(albedo, albedo_grass, mask.y);
+    return albedo;
 }
 
 vec3 get_env(const vec3 v, const float lod)

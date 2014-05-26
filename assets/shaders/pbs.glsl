@@ -234,14 +234,46 @@ vec3 light(const int i, const vec3 c_diff, const vec3 c_spec, const vec3 N, cons
     return color * lcolor.rgb * lcolor.w * attenuation;
 }
 
+float sample_shadow(vec4 coord, vec2 offset)
+{
+    coord.xy += offset * coord.w;
+    return textureProj(tex_shadowmap, coord);
+}
+
 float shadowmap()
 {
+//    float NoL = 0.0;
     float NoL = dot(normal, lights[0].direction.xyz);
-    float normal_factor = smoothstep(0.0, 1.0, NoL) * 0.05;
+    float normal_factor = smoothstep(0.0, 1.0, NoL) * 0.005;
     vec3 pos = position + normal * normal_factor;
     vec4 coord = mat_light * vec4(pos, 1.0);
-    coord.z -= 0.002;
-    return textureProj(tex_shadowmap, coord);
+    coord.z -= 0.001;
+//    return textureProj(tex_shadowmap, coord);
+
+//    float offs = 0.5 / 4096.0;
+//    float sum = 0.0;
+//    float sum = sample_shadow(coord, vec2(0.0));
+//    return sum;
+//    sum += sample_shadow(coord, vec2(-offs, -offs));
+//    sum += sample_shadow(coord, vec2(offs, -offs));
+//    sum += sample_shadow(coord, vec2(offs, offs));
+//    sum += sample_shadow(coord, vec2(-offs, offs));
+//    return sum / 5.0;
+//    sum += sample_shadow(coord, vec2(-offs, 0.0));
+//    sum += sample_shadow(coord, vec2(offs, 0.0));
+//    sum += sample_shadow(coord, vec2(0.0, -offs));
+//    sum += sample_shadow(coord, vec2(0.0, offs));
+//    return sum / 9.0;
+
+    float sum = 0.0;
+    float x, y;
+
+    float offs = 1.0 / 4096.0;
+    for (y = -1.5; y <= 1.5; y += 1.0)
+      for (x = -1.5; x <= 1.5; x += 1.0)
+        sum += sample_shadow(coord, vec2(x, y) * offs);
+
+    return sum / 16.0;
 }
 
 vec3 lighting(const vec3 c_diff, const vec3 c_spec, const vec3 N, const vec3 V, const float roughness)

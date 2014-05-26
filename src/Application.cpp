@@ -267,6 +267,40 @@ namespace der
         }
     };
 
+    class SunSliderChanged : public GUIEventHandler
+    {
+    public:
+        Scene *m_scene;
+        ValueDisplay *m_display;
+
+        SunSliderChanged(Scene *scene, ValueDisplay *display)
+            : m_scene(scene), m_display(display)
+        { }
+
+        virtual void handle(Widget *widget) override
+        {
+            const Slider *slider = reinterpret_cast<Slider*>(widget);
+            const float value = slider->get_absolute_value();
+            const float rounded_value = int(value * 100.0f) / 100.0f;
+            m_display->set_value(rounded_value);
+
+//            Quaternion orientation1;
+//            orientation1.from_axis_angle(Vector3(-0.3, -0.4, 0.8).normalized(), Math::DEG_2_RAD * 180.0f);
+//            Quaternion orientation2;
+//            orientation1.from_axis_angle(Vector3(-0.3, -0.4, 0.8).normalized(), Math::DEG_2_RAD * 140.0f);
+//
+//            Quaternion sun_orientation = slerp(orientation1, orientation2, value);
+
+            const float theta = lerp(0.0f, 360.0f, value) * Math::DEG_2_RAD;
+            const Vector3 axis1(0.0, 0.0, 1.0);
+            const Vector3 axis2(1.0, 1.0, 1.0);
+            const Vector3 axis = lerp(axis1, axis2, value).normalized();
+
+            GameObject *sun = m_scene->get_sun();
+            sun->set_rotation(axis, theta); //sun_orientation);
+        }
+    };
+
     bool Application::init_gui()
     {
         m_gui = new GUIManager();
@@ -317,6 +351,13 @@ namespace der
             new CheckboxForwarder<PostProcessor>(m_post_processor, &PostProcessor::set_enabled));
         post_processing_box->set_checked(false);
         m_gui->add_widget(post_processing_box);
+
+        ValueDisplay *sun_display = new ValueDisplay(Vector2(15, 360), "Sun orientation: ");
+        m_gui->add_widget(sun_display);
+        Slider *m_sun_slider = new Slider(Vector2(15, 400), 150.0f, 0.0f, 1.0);
+        m_sun_slider->set_value_changed_handler(new SunSliderChanged(m_scene, sun_display));
+        m_sun_slider->set_value(0.0f);
+        m_gui->add_widget(m_sun_slider);
 
         return true;
     }

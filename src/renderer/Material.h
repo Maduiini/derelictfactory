@@ -58,7 +58,6 @@ namespace der
         ResourceID m_frag_shader;
         ResourceID m_depth_vert_shader;
         ResourceID m_depth_frag_shader;
-        Program *m_program;
 
         ResourceID m_tex_albedo;
         ResourceID m_tex_normal;

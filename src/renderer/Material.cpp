@@ -225,7 +225,6 @@ namespace der
         , m_frag_shader(InvalidResource)
         , m_depth_vert_shader(InvalidResource)
         , m_depth_frag_shader(InvalidResource)
-        , m_program(nullptr)
         , m_tex_albedo(InvalidResource)
         , m_tex_normal(InvalidResource)
         , m_tex_roughness(InvalidResource)
@@ -337,26 +336,25 @@ namespace der
 
     void Material::update_program(Program *program)
     {
-        m_program = program;
-        if (m_program)
+        if (program)
         {
-            m_program->use();
+            program->use();
 
-            const int tex_albedo = m_program->get_uniform_location("tex_albedo");
-            const int tex_normal = m_program->get_uniform_location("tex_normal");
-            const int tex_roughness = m_program->get_uniform_location("tex_roughness");
-            const int tex_metallic = m_program->get_uniform_location("tex_metallic");
-            const int tex_env = m_program->get_uniform_location("tex_env");
-            const int tex_env_brdf = m_program->get_uniform_location("tex_env_brdf");
-            const int tex_shadowmap = m_program->get_uniform_location("tex_shadowmap");
+            const int tex_albedo = program->get_uniform_location("tex_albedo");
+            const int tex_normal = program->get_uniform_location("tex_normal");
+            const int tex_roughness = program->get_uniform_location("tex_roughness");
+            const int tex_metallic = program->get_uniform_location("tex_metallic");
+            const int tex_env = program->get_uniform_location("tex_env");
+            const int tex_env_brdf = program->get_uniform_location("tex_env_brdf");
+            const int tex_shadowmap = program->get_uniform_location("tex_shadowmap");
 
-            m_program->uniform_sampler2D(tex_albedo, 0);
-            m_program->uniform_sampler2D(tex_normal, 1);
-            m_program->uniform_sampler2D(tex_roughness, 2);
-            m_program->uniform_sampler2D(tex_metallic, 3);
-            m_program->uniform_sampler2D(tex_env_brdf, 4);
-            m_program->uniform_sampler2D(tex_shadowmap, 5);
-            m_program->uniform_sampler2D(tex_env, 6);
+            program->uniform_sampler2D(tex_albedo, 0);
+            program->uniform_sampler2D(tex_normal, 1);
+            program->uniform_sampler2D(tex_roughness, 2);
+            program->uniform_sampler2D(tex_metallic, 3);
+            program->uniform_sampler2D(tex_env_brdf, 4);
+            program->uniform_sampler2D(tex_shadowmap, 5);
+            program->uniform_sampler2D(tex_env, 6);
         }
     }
 

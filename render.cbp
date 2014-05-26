@@ -120,6 +120,8 @@
 		<Unit filename="src/Window.h" />
 		<Unit filename="src/input/CameraController.cpp" />
 		<Unit filename="src/input/CameraController.h" />
+		<Unit filename="src/input/FPSController.cpp" />
+		<Unit filename="src/input/FPSController.h" />
 		<Unit filename="src/input/InputController.cpp" />
 		<Unit filename="src/input/InputController.h" />
 		<Unit filename="src/main.cpp" />

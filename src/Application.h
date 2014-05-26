@@ -16,6 +16,8 @@ namespace der
     class Renderer;
     class SceneRenderer;
     class InputController;
+    class FPSController;
+    class CameraController;
 
     class GUIManager;
     class GUIRenderer;
@@ -40,6 +42,8 @@ namespace der
         void set_queued_render_enabled(bool enabled);
         bool is_queued_render_enabled() const;
 
+        void set_controller(bool set_fps);
+
     private:
         bool init_scene();
         bool init_gui();
@@ -62,6 +66,8 @@ namespace der
         SceneLoader m_scene_loader;
 
         InputController *m_current_controller;
+        FPSController *m_fps_controller;
+        CameraController *m_camera_controller;
 
         SceneUpdateServer m_scene_update_server;
 

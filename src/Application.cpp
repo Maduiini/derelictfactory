@@ -21,6 +21,7 @@
 #include "scene/Camera.h"
 
 #include "input/CameraController.h"
+#include "input/FPSController.h"
 
 #include "ui/GUIManager.h"
 #include "ui/GUIRenderer.h"
@@ -53,6 +54,8 @@ namespace der
         , m_scene_renderer(nullptr)
         , m_scene_loader(m_resource_cache)
         , m_current_controller(nullptr)
+        , m_fps_controller(nullptr)
+        , m_camera_controller(nullptr)
         , m_scene_update_server()
         , m_gui(nullptr)
         , m_gui_renderer(nullptr)
@@ -218,9 +221,15 @@ namespace der
         camera_object->set_position(Vector3(0.0f, 1.8f, 0.0f));
         m_scene->set_camera_object(camera_object->getID());
 
-        m_current_controller = new CameraController();
-        m_current_controller->set_window(&m_window);
-        m_current_controller->set_object(camera_object);
+        m_camera_controller = new CameraController();
+        m_camera_controller->set_window(&m_window);
+        m_camera_controller->set_object(camera_object);
+
+        m_fps_controller = new FPSController();
+        m_fps_controller->set_window(&m_window);
+        m_fps_controller->set_object(camera_object);
+
+        m_current_controller = m_camera_controller;
 
         return true;
     }
@@ -301,6 +310,45 @@ namespace der
         }
     };
 
+    class SwitchControlPressed : public GUIEventHandler
+    {
+    public:
+        Application *m_application;
+        bool m_make_fps;
+
+        SwitchControlPressed(Application *app)
+            : m_application(app)
+            , m_make_fps(true)
+        { }
+
+        virtual void handle(Widget *widget) override
+        {
+            m_application->set_controller(m_make_fps);
+            m_make_fps = !m_make_fps;
+        }
+
+    };
+
+    void Application::set_controller(bool set_fps)
+    {
+        if (set_fps)
+        {
+            m_current_controller = m_fps_controller;
+            m_fps_controller->set_rotation_x(m_camera_controller->get_rotation_x());
+            m_fps_controller->set_rotation_y(m_camera_controller->get_rotation_y());
+            Vector3 pos = m_fps_controller->get_object()->get_position();
+            m_fps_controller->set_jump_y(pos.y - FPSController::eye_level);
+            m_fps_controller->set_speed(Vector2::zero);
+            m_fps_controller->set_jump_velocity(0.0f);
+        }
+        else
+        {
+            m_current_controller = m_camera_controller;
+            m_camera_controller->set_rotation_x(m_fps_controller->get_rotation_x());
+            m_camera_controller->set_rotation_y(m_fps_controller->get_rotation_y());
+        }
+    }
+
     bool Application::init_gui()
     {
         m_gui = new GUIManager();
@@ -358,6 +406,10 @@ namespace der
         m_sun_slider->set_value_changed_handler(new SunSliderChanged(m_scene, sun_display));
         m_sun_slider->set_value(0.0f);
         m_gui->add_widget(m_sun_slider);
+
+        Button *control_switch_button = new Button(Vector2(15, 430), Vector2(200, 45), "Switch control");
+        control_switch_button->set_released_handler(new SwitchControlPressed(this));
+        m_gui->add_widget(control_switch_button);
 
         return true;
     }

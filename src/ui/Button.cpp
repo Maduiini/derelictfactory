@@ -16,8 +16,10 @@ namespace der
         , m_size(size)
         , m_title(title)
         , m_down(false)
+        , m_released_handler(nullptr)
     {
         m_render_cmds.push_back(new RenderCachedTexture(m_button_texture, m_position, m_size));
+        m_render_cmds.push_back(new RenderText(m_title.c_str(), m_position + Vector2(10.0f, 10.0f)));
     }
 
     Button::~Button()
@@ -40,7 +42,6 @@ namespace der
     {
         if (is_inside(point))
         {
-            log::debug("Button pressed.");
             m_down = true;
         }
     }
@@ -48,8 +49,8 @@ namespace der
     void Button::mouse_released(Vector2 point)
     {
         m_down = false;
-        if (is_inside(point))
-            log::debug("Button released.");
+        if (is_inside(point) && m_released_handler)
+            m_released_handler->handle(this);
     }
 
     bool Button::is_inside(Vector2 point) const

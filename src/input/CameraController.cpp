@@ -48,6 +48,7 @@ namespace der
             m_rot_y += mouse_delta.x;
 
             m_speed_up += get_delta_scroll() * 0.5f;
+            m_speed_up = std::max(m_speed_up, 0.0f);
         }
 
         Quaternion rot_x, rot_y;

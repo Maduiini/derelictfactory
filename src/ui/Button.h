@@ -30,11 +30,16 @@ namespace der
         /// Returns true if \c point is inside the button.
         bool is_inside(Vector2 point) const;
 
+        void set_released_handler(GUIEventHandler *handler)
+        { m_released_handler = handler; }
+
     private:
         Vector2 m_position;
         Vector2 m_size;
         std::string m_title;
         bool m_down;
+
+        GUIEventHandler *m_released_handler;
 
         static ResourceID m_button_texture;
         static ResourceID m_button_highlight_texture;

@@ -220,8 +220,8 @@ namespace der
         m_scene_renderer = new SceneRenderer(m_scene, &m_resource_cache);
 
         // Load the test scene
-//        if (m_scene_loader.load("test_scene.derscene", m_scene))
-        if (m_scene_loader.load("derelict_factory.derscene", m_scene))
+        if (m_scene_loader.load("test_scene.derscene", m_scene))
+//        if (m_scene_loader.load("derelict_factory.derscene", m_scene))
             log::info("Scene loaded");
         else
         {

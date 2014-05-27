@@ -31,12 +31,22 @@ namespace der
         static float distance2(const Vector3 &a, const Vector3 &b)
         { return (a - b).length2(); }
 
+        static bool cmp_float_safe(float a, float b)
+        {
+            if ((a == a) && (b == b))
+                return a < b;
+            if ((a != a) && (b != b))
+                return false;
+            return (a != a);
+        }
+
         bool cmp_distance(const RenderCommand &a, const RenderCommand &b) const
         {
             const Vector3 a_pos = a.model_mat.get_translation();
             const Vector3 b_pos = b.model_mat.get_translation();
 //            return distance2(a_pos, m_camera_pos) > distance2(b_pos, m_camera_pos);
-            return distance2(b_pos, m_camera_pos) < distance2(a_pos, m_camera_pos);
+//            return distance2(b_pos, m_camera_pos) < distance2(a_pos, m_camera_pos);
+            return cmp_float_safe(distance2(b_pos, m_camera_pos), distance2(a_pos, m_camera_pos));
         }
 
         bool operator ()(const RenderCommand &a, const RenderCommand &b) const

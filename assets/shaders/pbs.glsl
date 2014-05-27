@@ -176,12 +176,13 @@ vec3 approx_spec_IBL(const vec3 c_spec, const vec3 N, const vec3 V, const float 
 
 //    float lod = roughness * 20.0;
 //    float lod = roughness * 15.0;
-    float lod = roughness * 10.0;
-//    float lod = sqrt(roughness) * 5;
+//    float lod = roughness * 15.0;
+//    float lod = roughness * 10.0;
+    float lod = sqrt(roughness) * 10;
 //    float lod = roughness * 5.0;
 //    float lod = roughness * 1.5;
     vec3 color = get_env(L, lod);
-//    vec2 env_brdf = textureLod(tex_env_brdf, vec2(NoV, roughness) * 0.98 + vec2(0.01), 0.0).rg;
+//    vec3 color = gamma_correct(get_env(L, lod)).rgb;
     vec2 env_brdf = textureLod(tex_env_brdf, vec2(NoV, roughness) * 0.88 + vec2(0.1), 0.0).rg;
 //    vec2 env_brdf = texture(tex_env_brdf, vec2(NoV, lod)).rg;
 
@@ -196,6 +197,7 @@ vec3 approx_IBL(const vec3 c_diff, const vec3 c_spec, const vec3 N, const vec3 V
 {
     vec3 cd = approx_diff_IBL(c_diff, N, V, roughness);
     vec3 cs = approx_spec_IBL(c_spec, N, V, roughness);
+//    vec3 cs = vec3(0.0);
     return cd + cs;
 }
 
@@ -355,6 +357,7 @@ vec3 lighting(const vec3 c_diff, const vec3 c_spec, const vec3 N, const vec3 V, 
     color += light(5, c_diff, c_spec, N, V, roughness);
     color += light(6, c_diff, c_spec, N, V, roughness);
     color += light(7, c_diff, c_spec, N, V, roughness);
+
 //    color += light(8, c_diff, c_spec, N, V, roughness);
 //    color += light(9, c_diff, c_spec, N, V, roughness);
 //    color += light(10, c_diff, c_spec, N, V, roughness);

@@ -28,6 +28,8 @@ namespace der
     class ColorFrameBuffer;
     class PostProcessor;
 
+    class AudioPlayer;
+
     class Application
     {
     public:
@@ -73,6 +75,8 @@ namespace der
 
         GUIManager *m_gui;
         GUIRenderer *m_gui_renderer;
+
+        AudioPlayer *m_audio_player;
 
         ValueDisplay *m_fps_display;
         ValueDisplay *m_state_change_display;

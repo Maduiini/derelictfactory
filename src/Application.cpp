@@ -32,6 +32,8 @@
 #include "ui/ValueDisplay.h"
 #include "ui/TextureDisplay.h"
 
+#include "audio/AudioPlayer.h"
+
 #include <GLFW/glfw3.h>
 #include <sstream>
 
@@ -59,6 +61,7 @@ namespace der
         , m_scene_update_server()
         , m_gui(nullptr)
         , m_gui_renderer(nullptr)
+        , m_audio_player(nullptr)
         , m_fps_display(nullptr)
         , m_state_change_display(nullptr)
         , m_vis_objects_display(nullptr)
@@ -87,6 +90,7 @@ namespace der
         delete m_scene;
         delete m_gui_renderer;
         delete m_gui;
+        delete m_audio_player;
 
         if (m_ready)        m_window.destroy();
         if (m_glfw_ready)   ::glfwTerminate();
@@ -120,6 +124,12 @@ namespace der
                 m_post_processor->add_effect(new SSAOBlurY());
                 m_post_processor->add_effect(new SunRaysEffect());
                 m_post_processor->add_effect(new DepthOfFieldEffect());
+
+                m_audio_player = new AudioPlayer();
+                if (!m_audio_player->init())
+                    log::error("Failed to initialize audio player.");
+                else
+                    m_audio_player->play_music("assets\\music\\outer.ogg", true, 0.0f);
             }
         }
         return is_ready();
@@ -333,6 +343,22 @@ namespace der
 
     };
 
+    class ToggleMusic : public GUIEventHandler
+    {
+    public:
+        AudioPlayer *m_audio_player;
+
+        ToggleMusic(AudioPlayer *player)
+            : m_audio_player(player)
+        { }
+
+        virtual void handle(Widget *widget) override
+        {
+            const Checkbox *cb = reinterpret_cast<Checkbox*>(widget);
+            m_audio_player->set_music_volume(cb->is_checked() ? 0.5f : 0.0f);
+        }
+    };
+
     void Application::set_controller(bool set_fps)
     {
         if (set_fps)
@@ -426,6 +452,11 @@ namespace der
             new CheckboxForwarder<DepthOfFieldEffect>(static_cast<DepthOfFieldEffect*>(m_post_processor->get_effect(4)), &DepthOfFieldEffect::enable_debugging));
         dof_debug_box->set_checked(false);
         m_gui->add_widget(dof_debug_box);
+
+        Checkbox *music_toggle_box = new Checkbox(Vector2(280, 360), "Toggle Music");
+        music_toggle_box->set_state_changed_handler(new ToggleMusic(m_audio_player));
+        music_toggle_box->set_checked(false);
+        m_gui->add_widget(music_toggle_box);
 
         return true;
     }

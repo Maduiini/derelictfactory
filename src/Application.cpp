@@ -219,13 +219,24 @@ namespace der
         m_scene = new Scene();
         m_scene_renderer = new SceneRenderer(m_scene, &m_resource_cache);
 
-        // Load the test scene
-        if (m_scene_loader.load("derelict_factory.derscene", m_scene))
-//        if (m_scene_loader.load("derelict_factory.derscene", m_scene))
-            log::info("Scene loaded");
+        m_camera_controller = new CameraController();
+        m_camera_controller->set_window(&m_window);
+
+        m_fps_controller = new FPSController();
+        m_fps_controller->set_window(&m_window);
+
+        m_current_controller = m_camera_controller;
+
+        return load_scene("derelict_factory.derscene");
+    }
+
+    bool Application::load_scene(const char * const scene_name)
+    {
+        if (m_scene_loader.load(scene_name, m_scene))
+            log::info("Scene loaded: %", scene_name);
         else
         {
-            log::error("Could not load scene");
+            log::error("Could not load scene: %", scene_name);
             return false;
         }
 
@@ -235,18 +246,34 @@ namespace der
         camera_object->set_position(Vector3(0.0f, 1.8f, 0.0f));
         m_scene->set_camera_object(camera_object->getID());
 
-        m_camera_controller = new CameraController();
-        m_camera_controller->set_window(&m_window);
+        // Need to reshape the scene, as the camera has changed.
+        int w, h;
+        m_window.get_size(&w, &h);
+        m_scene->reshape(w, h);
+
         m_camera_controller->set_object(camera_object);
-
-        m_fps_controller = new FPSController();
-        m_fps_controller->set_window(&m_window);
         m_fps_controller->set_object(camera_object);
-
-        m_current_controller = m_camera_controller;
-
         return true;
     }
+
+
+    class LoadScenePressed : public GUIEventHandler
+    {
+    public:
+        Application *m_application;
+        const char * const m_scene_name;
+
+        LoadScenePressed(Application *app, const char * const scene_name)
+            : m_application(app)
+            , m_scene_name(scene_name)
+        { }
+
+        virtual void handle(Widget *widget) override
+        {
+            m_application->load_scene(m_scene_name);
+        }
+
+    };
 
 
     template <class T>
@@ -476,6 +503,15 @@ namespace der
         Button *control_switch_button = new Button(Vector2(15, 500), Vector2(200, 45), "Switch control");
         control_switch_button->set_released_handler(new SwitchControlPressed(this));
         m_gui->add_widget(control_switch_button);
+
+        Button *load_test_scene_button = new Button(Vector2(15, 550), Vector2(200, 45), "Test scene");
+        load_test_scene_button->set_released_handler(new LoadScenePressed(this, "test_scene.derscene"));
+        m_gui->add_widget(load_test_scene_button);
+
+        Button *load_factory_scene_button = new Button(Vector2(15, 600), Vector2(200, 45), "Factory scene");
+        load_factory_scene_button->set_released_handler(new LoadScenePressed(this, "derelict_factory.derscene"));
+        m_gui->add_widget(load_factory_scene_button);
+
 
         Checkbox *dof_debug_box = new Checkbox(Vector2(280, 320), "Debug DoF");
         dof_debug_box->set_state_changed_handler(

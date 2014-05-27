@@ -46,6 +46,8 @@ namespace der
 
         void set_controller(bool set_fps);
 
+        bool load_scene(const char * const scene_name);
+
     private:
         bool init_scene();
         bool init_gui();

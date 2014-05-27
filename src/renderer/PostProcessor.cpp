@@ -55,6 +55,16 @@ namespace der
         m_effects.push_back(effect);
     }
 
+    PostProcessingEffect* PostProcessor::get_effect(const size_t index)
+    {
+        return m_effects[index];
+    }
+
+    size_t PostProcessor::effect_count() const
+    {
+        return m_effects.size();
+    }
+
     void PostProcessor::begin_scene()
     {
         if (!m_enabled)

@@ -160,6 +160,7 @@
 		<Unit filename="src/renderer/BufferObject.h" />
 		<Unit filename="src/renderer/ColorFrameBuffer.cpp" />
 		<Unit filename="src/renderer/ColorFrameBuffer.h" />
+		<Unit filename="src/renderer/DepthOfFieldEffect.cpp" />
 		<Unit filename="src/renderer/DepthOfFieldEffect.h" />
 		<Unit filename="src/renderer/DepthOnlyFrameBuffer.cpp" />
 		<Unit filename="src/renderer/DepthOnlyFrameBuffer.h" />

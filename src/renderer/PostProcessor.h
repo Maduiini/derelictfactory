@@ -2,6 +2,8 @@
 #ifndef H_DER_POST_PROCESSOR_H
 #define H_DER_POST_PROCESSOR_H
 
+#include "../Types.h"
+
 #include <vector>
 
 namespace der
@@ -23,6 +25,10 @@ namespace der
         void resize(const int width, const int height);
 
         void add_effect(PostProcessingEffect *effect);
+
+        PostProcessingEffect* get_effect(const size_t index);
+
+        size_t effect_count() const;
 
         void begin_scene();
 

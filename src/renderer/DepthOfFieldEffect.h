@@ -10,11 +10,15 @@ namespace der
     class DepthOfFieldEffect : public PostProcessingEffect
     {
     public:
-        DepthOfFieldEffect()
-            : PostProcessingEffect(make_resource("depth_of_field.frag"))
-        { }
+        DepthOfFieldEffect();
 
-        //virtual void setup_rendering(Graphics *graphics, ResourceCache &cache, ColorFrameBuffer *secondary_buffer) override;
+        virtual void setup_rendering(Graphics *graphics, ResourceCache &cache, ColorFrameBuffer *secondary_buffer) override;
+
+        void enable_debugging(bool enable);
+
+    private:
+        bool m_debug;
+
     };
 
 

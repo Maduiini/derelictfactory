@@ -38,7 +38,8 @@
 			<Add directory="3rdparty/bass" />
 		</Compiler>
 		<Linker>
-			<Add option="-lglfw3  -lglew32 -lgdi32 -lopengl32 -lws2_32 -lbass" />
+			<Add option="-lglfw3  -lglew32 -lgdi32 -lopengl32" />
+			<Add option="-lws2_32 -lbass" />
 			<Add directory="$(#glfw.lib)" />
 			<Add directory="$(#glew.lib)" />
 			<Add directory="3rdparty/bass" />

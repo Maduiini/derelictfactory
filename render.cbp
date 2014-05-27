@@ -85,6 +85,7 @@
 		<Unit filename="assets/materials/SpiderbotCables.material" />
 		<Unit filename="assets/materials/SpiderbotCopper.material" />
 		<Unit filename="assets/materials/Sun.material" />
+		<Unit filename="assets/materials/TinCan.material" />
 		<Unit filename="assets/materials/Tire.material" />
 		<Unit filename="assets/materials/Toilet.material" />
 		<Unit filename="assets/materials/TriangleRoof.material" />

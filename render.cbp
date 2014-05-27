@@ -120,6 +120,7 @@
 		<Unit filename="assets/shaders/water.frag" />
 		<Unit filename="assets/textures/Skybox.cube" />
 		<Unit filename="assets/textures/Skybox/Citadella.cube" />
+		<Unit filename="assets/textures/Skybox/FactoryInside.cube" />
 		<Unit filename="assets/textures/Test_cube_map.cube" />
 		<Unit filename="doc/Plan.txt" />
 		<Unit filename="doc/Scene_export_manual.txt" />

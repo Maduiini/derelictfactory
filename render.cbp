@@ -35,11 +35,13 @@
 			<Add option="-DGLEW_STATIC" />
 			<Add directory="$(#glfw.include)" />
 			<Add directory="$(#glew.include)" />
+			<Add directory="3rdparty/bass" />
 		</Compiler>
 		<Linker>
-			<Add option="-lglfw3  -lglew32 -lgdi32 -lopengl32 -lws2_32" />
+			<Add option="-lglfw3  -lglew32 -lgdi32 -lopengl32 -lws2_32 -lbass" />
 			<Add directory="$(#glfw.lib)" />
 			<Add directory="$(#glew.lib)" />
+			<Add directory="3rdparty/bass" />
 		</Linker>
 		<Unit filename="assets/materials/Aluminium.material" />
 		<Unit filename="assets/materials/Barrel.material" />
@@ -129,6 +131,8 @@
 		<Unit filename="src/Types.h" />
 		<Unit filename="src/Window.cpp" />
 		<Unit filename="src/Window.h" />
+		<Unit filename="src/audio/AudioPlayer.cpp" />
+		<Unit filename="src/audio/AudioPlayer.h" />
 		<Unit filename="src/input/CameraController.cpp" />
 		<Unit filename="src/input/CameraController.h" />
 		<Unit filename="src/input/FPSController.cpp" />

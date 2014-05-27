@@ -90,6 +90,7 @@ namespace der
         delete m_scene;
         delete m_gui_renderer;
         delete m_gui;
+        delete m_audio_player;
 
         if (m_ready)        m_window.destroy();
         if (m_glfw_ready)   ::glfwTerminate();
@@ -128,7 +129,7 @@ namespace der
                 if (!m_audio_player->init())
                     log::error("Failed to initialize audio player.");
                 else
-                    m_audio_player->play_music("assets\\music\\outer.mp3", true, 1.0f);
+                    m_audio_player->play_music("assets\\music\\outer.mp3", true, 0.0f);
             }
         }
         return is_ready();
@@ -338,6 +339,22 @@ namespace der
 
     };
 
+    class ToggleMusic : public GUIEventHandler
+    {
+    public:
+        AudioPlayer *m_audio_player;
+
+        ToggleMusic(AudioPlayer *player)
+            : m_audio_player(player)
+        { }
+
+        virtual void handle(Widget *widget) override
+        {
+            const Checkbox *cb = reinterpret_cast<Checkbox*>(widget);
+            m_audio_player->set_music_volume(cb->is_checked() ? 0.5f : 0.0f);
+        }
+    };
+
     void Application::set_controller(bool set_fps)
     {
         if (set_fps)
@@ -433,9 +450,8 @@ namespace der
         m_gui->add_widget(dof_debug_box);
 
         Checkbox *music_toggle_box = new Checkbox(Vector2(280, 360), "Toggle Music");
-//        music_toggle_box->set_state_changed_handler(
-//            new CheckboxForwarder<ToggleMusic>(static_cast<ToggleMusic*>(m_post_processor->get_effect(4)), &DepthOfFieldEffect::enable_debugging));
-        music_toggle_box->set_checked(true);
+        music_toggle_box->set_state_changed_handler(new ToggleMusic(m_audio_player));
+        music_toggle_box->set_checked(false);
         m_gui->add_widget(music_toggle_box);
 
         return true;

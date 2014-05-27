@@ -10,6 +10,7 @@ namespace der
 
     AudioPlayer::AudioPlayer()
         : m_initialized(false)
+        , m_music_stream(0)
     { }
 
     AudioPlayer::~AudioPlayer()
@@ -45,6 +46,14 @@ namespace der
 
         if (!BASS_ChannelPlay(channel, FALSE))
             log::error("Failed to play music: %", filepath);
+        else
+            m_music_stream = channel;
+    }
+
+    void AudioPlayer::stop_music()
+    {
+        if (m_music_stream)
+            BASS_ChannelStop(m_music_stream);
     }
 
     void AudioPlayer::set_global_volume(float volume)
@@ -53,6 +62,12 @@ namespace der
             return;
 
         BASS_SetVolume(volume);
+    }
+
+    void AudioPlayer::set_music_volume(float volume)
+    {
+        if (m_music_stream)
+            BASS_ChannelSetAttribute(m_music_stream, BASS_ATTRIB_VOL, volume);
     }
 
 } // der

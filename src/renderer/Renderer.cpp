@@ -35,7 +35,8 @@ namespace der
         {
             const Vector3 a_pos = a.model_mat.get_translation();
             const Vector3 b_pos = b.model_mat.get_translation();
-            return distance2(a_pos, m_camera_pos) > distance2(b_pos, m_camera_pos);
+//            return distance2(a_pos, m_camera_pos) > distance2(b_pos, m_camera_pos);
+            return distance2(b_pos, m_camera_pos) < distance2(a_pos, m_camera_pos);
         }
 
         bool operator ()(const RenderCommand &a, const RenderCommand &b) const

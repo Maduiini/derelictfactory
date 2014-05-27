@@ -82,6 +82,7 @@
 		<Unit filename="assets/materials/SpiderbotCopper.material" />
 		<Unit filename="assets/materials/Sun.material" />
 		<Unit filename="assets/materials/Tire.material" />
+		<Unit filename="assets/materials/Toilet.material" />
 		<Unit filename="assets/materials/TriangleRoof.material" />
 		<Unit filename="assets/shaders/color.frag" />
 		<Unit filename="assets/shaders/color.vert" />

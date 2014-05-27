@@ -1,7 +1,7 @@
 pbs.vert
 pbs.frag
-Factory/Roof_A.tga
-Factory/Roof_N.tga
-Factory/Roof_R.tga
-Factory/Roof_M.tga
+Factory/TriangleRoof_A.tga
+Factory/TriangleRoof_N.tga
+Factory/TriangleRoof_R.tga
+Factory/TriangleRoof_M.tga
 Test_cube_map.cube

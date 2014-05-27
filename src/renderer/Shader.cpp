@@ -188,4 +188,9 @@ namespace der
         ::glUniform1i(location, sampler);
     }
 
+    void Program::uniform(int location, bool value)
+    {
+        ::glUniform1i(location, value);
+    }
+
 } // der

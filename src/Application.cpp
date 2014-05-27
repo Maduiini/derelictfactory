@@ -417,6 +417,12 @@ namespace der
         control_switch_button->set_released_handler(new SwitchControlPressed(this));
         m_gui->add_widget(control_switch_button);
 
+        Checkbox *dof_debug_box = new Checkbox(Vector2(280, 320), "Debug DoF");
+        dof_debug_box->set_state_changed_handler(
+            new CheckboxForwarder<DepthOfFieldEffect>(static_cast<DepthOfFieldEffect*>(m_post_processor->get_effect(4)), &DepthOfFieldEffect::enable_debugging));
+        dof_debug_box->set_checked(false);
+        m_gui->add_widget(dof_debug_box);
+
         return true;
     }
 

@@ -137,7 +137,7 @@ namespace gui_renderer_internal
             graphics->update_state();
 
             graphics->draw_triangle_strip(0, 4);
-            m_z -= 0.005f;
+            m_z -= 0.002f;
         }
     }
 

@@ -4,6 +4,8 @@ uniform sampler2D tex_color;
 uniform sampler2D tex_normal;
 uniform sampler2D tex_extra;
 
+uniform float strength_parameter = 1.0;
+
 in vec2 tcoord;
 
 layout (location = 0) out vec4 out_color;
@@ -70,7 +72,7 @@ float ssao(vec2 base_seed)
     }
 //        }
 
-    return 1.0 - 1.3 * sum * inv_samples;
+    return 1.0 - strength_parameter * sum * inv_samples;
 }
 
 float ssao_unfold(vec2 base_seed)
@@ -154,7 +156,7 @@ float ssao_unfold(vec2 base_seed)
     normal_difference = 1.0 - dot(occluder_fragment.xyz, current_normal);
     sum += step(falloff, depth_difference) * normal_difference * (1.0 - smoothstep(falloff, strength, depth_difference));
 
-    return 1.0 - 1.3 * sum * inv_samples;
+    return 1.0 - strength_parameter * sum * inv_samples;
 }
 
 void main()

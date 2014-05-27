@@ -220,7 +220,7 @@ namespace der
         m_scene_renderer = new SceneRenderer(m_scene, &m_resource_cache);
 
         // Load the test scene
-        if (m_scene_loader.load("test_scene.derscene", m_scene))
+        if (m_scene_loader.load("derelict_factory.derscene", m_scene))
 //        if (m_scene_loader.load("derelict_factory.derscene", m_scene))
             log::info("Scene loaded");
         else
@@ -321,6 +321,28 @@ namespace der
 
             GameObject *sun = m_scene->get_sun();
             sun->set_rotation(axis, theta); //sun_orientation);
+        }
+    };
+
+    class SSAOSliderChanged : public GUIEventHandler
+    {
+    public:
+        SSAOEffect *m_effect;
+        ValueDisplay *m_display;
+
+        SSAOSliderChanged(SSAOEffect *effect, ValueDisplay *display)
+            : m_effect(effect)
+            , m_display(display)
+        { }
+
+        virtual void handle(Widget *widget) override
+        {
+            const Slider *slider = reinterpret_cast<Slider*>(widget);
+            const float value = slider->get_absolute_value();
+            const float rounded_value = int(value * 100.0f) / 100.0f;
+            m_display->set_value(rounded_value);
+
+            m_effect->set_strength(value);
         }
     };
 
@@ -442,6 +464,14 @@ namespace der
         m_sun_slider->set_value_changed_handler(new SunSliderChanged(m_scene, sun_display));
         m_sun_slider->set_value(0.0f);
         m_gui->add_widget(m_sun_slider);
+
+        ValueDisplay *ssao_display = new ValueDisplay(Vector2(330, 220), "SSAO strength: ");
+        m_gui->add_widget(ssao_display);
+        Slider *ssao_slider = new Slider(Vector2(330, 260), 200.0f, 0.0f, 3.0f);
+        ssao_slider->set_value_changed_handler(
+            new SSAOSliderChanged(static_cast<SSAOEffect*>(m_post_processor->get_effect(0)), ssao_display));
+        ssao_slider->set_value(1.0f);
+        m_gui->add_widget(ssao_slider);
 
         Button *control_switch_button = new Button(Vector2(15, 500), Vector2(200, 45), "Switch control");
         control_switch_button->set_released_handler(new SwitchControlPressed(this));

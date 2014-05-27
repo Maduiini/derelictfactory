@@ -193,4 +193,9 @@ namespace der
         ::glUniform1i(location, value);
     }
 
+    void Program::uniform(int location, float value)
+    {
+        ::glUniform1f(location, value);
+    }
+
 } // der

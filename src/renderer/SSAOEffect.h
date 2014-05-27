@@ -12,10 +12,12 @@ namespace der
     public:
         SSAOEffect();
 
-        //virtual void setup_rendering(Graphics *graphics, ResourceCache &cache, ColorFrameBuffer *secondary_buffer) override;
+        virtual void setup_rendering(Graphics *graphics, ResourceCache &cache, ColorFrameBuffer *secondary_buffer) override;
+
+        void set_strength(float str);
 
     private:
-        // add ssao parameters here
+        float m_strength;
 
     };
 

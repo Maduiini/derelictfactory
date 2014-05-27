@@ -57,6 +57,7 @@ namespace der
         void uniform(int location, const Vector2 &vec);
         void uniform(int location, const Vector3 &vec);
         void uniform(int location, bool value);
+        void uniform(int location, float value);
 
     private:
         GLuint m_program;

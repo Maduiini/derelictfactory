@@ -28,6 +28,7 @@ void main()
     vec4 pos = mat_model * vec4(in_position, 1.0);
 
     view_vec = camera_pos - pos.xyz;
+    view_vec = mat3(mat_model) * view_vec;
 
     gl_Position = mat_proj * mat_view * pos;
 }

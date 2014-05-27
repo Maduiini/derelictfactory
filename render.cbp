@@ -54,6 +54,7 @@
 		<Unit filename="assets/materials/ConcreteFloor.material" />
 		<Unit filename="assets/materials/CoolingTower.material" />
 		<Unit filename="assets/materials/Crate.material" />
+		<Unit filename="assets/materials/FactoryGround.material" />
 		<Unit filename="assets/materials/FactoryRoof.material" />
 		<Unit filename="assets/materials/FactoryRoofSide.material" />
 		<Unit filename="assets/materials/Fence.material" />

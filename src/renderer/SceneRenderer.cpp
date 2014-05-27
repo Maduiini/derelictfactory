@@ -212,16 +212,23 @@ namespace der
     void SceneRenderer::set_lights(Renderer *renderer, const Aabb &aabb)
     {
         const GameObject *sun = m_scene->get_sun();
-        const Light *sun_light = sun->get_light();
+        if (sun)
+        {
+            const Light *sun_light = sun->get_light();
 
-        Vector3 r, direction, f;
-        sun->get_world_matrix().get_basis(r, direction, f);
+            Vector3 r, direction, f;
+            sun->get_world_matrix().get_basis(r, direction, f);
 
-        renderer->set_light_position(0, sun->get_position(), sun_light->get_type());
-        renderer->set_light_direction(0, direction);
-        renderer->set_light_color(0, sun_light->get_color(), sun_light->get_energy());
-        renderer->set_light_radius(0, sun_light->get_radius());
-        renderer->set_light_spot_angle(0, sun_light->get_spot_angle());
+            renderer->set_light_position(0, sun->get_position(), sun_light->get_type());
+            renderer->set_light_direction(0, direction);
+            renderer->set_light_color(0, sun_light->get_color(), sun_light->get_energy());
+            renderer->set_light_radius(0, sun_light->get_radius());
+            renderer->set_light_spot_angle(0, sun_light->get_spot_angle());
+        }
+        else
+        {
+            renderer->set_light_radius(0, 0.0f);
+        }
 
 
         std::vector<GameObject*> objects;
@@ -330,6 +337,7 @@ namespace der
 
 
         GameObject *sun = m_scene->get_sun();
+        if (!sun) return;
 //        Light *light = sun->get_light();
 
 //        sun->set_position(Vector3::zero);

@@ -423,6 +423,12 @@ namespace der
         dof_debug_box->set_checked(false);
         m_gui->add_widget(dof_debug_box);
 
+        Checkbox *music_toggle_box = new Checkbox(Vector2(280, 360), "Toggle Music");
+//        music_toggle_box->set_state_changed_handler(
+//            new CheckboxForwarder<ToggleMusic>(static_cast<ToggleMusic*>(m_post_processor->get_effect(4)), &DepthOfFieldEffect::enable_debugging));
+        music_toggle_box->set_checked(true);
+        m_gui->add_widget(music_toggle_box);
+
         return true;
     }
 

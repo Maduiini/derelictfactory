@@ -66,6 +66,12 @@
 		<Unit filename="assets/materials/IBeam.material" />
 		<Unit filename="assets/materials/Ivy.material" />
 		<Unit filename="assets/materials/Pallet.material" />
+		<Unit filename="assets/materials/PickupBody.material" />
+		<Unit filename="assets/materials/PickupBumper.material" />
+		<Unit filename="assets/materials/PickupHeadlight.material" />
+		<Unit filename="assets/materials/PickupRim.material" />
+		<Unit filename="assets/materials/PickupSideMirror.material" />
+		<Unit filename="assets/materials/PickupWindshield.material" />
 		<Unit filename="assets/materials/Puddle.material" />
 		<Unit filename="assets/materials/Rock.material" />
 		<Unit filename="assets/materials/Rust.material" />
@@ -75,6 +81,7 @@
 		<Unit filename="assets/materials/SpiderbotCables.material" />
 		<Unit filename="assets/materials/SpiderbotCopper.material" />
 		<Unit filename="assets/materials/Sun.material" />
+		<Unit filename="assets/materials/Tire.material" />
 		<Unit filename="assets/materials/TriangleRoof.material" />
 		<Unit filename="assets/shaders/color.frag" />
 		<Unit filename="assets/shaders/color.vert" />
@@ -86,6 +93,7 @@
 		<Unit filename="assets/shaders/gui.frag" />
 		<Unit filename="assets/shaders/gui.vert" />
 		<Unit filename="assets/shaders/light_uniforms.glsl" />
+		<Unit filename="assets/shaders/param_uniforms.glsl" />
 		<Unit filename="assets/shaders/pbs.frag" />
 		<Unit filename="assets/shaders/pbs.glsl" />
 		<Unit filename="assets/shaders/pbs.vert" />
@@ -95,6 +103,7 @@
 		<Unit filename="assets/shaders/skybox.vert" />
 		<Unit filename="assets/shaders/sm_depth.frag" />
 		<Unit filename="assets/shaders/sm_depth.vert" />
+		<Unit filename="assets/shaders/smooth_glass.frag" />
 		<Unit filename="assets/shaders/ssao.frag" />
 		<Unit filename="assets/shaders/ssao_blur_x.frag" />
 		<Unit filename="assets/shaders/ssao_blur_y.frag" />

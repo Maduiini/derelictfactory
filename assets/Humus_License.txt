@@ -1,7 +1,12 @@
 License for files that match the pattern:
-textures/Humus_Vancouver_*.tga
+textures/*/Humus_Vancouver_*.tga
 
 (downsized to 512x512)
+
+textures/*/Citadella_*.tga
+textures/*/Citadella_*.tga
+
+(downsized to 1024x1024)
 
 Author
 ======

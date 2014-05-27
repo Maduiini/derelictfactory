@@ -34,7 +34,7 @@ layout (location = 2) out vec4 out_extra;
 
 vec3 get_normal()
 {
-    return der_get_normal(tex_normal, tcoord, normal, tangent);
+    return der_get_normal(tex_normal, tcoord * 2.0e-2, normal, tangent);
 }
 
 vec3 get_albedo()
@@ -49,7 +49,7 @@ void main()
     float d = length(view_vec);
 
 //    vec3 N = normal;
-    vec3 N = normalize(mix(normal, get_normal(), nm_influence));
+    vec3 N = normalize(mix(normal, get_normal(), nm_influence * 0.02));
     vec3 V = normalize(view_vec);
 
     vec3 albedo = get_albedo() * 10.0;
@@ -70,6 +70,7 @@ void main()
 //    out_normal = vec4(normalize(view_normal), d);
     out_extra = vec4(0.0, 0.0, 0.0, 1.0);
 }
+
 
 
 

@@ -24,7 +24,7 @@ namespace der
     class Mesh
     {
     public:
-        static const size_t MAX_SUB_MESHES = 8;
+        static const size_t MAX_SUB_MESHES = 16;
     public:
         Mesh();
         ~Mesh();

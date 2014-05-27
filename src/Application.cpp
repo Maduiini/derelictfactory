@@ -129,7 +129,7 @@ namespace der
                 if (!m_audio_player->init())
                     log::error("Failed to initialize audio player.");
                 else
-                    m_audio_player->play_music("assets\\music\\outer.mp3", true, 0.0f);
+                    m_audio_player->play_music("assets\\music\\outer.ogg", true, 0.0f);
             }
         }
         return is_ready();

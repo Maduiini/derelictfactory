@@ -358,12 +358,14 @@ namespace der
 
         light_aabb.transform(view);
 
-//        const Matrix4 proj = projection_orthogonal_lh(light_aabb.m_min.x, light_aabb.m_max.x,
-//                                                      light_aabb.m_min.y, light_aabb.m_max.y,
-//                                                      light_aabb.m_min.z, light_aabb.m_max.z);
+        const Matrix4 proj = projection_orthogonal_lh(light_aabb.m_min.x, light_aabb.m_max.x,
+                                                      light_aabb.m_min.y, light_aabb.m_max.y,
+                                                      light_aabb.m_min.z, light_aabb.m_max.z);
 //        const Matrix4 proj = projection_orthogonal_lh(light_aabb.m_min.x, light_aabb.m_max.x, light_aabb.m_min.y, light_aabb.m_max.y, -100, 100);
 //        const Matrix4 proj = projection_orthogonal_lh(-100, 100, -100, 100, -100, 100);
-        const Matrix4 proj = projection_orthogonal_lh(-120.0f, 120.0f, -120.0f, 120.0f, -200.0f, 200.0f);
+//        const Matrix4 proj = projection_orthogonal_lh(-120.0f, 120.0f, -120.0f, 120.0f, -200.0f, 200.0f);
+//        const Matrix4 proj = projection_orthogonal_lh(-150.0f, 150.0f, -150.0f, 150.0f, -150.0f, 200.0f);
+//        const Matrix4 proj = projection_orthogonal_lh(-200.0f, 200.0f, -200.0f, 200.0f, -200.0f, 200.0f);
 
 
         const Matrix4 view_proj = proj * view;

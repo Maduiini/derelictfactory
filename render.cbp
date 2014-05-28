@@ -45,6 +45,7 @@
 			<Add directory="3rdparty/bass" />
 		</Linker>
 		<Unit filename="assets/materials/Aluminium.material" />
+		<Unit filename="assets/materials/AluminiumInside.material" />
 		<Unit filename="assets/materials/Barrel.material" />
 		<Unit filename="assets/materials/Barrel2.material" />
 		<Unit filename="assets/materials/Brick.material" />
@@ -55,8 +56,11 @@
 		<Unit filename="assets/materials/Chimney.material" />
 		<Unit filename="assets/materials/Color.material" />
 		<Unit filename="assets/materials/ConcreteFloor.material" />
+		<Unit filename="assets/materials/ConcreteFloorOut.material" />
 		<Unit filename="assets/materials/CoolingTower.material" />
 		<Unit filename="assets/materials/Crate.material" />
+		<Unit filename="assets/materials/Door.material" />
+		<Unit filename="assets/materials/DoorOut.material" />
 		<Unit filename="assets/materials/FactoryGround.material" />
 		<Unit filename="assets/materials/FactoryRoof.material" />
 		<Unit filename="assets/materials/FactoryRoofSide.material" />

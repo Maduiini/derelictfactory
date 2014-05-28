@@ -85,10 +85,10 @@ void main()
 
     float r = 1.0 - wet;
 
-    float waterlevel = 0.25;
+    float waterlevel = 0.2;
 //    float abso = 1.0 - (waterlevel - clamp(position.y + waterlevel, -1.0, 0.25));
-    float abso = 1.0 - (waterlevel - clamp(position.y + waterlevel, -1.0, 0.25));
-    vec3 absorbtion = vec3(0.9, 0.92, 1.0) * abso * abso;
+    float abso = 1.2 - (waterlevel - clamp(position.y + waterlevel, -1.0, waterlevel));
+    vec3 absorbtion = vec3(0.95, 0.97, 1.0) * abso * abso * abso;
 
     albedo *= absorbtion;
 

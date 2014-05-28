@@ -32,10 +32,10 @@ out vec4 out_color;
 out vec4 out_normal;
 out vec4 out_extra;
 
-vec3 get_normal()
-{
-    return der_get_normal(tex_normal, tcoord * 2.0e-2, normal, tangent);
-}
+//vec3 get_normal()
+//{
+//    return der_get_normal(tex_normal, tcoord * 2.0e-2, normal, tangent);
+//}
 
 vec3 get_albedo()
 {
@@ -81,10 +81,10 @@ vec3 waveN_circ(vec2 wave_center, const float amplitude, float speed)
     return normalize(n);
 }
 
-vec3 waveN()
+vec3 waveN(float f)
 {
-    vec3 n = waveN_lin(vec2(0.1, 1.0), 0.005, 2.4)
-        + waveN_lin(vec2(0.5, 0.5), 0.005, 1.2);
+    vec3 n = waveN_lin(vec2(0.1, 1.0), 0.002 * f, 2.4)
+        + waveN_lin(vec2(0.5, 0.5), 0.002 * f, 1.2);
 //    vec3 n = waveN_circ(vec2(38.0, -35), 0.002, 1.2);
     return normalize(n);
 }
@@ -93,9 +93,11 @@ void main()
 {
     float d = length(view_vec);
 
+    float f = 20.0 / (d + 1.0);
+
 //    vec3 N = normal;
 //    vec3 N = normalize(mix(normal, get_normal(), nm_influence * 0.02));
-    vec3 N = waveN();
+    vec3 N = waveN(f);
     vec3 V = normalize(view_vec);
 
 //    vec3 albedo = vec3(0.03, 0.14, 0.04);

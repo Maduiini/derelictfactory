@@ -63,6 +63,7 @@
 		<Unit filename="assets/materials/DoorOut.material" />
 		<Unit filename="assets/materials/FactoryGround.material" />
 		<Unit filename="assets/materials/FactoryGround_Far.material" />
+		<Unit filename="assets/materials/FactoryGround_Far2.material" />
 		<Unit filename="assets/materials/FactoryRoof.material" />
 		<Unit filename="assets/materials/FactoryRoofSide.material" />
 		<Unit filename="assets/materials/Fence.material" />

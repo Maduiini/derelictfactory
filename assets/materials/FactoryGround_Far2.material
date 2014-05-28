@@ -1,0 +1,14 @@
+pbs.vert
+pbs_ground.frag
+Ground/Gravel_A.tga
+Ground/Gravel_N.tga
+Ground/FactoryGround_Far2_Mask.tga
+Ground/Gravel_Green_A.tga
+Skybox.cube
+-cast_no_shadows
+cull_none
+
+Skybox/Citadella.cube
+Test_cube_map.cube
+
+

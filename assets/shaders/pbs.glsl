@@ -10,7 +10,7 @@ vec3 get_env(const vec3 v, const float lod)
 }
 
 // Physically based shading
-
+//---------------------------
 
 // Lambertian diffuse term
 vec3 diffuse_BRDF(const vec3 c_diff)
@@ -125,7 +125,6 @@ vec3 IBL_diffuse(const vec3 c_diff, const vec3 N, const vec3 V, const float roug
     vec3 L = -N;
 
     float lod = 5.0 + roughness * 5.0;
-//    vec3 color = linearize(textureLod(tex_env, L, lod).rgb);
     vec3 color = get_env(L, lod);
 
 //    float NoL = 0.225; //max(dot(N, L), 0.0);
@@ -139,8 +138,7 @@ vec3 IBL_specular(const vec3 c_spec, const vec3 N, const vec3 V, const float rou
 
 //    float lod = roughness * 5.0;
 //    float lod = roughness * 20.0;
-//    float lod = roughness * 10.0;
-    float lod = roughness * 10000.0;
+    float lod = roughness * 10.0;
     vec3 color = get_env(L, lod);
 
 //    float NoL = max(dot(N, L), 0.0);
@@ -170,7 +168,6 @@ vec3 approx_diff_IBL(const vec3 c_diff, const vec3 N, const vec3 V, const float 
 
 vec3 approx_spec_IBL(const vec3 c_spec, const vec3 N, const vec3 V, const float roughness)
 {
-//    float NoV = max(dot(N, V), 0.0);
     float NoV = max(dot(N, V), 0.1);
     vec3 L = -reflect(V, N) * vec3(1.0, -1.0, 1.0);
 
@@ -182,22 +179,16 @@ vec3 approx_spec_IBL(const vec3 c_spec, const vec3 N, const vec3 V, const float 
 //    float lod = roughness * 5.0;
 //    float lod = roughness * 1.5;
     vec3 color = get_env(L, lod);
-//    vec3 color = gamma_correct(get_env(L, lod)).rgb;
     vec2 env_brdf = textureLod(tex_env_brdf, vec2(NoV, roughness) * 0.88 + vec2(0.1), 0.0).rg;
-//    vec2 env_brdf = texture(tex_env_brdf, vec2(NoV, lod)).rg;
+//    vec2 env_brdf = texture(tex_env_brdf, vec2(NoV, roughness)).rg;
 
     return color * (c_spec * env_brdf.x + env_brdf.yyy);
-//    return color * (c_spec * (env_brdf.x + env_brdf.yyy) + env_brdf.yyy * 0.05);
-//    return color * (c_spec * env_brdf.x + vec3(env_brdf.y));
-//    return vec3(env_brdf.x); // + env_brdf.y); //, env_brdf.y, 0.0);
-//    return vec3(env_brdf.x);
 }
 
 vec3 approx_IBL(const vec3 c_diff, const vec3 c_spec, const vec3 N, const vec3 V, const float roughness)
 {
     vec3 cd = approx_diff_IBL(c_diff, N, V, roughness);
     vec3 cs = approx_spec_IBL(c_spec, N, V, roughness);
-//    vec3 cs = vec3(0.0);
     return cd + cs;
 }
 
@@ -319,9 +310,6 @@ float shadowmap8()
     sum += sample_shadow4(coord, vec2(0.5) / 4096.0);
     sum += sample_shadow4(coord, vec2(1.5) / 4096.0);
     return sum / 8.0;
-//    sum += sample_shadow4(coord, vec2(0.5) / 4096.0) * 0.3;
-//    sum += sample_shadow4(coord, vec2(1.5) / 4096.0) * 0.7;
-//    return sum / 4.0;
 }
 
 float shadowmap16()
@@ -373,14 +361,7 @@ vec3 lighting(const vec3 c_diff, const vec3 c_spec, const vec3 N, const vec3 V, 
 
 vec3 back_lighting(const vec3 c_diff, const vec3 N, const vec3 V, const float roughness, const float shadow)
 {
-//    float shadow = shadowmap5();
     vec3 color = vec3(0.0);
-
-//    color = back_light(0, c_diff, N, V, roughness) * shadow;
-//    for (int i = 1; i < light_count; i++)
-//    {
-//        color += back_light(i, c_diff, vec3(0.0), N, V, roughness);
-//    }
 
     color += back_light(0, c_diff, N, V, roughness) * shadow;
     color += back_light(1, c_diff, N, V, roughness);
@@ -388,11 +369,12 @@ vec3 back_lighting(const vec3 c_diff, const vec3 N, const vec3 V, const float ro
     color += back_light(3, c_diff, N, V, roughness);
 
     color += IBL_diffuse(c_diff, N, V, roughness);
-//    return color * c_diff;
+    // This multiplication simulates absorption in the translucent material. (or at least tries to)
     return color * clamp(vec3(0.1) + c_diff * 0.5, vec3(0.1), vec3(1.0));
 //    return color;
 }
 
+// Special lighting for vegetation. Takes translucency into account.
 vec3 vege_lighting(const vec3 c_diff, const vec3 c_spec, const vec3 N, const vec3 V, const float roughness)
 {
     float shadow = (sm_enabled > 0.0) ? shadowmap8() : 1.0;

@@ -48,7 +48,6 @@ void main()
 {
     float d = length(view_vec);
 
-//    vec3 N = normal;
     vec3 N = normalize(mix(normal, get_normal(), nm_influence * 0.02));
     vec3 V = normalize(view_vec);
 
@@ -56,11 +55,7 @@ void main()
     float r = albedo.r;
 
     vec3 c_spec = (vec3(1.0) - albedo) * vec3(0.18037);
-//    vec3 c_spec = vec3(0.18037);
-//    vec3 c_spec = vec3(0.08037);
-//    vec3 c_spec = vec3(0.04037);
-    vec3 c_diff = albedo; //vec3(0.04, 0.02, 0.01);
-//    vec3 c_diff = vec3(0.24, 0.22, 0.21);
+    vec3 c_diff = albedo;
 
     vec3 color = lighting(c_diff, c_spec, N, V, r);
 

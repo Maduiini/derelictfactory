@@ -61,7 +61,6 @@ vec3 get_albedo(vec4 mask)
     vec3 albedo_grass = der_get_albedo(tex_metallic, get_tex_coord());
 
     vec3 mud = mix(vec3(1.0, 1.0, 1.0), vec3(0.55, 0.5, 0.48), mask.x);
-//    return mix(albedo1, albedo2, 0.5) * mud;
     vec3 albedo = mix(albedo1, albedo2, 0.5) * mud;
     albedo = mix(albedo, albedo_grass, mask.y);
     return albedo;
@@ -71,29 +70,24 @@ vec3 get_albedo(vec4 mask)
 
 void main()
 {
-    float d = length(view_vec);
-
+    // Roughness texture is used as a mask
     vec4 mask = texture(tex_roughness, tcoord);
     float wet = mask.b;
-//    float wet = 1.0f - texture(tex_roughness, tcoord).x; // * 2.5e-2 + vec2(0.005)).x;
 
     vec3 N = normalize(mix(normal, get_normal(wet), nm_influence));
     vec3 V = normalize(view_vec);
 
-//    vec2 offset = normalize((der_tangent_space(normal, tangent) * V)).xz;
-    vec3 albedo = get_albedo(mask); //wet * offset * 0.0); //min(d / 60.0, 0.8));
+    vec3 albedo = get_albedo(mask);
 
     float r = 1.0 - wet;
 
     float waterlevel = 0.2;
-//    float abso = 1.0 - (waterlevel - clamp(position.y + waterlevel, -1.0, 0.25));
     float abso = 1.2 - (waterlevel - clamp(position.y + waterlevel, -1.0, waterlevel));
     vec3 absorbtion = vec3(0.95, 0.97, 1.0) * abso * abso * abso;
 
     albedo *= absorbtion;
 
-    vec3 c_diff = albedo; //mix(albedo, albedo * vec3(0.95), wet);
-//    vec3 c_diff = mix(albedo, albedo * vec3(0.91), wet);
+    vec3 c_diff = albedo;
     vec3 c_spec = mix(vec3(0.04), vec3(0.04037), wet);
 
     vec3 color = lighting(c_diff, c_spec, N, V, r);

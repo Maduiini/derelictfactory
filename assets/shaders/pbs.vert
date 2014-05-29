@@ -48,7 +48,6 @@ mat3 adjoint_tr(mat3 m)
 void main()
 {
     mat3 nmat = adjoint_tr(mat3(mat_model));
-//    mat3 nmat = mat3(mat_model);
 
     vec4 pos = mat_model * vec4(in_position, 1.0);
 

@@ -31,6 +31,8 @@ namespace der
         static float distance2(const Vector3 &a, const Vector3 &b)
         { return (a - b).length2(); }
 
+        // This is needed in case of a NaN. std::sort will crash the program as it needs
+        // a campare that satisfies  "strict weak ordering".
         static bool cmp_float_safe(float a, float b)
         {
             if ((a == a) && (b == b))
@@ -44,7 +46,6 @@ namespace der
         {
             const Vector3 a_pos = a.model_mat.get_translation();
             const Vector3 b_pos = b.model_mat.get_translation();
-//            return distance2(a_pos, m_camera_pos) > distance2(b_pos, m_camera_pos);
 //            return distance2(b_pos, m_camera_pos) < distance2(a_pos, m_camera_pos);
             return cmp_float_safe(distance2(b_pos, m_camera_pos), distance2(a_pos, m_camera_pos));
         }
@@ -132,7 +133,6 @@ namespace der
 
     void Renderer::set_light_matrix(const Matrix4 &light_mat)
     { m_light_uniforms->set_light_matrix(light_mat); }
-//    { m_global_uniforms->set_light_matrix(light_mat); }
 
 
     void Renderer::set_material(ResourceID material_id)
@@ -191,7 +191,6 @@ namespace der
     void Renderer::render()
     {
         std::sort(m_commands.begin(), m_commands.end(), command_cmp);
-//        std::sort(m_commands.begin(), m_commands.end(), cmd_cmp);
         const command_cmp_struct blend_cmd_cmp(m_global_uniforms->get_camera_pos());
         std::sort(m_blend_commands.begin(), m_blend_commands.end(), blend_cmd_cmp);
 

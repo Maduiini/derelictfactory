@@ -52,6 +52,8 @@ namespace der
         material->set_metallic_texture(make_resource(metallic_name.c_str()));
         material->set_env_texture(make_resource(env_name.c_str()));
 
+        // This here is quite ugly. Read rest of the strings from the
+        // file and try to interpret them as material options.
         while (in)
         {
             std::string option;

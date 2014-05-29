@@ -48,10 +48,7 @@ vec3 get_albedo()
 void main()
 {
     vec3 albedo = get_albedo();
-//    out_color = vec4(albedo, 1.0);
-//    return;
 
-//    vec3 N = normal;
     vec3 N = normalize(mix(normalize(normal), get_normal(), nm_influence));
     vec3 V = normalize(view_vec);
 

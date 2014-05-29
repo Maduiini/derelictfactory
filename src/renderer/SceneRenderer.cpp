@@ -305,7 +305,6 @@ namespace der
         std::vector<GameObject*> view_objects;
         get_objects_in_view(view_objects);
 
-//        Aabb light_aabb;
         Aabb view_aabb(Vector3(-10.0f, -10.0f, -100.0f), Vector3(10.0f, 10.0f, 100.0f));
         for (GameObject *object : view_objects)
         {
@@ -317,13 +316,6 @@ namespace der
                 view_aabb.add_point(obj_aabb.m_max);
             }
         }
-
-//        if (view_aabb.is_degenerate())
-//            view_aabb = Aabb(Vector3(-10.0f, -10.0f, -100.0f), Vector3(10.0f, 10.0f, 100.0f));
-//        if (light_aabb.is_degenerate())
-//            view_aabb = Aabb(Vector3(-10.0f, -10.0f, -100.0f), Vector3(10.0f, 10.0f, 100.0f));
-
-//        light_aabb = view_aabb;
 
         light_aabb.m_min.x = max(light_aabb.m_min.x, view_aabb.m_min.x);
         light_aabb.m_min.y = max(light_aabb.m_min.y, view_aabb.m_min.y);
@@ -338,17 +330,9 @@ namespace der
 
         GameObject *sun = m_scene->get_sun();
         if (!sun) return;
-//        Light *light = sun->get_light();
-
-//        sun->set_position(Vector3::zero);
-//        Matrix4 view = sun->get_inv_world_matrix();
-//        // change of basis as the local up-axis is the light direction in blender
-//        Vector3 right, up, forward;
-//        view.get_basis(right, forward, up);
-//        view.from_basis(right, -up, forward);
 
         Matrix4 sun_w = sun->get_world_matrix();
-        // change of basis as the local up-axis is the light direction in blender
+        // change of basis as the negative local up-axis is the light direction in blender
         Vector3 right, up, forward;
         sun_w.get_basis(right, up, forward);
 
@@ -362,10 +346,7 @@ namespace der
                                                       light_aabb.m_min.y, light_aabb.m_max.y,
                                                       light_aabb.m_min.z, light_aabb.m_max.z);
 //        const Matrix4 proj = projection_orthogonal_lh(light_aabb.m_min.x, light_aabb.m_max.x, light_aabb.m_min.y, light_aabb.m_max.y, -100, 100);
-//        const Matrix4 proj = projection_orthogonal_lh(-100, 100, -100, 100, -100, 100);
 //        const Matrix4 proj = projection_orthogonal_lh(-120.0f, 120.0f, -120.0f, 120.0f, -200.0f, 200.0f);
-//        const Matrix4 proj = projection_orthogonal_lh(-150.0f, 150.0f, -150.0f, 150.0f, -150.0f, 200.0f);
-//        const Matrix4 proj = projection_orthogonal_lh(-200.0f, 200.0f, -200.0f, 200.0f, -200.0f, 200.0f);
 
 
         const Matrix4 view_proj = proj * view;

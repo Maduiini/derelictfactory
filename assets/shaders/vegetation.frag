@@ -49,15 +49,10 @@ void main()
     vec4 albedo = get_albedo();
     if (albedo.a < 0.25) discard;
 
-//    vec3 N = normal; //get_normal();
-//    vec3 N = normalize(position);
-//    N = normalize(mix(N, get_normal(), 0.5));
     vec3 N = normalize(mix(normal, get_normal(), nm_influence));
     vec3 V = normalize(view_vec);
 
     N = mix(-N, N, gl_FrontFacing);
-//    out_color = vec4(N, 1.0);
-//    return;
 
     float m = texture(tex_metallic, tcoord).x;
     float r = texture(tex_roughness, tcoord).x;
@@ -65,7 +60,6 @@ void main()
     vec3 c_diff = mix(albedo.rgb, vec3(0.04), m);
     vec3 c_spec = mix(vec3(0.04), albedo.rgb, m);
 
-//    r = 1.0;
     vec3 color = vege_lighting(c_diff, c_spec, N, V, r);
 //    vec3 color = lighting(c_diff, c_spec, N, V, r);
 //    vec3 back_color = back_lighting(c_diff, -N, V, r, shadowmap5());

@@ -25,7 +25,6 @@ namespace der
         void set_size(int w, int h);
         void get_size(int *w, int *h) const;
 
-//        void set_fullscreen(bool fullscreen);
         bool is_fullscreen() const;
 
         void poll_events();
@@ -35,7 +34,6 @@ namespace der
         void make_current();
         void swap_buffer();
         void set_v_sync(bool enabled);
-//        bool has_v_sync() const;
 
         bool has_resized();
 

@@ -134,9 +134,6 @@ namespace der
         ::glfwGetWindowSize(m_window, w, h);
     }
 
-//    void Window::set_fullscreen(bool fullscreen)
-//    { }
-
     bool Window::is_fullscreen() const
     {
         return m_monitor != nullptr;
@@ -174,9 +171,6 @@ namespace der
         ::glfwSwapInterval(enabled ? 1 : 0);
         log::info("V-Sync %", enabled ? "enabled" : "disabled");
     }
-
-//    bool Window::has_v_sync() const
-//    { }
 
     bool Window::has_resized()
     {
